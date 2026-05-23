@@ -1,0 +1,101 @@
+<!-- Topbar -->
+<div class="topbar">
+  <button class="topbar-hamburger" (click)="toggleSidebar()"><i class="bi bi-list"></i></button>
+  <div class="topbar-search">
+    <i class="bi bi-search"></i>
+    <input type="text" placeholder="Search patients, doctors, appointments…">
+  </div>
+  <div class="topbar-filter"><i class="bi bi-sliders2"></i></div>
+  <div class="topbar-right">
+    <button class="topbar-icon-btn">
+      <i class="bi bi-bell"></i>
+      <div class="topbar-notif"></div>
+    </button>
+    <button class="topbar-icon-btn"><i class="bi bi-chat-dots"></i></button>
+    <!-- Avatar -->
+    <div class="topbar-avatar" (click)="toggleProfileMenu()">
+      {{userDetails?.firstName?.trimStart()?.charAt(0)}}{{userDetails?.lastName?.trimStart()?.charAt(0)}}
+    </div>
+
+    @if (isProfileMenuOpen) {
+    <!-- Dropdown Menu -->
+    <div class="profile-menu">
+      <!-- User Info Header -->
+      <div class="profile-header">
+        <div class="avatar">
+          {{userDetails?.firstName?.trimStart()?.charAt(0)}}{{userDetails?.lastName?.trimStart()?.charAt(0)}}
+        </div>
+        <div class="user-info">
+          <div class="name">
+            {{userDetails?.role === 'Patient' ? 'Pt.' : 'Dr.'}}
+            {{userDetails?.firstName}} {{userDetails?.lastName}}</div>
+        </div>
+      </div>
+      <div class="email">{{userDetails?.workEmail}}</div>
+      <!-- Divider -->
+      <hr class="menu-divider" />
+      <!-- Menu List -->
+      <ul>
+        <li (click)="goToProfile()">
+          <i class="bi bi-person"></i>
+          <span>Profile</span>
+        </li>
+        <li (click)="goToSettings()">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
+        </li>
+        <li (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Logout</span>
+        </li>
+      </ul>
+    </div>
+    }
+    <button class="topbar-settings" (click)="toggleSettingsMenu()">
+      <i class="bi bi-gear"></i>
+    </button>
+
+    @if (isSettingsMenuOpen) {
+    <div class="settings-menu">
+
+      <!-- 🎨 Theme Section -->
+      <div class="settings-section">
+        <div class="section-title">
+          <i class="bi bi-palette"></i> Theme
+        </div>
+
+        <div class="theme-options">
+          <div class="theme-circle blue" [class.active]="selectedTheme === 'blue'" (click)="setTheme('blue')">
+          </div>
+
+          <div class="theme-circle green" [class.active]="selectedTheme === 'green'" (click)="setTheme('green')">
+          </div>
+
+          <div class="theme-circle purple" [class.active]="selectedTheme === 'purple'" (click)="setTheme('purple')">
+          </div>
+        </div>
+      </div>
+
+      <hr class="menu-divider" />
+
+      <!-- 🌐 Language Section -->
+      <div class="settings-section">
+        <div class="section-title">
+          <i class="bi bi-translate"></i> Language
+        </div>
+
+        <ul class="language-list">
+          <li [class.active]="selectedLanguage === 'en'" (click)="setLanguage('en')">
+            🇬🇧 English
+          </li>
+
+          <li [class.active]="selectedLanguage === 'es'" (click)="setLanguage('es')">
+            🇪🇸 Spanish
+          </li>
+        </ul>
+      </div>
+
+    </div>
+    }
+  </div>
+</div>

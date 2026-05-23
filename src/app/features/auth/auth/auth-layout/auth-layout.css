@@ -1,0 +1,16 @@
+
+
+.logo-background {
+  position: fixed;
+}
+.demo-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quote {
+  font-style: italic;
+  color: var(--mint);;
+  font-size: 14px;
+}

@@ -1,0 +1,797 @@
+<div id="page-book-appointment" class="page-section">
+  <!-- Page header -->
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="ph-title">Book Appointment</div>
+      <div class="ph-sub">Schedule a new patient appointment · Thursday, 24 Apr 2025</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-outline-primary" onclick="showPage('calendar',null)"><i class="bi bi-calendar3"></i> View
+        Calendar</button>
+      <button class="btn btn-primary" onclick="apptSubmit()"><i class="bi bi-calendar2-check"></i> Confirm
+        Booking</button>
+    </div>
+  </div>
+
+  <!-- Progress steps -->
+  <div class="appt-steps-bar">
+    <div class="appt-step active" id="apst1">
+      <div class="appt-step-circle" id="apsc1"><i class="bi bi-person"></i></div>
+      <div class="appt-step-text">
+        <div class="appt-step-num">Step 1</div>
+        <div class="appt-step-label">Patient</div>
+      </div>
+    </div>
+    <div class="appt-step-line" id="apsl1"></div>
+    <div class="appt-step" id="apst2">
+      <div class="appt-step-circle" id="apsc2"><i class="bi bi-person-badge"></i></div>
+      <div class="appt-step-text">
+        <div class="appt-step-num">Step 2</div>
+        <div class="appt-step-label">Doctor</div>
+      </div>
+    </div>
+    <div class="appt-step-line" id="apsl2"></div>
+    <div class="appt-step" id="apst3">
+      <div class="appt-step-circle" id="apsc3"><i class="bi bi-calendar3"></i></div>
+      <div class="appt-step-text">
+        <div class="appt-step-num">Step 3</div>
+        <div class="appt-step-label">Date & Time</div>
+      </div>
+    </div>
+    <div class="appt-step-line" id="apsl3"></div>
+    <div class="appt-step" id="apst4">
+      <div class="appt-step-circle" id="apsc4"><i class="bi bi-check2-all"></i></div>
+      <div class="appt-step-text">
+        <div class="appt-step-num">Step 4</div>
+        <div class="appt-step-label">Confirm</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Two-column layout: form + sidebar -->
+  <div class="appt-layout">
+    <!-- LEFT: step panels -->
+    <div class="appt-form-col">
+      <!-- STEP 1: Patient Selection -->
+      <div class="appt-panel" id="appt-panel1">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Patient Details</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Search for an existing patient or
+                register a new one</div>
+            </div>
+            <button class="btn btn-sm btn-primary" onclick="apptNewPatient()"><i class="bi bi-person-plus"></i> New
+              Patient</button>
+          </div>
+          <div class="card-body">
+            <!-- Search patient -->
+            <div style="position:relative;margin-bottom:16px;">
+              <i class="bi bi-search"
+                style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--text-muted);font-size:14px;"></i>
+              <input type="text" class="wz-input" placeholder="Search by name, phone, or patient ID…"
+                style="padding-left:36px;" oninput="apptSearchPatient(this.value)" id="appt-patient-search">
+            </div>
+            <!-- Patient list results -->
+            <div id="appt-patient-results">
+              <div
+                style="font-size:11.5px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px;">
+                Recent Patients</div>
+              <div class="appt-patient-list">
+                <div class="appt-patient-card"
+                  onclick="apptSelectPatient(this,'Sunita Rao','PT-00821','Cardiology','09:00 AM','F, 47')">
+                  <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">SR</div>
+                  <div style="flex:1;">
+                    <div class="appt-patient-name">Sunita Rao</div>
+                    <div class="appt-patient-meta">#PT-00821 · Cardiology · F, 47</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="list-item-badge" style="background:#DCFCE7;color:#15803D;">Active</span>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Last: 10 Apr</div>
+                  </div>
+                </div>
+                <div class="appt-patient-card"
+                  onclick="apptSelectPatient(this,'Arjun Kapoor','PT-00934','Neurology','10:30 AM','M, 34')">
+                  <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);">AK</div>
+                  <div style="flex:1;">
+                    <div class="appt-patient-name">Arjun Kapoor</div>
+                    <div class="appt-patient-meta">#PT-00934 · Neurology · M, 34</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="list-item-badge" style="background:#DCFCE7;color:#15803D;">Active</span>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Last: 18 Apr</div>
+                  </div>
+                </div>
+                <div class="appt-patient-card"
+                  onclick="apptSelectPatient(this,'Priya Mishra','PT-00715','Orthopedics','11:15 AM','F, 29')">
+                  <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#F59E0B,#F97316);">PM</div>
+                  <div style="flex:1;">
+                    <div class="appt-patient-name">Priya Mishra</div>
+                    <div class="appt-patient-meta">#PT-00715 · Orthopedics · F, 29</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="list-item-badge" style="background:#FEF9C3;color:#854D0E;">Follow-up</span>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Last: 5 Apr</div>
+                  </div>
+                </div>
+                <div class="appt-patient-card"
+                  onclick="apptSelectPatient(this,'Nisha Verma','PT-00609','Ophthalmology','03:30 PM','F, 52')">
+                  <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#10B981,#34D399);">NV</div>
+                  <div style="flex:1;">
+                    <div class="appt-patient-name">Nisha Verma</div>
+                    <div class="appt-patient-meta">#PT-00609 · Ophthalmology · F, 52</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="list-item-badge" style="background:#DCFCE7;color:#15803D;">Active</span>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Last: 22 Apr</div>
+                  </div>
+                </div>
+                <div class="appt-patient-card"
+                  onclick="apptSelectPatient(this,'Rajesh Gupta','PT-01022','Pulmonology','02:00 PM','M, 61')">
+                  <div class="appt-patient-avatar" style="background:linear-gradient(135deg,#F43F5E,#EC4899);">RG</div>
+                  <div style="flex:1;">
+                    <div class="appt-patient-name">Rajesh Gupta</div>
+                    <div class="appt-patient-meta">#PT-01022 · Pulmonology · M, 61</div>
+                  </div>
+                  <div style="text-align:right;">
+                    <span class="list-item-badge" style="background:#DBEAFE;color:#1E40AF;">New</span>
+                    <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">Last: 2 Mar</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Appointment type -->
+            <div style="margin-top:20px;">
+              <div
+                style="font-size:11.5px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:10px;">
+                Appointment Type</div>
+              <div class="appt-type-grid">
+                <div class="appt-type-card selected" onclick="apptSelectType(this)" data-type="Consultation">
+                  <div class="appt-type-icon" style="background:#CCFBF1;color:var(--teal);"><i
+                      class="bi bi-clipboard2-pulse"></i></div>
+                  <div class="appt-type-name">Consultation</div>
+                  <div class="appt-type-dur">30 min</div>
+                </div>
+                <div class="appt-type-card" onclick="apptSelectType(this)" data-type="Follow-up">
+                  <div class="appt-type-icon" style="background:#DBEAFE;color:#1D4ED8;"><i
+                      class="bi bi-arrow-repeat"></i></div>
+                  <div class="appt-type-name">Follow-up</div>
+                  <div class="appt-type-dur">20 min</div>
+                </div>
+                <div class="appt-type-card" onclick="apptSelectType(this)" data-type="Procedure">
+                  <div class="appt-type-icon" style="background:var(--violet-light);color:var(--violet);"><i
+                      class="bi bi-bandaid"></i></div>
+                  <div class="appt-type-name">Procedure</div>
+                  <div class="appt-type-dur">60 min</div>
+                </div>
+                <div class="appt-type-card" onclick="apptSelectType(this)" data-type="Emergency">
+                  <div class="appt-type-icon" style="background:var(--rose-light);color:var(--rose);"><i
+                      class="bi bi-lightning-charge"></i></div>
+                  <div class="appt-type-name">Emergency</div>
+                  <div class="appt-type-dur">Urgent</div>
+                </div>
+                <div class="appt-type-card" onclick="apptSelectType(this)" data-type="Lab Test">
+                  <div class="appt-type-icon" style="background:var(--amber-light);color:var(--amber);"><i
+                      class="bi bi-droplet-half"></i></div>
+                  <div class="appt-type-name">Lab Test</div>
+                  <div class="appt-type-dur">15 min</div>
+                </div>
+                <div class="appt-type-card" onclick="apptSelectType(this)" data-type="Telemedicine">
+                  <div class="appt-type-icon" style="background:var(--sky-light);color:#0EA5E9;"><i
+                      class="bi bi-camera-video"></i></div>
+                  <div class="appt-type-name">Telemedicine</div>
+                  <div class="appt-type-dur">30 min</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Reason / chief complaint -->
+            <div style="margin-top:20px;">
+              <label class="wz-label">Chief Complaint / Reason for Visit</label>
+              <textarea class="wz-input" rows="3"
+                placeholder="Briefly describe the patient's primary concern or symptoms…" style="resize:vertical;"
+                id="appt-reason"></textarea>
+            </div>
+
+            <!-- Priority -->
+            <div style="margin-top:16px;display:flex;gap:10px;align-items:center;">
+              <label class="wz-label" style="margin:0;white-space:nowrap;">Priority:</label>
+              <div class="appt-priority-group">
+                <button class="appt-priority-btn active" onclick="apptPriority(this,'Normal')"
+                  data-p="Normal">Normal</button>
+                <button class="appt-priority-btn urgent" onclick="apptPriority(this,'Urgent')"
+                  data-p="Urgent">Urgent</button>
+                <button class="appt-priority-btn critical" onclick="apptPriority(this,'Critical')" data-p="Critical"><i
+                    class="bi bi-exclamation-triangle"></i> Critical</button>
+              </div>
+            </div>
+          </div>
+          <div class="appt-step-footer">
+            <div></div>
+            <button class="btn btn-primary" onclick="apptGoStep(2)">Next: Choose Doctor <i
+                class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: Doctor Selection -->
+      <div class="appt-panel active" id="appt-panel2">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Select Doctor</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Choose a specialist and view their
+                availability</div>
+            </div>
+            <!-- Department filter pills -->
+            <div class="appt-dept-filter" id="appt-dept-filter">
+              <button class="appt-dept-pill active" onclick="apptFilterDept(this,'all')">All</button>
+              <button class="appt-dept-pill" onclick="apptFilterDept(this,'cardiology')">Cardiology</button>
+              <button class="appt-dept-pill" onclick="apptFilterDept(this,'neurology')">Neurology</button>
+              <button class="appt-dept-pill" onclick="apptFilterDept(this,'ortho')">Ortho</button>
+              <button class="appt-dept-pill" onclick="apptFilterDept(this,'ophthal')">Ophthalmology</button>
+              <button class="appt-dept-pill" onclick="apptFilterDept(this,'pulmo')">Pulmonology</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="appt-doctor-grid" id="appt-doctor-grid">
+
+              <div class="appt-doctor-card" data-dept="cardiology"
+                onclick="apptSelectDoctor(this,'Dr. Aditya Mehta','Cardiologist','MBBS, MD','4.9','12y')">
+                <div class="appt-doctor-avail-badge available">Available</div>
+                <div class="appt-doctor-avatar" style="background:linear-gradient(135deg,#0D9488,#2DD4BF);">AM</div>
+                <div class="appt-doctor-name">Dr. Aditya Mehta</div>
+                <div class="appt-doctor-spec">Cardiologist</div>
+                <div class="appt-doctor-qual">MBBS, MD Cardiology</div>
+                <div class="appt-doctor-meta">
+                  <span><i class="bi bi-star-fill" style="color:#F59E0B;font-size:10px;"></i> 4.9</span>
+                  <span><i class="bi bi-clock" style="font-size:10px;"></i> 12 yrs</span>
+                </div>
+                <div class="appt-doctor-slots">
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">9:00 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">11:30 AM</div>
+                  <div class="appt-slot busy">2:00 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">4:30 PM</div>
+                </div>
+              </div>
+
+              <div class="appt-doctor-card" data-dept="neurology"
+                onclick="apptSelectDoctor(this,'Dr. Kavya Sharma','Neurologist','MBBS, DM','4.8','9y')">
+                <div class="appt-doctor-avail-badge available">Available</div>
+                <div class="appt-doctor-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);">KS</div>
+                <div class="appt-doctor-name">Dr. Kavya Sharma</div>
+                <div class="appt-doctor-spec">Neurologist</div>
+                <div class="appt-doctor-qual">MBBS, DM Neurology</div>
+                <div class="appt-doctor-meta">
+                  <span><i class="bi bi-star-fill" style="color:#F59E0B;font-size:10px;"></i> 4.8</span>
+                  <span><i class="bi bi-clock" style="font-size:10px;"></i> 9 yrs</span>
+                </div>
+                <div class="appt-doctor-slots">
+                  <div class="appt-slot busy">9:00 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">10:30 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">1:00 PM</div>
+                  <div class="appt-slot busy">3:00 PM</div>
+                </div>
+              </div>
+
+              <div class="appt-doctor-card" data-dept="ortho"
+                onclick="apptSelectDoctor(this,'Dr. Suresh Nair','Orthopedic Surgeon','MBBS, MS','4.7','15y')">
+                <div class="appt-doctor-avail-badge busy-badge">Busy till 12 PM</div>
+                <div class="appt-doctor-avatar" style="background:linear-gradient(135deg,#F59E0B,#F97316);">SN</div>
+                <div class="appt-doctor-name">Dr. Suresh Nair</div>
+                <div class="appt-doctor-spec">Orthopedic Surgeon</div>
+                <div class="appt-doctor-qual">MBBS, MS Orthopedics</div>
+                <div class="appt-doctor-meta">
+                  <span><i class="bi bi-star-fill" style="color:#F59E0B;font-size:10px;"></i> 4.7</span>
+                  <span><i class="bi bi-clock" style="font-size:10px;"></i> 15 yrs</span>
+                </div>
+                <div class="appt-doctor-slots">
+                  <div class="appt-slot busy">10:00 AM</div>
+                  <div class="appt-slot busy">11:00 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">2:00 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">4:00 PM</div>
+                </div>
+              </div>
+
+              <div class="appt-doctor-card" data-dept="ophthal"
+                onclick="apptSelectDoctor(this,'Dr. Fatima Khan','Ophthalmologist','MBBS, DO','4.9','8y')">
+                <div class="appt-doctor-avail-badge available">Available</div>
+                <div class="appt-doctor-avatar" style="background:linear-gradient(135deg,#10B981,#34D399);">FK</div>
+                <div class="appt-doctor-name">Dr. Fatima Khan</div>
+                <div class="appt-doctor-spec">Ophthalmologist</div>
+                <div class="appt-doctor-qual">MBBS, DO Ophthalmology</div>
+                <div class="appt-doctor-meta">
+                  <span><i class="bi bi-star-fill" style="color:#F59E0B;font-size:10px;"></i> 4.9</span>
+                  <span><i class="bi bi-clock" style="font-size:10px;"></i> 8 yrs</span>
+                </div>
+                <div class="appt-doctor-slots">
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">9:30 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">11:00 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">3:30 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">5:00 PM</div>
+                </div>
+              </div>
+
+              <div class="appt-doctor-card" data-dept="pulmo"
+                onclick="apptSelectDoctor(this,'Dr. Rajan Pillai','Pulmonologist','MBBS, MD','4.6','11y')">
+                <div class="appt-doctor-avail-badge available">Available</div>
+                <div class="appt-doctor-avatar" style="background:linear-gradient(135deg,#F43F5E,#EC4899);">RP</div>
+                <div class="appt-doctor-name">Dr. Rajan Pillai</div>
+                <div class="appt-doctor-spec">Pulmonologist</div>
+                <div class="appt-doctor-qual">MBBS, MD Pulmonology</div>
+                <div class="appt-doctor-meta">
+                  <span><i class="bi bi-star-fill" style="color:#F59E0B;font-size:10px;"></i> 4.6</span>
+                  <span><i class="bi bi-clock" style="font-size:10px;"></i> 11 yrs</span>
+                </div>
+                <div class="appt-doctor-slots">
+                  <div class="appt-slot busy">9:00 AM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">12:00 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">2:30 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">4:00 PM</div>
+                </div>
+              </div>
+
+              <div class="appt-doctor-card" data-dept="cardiology"
+                onclick="apptSelectDoctor(this,'Dr. Meena Iyer','Senior Cardiologist','MBBS, DM','5.0','18y')">
+                <div class="appt-doctor-avail-badge available">Available</div>
+                <div class="appt-doctor-avatar" style="background:linear-gradient(135deg,#0EA5E9,#38BDF8);">MI</div>
+                <div class="appt-doctor-name">Dr. Meena Iyer</div>
+                <div class="appt-doctor-spec">Senior Cardiologist</div>
+                <div class="appt-doctor-qual">MBBS, DM Cardiology</div>
+                <div class="appt-doctor-meta">
+                  <span><i class="bi bi-star-fill" style="color:#F59E0B;font-size:10px;"></i> 5.0</span>
+                  <span><i class="bi bi-clock" style="font-size:10px;"></i> 18 yrs</span>
+                </div>
+                <div class="appt-doctor-slots">
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">10:00 AM</div>
+                  <div class="appt-slot busy">12:00 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">3:00 PM</div>
+                  <div class="appt-slot" onclick="event.stopPropagation();apptPickSlot(this)">5:30 PM</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div class="appt-step-footer">
+            <button class="btn btn-outline-default btn-sm" onclick="apptGoStep(1)"><i class="bi bi-arrow-left"></i>
+              Back</button>
+            <button class="btn btn-primary" onclick="apptGoStep(3)">Next: Pick Date & Time <i
+                class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: Date & Time + Room -->
+      <div class="appt-panel" id="appt-panel3">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Schedule Date & Time</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Pick a date and confirm your preferred
+                time slot</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="appt-datetime-grid">
+              <!-- Mini inline calendar -->
+              <div>
+                <div
+                  style="font-size:11.5px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;">
+                  Select Date</div>
+                <div class="appt-mini-cal">
+                  <div class="appt-mini-cal-header">
+                    <button class="cal-nav" onclick="apptCalNav(-1)"><i class="bi bi-chevron-left"></i></button>
+                    <span id="appt-cal-label" style="font-size:13px;font-weight:700;color:var(--text-head);">May
+                      2025</span>
+                    <button class="cal-nav" onclick="apptCalNav(1)"><i class="bi bi-chevron-right"></i></button>
+                  </div>
+                  <div class="appt-mini-weekdays">
+                    <div>S</div>
+                    <div>M</div>
+                    <div>T</div>
+                    <div>W</div>
+                    <div>T</div>
+                    <div>F</div>
+                    <div>S</div>
+                  </div>
+                  <div class="appt-mini-grid" id="appt-mini-grid"></div>
+                </div>
+              </div>
+
+              <!-- Time slots -->
+              <div>
+                <div
+                  style="font-size:11.5px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;">
+                  Available Time Slots</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-bottom:10px;" id="appt-selected-date-label">
+                  Select a date to see slots</div>
+                <div class="appt-timeslot-group" id="appt-timeslot-group">
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-bottom:6px;">Morning</div>
+                  <div class="appt-timeslot-grid">
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">09:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">09:30</div>
+                    <div class="appt-timeslot busy">10:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">10:30</div>
+                    <div class="appt-timeslot busy">11:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">11:30</div>
+                  </div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin:10px 0 6px;">Afternoon</div>
+                  <div class="appt-timeslot-grid">
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">12:00</div>
+                    <div class="appt-timeslot busy">12:30</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">01:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">01:30</div>
+                    <div class="appt-timeslot busy">02:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">02:30</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">03:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">03:30</div>
+                  </div>
+                  <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin:10px 0 6px;">Evening</div>
+                  <div class="appt-timeslot-grid">
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">04:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">04:30</div>
+                    <div class="appt-timeslot busy">05:00</div>
+                    <div class="appt-timeslot" onclick="apptPickTime(this)">05:30</div>
+                  </div>
+                </div>
+                <div class="appt-slot-legend">
+                  <div class="appt-legend-item">
+                    <div
+                      style="width:12px;height:12px;border-radius:3px;background:var(--teal);opacity:.2;border:1.5px solid var(--teal);">
+                    </div><span>Selected</span>
+                  </div>
+                  <div class="appt-legend-item">
+                    <div
+                      style="width:12px;height:12px;border-radius:3px;background:var(--bg);border:1.5px solid var(--border);">
+                    </div><span>Available</span>
+                  </div>
+                  <div class="appt-legend-item">
+                    <div style="width:12px;height:12px;border-radius:3px;background:#F1F5F4;"></div><span>Booked</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Room & additional info -->
+            <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--border);">
+              <div
+                style="font-size:11.5px;font-weight:700;color:var(--text-muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:12px;">
+                Additional Details</div>
+              <div class="wz-form-row">
+                <div class="wz-form-group">
+                  <label class="wz-label">Consultation Room</label>
+                  <select class="wz-select">
+                    <option>Room 101 – General OPD</option>
+                    <option>Room 102 – Cardiology</option>
+                    <option>Room 103 – Neurology</option>
+                    <option>Room 201 – Orthopedics</option>
+                    <option>Room 301 – Ophthalmology</option>
+                    <option>Online – Telemedicine</option>
+                  </select>
+                </div>
+                <div class="wz-form-group">
+                  <label class="wz-label">Recurrence</label>
+                  <select class="wz-select">
+                    <option>One-time</option>
+                    <option>Weekly</option>
+                    <option>Bi-weekly</option>
+                    <option>Monthly</option>
+                  </select>
+                </div>
+              </div>
+              <div class="wz-form-group">
+                <label class="wz-label">Internal Notes (staff only)</label>
+                <textarea class="wz-input" rows="2" placeholder="Any special instructions or preparation required…"
+                  style="resize:vertical;"></textarea>
+              </div>
+              <!-- Reminders -->
+              <div style="margin-top:14px;">
+                <label class="wz-label">Send Reminders via</label>
+                <div style="display:flex;gap:10px;margin-top:6px;flex-wrap:wrap;">
+                  <label class="appt-check-pill"><input type="checkbox" checked> <i class="bi bi-chat-text"></i>
+                    SMS</label>
+                  <label class="appt-check-pill"><input type="checkbox" checked> <i class="bi bi-envelope"></i>
+                    Email</label>
+                  <label class="appt-check-pill"><input type="checkbox"> <i class="bi bi-whatsapp"></i> WhatsApp</label>
+                  <label class="appt-check-pill"><input type="checkbox"> <i class="bi bi-app"></i> App Push</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="appt-step-footer">
+            <button class="btn btn-outline-default btn-sm" onclick="apptGoStep(2)"><i class="bi bi-arrow-left"></i>
+              Back</button>
+            <button class="btn btn-primary" onclick="apptGoStep(4)">Review Appointment <i
+                class="bi bi-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: Review & Confirm -->
+      <div class="appt-panel" id="appt-panel4">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Review & Confirm</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Verify all details before confirming
+                the appointment</div>
+            </div>
+            <span
+              style="background:#FEF9C3;color:#854D0E;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:6px;border:1px solid #FDE68A;"><i
+                class="bi bi-clock"></i> Pending Confirmation</span>
+          </div>
+          <div class="card-body">
+
+            <!-- Review summary cards -->
+            <div class="appt-review-grid">
+              <div class="appt-review-block">
+                <div class="appt-review-block-title"><i class="bi bi-person-circle"></i> Patient</div>
+                <div class="appt-review-patient">
+                  <div class="appt-doctor-avatar"
+                    style="width:40px;height:40px;font-size:14px;background:linear-gradient(135deg,#0D9488,#38BDF8);"
+                    id="rv-patient-av">SR</div>
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:var(--text-head);" id="rv-patient-name">Sunita Rao
+                    </div>
+                    <div style="font-size:12px;color:var(--text-muted);" id="rv-patient-id">#PT-00821 · Cardiology · F,
+                      47</div>
+                  </div>
+                </div>
+              </div>
+              <div class="appt-review-block">
+                <div class="appt-review-block-title"><i class="bi bi-person-badge"></i> Doctor</div>
+                <div class="appt-review-patient">
+                  <div class="appt-doctor-avatar"
+                    style="width:40px;height:40px;font-size:14px;background:linear-gradient(135deg,#0D9488,#2DD4BF);"
+                    id="rv-doctor-av">AM</div>
+                  <div>
+                    <div style="font-size:14px;font-weight:700;color:var(--text-head);" id="rv-doctor-name">Dr. Aditya
+                      Mehta</div>
+                    <div style="font-size:12px;color:var(--text-muted);" id="rv-doctor-spec">Cardiologist · MBBS, MD
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="appt-review-block">
+                <div class="appt-review-block-title"><i class="bi bi-calendar2-check"></i> Schedule</div>
+                <div style="font-size:22px;font-weight:800;color:var(--text-head);letter-spacing:-.4px;" id="rv-date">28
+                  Apr 2025</div>
+                <div style="font-size:13px;color:var(--teal);font-weight:600;margin-top:2px;" id="rv-time">09:00 AM · 30
+                  min</div>
+                <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Room 101 – General OPD</div>
+              </div>
+              <div class="appt-review-block">
+                <div class="appt-review-block-title"><i class="bi bi-clipboard2-pulse"></i> Appointment</div>
+                <div style="display:flex;flex-direction:column;gap:6px;">
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:12px;color:var(--text-muted);">Type:</span>
+                    <span class="list-item-badge" style="background:#CCFBF1;color:var(--teal-dark);"
+                      id="rv-type">Consultation</span>
+                  </div>
+                  <div style="display:flex;align-items:center;gap:8px;">
+                    <span style="font-size:12px;color:var(--text-muted);">Priority:</span>
+                    <span class="list-item-badge" style="background:#DCFCE7;color:#15803D;"
+                      id="rv-priority">Normal</span>
+                  </div>
+                  <div style="font-size:12px;color:var(--text-muted);margin-top:2px;" id="rv-reason">Chest discomfort
+                    and fatigue</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Token & billing estimate -->
+            <div class="appt-token-row">
+              <div class="appt-token-card">
+                <div class="appt-token-label">Token Number</div>
+                <div class="appt-token-num">A-047</div>
+                <div class="appt-token-sub">Auto-assigned on confirmation</div>
+              </div>
+              <div class="appt-billing-card">
+                <div
+                  style="font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">
+                  Billing Estimate</div>
+                <div class="appt-billing-row"><span>Consultation Fee</span><span>₹800</span></div>
+                <div class="appt-billing-row"><span>Registration</span><span>₹50</span></div>
+                <div class="appt-billing-row"
+                  style="border-top:1px solid var(--border);padding-top:8px;margin-top:4px;font-weight:700;color:var(--text-head);">
+                  <span>Total</span><span style="color:var(--teal);">₹850</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Consent -->
+            <div
+              style="margin-top:16px;background:var(--teal-xlight);border:1px solid var(--teal-light);border-radius:var(--radius-sm);padding:14px 16px;display:flex;gap:12px;align-items:flex-start;">
+              <input type="checkbox" id="appt-consent"
+                style="margin-top:2px;accent-color:var(--teal);width:15px;height:15px;flex-shrink:0;">
+              <label for="appt-consent"
+                style="font-size:12.5px;color:var(--text-body);line-height:1.5;cursor:pointer;">I confirm that the above
+                details are accurate and the patient has been informed of the appointment. Reminder notifications will
+                be sent via the selected channels.</label>
+            </div>
+
+          </div>
+          <div class="appt-step-footer">
+            <button class="btn btn-outline-default btn-sm" onclick="apptGoStep(3)"><i class="bi bi-arrow-left"></i>
+              Back</button>
+            <button class="btn btn-success btn-lg" onclick="apptConfirm()"><i class="bi bi-calendar2-check"></i> Confirm
+              Appointment</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end form col -->
+
+    <!-- RIGHT: live summary sidebar -->
+    <div class="appt-sidebar-col">
+
+      <!-- Booking summary -->
+      <div class="card" style="position:sticky;top:0;">
+        <div class="card-header"
+          style="background:linear-gradient(135deg,#0F766E,#134E4A);border-radius:var(--radius-lg) var(--radius-lg) 0 0;border:none;">
+          <div>
+            <div style="color:#fff;font-size:13px;font-weight:700;">Booking Summary</div>
+            <div style="color:rgba(255,255,255,.6);font-size:11px;margin-top:2px;">Updates as you fill the form</div>
+          </div>
+          <div
+            style="background:rgba(255,255,255,.15);border-radius:6px;padding:4px 10px;font-size:11.5px;font-weight:700;color:#fff;"
+            id="appt-appt-id">APT-2025-0481</div>
+        </div>
+        <div class="card-body" style="padding:14px 16px;">
+
+          <div class="appt-summary-row" id="sum-patient">
+            <div class="appt-summary-icon" style="background:#CCFBF1;color:var(--teal);"><i class="bi bi-person"></i>
+            </div>
+            <div style="flex:1;">
+              <div class="appt-summary-label">Patient</div>
+              <div class="appt-summary-val" id="sum-patient-val">Not selected</div>
+            </div>
+          </div>
+
+          <div class="appt-summary-row">
+            <div class="appt-summary-icon" style="background:var(--indigo-light);color:var(--indigo);"><i
+                class="bi bi-person-badge"></i></div>
+            <div style="flex:1;">
+              <div class="appt-summary-label">Doctor</div>
+              <div class="appt-summary-val" id="sum-doctor-val">Not selected</div>
+            </div>
+          </div>
+
+          <div class="appt-summary-row">
+            <div class="appt-summary-icon" style="background:var(--amber-light);color:var(--amber);"><i
+                class="bi bi-calendar3"></i></div>
+            <div style="flex:1;">
+              <div class="appt-summary-label">Date & Time</div>
+              <div class="appt-summary-val" id="sum-datetime-val">Not selected</div>
+            </div>
+          </div>
+
+          <div class="appt-summary-row">
+            <div class="appt-summary-icon" style="background:var(--violet-light);color:var(--violet);"><i
+                class="bi bi-clipboard2-pulse"></i></div>
+            <div style="flex:1;">
+              <div class="appt-summary-label">Type</div>
+              <div class="appt-summary-val" id="sum-type-val">Consultation · 30 min</div>
+            </div>
+          </div>
+
+          <div class="appt-summary-row" style="border-bottom:none;padding-bottom:0;">
+            <div class="appt-summary-icon" style="background:var(--rose-light);color:var(--rose);"><i
+                class="bi bi-geo-alt"></i></div>
+            <div style="flex:1;">
+              <div class="appt-summary-label">Room</div>
+              <div class="appt-summary-val">Room 101 – OPD</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Step progress mini -->
+        <div style="padding:12px 16px;border-top:1px solid var(--border);">
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:8px;font-weight:600;">Progress</div>
+          <div class="appt-mini-progress">
+            <div class="appt-mini-bar" id="appt-mini-bar" style="width:25%;"></div>
+          </div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:5px;" id="appt-progress-label">Step 1 of 4 –
+            Patient Details</div>
+        </div>
+
+        <!-- Quick actions -->
+        <div style="padding:0 16px 14px;">
+          <button class="btn btn-outline-primary btn-sm" style="width:100%;justify-content:center;margin-bottom:6px;"
+            onclick="apptGoStep(1)"><i class="bi bi-arrow-counterclockwise"></i> Start Over</button>
+          <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center;" onclick="apptSubmit()"><i
+              class="bi bi-calendar2-check"></i> Confirm Booking</button>
+        </div>
+      </div>
+
+      <!-- Today's load -->
+      <div class="card" style="margin-top:14px;">
+        <div class="card-header">
+          <div class="card-title">Today's Load</div>
+          <div style="font-size:12px;color:var(--text-muted);">24 Apr · 47 appts</div>
+        </div>
+        <div class="card-body" style="padding:12px 16px;">
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div class="appt-load-row">
+              <div style="font-size:12px;color:var(--text-body);width:90px;">Cardiology</div>
+              <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;width:78%;background:var(--teal);border-radius:3px;"></div>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:8px;">14</div>
+            </div>
+            <div class="appt-load-row">
+              <div style="font-size:12px;color:var(--text-body);width:90px;">Neurology</div>
+              <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;width:55%;background:var(--indigo);border-radius:3px;"></div>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:8px;">10</div>
+            </div>
+            <div class="appt-load-row">
+              <div style="font-size:12px;color:var(--text-body);width:90px;">Orthopedics</div>
+              <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;width:40%;background:var(--amber);border-radius:3px;"></div>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:8px;">7</div>
+            </div>
+            <div class="appt-load-row">
+              <div style="font-size:12px;color:var(--text-body);width:90px;">Ophthalmology</div>
+              <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;width:30%;background:var(--emerald);border-radius:3px;"></div>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:8px;">5</div>
+            </div>
+            <div class="appt-load-row">
+              <div style="font-size:12px;color:var(--text-body);width:90px;">Pulmonology</div>
+              <div style="flex:1;height:6px;background:var(--bg);border-radius:3px;overflow:hidden;">
+                <div style="height:100%;width:25%;background:var(--rose);border-radius:3px;"></div>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:var(--text-muted);margin-left:8px;">4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end sidebar col -->
+
+  </div><!-- end appt-layout -->
+
+  <!-- SUCCESS MODAL OVERLAY -->
+  <div id="appt-success-overlay"
+    style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:999;display:none;align-items:center;justify-content:center;">
+    <div class="appt-success-modal">
+      <div class="appt-success-check">
+        <i class="bi bi-calendar2-check" style="font-size:28px;color:var(--teal);"></i>
+      </div>
+      <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-head);margin-bottom:6px;">
+        Appointment Confirmed!</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:4px;">The appointment has been booked
+        successfully.</div>
+      <div
+        style="background:var(--teal-xlight);border:1px solid var(--teal-light);border-radius:var(--radius-sm);padding:12px 18px;margin:16px 0;text-align:left;">
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;"><span
+            style="color:var(--text-muted);">Appointment ID</span><span
+            style="font-weight:700;color:var(--teal);">APT-2025-0481</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;"><span
+            style="color:var(--text-muted);">Patient</span><span style="font-weight:600;color:var(--text-head);">Sunita
+            Rao</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;"><span
+            style="color:var(--text-muted);">Doctor</span><span style="font-weight:600;color:var(--text-head);">Dr.
+            Aditya Mehta</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12.5px;"><span
+            style="color:var(--text-muted);">Token</span><span style="font-weight:700;color:var(--indigo);">A-047</span>
+        </div>
+      </div>
+      <div style="font-size:12px;color:var(--text-muted);margin-bottom:18px;"><i class="bi bi-bell"
+          style="color:var(--teal);"></i> SMS & Email reminders have been queued.</div>
+      <div style="display:flex;gap:10px;justify-content:center;">
+        <button class="btn btn-outline-primary" onclick="apptReset()"><i class="bi bi-plus-circle"></i> Book
+          Another</button>
+        <button class="btn btn-primary"
+          onclick="showPage('calendar',null);document.getElementById('appt-success-overlay').style.display='none';"><i
+            class="bi bi-calendar3"></i> View Calendar</button>
+      </div>
+    </div>
+  </div>
+</div>

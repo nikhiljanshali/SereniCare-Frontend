@@ -1,0 +1,20 @@
+<div class="right-sidebar-panel" [class.open]="sidebarService.isOpen()">
+  @if(sidebarService.title()){
+  <div class="rs-header">
+    <h3 class="rs-title">{{ sidebarService.title() }}</h3>
+    <!-- <button class="modal-close" (click)="sidebarService.close()">
+      <i class="bi bi-x-lg"></i>
+    </button> -->
+  </div>
+  }
+  <div class="rs-content">
+    <!-- <p>{{ sidebarService.content() }}</p> -->
+    @if(sidebarService.content() == 'patient'){
+    <app-patient-medical-history-details
+      [patientDetails]="sidebarService.details()"></app-patient-medical-history-details>
+    }
+  </div>
+  <div class="rs-footer">
+    <button class="btn btn-sm btn-outline-default" (click)="sidebarService.close()">Dismiss</button>
+  </div>
+</div>

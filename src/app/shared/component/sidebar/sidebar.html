@@ -1,0 +1,155 @@
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 3C7.58 3 4 6.58 4 11C4 15.42 7.58 19 12 19C16.42 19 20 15.42 20 11" stroke="white"
+          stroke-width="1.8" stroke-linecap="round" />
+        <path d="M12 7V11L14.5 13.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M17 3L20 6L17 9" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M9 21H15" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+        <path d="M12 19V21" stroke="white" stroke-width="1.8" stroke-linecap="round" />
+      </svg>
+    </div>
+    <div>
+      <div class="brand-name">SereniCare</div>
+      <div class="brand-tagline">Clinic Management</div>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard',this)">
+      <i class="bi bi-grid-1x2 nav-icon"></i><span>Dashboard</span>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Clinical</div>
+
+    @for (item of menuItems; track item.id) {
+    <!-- Parent -->
+    <div class="nav-item" (click)="item.children && toggleNav(item.id)" [class.open]="openMenus[item.id]">
+      <i class="bi nav-icon" [ngClass]="item.icon"></i>
+      <span>{{ item.label }}</span>
+      @if (item.badge) {
+      <span class="nav-badge" [style.background]="item.badgeColor || null">
+        {{ typeof item.badge === 'function' ? item.badge() : item.badge }}
+      </span>
+      }
+      @if (item.children) {
+      <i class="bi bi-chevron-right nav-chevron" [class.rotate]="openMenus[item.id]">
+      </i>
+      }
+    </div>
+    <!-- Children -->
+    @if (item.children) {
+    <div class="nav-sub" [class.open]="openMenus[item.id]">
+      @for (child of item.children; track child.id) {
+      <div class="nav-item" [routerLink]="child.route || null">
+        <i class="bi" [ngClass]="child.icon"></i>
+        <span>{{ child.label }}</span>
+      </div>
+      }
+    </div>
+    }
+    }
+  </div>
+  <!-- Inventory — expandable -->
+  <div class="nav-group">
+    <div class="nav-label">Operations</div>
+
+    @for (item of operationsMenu; track item.id) {
+    <!-- Parent -->
+    <div class="nav-item" (click)="item.children && toggleNav(item.id)" [class.open]="openMenus[item.id]">
+      <i class="bi nav-icon" [ngClass]="item.icon"></i>
+      <span>{{ item.label }}</span>
+      @if (item.badge) {
+      <span class="nav-badge" [style.background]="item.badgeColor || null">
+        {{ typeof item.badge === 'function' ? item.badge() : item.badge }}
+      </span>
+      }
+      @if (item.children) {
+      <i class="bi bi-chevron-right nav-chevron" [class.rotate]="openMenus[item.id]">
+      </i>
+      }
+    </div>
+    <!-- Children -->
+    @if (item.children) {
+    <div class="nav-sub" [class.open]="openMenus[item.id]">
+      @for (child of item.children; track child.id) {
+      <div class="nav-item" [routerLink]="child.route || null">
+        <i class="bi" [ngClass]="child.icon"></i>
+        <span>{{ child.label }}</span>
+      </div>
+      }
+    </div>
+    }
+    }
+    <!-- <div class="nav-item" onclick="toggleNav(this,'sub-inventory')">
+      <i class="bi bi-box-seam nav-icon"></i><span>Inventory</span>
+      <i class="bi bi-chevron-right nav-chevron"></i>
+    </div>
+    <div class="nav-sub" id="sub-inventory">
+      <div class="nav-item"><i class="bi bi-boxes"></i><span>Stock Overview</span></div>
+      <div class="nav-item"><i class="bi bi-cart-plus"></i><span>Purchase Orders</span></div>
+      <div class="nav-item"><i class="bi bi-exclamation-triangle"></i><span>Low Stock Alerts</span></div>
+    </div>
+    <div class="nav-item"><i class="bi bi-currency-dollar nav-icon"></i><span>Billing</span></div>
+    <div class="nav-item"><i class="bi bi-hospital nav-icon"></i><span>Wards & Rooms</span></div>
+    <div class="nav-item" onclick="toggleNav(this,'sub-lab')">
+      <i class="bi bi-activity nav-icon"></i><span>Lab Results</span>
+      <i class="bi bi-chevron-right nav-chevron"></i>
+    </div>
+    <div class="nav-sub" id="sub-lab">
+      <div class="nav-item"><i class="bi bi-droplet-half"></i><span>Blood Tests</span></div>
+      <div class="nav-item"><i class="bi bi-radioactive"></i><span>Radiology</span></div>
+      <div class="nav-item"><i class="bi bi-eyedropper"></i><span>Pathology</span></div>
+    </div> -->
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">UI Elements</div>
+    <div class="nav-item" onclick="showPage('buttons',this)">
+      <i class="bi bi-toggle-on nav-icon"></i><span>Buttons</span>
+    </div>
+    <div class="nav-item" onclick="showPage('uploads',this)">
+      <i class="bi bi-cloud-upload nav-icon"></i><span>File Upload</span>
+    </div>
+    <div class="nav-item" onclick="showPage('fileviewer',this)">
+      <i class="bi bi-folder2-open nav-icon"></i><span>File Viewer</span>
+    </div>
+    <div class="nav-item" onclick="showPage('wizard',this)">
+      <i class="bi bi-ui-checks-grid nav-icon"></i><span>Form Wizard</span>
+    </div>
+    <div class="nav-item" onclick="showPage('calendar',this)">
+      <i class="bi bi-calendar-week nav-icon"></i><span>Calendar</span>
+    </div>
+    <div class="nav-item" onclick="showPage('listbot',this)">
+      <i class="bi bi-layout-list nav-icon"></i><span>Lists</span>
+    </div>
+    <div class="nav-item" onclick="showPage('pagination',this)">
+      <i class="bi bi-123 nav-icon"></i><span>Pagination</span>
+    </div>
+  </div>
+  <!-- <div class="nav-group">
+    <div class="nav-label">Pages</div>
+    <div class="nav-item" onclick="toggleNav(this,'sub-auth')">
+      <i class="bi bi-shield-lock nav-icon"></i><span>Authentication</span>
+      <i class="bi bi-chevron-right nav-chevron"></i>
+    </div>
+    <div class="nav-sub" id="sub-auth">
+      <div class="nav-item"><i class="bi bi-box-arrow-in-right"></i><span>Sign In</span></div>
+      <div class="nav-item"><i class="bi bi-person-plus"></i><span>Sign Up</span></div>
+      <div class="nav-item"><i class="bi bi-key"></i><span>Forgot Password</span></div>
+    </div>
+    <div class="nav-item"><i class="bi bi-bar-chart-line nav-icon"></i><span>Reports</span></div>
+    <div class="nav-item"><i class="bi bi-gear nav-icon"></i><span>Settings</span></div>
+  </div> -->
+  <div style="flex:1"></div>
+  <div class="sidebar-promo">
+    <div class="promo-title">🌿 SereniCare Pro</div>
+    <div class="promo-sub">Unlock AI diagnostics, telemedicine &amp; advanced analytics</div>
+    <div class="btn-promo">Upgrade Plan</div>
+  </div>
+  <div class="sidebar-version">v2.4.0</div>
+</aside>

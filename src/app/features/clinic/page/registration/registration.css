@@ -1,0 +1,15 @@
+.form-card {
+  max-width: 600px;
+  width: 600px;
+}
+
+.vh-scroll-container {
+  max-height: 50vh;
+}
+
+.form-disabled {
+  opacity: 0.6;
+  pointer-events: none;
+  filter: blur(1px);
+  transition: all 0.3s ease;
+}

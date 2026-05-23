@@ -1,0 +1,358 @@
+<div class="form-card">
+  <div class="d-flex align-items-center justify-content-around">
+    <div>
+      <div class="form-card-icon"><i class="bi bi-hospital"></i></div>
+      <div class="form-card-title">Clinic / Hospital Registration</div>
+      <div class="form-card-sub">Set up your clinic in 3 easy steps — takes less than 10 minutes.</div>
+    </div>
+    <div>
+      <form [formGroup]="masterKeyForm">
+        <div class="form-group">
+          <label class="form-label">
+            Master Key <span class="req">*</span>
+          </label>
+          <div class="input-wrap">
+            <i class="bi bi-keyboard-fill input-icon"></i>
+            <input type="text" class="form-input" placeholder="Enter Master Key" formControlName="masterKey">
+            <!-- @if(isMasterKeyValid){ <i class="bi bi-check-circle-fill text-success"></i> } -->
+          </div>
+          @if(masterKeyForm.get('masterKey')?.value && !isMasterKeyValid){
+          <div class="text-danger mt-1">
+            Invalid Master Key
+          </div>
+          }
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Step bar -->
+  <div class="step-bar" id="step-bar">
+    <div class="step-item">
+      <div class="step-circle" [class.active]="currentStep >= 1">1</div>
+      <div class="step-line" [class.active]="currentStep > 1"></div>
+    </div>
+    <div class="step-item">
+      <div class="step-circle" [class.active]="currentStep >= 2">2</div>
+      <div class="step-line" [class.active]="currentStep > 2"></div>
+    </div>
+    <div class="step-item" style="flex:0;">
+      <div class="step-circle" [class.active]="currentStep === 3">3</div>
+    </div>
+  </div>
+  <div style="display:flex;justify-content:space-between;margin-bottom:22px;margin-top:4px;">
+    <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);">
+      C|H Info</span>
+    <span
+      style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);">Admin
+      Account</span>
+    <span
+      style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);">Confirm</span>
+  </div>
+
+
+
+  <div [class.form-disabled]="clinicForm.disabled">
+    <form [formGroup]="clinicForm">
+      @if(currentStep === 1){
+      <!-- STEP 1 -->
+      <div id="reg-step1">
+        <div class="card-section-label" style="margin-top:0;" (click)="patchClinicData()">
+          Clinic Information
+        </div>
+        <div class="vh-scroll-container">
+          <div class="form-group">
+            <label class="form-label">Clinic / Hospital Name <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-hospital input-icon"></i>
+              <input type="text" class="form-input" placeholder="e.g. Apollo Multi-Specialty Clinic"
+                formControlName="clinicName" [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Registration No. <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-award input-icon"></i>
+                <input type="text" class="form-input" placeholder="MH-CLN-2024-001"
+                  formControlName="registrationNumber">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Clinic Type <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-building input-icon"></i>
+                <select class="form-select" formControlName="clinicType">
+                  <option [ngValue]="null">Select Clinic Type</option>
+                  <option *ngFor="let item of clinicTypeList" [ngValue]="item.name">
+                    {{ item.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Address <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-geo-alt input-icon"></i>
+              <input type="text" class="form-input" placeholder="Street, Area" formControlName="address">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-pin-map input-icon"></i>
+                <input type="text" class="form-input" placeholder="Mumbai" formControlName="city">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pincode <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-mailbox input-icon"></i>
+                <input type="text" class="form-input" placeholder="400001" formControlName="pincode">
+              </div>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone Number <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-telephone input-icon"></i>
+                <input type="tel" class="form-input" placeholder="+91 22 1234 5678" formControlName="phone">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Clinic Email <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-envelope input-icon"></i>
+                <input type="email" class="form-input" placeholder="info@clinic.com" formControlName="clinicEmail">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Primary Speciality<span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-heart-pulse input-icon"></i>
+              <select class="form-select" formControlName="primarySpeciality" (change)="onSpecialityChange($event)">
+                <option [ngValue]="null">Select speciality</option>
+                <option *ngFor="let spec of primarySpecialities" [ngValue]="spec">
+                  {{ spec.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-primary" (click)="nextStep()">
+          <span>Continue to Admin Setup</span>
+          <i class="bi bi-arrow-right"></i>
+        </button>
+
+      </div>
+      }
+      @if(currentStep == 2){
+      <!-- STEP 2 -->
+      <div id="reg-step2">
+        <div class="card-section-label" style="margin-top:0;" (click)="patchAdminData();">Administrator Account</div>
+        <div class="vh-scroll-container">
+          <div class="alert-box info">
+            <i class="bi bi-info-circle-fill"></i>
+            <span>This will be the primary admin account for your clinic. You can add more staff after setup.</span>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-person input-icon"></i>
+                <input type="text" class="form-input" placeholder="Riya" formControlName="firstName">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name <span class="req">*</span></label>
+              <div class="input-wrap">
+                <i class="bi bi-person input-icon"></i>
+                <input type="text" class="form-input" placeholder="Sharma" formControlName="lastName">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Designation / Role <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-person-badge input-icon"></i>
+              <select class="form-select" formControlName="role">
+                <option [ngValue]="null">Select Role</option>
+                <option *ngFor="let item of rolesList" [ngValue]="item.name">
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-envelope input-icon"></i>
+              <input type="email" class="form-input" placeholder="riya@serenicare.com" formControlName="adminEmail">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Mobile Number <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-phone input-icon"></i>
+              <input type="tel" class="form-input" placeholder="+91 98765 43210" formControlName="mobile">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Password <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-lock input-icon"></i>
+              <input [type]="showPassword ? 'text' : 'password'" id="r-pw" class="form-input"
+                placeholder="Min. 8 characters" formControlName="password">
+              <button class="pw-toggle" (click)="togglePassword()">
+                <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            <div class="strength-bar">
+              <div class="strength-seg" [class.active]="passwordStrength >= 1"></div>
+              <div class="strength-seg" [class.active]="passwordStrength >= 2"></div>
+              <div class="strength-seg" [class.active]="passwordStrength >= 3"></div>
+              <div class="strength-seg" [class.active]="passwordStrength >= 4"></div>
+            </div>
+
+            <div class="strength-label">
+              {{ strengthLabel }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirm Password <span class="req">*</span></label>
+            <div class="input-wrap">
+              <i class="bi bi-lock-fill input-icon"></i>
+              <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-input"
+                formControlName="confirmPassword" placeholder="Confirm Password"
+                [ngClass]="{'is-invalid':(f['confirmPassword'].touched || submitted) && (f['confirmPassword'].invalid || clinicForm.errors?.['passwordMismatch'])}" />
+              <button class="pw-toggle" (click)="toggleConfirmPassword()">
+                <i [class]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+              </button>
+            </div>
+            @if ((f['confirmPassword'].touched || submitted) && clinicForm.errors?.['passwordMismatch']) {
+            <div class="text-danger mt-1">
+              Passwords do not match
+            </div>
+            }
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:6px;">
+          <button class="btn btn-secondary" style="margin-top:0;" (click)="prevStep()">
+            <i class="bi bi-arrow-left"></i> Back
+          </button>
+          <button class="btn btn-primary" style="margin-top:0;" (click)="nextStep()">
+            Review & Confirm <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+      }
+      @if(currentStep == 3){
+      <!-- STEP 3 — Confirm -->
+      <div class="vh-scroll-container">
+        <div id="reg-step3">
+          <div class="alert-box success" style="margin-bottom:18px;">
+            <i class="bi bi-check-circle-fill"></i>
+            <span>All details look good! Review your registration below before submitting.</span>
+          </div>
+          <div
+            style="background:var(--bg);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border);margin-bottom:18px;">
+            <div
+              style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:12px;">
+              Clinic Details</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Clinic Name</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.clinicName}}
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Type</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.clinicType}}
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">City</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.city}},
+                  {{clinicForm.value.pincode}}</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Speciality</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">
+                  {{clinicForm.value.primarySpeciality.description}} ({{clinicForm.value.primarySpeciality.name}})
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            style="background:var(--bg);border-radius:var(--radius-sm);padding:16px;border:1px solid var(--border);margin-bottom:18px;">
+            <div
+              style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:12px;">
+              Admin Account</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Name</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.firstName}}
+                  {{clinicForm.value.lastName}}</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Role</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.role}}</div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Email</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.adminEmail}}
+                </div>
+              </div>
+              <div>
+                <div style="font-size:11px;color:var(--text-muted);">Mobile</div>
+                <div style="font-size:13px;font-weight:600;color:var(--text-head);">{{clinicForm.value.mobile}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="check-wrap">
+              <input type="checkbox" class="check-input" formControlName="terms">
+              <span class="check-box"></span>
+              <span class="check-label">
+                I confirm all details are accurate and agree to the <a href="#">Terms of
+                  Service</a>,
+                <a href="#">Privacy Policy</a> and <a href="#">Data Processing Agreement</a>.
+              </span>
+            </label>
+            <!-- <div class="check-wrap" onclick="toggleCheck(this)">
+          <div class="check-box"></div>
+          <span class="check-label">I confirm all details are accurate and agree to the <a href="#">Terms of
+              Service</a>,
+            <a href="#">Privacy Policy</a> and <a href="#">Data Processing Agreement</a>.</span>
+        </div> -->
+          </div>
+          <div style="display:flex;gap:10px;margin-top:6px;">
+            <button class="btn btn-secondary" style="margin-top:0;" (click)="prevStep()">
+              <i class="bi bi-arrow-left"></i> Back
+            </button>
+            <button class="btn btn-primary" style="margin-top:0;" (click)="submit()">
+              <i class="bi bi-hospital"></i> Submit Registration
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+      <!-- STEP SUCCESS -->
+      <div id="reg-success" style="display:none;text-align:center;padding:20px 0;">
+        <div class="success-circle"><i class="bi bi-check-lg"></i></div>
+        <div class="form-card-title" style="text-align:center;">Registration Submitted!</div>
+        <div class="form-card-sub" style="text-align:center;">Your clinic registration is under review. We'll send an
+          activation email to <strong>riya@clinic.com</strong> within 24 hours.</div>
+        <button class="btn-primary" style="margin-top:20px;" onclick="showScreen('signin')">
+          <i class="bi bi-box-arrow-in-right"></i> Go to Sign In
+        </button>
+      </div>
+    </form>
+  </div>
+  <!-- <div class="form-link-row" id="reg-link-row">
+    Already registered? <a onclick="showScreen('signin')">Sign in</a>
+  </div> -->
+</div>

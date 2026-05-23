@@ -1,0 +1,131 @@
+<div class="page-header">
+  <div class="page-header-left">
+    <div class="ph-title"><i class="bi bi-folder2-open text-teal"></i> Medical History Registry</div>
+    <div class="ph-sub">Patient: <strong>{{ patientDetails?.firstName }} {{ patientDetails?.lastName }}</strong></div>
+  </div>
+</div>
+
+<div class="clinic-grid">
+  @for (mh of patientDetails?.medicalHistories; track mh._id) {
+  <div class="clinic-card refined-card">
+
+    <!-- <div class="card-header-v2">
+      <div class="card-id-wrapper">
+        <i class="bi bi-hash"></i>
+        <span class="card-id">{{ mh._id.substring(mh._id.length - 6) }}</span>
+      </div>
+      <div class="card-date-wrapper">
+        <i class="bi bi-calendar3"></i>
+        <span class="card-date">{{ mh.createdAt | date:'dd MMM yyyy' }}</span>
+      </div>
+    </div> -->
+
+    <div class="card-body-segmented">
+      <div class="medical-section">
+        <div class="section-badge-header">
+          <i class="bi bi-heart-pulse-fill"></i> Clinical Diagnosis
+        </div>
+
+        <div class="wz-review-row principal-condition">
+          <span class="label">Primary Condition</span>
+          <span class="value condition-highlight">{{ mh.condition }}</span>
+        </div>
+
+        <div class="wz-review-row">
+          <span class="label">Allergies & Contraindications</span>
+          <div class="tags-container">
+            @if (mh.allergies?.length) {
+            @for (allergy of mh.allergies; track $index) {
+            <span class="badge-pill alert-danger">{{ allergy }}</span>
+            }
+            } @else {
+            <span class="muted-dash">— None Recorded</span>
+            }
+          </div>
+        </div>
+
+        <div class="wz-review-row">
+          <span class="label">Active Medications</span>
+          <div class="tags-container">
+            @if (mh.medications?.length) {
+            @for (med of mh.medications; track $index) {
+            <span class="badge-pill alert-info">{{ med }}</span>
+            }
+            } @else {
+            <span class="muted-dash">— None</span>
+            }
+          </div>
+        </div>
+
+        <div class="wz-review-row">
+          <span class="label">Surgical History</span>
+          <span class="value list-text">{{ mh.surgeries?.join(', ') || 'No prior surgical events' }}</span>
+        </div>
+
+        <div class="wz-review-row">
+          <span class="label">Family Genetic History</span>
+          <span class="value list-text">{{ mh.familyHistory || 'No hereditary factors reported' }}</span>
+        </div>
+      </div>
+
+      <div class="lifestyle-section">
+        <div class="section-badge-header">
+          <i class="bi bi-person-walking"></i> Patient Vitals & Lifestyle
+        </div>
+
+        <div class="metric-tiles-grid">
+          <div class="metric-tile" [class.negative-risk]="mh.lifestyle?.smoking?.status">
+            <span class="tile-label">Smoking Status</span>
+            <span class="tile-value">{{ mh.lifestyle?.smoking?.status ? 'Yes' : 'No' }} </span>
+            <span class="tile-value">{{ mh.lifestyle?.smoking?.durationYears }} per year</span>
+          </div>
+
+          <div class="metric-tile" [class.negative-risk]="mh.lifestyle?.alcohol?.status">
+            <span class="tile-label">Alcohol Intake</span>
+            <span class="tile-value">{{ mh.lifestyle?.alcohol?.status ? 'Yes' : 'No' }}</span>
+            <span class="tile-value">{{ mh.lifestyle?.alcohol?.frequency }}</span>
+          </div>
+
+          <div class="metric-tile">
+            <span class="tile-label">Activity Track</span>
+            <span class="tile-value level-text">{{ mh.lifestyle?.activityLevel }}</span>
+          </div>
+
+          <div class="metric-tile">
+            <span class="tile-label">Diet Pattern</span>
+            <span class="tile-value level-text">{{ mh.lifestyle?.dietType }}</span>
+          </div>
+
+          <div class="metric-tile">
+            <span class="tile-label">Sleep Cycle</span>
+            <span class="tile-value">{{ mh.lifestyle?.sleepHours }} hrs/night</span>
+          </div>
+
+          <div class="metric-tile">
+            <span class="tile-label">Stress Load</span>
+            <span class="tile-value level-text">{{ mh.lifestyle?.stressLevel }}</span>
+          </div>
+        </div>
+
+        <div class="wz-review-row subtle-margin-top">
+          <span class="label">Recreational Activities</span>
+          <span class="value list-text">{{ mh.lifestyle?.hobbies?.join(', ') || 'Not stated' }}</span>
+        </div>
+
+        <div class="wz-review-row combined-substance">
+          <span class="label">Substance Metrics</span>
+          <div class="substance-pills">
+            <span class="substance-item" [class.active-risk]="mh.lifestyle?.substanceUse?.tobacco">
+              Tobacco: <strong>{{ mh.lifestyle?.substanceUse?.tobacco ? 'Yes' : 'No' }}</strong>
+            </span>
+            <span class="substance-item" [class.active-risk]="mh.lifestyle?.substanceUse?.drugs">
+              Narcotics/Drugs: <strong>{{ mh.lifestyle?.substanceUse?.drugs ? 'Yes' : 'No' }}</strong>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  }
+</div>

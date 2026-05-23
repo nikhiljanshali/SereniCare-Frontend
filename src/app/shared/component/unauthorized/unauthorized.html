@@ -1,0 +1,32 @@
+<div class="form-card text-center">
+
+  <!-- Icon -->
+  <div class="form-card-icon text-danger">
+    <i class="bi bi-shield-lock"></i>
+  </div>
+
+  <!-- Title -->
+  <div class="form-card-title text-danger">
+    Access Denied
+  </div>
+
+  <!-- Message -->
+  <div class="form-card-sub">
+    You don't have permission to access this page.<br>
+    Please contact your administrator or sign in with a different account.
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="mt-3">
+    <button class="btn btn-primary" (click)="goToSignin()">
+      <i class="bi bi-arrow-left"></i>
+      <span>Back to Sign In</span>
+    </button>
+  </div>
+
+  <!-- Optional Link -->
+  <div class="form-link-row mt-3">
+    Already have access? <a class="form-link" (click)="goToSignin()">Sign in again</a>
+  </div>
+
+</div>

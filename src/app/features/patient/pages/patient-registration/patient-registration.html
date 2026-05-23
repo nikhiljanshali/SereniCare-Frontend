@@ -1,0 +1,754 @@
+<div class="appt-row">
+  <div class="appt-card">
+    <div id="page-wizard" class="page-section">
+      <div class="page-header">
+        <div class="page-header-left">
+          <div class="ph-title">Patient Registration</div>
+          <div class="ph-sub">Multi-step patient registration form</div>
+        </div>
+        <div class="page-header-right">
+          <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;"
+            (click)="generateDummyPatient();">
+            <i class="bi bi-twitter-x"></i>
+            <span>
+              Generate Dummy Patient
+            </span>
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="wizard-wrap">
+          <!-- Steps -->
+          <div class="wizard-steps">
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 1}">
+              <div class="wizard-step-num" id="wsn1">1</div>
+              <div>
+                <div class="wizard-step-label">Personal Info</div>
+                <div style="font-size:10.5px;color:var(--text-muted);">Name & contact</div>
+              </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 2}">
+              <div class="wizard-step-num" id="wsn2">2</div>
+              <div>
+                <div class="wizard-step-label">Medical History</div>
+                <div style="font-size:10.5px;color:var(--text-muted);">Conditions & allergies</div>
+              </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 3}">
+              <div class="wizard-step-num" id="wsn3">3</div>
+              <div>
+                <div class="wizard-step-label">Insurance</div>
+                <div style="font-size:10.5px;color:var(--text-muted);">Policy details</div>
+              </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep === 4}">
+              <div class="wizard-step-num" id="wsn4">4</div>
+              <div>
+                <div class="wizard-step-label">Review</div>
+                <div style="font-size:10.5px;color:var(--text-muted);">Confirm & submit</div>
+              </div>
+            </div>
+          </div>
+
+          <form [formGroup]="patientForm" class="wizard-form">
+            <!-- Body -->
+            <div class="wizard-body">
+              <!-- Step 1 -->
+              @if(currentStep === 1){
+              <div class="wizard-panel">
+                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Personal
+                  Information
+                </div>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's basic
+                  personal and contact details</div>
+                <div class="wz-form-row">
+                  <div class="wz-form-group">
+                    <label class="wz-label">First Name <span class="wz-req">*</span></label>
+                    <input class="wz-input" type="text" placeholder="e.g. Priya" formControlName="firstName">
+                  </div>
+                  <div class="wz-form-group">
+                    <label class="wz-label">Middle Name <span class="wz-req">*</span></label>
+                    <input class="wz-input" type="text" placeholder="e.g. Priya" formControlName="middleName">
+                  </div>
+                  <div class="wz-form-group">
+                    <label class="wz-label">Last Name <span class="wz-req">*</span></label>
+                    <input class="wz-input" type="text" placeholder="e.g. Sharma" formControlName="lastName">
+                  </div>
+                </div>
+                <div class="wz-form-row">
+                  <div class="wz-form-group">
+                    <label class="wz-label">Date of Birth <span class="wz-req">*</span></label>
+                    <input class="wz-input" type="date" placeholder="DD/MM/YYYY" formControlName="dateOfBirth"
+                      (change)="onDobChange($event)">
+                  </div>
+                  <div class="wz-form-group">
+                    <label class="wz-label">Gender
+                      <span class="wz-req">*</span>
+                    </label>
+                    <select class="wz-select" formControlName="gender">
+                      <option>Select gender</option>
+                      <option>Female</option>
+                      <option>Male</option>
+                      <option>Non-binary</option>
+                      <option>Prefer not to say</option>
+                    </select>
+                  </div>
+                  <div class="wz-form-group">
+                    <label class="wz-label">Age
+                      <span class="wz-req">*</span>
+                    </label>
+                    <input class="wz-input" type="number" placeholder="e.g. 25" formControlName="age">
+                  </div>
+                </div>
+                <div class="wz-form-row">
+                  <div class="wz-form-group">
+                    <label class="wz-label">Phone Number *</label>
+                    <input class="wz-input" type="tel" placeholder="+91 98765 43210" formControlName="phone">
+                  </div>
+                  <div class="wz-form-group">
+                    <label class="wz-label">Email Address</label>
+                    <input class="wz-input" type="email" placeholder="patient@email.com" formControlName="email">
+                  </div>
+                </div>
+                <div class="wz-form-group">
+                  <label class="wz-label">Address</label>
+                  <input class="wz-input" type="text" placeholder="Street, City, Pincode" formControlName="address">
+                </div>
+                <div class="wz-form-row">
+                  <div class="wz-form-row">
+                    <div class="wz-form-group">
+                      <label class="wz-label">Country
+                        <span class="wz-req">*</span>
+                      </label>
+                      <!-- <input class="wz-input" type="text" placeholder="Country" formControlName="country"> -->
+                      <select class="wz-select" id="country" formControlName="country">
+                        <option [ngValue]="null">— Select country —</option>
+                        <option *ngFor="let c of countries$ | async" [ngValue]="c.id">{{ c.name }}</option>
+                      </select>
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">State
+                        <span class="wz-req">*</span>
+                      </label>
+                      <!-- <input class="wz-input" type="text" placeholder="State" formControlName="state"> -->
+                      <select class="wz-select" id="state" formControlName="state"
+                        [attr.disabled]="(states$ | async)?.length ? null : true">
+                        <option [ngValue]="null">— Select state —</option>
+                        <option *ngFor="let s of states$ | async" [ngValue]="s.id">{{ s.name }}</option>
+                      </select>
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">City
+                        <span class="wz-req">*</span>
+                      </label>
+                      <!-- <input class="wz-input" type="text" placeholder="City" formControlName="city"> -->
+                      <select class="wz-select" id="city" formControlName="city"
+                        [attr.disabled]="(cities$ | async)?.length ? null : true">
+                        <option [ngValue]="null">— Select city —</option>
+                        <option *ngFor="let c of cities$ | async" [ngValue]="c.id">{{ c.name }}</option>
+                      </select>
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">Pincode
+                        <span class="wz-req">*</span>
+                      </label>
+                      <input class="wz-input" type="text" placeholder="Pincode" formControlName="pincode">
+                    </div>
+                  </div>
+                </div>
+                <div class="flex-container">
+                  <div class="box">
+                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Patient Aadhar
+                      Number
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's aadhar
+                      details</div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">Aadhar Number</label>
+                      <input class="wz-input" type="text" placeholder="e.g. 1234 5678 9012"
+                        formControlName="aadhaarNumber" maxlength="14" />
+                    </div>
+                  </div>
+                  <div class="box">
+                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Emergency
+                      Contact
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's
+                      emergency
+                      contact details</div>
+                    <div formGroupName="emergencyContact">
+                      <div class="wz-form-row">
+                        <div class="wz-form-group">
+                          <label class="wz-label">Contact Person Name</label>
+                          <input class="wz-input" type="text" placeholder="Contact Person Name" formControlName="name">
+                        </div>
+                        <div class="wz-form-group">
+                          <label class="wz-label">Relation</label>
+                          <input class="wz-input" type="text" placeholder="Relation to patient e.g Spouse"
+                            formControlName="relation">
+                        </div>
+                        <div class="wz-form-group">
+                          <label class="wz-label">Phone number</label>
+                          <input class="wz-input" type="text" placeholder="Phone" formControlName="phone">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="wz-form-row">
+                  <div class="wz-form-group">
+                    <div class="status-switch d-flex align-items-center justify-content-start gap-2 mt-4">
+                      <label class="switch">
+                        <input type="checkbox" [checked]="patientForm.value.status === 'active'"
+                          (change)="onStatusToggle($event)" />
+                        <span class="slider"></span>
+                      </label>
+                      <span class="status-label">
+                        {{ patientForm.value.status | titlecase }}
+                      </span>
+                      <!-- Deceased button -->
+                      <button type="button" class="btn-deceased" (click)="setDeceased()">
+                        Mark Deceased
+                      </button>
+                    </div>
+                  </div>
+                  <div class="wz-form-group">
+                    <label class="wz-label">Primary Doctor <span class="wz-req">*</span></label>
+                    <select class="wz-select" formControlName="primaryDoctorId">
+                      <option [ngValue]="null">Select</option>
+                      <option *ngFor="let type of doctorsList" [value]="type._id">
+                        {{ type.firstName }} {{ type.lastName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+              </div>
+              }
+              @if(currentStep === 2){
+              <!-- Step 2 -->
+              <div class="wizard-panel">
+                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Medical History
+                </div>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Record existing conditions,
+                  allergies and medications</div>
+                <div formArrayName="medicalHistories">
+                  <div *ngFor="let mh of medicalHistories.controls; let i = index" [formGroupName]="i">
+                    <div class="wz-form-row">
+                      <div class="wz-form-group">
+                        <label class="wz-label">Blood Type</label>
+                        <select class="wz-select" formControlName="bloodType">
+                          <option [ngValue]="null">Select</option>
+                          <option *ngFor="let type of bloodGroups" [value]="type.code">
+                            {{ type.name }}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="wz-form-group">
+                        <label class="wz-label">Primary Condition</label>
+                        <select class="wz-select" formControlName="condition">
+                          <option [ngValue]="null">Select</option>
+                          <option *ngFor="let type of primaryConditions" [value]="type.code">
+                            {{ type.name }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">Known Allergies</label>
+                      <input class="wz-input" type="text"
+                        placeholder="e.g. Penicillin, Aspirin, Latex (comma separated)" formControlName="allergies">
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">Current Medications</label>
+                      <textarea class="wz-input" rows="3" style="resize:vertical;"
+                        placeholder="List current medications with dosage…" formControlName="medications"></textarea>
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">Previous Surgeries</label>
+                      <input class="wz-input" type="text" placeholder="e.g. Appendectomy 2018"
+                        formControlName="surgeries">
+                    </div>
+                    <div class="wz-form-group">
+                      <label class="wz-label">Family History</label>
+                      <input class="wz-input" type="text" placeholder="e.g. Diabetes, Hypertension"
+                        formControlName="familyHistory">
+                    </div>
+
+                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Patient
+                      Lifestyle &
+                      Habits
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's
+                      lifestyle</div>
+                    <div formGroupName="lifestyle">
+                      <div class="flex-container">
+                        <div class="box" formGroupName="smoking">
+                          <div class="wz-form-group">
+                            <label class="check-wrap">
+                              <input type="checkbox" class="check-input" formControlName="status">
+                              <span class="check-box"></span>
+                              <span class="check-label">Smoking</span>
+                            </label>
+                          </div>
+                          <div class="wz-form-group d-flex flex-column gap-1">
+                            <div class="flex-container">
+                              <div class="wz-form-group">
+                                <label class="wz-label">Frequency</label>
+                                <input type="text" class="wz-input" placeholder="Frequency (e.g. Daily)"
+                                  formControlName="frequency">
+                              </div>
+                              <div class="wz-form-group">
+                                <label class="wz-label">Duration</label>
+                                <input type="number" class="wz-input" placeholder="Duration (Years)"
+                                  formControlName="durationYears">
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="box" formGroupName="alcohol">
+                          <div class="wz-form-group">
+                            <label class="check-wrap">
+                              <input type="checkbox" class="check-input" formControlName="status">
+                              <span class="check-box"></span>
+                              <span class="check-label">
+                                Alcohol
+                              </span>
+                            </label>
+                          </div>
+                          <div class="wz-form-group">
+                            <div class="wz-form-group">
+                              <label class="wz-label">Frequency</label>
+                              <input type="text" class="wz-input" placeholder="Frequency (e.g. Daily)"
+                                formControlName="frequency">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">&nbsp;
+                            <!-- <label class="check-wrap">
+                              <input type="checkbox" class="check-input" formControlName="tobacco">
+                              <span class="check-box"></span>
+                              <span class="check-label">
+                                Tobacco
+                              </span>
+                            </label> -->
+                          </div>
+                          <div class="wz-form-group">
+                            <label class="wz-label">Activity Level</label>
+                            <select class="wz-select" formControlName="activityLevel">
+                              <option value="">Select</option>
+                              <option value="Sedentary">Sedentary</option>
+                              <option value="Moderate">Moderate</option>
+                              <option value="Active">Active</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">
+                            &nbsp;
+                            <!-- <label class="check-wrap">
+                              <input type="checkbox" class="check-input" formControlName="drugs">
+                              <span class="check-box"></span>
+                              <span class="check-label">
+                                Drugs
+                              </span>
+                            </label> -->
+                          </div>
+                          <div class="wz-form-group">
+                            <label class="wz-label">Dite Type</label>
+                            <select class="wz-select" formControlName="dietType">
+                              <option value="">Select</option>
+                              <option value="Veg">Veg</option>
+                              <option value="Non-Veg">Non-Veg</option>
+                              <option value="Vegan">Vegan</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">&nbsp;</div>
+                          <div class="wz-form-group">
+                            <label class="wz-label">Occupancy Type</label>
+                            <select class="wz-select" formControlName="occupationType">
+                              <option value="">Select</option>
+                              <option value="Desk">Desk</option>
+                              <option value="Field">Field</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex-container">
+                        <div class="box">
+                          <div class="wz-form-group">
+                            <label class="wz-label">Exercise Frequency</label>
+                            <select class="wz-select" formControlName="exerciseFrequency">
+                              <option value="">Select</option>
+                              <option value="Daily">Daily</option>
+                              <option value="Weekly">Weekly</option>
+                              <option value="Rare">Rare</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">
+                            <label class="wz-label">Sleep Hours</label>
+                            <input class="wz-input" type="number" placeholder="e.g. 7, 8, 9…"
+                              formControlName="sleepHours">
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">
+                            <label class="wz-label">Stree Level</label>
+                            <select class="wz-select" formControlName="stressLevel">
+                              <option value="">Select</option>
+                              <option value="Low">Low</option>
+                              <option value="Medium">Medium</option>
+                              <option value="High">High</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">
+                            <label class="wz-label">Caffeine Intake</label>
+                            <select class="wz-select" formControlName="caffeineIntake">
+                              <option value="">Select</option>
+                              <option value="Low">Low</option>
+                              <option value="Moderate">Moderate</option>
+                              <option value="High">High</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="box">
+                          <div class="wz-form-group">
+                            <label class="wz-label">Water Intake (Liters)</label>
+                            <input class="wz-input" type="number" placeholder="e.g. 2, 3, 4…"
+                              formControlName="waterIntake">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="flex-container">
+
+                      </div>
+                      <div formGroupName="substanceUse" class="mb-2">
+                        <label class="check-wrap">
+                          <input type="checkbox" class="check-input" formControlName="tobacco">
+                          <span class="check-box"></span>
+                          <span class="check-label">
+                            Tobacco
+                          </span>
+                        </label>
+
+                        <label class="check-wrap">
+                          <input type="checkbox" class="check-input" formControlName="drugs">
+                          <span class="check-box"></span>
+                          <span class="check-label">
+                            Drugs
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              }
+              @if(currentStep === 3){
+              <!-- Step 3 -->
+              <div class="wizard-panel">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Insurance
+                    Details
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Add the patient's health
+                      insurance information</div>
+                  </div>
+                  <div>
+                    <button type="button" class="btn btn-outline-primary" (click)="addInsurance();">
+                      <i class="bi bi-plus"></i> Add Insurance
+                    </button>
+                  </div>
+                </div>
+                <div formArrayName="insuranceDetails">
+                  @for (insurance of insuranceDetails.controls; track $index; let i = $index) {
+                  <div [formGroupName]="i">
+                    <div class="wz-form-row">
+                      <div class="wz-form-group">
+                        <label class="wz-label">Insurance Provider</label>
+                        <select class="wz-select" formControlName="providerName">
+                          <option>Self-pay</option>
+                          <option>Star Health</option>
+                          <option>HDFC Ergo</option>
+                          <option>Bajaj Allianz</option>
+                          <option>Niva Bupa</option>
+                          <option>ESIC</option>
+                          <option>Govt. Scheme</option>
+                        </select>
+                      </div>
+
+                      <div class="wz-form-group">
+                        <label class="wz-label">Policy Number</label>
+                        <input class="wz-input" type="text" placeholder="e.g. STH-2024-00821"
+                          formControlName="policyNumber">
+                      </div>
+                    </div>
+                    <div class="wz-form-row">
+                      <div class="wz-form-group">
+                        <label class="wz-label">Policy Holder Name</label>
+                        <input class="wz-input" type="text" placeholder="If different from patient"
+                          formControlName="policyHolderName">
+                      </div>
+                      <div class="wz-form-group">
+                        <label class="wz-label">Relation to Patient</label>
+                        <select class="wz-select" formControlName="relationToPatient">
+                          <option>Self</option>
+                          <option>Spouse</option>
+                          <option>Parent</option>
+                          <option>Child</option>
+                          <option>Employer</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="wz-form-row">
+                      <div class="wz-form-group">
+                        <label class="wz-label">Coverage Amount</label>
+                        <input class="wz-input" type="text" placeholder="e.g. ₹5,00,000"
+                          formControlName="coverageAmount">
+                      </div>
+                      <div class="wz-form-group">
+                        <label class="wz-label">Coverage Details</label>
+                        <input class="wz-input" type="text" placeholder="e.g. Group Health Plan"
+                          formControlName="coverageDetails">
+                      </div>
+                      <div class="wz-form-group">
+                        <label class="wz-label">Valid From Date</label>
+                        <input class="wz-input" type="date" formControlName="validFrom">
+                      </div>
+                      <div class="wz-form-group">
+                        <label class="wz-label">Valid To Date</label>
+                        <input class="wz-input" type="date" formControlName="validTo">
+                      </div>
+                    </div>
+                    <!-- ✅ FIXED STATUS TOGGLE -->
+                    <div class="wz-form-row">
+                      <div class="wz-form-group">
+                        <div class="status-switch d-flex align-items-center gap-2 mt-4">
+                          <label class="switch">
+                            <input type="checkbox" [checked]="insurance.get('status')?.value === 'active'"
+                              (change)="onInsuranceStatusToggle($event, i)" />
+                            <span class="slider"></span>
+                          </label>
+                          <span class="status-label">
+                            {{ insurance.get('status')?.value | titlecase }}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="wz-form-group d-flex align-items-center justify-content-end">
+                        <button type="button" class="btn btn-outline-primary" (click)="removeInsurance(i);">
+                          <i class="bi bi-trash"></i> Remove Insurance
+                        </button>
+                      </div>
+                    </div>
+
+                  </div>
+                  }
+                </div>
+              </div>
+              }
+              @if(currentStep === 4){
+              <!-- Step 4 — Review -->
+              <div class="wizard-panel active" id="wp4">
+                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                  Review & Confirm
+                </div>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                  Please review all details before registering the patient</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                  <div
+                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                    <div
+                      style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                      Personal Info
+                    </div>
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Name</span>
+                      <span class="wz-review-val">
+                        {{ patientForm.value.firstName }} {{ patientForm.value.lastName }}
+                      </span>
+                    </div>
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">DOB</span>
+                      <span class="wz-review-val">
+                        {{ patientForm.value.dateOfBirth | date:'dd MMM yyyy' }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Age</span>
+                      <span class="wz-review-val">
+                        {{ patientForm.value.age }} yrs
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Gender</span>
+                      <span class="wz-review-val">
+                        {{ patientForm.value.gender }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Phone</span>
+                      <span class="wz-review-val">
+                        {{ patientForm.value.phone }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Email</span>
+                      <span class="wz-review-val">
+                        {{ patientForm.value.email || '-' }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row" style="border:none;">
+                      <span class="wz-review-label">Address</span>
+                      <span class="wz-review-val"
+                        style="white-space: pre-wrap;  overflow: hidden;  text-overflow: ellipsis; width: 250px;">
+                        {{ patientForm.value.address }}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                    <div
+                      style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                      Medical History
+                    </div>
+                    @let medicalHistory = medicalHistories.at(0);
+                    @if(medicalHistory) {
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Blood Type</span>
+                      <span class="wz-review-val">
+                        {{ medicalHistory.get('bloodType')?.value || '-' }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Condition</span>
+                      <span class="wz-review-val">
+                        {{ medicalHistory.get('condition')?.value || 'None' }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Allergies</span>
+                      <span class="wz-review-val">
+                        {{ medicalHistory.get('allergies')?.value || 'None' }}
+                      </span>
+                    </div>
+
+                    <div class="wz-review-row" style="border:none;">
+                      <span class="wz-review-label">Medications</span>
+                      <span class="wz-review-val">
+                        {{ medicalHistory.get('medications')?.value || 'None' }}
+                      </span>
+                    </div>
+                    }
+                  </div>
+                </div>
+                <div
+                  style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);margin-bottom:16px;">
+                  <div
+                    style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                    Insurance</div>
+                  @let insurance = insuranceDetails.at(0);
+                  @if(insurance) {
+                  <div style="display:flex;gap:24px;flex-wrap:wrap;">
+                    <div class="wz-review-col">
+                      <span class="wz-review-label">Provider</span>
+                      <span class="wz-review-val">
+                        {{ insurance.get('providerName')?.value || 'Self-pay' }}
+                      </span>
+                    </div>
+                    <div class="wz-review-col">
+                      <span class="wz-review-label">Policy No.</span>
+                      <span class="wz-review-val">
+                        {{ insurance.get('policyNumber')?.value || '-' }}
+                      </span>
+                    </div>
+                    <div class="wz-review-col">
+                      <span class="wz-review-label">Coverage</span>
+                      <span class="wz-review-val">
+                        {{ insurance.get('coverageAmount')?.value || '-' }}
+                      </span>
+                    </div>
+                    <div class="wz-review-col">
+                      <span class="wz-review-label">Valid Till</span>
+                      <span class="wz-review-val">
+                        {{ (insurance.get('validTo')?.value | date:'dd MMM yyyy') || '-' }}
+                      </span>
+                    </div>
+                  </div>
+                  }
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-body);"><input
+                    type="checkbox" id="consent-chk" style="accent-color:var(--teal);width:15px;height:15px;"><label
+                    for="consent-chk">I confirm the above details are accurate and the patient has given consent for
+                    treatment</label></div>
+              </div>
+              }
+            </div>
+
+            <!-- Footer -->
+            <div class="wizard-footer">
+              <div style="font-size:12px;color:var(--text-muted);" id="wz-step-info">Step {{ currentStep }} of 4</div>
+              <div style="display:flex;gap:8px;">
+                <!-- Previous -->
+                @if(currentStep > 1){
+                <button class="btn btn-outline-default" (click)="prevStep()">
+                  <i class="bi bi-arrow-left"></i> Previous
+                </button>
+                }
+
+                <!-- Next -->
+                @if(!isLastStep){
+                <button class="btn btn-primary" (click)="nextStep()">
+                  Next <i class="bi bi-arrow-right"></i>
+                </button>
+                }
+
+                <!-- Submit -->
+                @if(isLastStep){
+                <button class="btn btn-success" type="button" (click)="registerPatientSubmit()">
+                  <i class="bi bi-check-circle"></i> Register Patient
+                </button>
+                }
+                <!-- <button class="btn btn-outline-default btn-sm" id="wz-prev-btn" onclick="wizardPrev()"
+                style="display:none;"><i class="bi bi-arrow-left"></i> Previous</button>
+              <button class="btn btn-primary btn-sm" id="wz-next-btn" onclick="wizardNext()">Next <i
+                  class="bi bi-arrow-right"></i></button>
+              <button class="btn btn-success btn-sm" id="wz-submit-btn" onclick="wizardSubmit()"
+                style="display:none;"><i class="bi bi-check-circle"></i> Register Patient</button> -->
+              </div>
+            </div>
+          </form>
+        </div>
+        <!-- Success state -->
+        <div id="wizard-success"
+          style="display:none;text-align:center;padding:40px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);margin-top:18px;">
+          <div
+            style="width:64px;height:64px;border-radius:50%;background:#DCFCE7;border:2px solid #BBF7D0;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:30px;color:var(--emerald);">
+            ✓</div>
+          <div style="font-family:'DM Serif Display',serif;font-size:22px;color:var(--text-head);margin-bottom:6px;">
+            Patient
+            Registered!</div>
+          <div style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Priya Sharma has been successfully
+            added.
+            Patient ID: <strong style="color:var(--teal);">#PT-01128</strong></div>
+          <div style="display:flex;gap:10px;justify-content:center;"><button class="btn btn-primary"
+              onclick="wizardReset()"><i class="bi bi-person-plus"></i> Register Another</button><button
+              class="btn btn-outline-primary"><i class="bi bi-eye"></i> View Patient</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

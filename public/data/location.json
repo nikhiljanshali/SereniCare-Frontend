@@ -1,0 +1,187 @@
+{
+  "countries": [
+    {
+      "id": 1,
+      "name": "India",
+      "code": "IN",
+      "states": [
+        {
+          "id": 101,
+          "name": "Gujarat",
+          "code": "GJ",
+          "cities": [
+            { "id": 1001, "name": "Ahmedabad" },
+            { "id": 1002, "name": "Surat" },
+            { "id": 1003, "name": "Vadodara" },
+            { "id": 1004, "name": "Rajkot" },
+            { "id": 1005, "name": "Gandhinagar" }
+          ]
+        },
+        {
+          "id": 102,
+          "name": "Maharashtra",
+          "code": "MH",
+          "cities": [
+            { "id": 1006, "name": "Mumbai" },
+            { "id": 1007, "name": "Pune" },
+            { "id": 1008, "name": "Nagpur" },
+            { "id": 1009, "name": "Nashik" },
+            { "id": 1010, "name": "Aurangabad" }
+          ]
+        },
+        {
+          "id": 103,
+          "name": "Karnataka",
+          "code": "KA",
+          "cities": [
+            { "id": 1011, "name": "Bengaluru" },
+            { "id": 1012, "name": "Mysuru" },
+            { "id": 1013, "name": "Hubli" },
+            { "id": 1014, "name": "Mangaluru" }
+          ]
+        },
+        {
+          "id": 104,
+          "name": "Tamil Nadu",
+          "code": "TN",
+          "cities": [
+            { "id": 1015, "name": "Chennai" },
+            { "id": 1016, "name": "Coimbatore" },
+            { "id": 1017, "name": "Madurai" },
+            { "id": 1018, "name": "Salem" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "United States",
+      "code": "US",
+      "states": [
+        {
+          "id": 201,
+          "name": "California",
+          "code": "CA",
+          "cities": [
+            { "id": 2001, "name": "Los Angeles" },
+            { "id": 2002, "name": "San Francisco" },
+            { "id": 2003, "name": "San Diego" },
+            { "id": 2004, "name": "Sacramento" },
+            { "id": 2005, "name": "San Jose" }
+          ]
+        },
+        {
+          "id": 202,
+          "name": "New York",
+          "code": "NY",
+          "cities": [
+            { "id": 2006, "name": "New York City" },
+            { "id": 2007, "name": "Buffalo" },
+            { "id": 2008, "name": "Rochester" },
+            { "id": 2009, "name": "Albany" }
+          ]
+        },
+        {
+          "id": 203,
+          "name": "Texas",
+          "code": "TX",
+          "cities": [
+            { "id": 2010, "name": "Houston" },
+            { "id": 2011, "name": "Dallas" },
+            { "id": 2012, "name": "Austin" },
+            { "id": 2013, "name": "San Antonio" }
+          ]
+        },
+        {
+          "id": 204,
+          "name": "Florida",
+          "code": "FL",
+          "cities": [
+            { "id": 2014, "name": "Miami" },
+            { "id": 2015, "name": "Orlando" },
+            { "id": 2016, "name": "Tampa" },
+            { "id": 2017, "name": "Jacksonville" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "United Kingdom",
+      "code": "GB",
+      "states": [
+        {
+          "id": 301,
+          "name": "England",
+          "code": "ENG",
+          "cities": [
+            { "id": 3001, "name": "London" },
+            { "id": 3002, "name": "Manchester" },
+            { "id": 3003, "name": "Birmingham" },
+            { "id": 3004, "name": "Leeds" },
+            { "id": 3005, "name": "Bristol" }
+          ]
+        },
+        {
+          "id": 302,
+          "name": "Scotland",
+          "code": "SCT",
+          "cities": [
+            { "id": 3006, "name": "Edinburgh" },
+            { "id": 3007, "name": "Glasgow" },
+            { "id": 3008, "name": "Aberdeen" },
+            { "id": 3009, "name": "Dundee" }
+          ]
+        },
+        {
+          "id": 303,
+          "name": "Wales",
+          "code": "WLS",
+          "cities": [
+            { "id": 3010, "name": "Cardiff" },
+            { "id": 3011, "name": "Swansea" },
+            { "id": 3012, "name": "Newport" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Canada",
+      "code": "CA",
+      "states": [
+        {
+          "id": 401,
+          "name": "Ontario",
+          "code": "ON",
+          "cities": [
+            { "id": 4001, "name": "Toronto" },
+            { "id": 4002, "name": "Ottawa" },
+            { "id": 4003, "name": "Mississauga" },
+            { "id": 4004, "name": "Hamilton" }
+          ]
+        },
+        {
+          "id": 402,
+          "name": "British Columbia",
+          "code": "BC",
+          "cities": [
+            { "id": 4005, "name": "Vancouver" },
+            { "id": 4006, "name": "Victoria" },
+            { "id": 4007, "name": "Kelowna" }
+          ]
+        },
+        {
+          "id": 403,
+          "name": "Quebec",
+          "code": "QC",
+          "cities": [
+            { "id": 4008, "name": "Montreal" },
+            { "id": 4009, "name": "Quebec City" },
+            { "id": 4010, "name": "Laval" }
+          ]
+        }
+      ]
+    }
+  ]
+}

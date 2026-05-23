@@ -1,0 +1,72 @@
+<nav class="demo-nav">
+  <span class="demo-nav-label">SereniCare Auth:</span>
+  <span class="quote">{{ currentQuote }}</span>
+  @for (btn of buttons; track btn.action) {
+  <button class="demo-btn" [class.active]="activeAction === btn.action" (click)="onAction(btn.action)">
+    {{ btn.label }}
+  </button>
+  }
+</nav>
+
+<div id="screen-signin" class="screen active">
+  <div class="auth-shell">
+    <!-- Left panel -->
+    <div class="auth-left">
+      <div class="panel-glow-1"></div>
+      <div class="panel-glow-2"></div>
+
+      <!-- BG grid SVG -->
+      <img src="images/svg/logobackground.svg" alt="SereniCare" class="logo-background" />
+
+      <div class="panel-content">
+        <div class="auth-brand">
+          <div class="brand-mark">
+            <img src="images/svg/logo.svg" alt="SereniCare" width="25px" height="25px" />
+          </div>
+          <div class="brand-text-wrap">
+            <div class="brand-name">SereniCare</div>
+            <div class="brand-tagline">Clinic Management</div>
+          </div>
+        </div>
+
+        <div class="panel-illustration">
+          <div class="panel-title">Welcome<br>back, <em>Doctor.</em> / <em>Patient.</em></div>
+          <div class="panel-desc">Sign in to access your clinic dashboard, appointments, patient records and more.</div>
+          <div class="panel-features">
+            <div class="panel-feature">
+              <div class="feat-icon" style="background:rgba(13,148,136,.2);color:var(--mint);"><i
+                  class="bi bi-shield-check"></i></div>
+              <div>
+                <div class="feat-label">Secure & HIPAA Compliant</div>
+                <div class="feat-sub">Your data is always protected</div>
+              </div>
+            </div>
+            <div class="panel-feature">
+              <div class="feat-icon" style="background:rgba(99,102,241,.2);color:#A5B4FC;"><i
+                  class="bi bi-calendar2-check"></i></div>
+              <div>
+                <div class="feat-label">Manage Appointments</div>
+                <div class="feat-sub">All bookings in one place</div>
+              </div>
+            </div>
+            <div class="panel-feature">
+              <div class="feat-icon" style="background:rgba(245,158,11,.18);color:#FCD34D;"><i
+                  class="bi bi-clipboard2-pulse"></i></div>
+              <div>
+                <div class="feat-label">Live Patient Analytics</div>
+                <div class="feat-sub">Real-time clinical insights</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          © 2026 SereniCare &nbsp;·&nbsp; v1.0.0 &nbsp;·&nbsp; All rights reserved
+        </div>
+      </div>
+    </div>
+    <div class="auth-right ">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

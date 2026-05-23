@@ -1,0 +1,79 @@
+<div class="form-card">
+  <div class="form-card-icon"><i class="bi bi-box-arrow-in-right"></i></div>
+  <div class="form-card-title">Sign in to SereniCare</div>
+  <div class="form-card-sub">Enter your credentials to access the clinic management portal.</div>
+  <div class="form-divider">Continue with email</div>
+  <form [formGroup]="signinForm" (ngSubmit)="onSubmit()">
+    <!-- Email -->
+    <div class="form-group">
+      <label class="form-label">Email Address <span class="req">*</span></label>
+      <div class="input-wrap">
+        <i class="bi bi-envelope input-icon"></i>
+        <input type="email" class="form-input" placeholder="doctor@serenicare.com" formControlName="workEmail"
+          [ngClass]="{'is-invalid': submitted && f['workEmail'].invalid}">
+      </div>
+      @if (submitted && f['workEmail'].errors) {
+      <div class="text-danger">
+        @if (f['workEmail'].errors['required']) { <small>Email is required</small> }
+        @if (f['workEmail'].errors['email']) { <small>Invalid email</small> }
+      </div>
+      }
+    </div>
+
+    <!-- Password -->
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <label class="form-label">Password <span class="req">*</span></label>
+        <a class="form-link" (click)="gotoForgotPassword()">Forgot password?</a>
+      </div>
+
+      <div class="input-wrap">
+        <i class="bi bi-lock input-icon"></i>
+
+        <input [type]="showPassword ? 'text' : 'password'" class="form-input" placeholder="Enter your password"
+          formControlName="password" [ngClass]="{'is-invalid': submitted && f['password'].invalid}">
+
+        <button type="button" class="pw-toggle" (click)="togglePassword()">
+          <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+        </button>
+      </div>
+
+      @if (submitted && f['password'].errors) {
+      <div class="text-danger">
+        @if (f['password'].errors['required']) { <small>Password is required</small> }
+        @if (f['password'].errors['minlength']) { <small>Minimum 6 characters</small> }
+      </div>
+      }
+    </div>
+    <!-- Remember me -->
+    <div class="form-group">
+      <label class="check-wrap">
+        <input type="checkbox" class="check-input" formControlName="terms">
+        <span class="check-box"></span>
+        <span class="check-label">Keep me signed in for 30 days</span>
+      </label>
+      <!-- <label class="check-wrap">
+        <input type="checkbox" class="check-box" formControlName="rememberMe">
+        <span class="check-label">Keep me signed in for 30 days</span>
+      </label> -->
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="btn btn-primary">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Sign In</span>
+    </button>
+  </form>
+  <div class="form-divider">-</div>
+  <!-- <div class="form-link-row">
+    Don't have an account? <a class="form-link" (click)="gotoCreateAccount()">Create account <i
+        class="bi bi-arrow-right"></i></a>
+  </div> -->
+  <div class="form-link-row mt-8">
+    Want to register your clinic / Hospitals? <a class="form-link" (click)="gotoClinicRegistration()">Register <i
+        class="bi bi-arrow-right"></i></a>
+  </div>
+  <!-- <div class="form-link-row mt-8">
+    Are you a patient? <a class="form-link" (click)="gotoPatientPortal()">Patient Portal →</a>
+  </div> -->
+</div>

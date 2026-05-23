@@ -1,0 +1,147 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <div class="form-card">
+    <div class="form-card-icon"><i class="bi bi-person-plus"></i></div>
+    <div class="form-card-title">Create Your Account</div>
+    <div class="form-card-sub">Start your free 30-day trial. No credit card required.</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">First Name <span class="req">*</span></label>
+        <div class="input-wrap">
+          <i class="bi bi-person input-icon"></i>
+          <input type="text" class="form-input" placeholder="Dr. Riya" formControlName="firstName">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Last Name <span class="req">*</span></label>
+        <div class="input-wrap">
+          <i class="bi bi-person input-icon"></i>
+          <input type="text" class="form-input" placeholder="Sharma" formControlName="lastName">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Work Email <span class="req">*</span></label>
+        <div class="input-wrap">
+          <i class="bi bi-envelope input-icon"></i>
+          <input type="email" class="form-input" placeholder="riya@yourClinic.com" formControlName="workEmail">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <div class="input-wrap">
+          <i class="bi bi-telephone input-icon"></i>
+          <input type="tel" class="form-input" placeholder="+91 12345 67890" formControlName="phone">
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Password <span class="req">*</span></label>
+        <div class="input-wrap">
+          <i class="bi bi-lock input-icon"></i>
+          <input [type]="showPassword ? 'text' : 'password'" id="su-pw" class="form-input"
+            placeholder="Min. 8 characters" formControlName="password">
+          <button class="pw-toggle" (click)="togglePassword()">
+            <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+        <div class="strength-bar">
+          <div class="strength-seg" [class.active]="passwordStrength >= 1"></div>
+          <div class="strength-seg" [class.active]="passwordStrength >= 2"></div>
+          <div class="strength-seg" [class.active]="passwordStrength >= 3"></div>
+          <div class="strength-seg" [class.active]="passwordStrength >= 4"></div>
+        </div>
+
+        <div class="strength-label">
+          {{ strengthLabel }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Confirm Password <span class="req">*</span></label>
+        <div class="input-wrap">
+          <i class="bi bi-lock-fill input-icon"></i>
+          <input [type]="showConfirmPassword ? 'text' : 'password'" class="form-input" formControlName="confirmPassword"
+            placeholder="Confirm Password"
+            [ngClass]="{'is-invalid':(f['confirmPassword'].touched || submitted) && (f['confirmPassword'].invalid || signupForm.errors?.['passwordMismatch'])}" />
+          <button class="pw-toggle" (click)="toggleConfirmPassword()">
+            <i [class]="showConfirmPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+          </button>
+        </div>
+        @if ((f['confirmPassword'].touched || submitted) && signupForm.errors?.['passwordMismatch']) {
+        <div class="text-danger mt-1">
+          Passwords do not match
+        </div>
+        }
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Register As <span class="req">*</span></label>
+
+      <div class="role-selector">
+
+        <!-- Doctor -->
+        <label class="role-card" [class.active]="signupForm.value.role === 'Doctor'">
+
+          <input type="radio" value="Doctor" formControlName="role" hidden>
+
+          <div class="role-content">
+            <i class="bi bi-person-badge role-icon"></i>
+            <div>
+              <div class="role-title">Doctor</div>
+              <div class="role-sub">Manage patients & clinic</div>
+            </div>
+          </div>
+        </label>
+
+        <!-- Patient -->
+        <label class="role-card" [class.active]="signupForm.value.role === 'Patient'">
+          <input type="radio" value="Patient" formControlName="role" hidden>
+          <div class="role-content">
+            <i class="bi bi-person role-icon"></i>
+            <div>
+              <div class="role-title">Patient</div>
+              <div class="role-sub">Book appointments & records</div>
+            </div>
+          </div>
+        </label>
+
+      </div>
+
+      @if (submitted && f['role'].invalid) {
+      <div class="text-danger mt-1">Please select a role</div>
+      }
+    </div>
+
+    <div class="form-group">
+      <label class="check-wrap">
+        <input type="checkbox" class="check-input" formControlName="terms">
+        <span class="check-box"></span>
+        <span class="check-label">
+          I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
+            Policy</a></span>
+      </label>
+      <!-- <div class="check-wrap">
+        <div class="check-box" formControlName="terms"></div>
+        <span class="check-label">
+          I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy
+            Policy</a></span>
+      </div> -->
+    </div>
+
+    <button class="btn btn-primary">
+      <i class="bi bi-person-plus"></i>
+      <span>Create Account</span>
+    </button>
+
+    <div class="form-link-row">
+      Already have an account? <a class="form-link-row" (click)="gotoSignin();">Sign in</a>
+    </div>
+  </div>
+</form>

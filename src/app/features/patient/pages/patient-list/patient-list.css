@@ -1,0 +1,96 @@
+.sub-row td {
+  background: #f9fafb;
+  padding   : 16px;
+}
+
+.sub-content {
+  border-left : 3px solid var(--teal);
+  padding-left: 16px;
+}
+
+.sub-title {
+  font-weight  : 600;
+  margin-bottom: 10px;
+  color        : var(--text-head);
+}
+
+/* .clinic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.clinic-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.clinic-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.clinic-card {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.clinic-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
+} */
+
+/* .refined-card {
+  padding: 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 10px;
+}
+
+.section {
+  margin-top: 12px;
+}
+
+.section-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text-primary);
+}
+
+.wz-review-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  padding: 4px 0;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px 12px;
+  margin-bottom: 6px;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.notes {
+  font-size: 13px;
+  color: var(--text-muted);
+} */

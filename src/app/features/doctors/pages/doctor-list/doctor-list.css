@@ -1,0 +1,45 @@
+.sub-row td {
+  background: #f9fafb;
+  padding: 16px;
+}
+
+.sub-content {
+  border-left: 3px solid var(--teal);
+  padding-left: 16px;
+}
+
+.sub-title {
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: var(--text-head);
+}
+
+.clinic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.clinic-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 12px;
+}
+
+.clinic-name {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.clinic-card {
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+
+.clinic-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px); /* optional lift effect */
+}

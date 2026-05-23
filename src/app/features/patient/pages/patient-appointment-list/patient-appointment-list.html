@@ -1,0 +1,144 @@
+<!-- ── Upcoming Appointments ── -->
+<div class="appt-row">
+  <div class="appt-card">
+    <div class="card-header" style="margin-bottom:14px;">
+      <div class="card-title">Today's Appointments</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-secondary" style="margin-right:0;"><i class="bi bi-funnel"></i> Filter</button>
+        <button class="btn-primary"><i class="bi bi-plus-lg"></i> Schedule</button>
+      </div>
+    </div>
+    <table class="appt-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>Department</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="patient-cell">
+              <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">SR</div>
+              <div>
+                <div class="patient-name">Sunita Rao</div>
+                <div class="patient-id">#PT-00821</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600;color:var(--text-head);">Dr. Mehta</div>
+            <div style="font-size:11px;color:var(--text-muted);">Cardiologist</div>
+          </td>
+          <td><span class="dept-tag" style="background:var(--teal-light);color:var(--teal-dark);">Cardiology</span></td>
+          <td style="font-weight:600;color:var(--text-head);">09:00 AM</td>
+          <td><span class="status-badge confirmed">Confirmed</span></td>
+          <td>
+            <button class="action-btn"><i class="bi bi-eye"></i></button>
+            <button class="action-btn"><i class="bi bi-pencil"></i></button>
+            <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="patient-cell">
+              <div class="patient-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);">AK</div>
+              <div>
+                <div class="patient-name">Arjun Kapoor</div>
+                <div class="patient-id">#PT-00934</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600;color:var(--text-head);">Dr. Sharma</div>
+            <div style="font-size:11px;color:var(--text-muted);">Neurologist</div>
+          </td>
+          <td><span class="dept-tag" style="background:var(--violet-light);color:var(--violet);">Neurology</span></td>
+          <td style="font-weight:600;color:var(--text-head);">10:30 AM</td>
+          <td><span class="status-badge in-progress">In Progress</span></td>
+          <td>
+            <button class="action-btn"><i class="bi bi-eye"></i></button>
+            <button class="action-btn"><i class="bi bi-pencil"></i></button>
+            <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="patient-cell">
+              <div class="patient-avatar" style="background:linear-gradient(135deg,#F59E0B,#F97316);">PM</div>
+              <div>
+                <div class="patient-name">Priya Mishra</div>
+                <div class="patient-id">#PT-00715</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600;color:var(--text-head);">Dr. Nair</div>
+            <div style="font-size:11px;color:var(--text-muted);">Orthopedist</div>
+          </td>
+          <td><span class="dept-tag" style="background:var(--amber-light);color:#B45309;">Orthopedics</span></td>
+          <td style="font-weight:600;color:var(--text-head);">11:15 AM</td>
+          <td><span class="status-badge pending">Pending</span></td>
+          <td>
+            <button class="action-btn"><i class="bi bi-eye"></i></button>
+            <button class="action-btn"><i class="bi bi-pencil"></i></button>
+            <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="patient-cell">
+              <div class="patient-avatar" style="background:linear-gradient(135deg,#F43F5E,#EC4899);">RG</div>
+              <div>
+                <div class="patient-name">Rajesh Gupta</div>
+                <div class="patient-id">#PT-01022</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600;color:var(--text-head);">Dr. Pillai</div>
+            <div style="font-size:11px;color:var(--text-muted);">Pulmonologist</div>
+          </td>
+          <td><span class="dept-tag" style="background:var(--sky-light);color:#0369A1;">Pulmonology</span></td>
+          <td style="font-weight:600;color:var(--text-head);">02:00 PM</td>
+          <td><span class="status-badge cancelled">Cancelled</span></td>
+          <td>
+            <button class="action-btn"><i class="bi bi-eye"></i></button>
+            <button class="action-btn"><i class="bi bi-pencil"></i></button>
+            <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="patient-cell">
+              <div class="patient-avatar" style="background:linear-gradient(135deg,#10B981,#34D399);">NV</div>
+              <div>
+                <div class="patient-name">Nisha Verma</div>
+                <div class="patient-id">#PT-00609</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div style="font-weight:600;color:var(--text-head);">Dr. Khan</div>
+            <div style="font-size:11px;color:var(--text-muted);">Ophthalmologist</div>
+          </td>
+          <td><span class="dept-tag" style="background:var(--violet-light);color:#5B21B6;">Ophthalmology</span></td>
+          <td style="font-weight:600;color:var(--text-head);">03:30 PM</td>
+          <td><span class="status-badge confirmed">Confirmed</span></td>
+          <td>
+            <button class="action-btn"><i class="bi bi-eye"></i></button>
+            <button class="action-btn"><i class="bi bi-pencil"></i></button>
+            <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="view-all" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+      <span>View all appointments</span><i class="bi bi-arrow-right"></i>
+    </div>
+  </div>
+</div>
