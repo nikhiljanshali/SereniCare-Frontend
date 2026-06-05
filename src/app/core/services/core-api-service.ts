@@ -16,12 +16,7 @@ export class CoreApiService {
   // =======================
   // 🔹 GENERIC REQUEST HANDLER (Observable)
   // =======================
-  private request<T>(
-    request$: Observable<ApiResponse<T>>,
-    notify = true,
-    requestData?: any,
-    withMeta = false
-  ): Observable<any> {
+  private request<T>(request$: Observable<ApiResponse<T>>, notify = true, requestData?: any, withMeta = false): Observable<any> {
     return request$.pipe(
       tap((resp) => {
         if (notify) this.handleResponse(resp);
@@ -45,12 +40,7 @@ export class CoreApiService {
   // =======================
   // 🔹 GET
   // =======================
-  get<T>(
-    url: string,
-    param?: string,
-    notify = true,
-    withMeta = false
-  ): Observable<ApiResponse<T>> {
+  get<T>(url: string, param?: string, notify = true, withMeta = false): Observable<ApiResponse<T>> {
     const finalUrl = param ? `${url}/${param}` : url;
 
     return this.request<T>(
@@ -68,12 +58,7 @@ export class CoreApiService {
   // =======================
   // 🔹 POST
   // =======================
-  post<T>(
-    url: string,
-    body: any,
-    notify = true,
-    withMeta = false
-  ): Observable<ApiResponse<T>> {
+  post<T>(url: string, body: any, notify = true, withMeta = false): Observable<ApiResponse<T>> {
     return this.request<T>(
       this.http.post<ApiResponse<T>>(url, body),
       notify,
@@ -89,12 +74,7 @@ export class CoreApiService {
   // =======================
   // 🔹 PUT
   // =======================
-  put<T>(
-    url: string,
-    body: any,
-    notify = true,
-    withMeta = false
-  ): Observable<ApiResponse<T>> {
+  put<T>(url: string, body: any, notify = true, withMeta = false): Observable<ApiResponse<T>> {
     return this.request<T>(
       this.http.put<ApiResponse<T>>(url, body),
       notify,
@@ -119,6 +99,26 @@ export class CoreApiService {
     );
   }
 
+
+  /* ======================= */
+  /* 🔹 PATCH */
+  /* ======================= */
+  patch<T>(url: string, body: any, notify = true, withMeta = false): Observable<ApiResponse<T>> {
+    return this.request<T>(
+      this.http.patch<ApiResponse<T>>(url, body),
+      notify,
+      body,
+      withMeta
+    );
+  }
+
+  patchData<T>(url: string, body?: any): Observable<T> {
+    return this.patch<T>(url, body).pipe(
+      map((res) => res.data)
+    );
+  }
+
+
   // =======================
   // 🔹 FILE UPLOAD
   // =======================
@@ -129,13 +129,8 @@ export class CoreApiService {
     return this.post<T>(url, formData);
   }
 
-  uploadMultiple<T>(
-    url: string,
-    files: File[],
-    extraData?: any
-  ): Observable<ApiResponse<T>> {
+  uploadMultiple<T>(url: string, files: File[], extraData?: any): Observable<ApiResponse<T>> {
     const formData = new FormData();
-
     files.forEach((file) => formData.append('files', file));
 
     if (extraData) {

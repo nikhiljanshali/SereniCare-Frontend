@@ -14,7 +14,8 @@ export const environment = {
     bloodGroup: '/bloodGroup',
     primaryCondition: '/primaryCondition',
     allergies: '/allergies',
-    doctors: '/doctors'
+    doctors: '/doctors',
+    appointmentBooking: '/appointmentBookings',
   },
   features: {
     enableNotifications: true,
@@ -26,6 +27,7 @@ export const environment = {
     clinic: 'Development_SC_CLINIC',
     token: 'Development_SC_TOKEN',
     settings: 'Development_SC_SETTINGS',
+    userDetails: 'Development_SC_USER_DETAILS'
   },
   timeout: 30000,
   retryAttempts: 3

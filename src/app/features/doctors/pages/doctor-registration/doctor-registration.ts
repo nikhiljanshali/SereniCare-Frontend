@@ -82,6 +82,10 @@ export class DoctorRegistration {
         { value: '', disabled: false },
         [Validators.required]
       ],
+      dateOfJoin: [
+        { value: '', disabled: false },
+        [Validators.required]
+      ],
       age: [
         { value: '', disabled: false },
         [Validators.required]
@@ -357,6 +361,12 @@ export class DoctorRegistration {
     const day = rand(1, 28).toString().padStart(2, '0');
     const dob = `${year}-${month}-${day}`;
 
+    const dojYear = rand(2005, new Date().getFullYear());
+    const dojMonth = rand(1, 12).toString().padStart(2, '0');
+    const dojDay = rand(1, 28).toString().padStart(2, '0');
+
+    const doj = `${dojYear}-${dojMonth}-${dojDay}`;
+
     const age = new Date().getFullYear() - year;
 
     const generateClinic = (index: number) => {
@@ -383,6 +393,7 @@ export class DoctorRegistration {
       firstName,
       lastName,
       dateOfBirth: dob,
+      dateOfJoin: doj,
       gender,
       age,
       phone: `9${rand(100000000, 999999999)}`,
@@ -403,12 +414,12 @@ export class DoctorRegistration {
 
   public fillDummyData() {
     const data = this.generateDummyDoctor();
-
-    // Patch Step 1 fields
+    // Patch Step 1 fields  
     this.doctorForm.patchValue({
       firstName: data.firstName,
       lastName: data.lastName,
       dateOfBirth: data.dateOfBirth,
+      dateOfJoin: data.dateOfJoin,
       gender: data.gender,
       age: data.age,
       phone: data.phone,
@@ -445,6 +456,7 @@ export class DoctorRegistration {
   }
 
   private buildDoctorPayload(formValue: any) {
+    debugger;
     return {
       userData: {
         firstName: formValue.firstName,
@@ -459,6 +471,7 @@ export class DoctorRegistration {
         lastName: formValue.lastName,
         gender: formValue.gender,
         dateOfBirth: formValue.dateOfBirth,
+        dateOfJoin: formValue.dateOfJoin,
         age: formValue.age,
         address: formValue.address,
         city: formValue.city,
@@ -468,12 +481,10 @@ export class DoctorRegistration {
         aadhaarNumber: formValue.aadhaarNumber,
         licenseNumber: formValue.licenseNumber,
         status: formValue.status || 'active',
-        specializations: formValue.doctorSpecialization
-          ? [{
-            name: formValue.doctorSpecialization.name,
-            code: formValue.doctorSpecialization.code
-          }]
-          : []
+        specializations: formValue.doctorSpecialization ? [{
+          name: formValue.doctorSpecialization.name,
+          code: formValue.doctorSpecialization.code
+        }] : []
       },
 
       clinics: (formValue.clinicDetails || []).map((c: any) => ({
@@ -497,8 +508,6 @@ export class DoctorRegistration {
 
   onSubmit() {
     const payload = this.buildDoctorPayload(this.doctorForm.value);
-    console.log('Submitting Doctor Payload:', payload);
-    // return;
     this._doctorService.createDoctors(payload).pipe(take(1)).subscribe({
       next: (data) => {
         this.doctorForm.reset();

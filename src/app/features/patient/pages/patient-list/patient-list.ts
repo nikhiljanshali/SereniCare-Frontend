@@ -2,10 +2,10 @@ import { Component, viewChild } from '@angular/core';
 import { LocationService } from '../../../../core/services/location-service';
 import { Router } from '@angular/router';
 import { PatientService } from '../../../../core/services/patients';
-import { IPatients, IPatientsData } from '../../../../core/interface/patients.interface';
 import { forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
+import { IPatientsData, IPatients } from '../../../../core/interface/basic.interface';
 
 @Component({
   selector: 'app-patient-list',

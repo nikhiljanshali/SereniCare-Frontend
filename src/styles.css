@@ -579,6 +579,68 @@ body {
   box-shadow      : 0 0 0 3px rgba(13, 148, 136, 0.12);
 }
 
+/* ─── Radio ──────────────────────────────── */
+
+/* hide native radio */
+.radio-input {
+  display: none;
+}
+
+.radio-wrap {
+  display    : flex;
+  align-items: center;
+  gap        : 10px;
+  cursor     : pointer;
+}
+
+/* outer circle */
+.radio-box {
+  width          : 17px;
+  height         : 17px;
+  border-radius  : 50%;
+  border         : 1.5px solid var(--border);
+  background     : var(--bg);
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  flex-shrink    : 0;
+  transition     : all 0.25s ease;
+  position       : relative;
+}
+
+/* inner dot */
+.radio-box::after {
+  content      : '';
+  width        : 8px;
+  height       : 8px;
+  border-radius: 50%;
+  background   : #fff;
+
+  transform: scale(0);
+  opacity  : 0;
+
+  transition:
+    transform 0.2s ease,
+    opacity 0.2s ease;
+}
+
+/* selected state */
+.radio-input:checked+.radio-box {
+  background  : var(--teal);
+  border-color: var(--teal);
+}
+
+/* animate dot */
+.radio-input:checked+.radio-box::after {
+  transform: scale(1);
+  opacity  : 1;
+}
+
+/* hover */
+.radio-wrap:hover .radio-box {
+  border-color: var(--teal);
+}
+
 /* ─── Checkbox ──────────────────────────────── */
 /* hide native checkbox */
 .check-input {
@@ -1214,6 +1276,9 @@ body {
   font-weight: 600;
   margin-top : 14px;
   cursor     : pointer;
+  margin-top : 16px;
+  padding-top: 14px;
+  border-top : 1px solid var(--border);
 }
 
 .view-all:hover {
@@ -1310,24 +1375,47 @@ body {
   border-radius: 50%;
 }
 
-.status-badge.confirmed {
-  background: #dcfce7;
-  color     : #15803d;
-}
-
-.status-badge.confirmed::before {
-  background: #22c55e;
-}
-
+/* Pending */
 .status-badge.pending {
-  background: #fef9c3;
-  color     : #854d0e;
+  background: #fef3c7;
+  color     : #92400e;
 }
 
 .status-badge.pending::before {
   background: #f59e0b;
 }
 
+/* Confirmed */
+.status-badge.confirmed {
+  background: #dcfce7;
+  color     : #166534;
+}
+
+.status-badge.confirmed::before {
+  background: #22c55e;
+}
+
+/* Checked-In */
+.status-badge.checked-in {
+  background: #dbeafe;
+  color     : #1e40af;
+}
+
+.status-badge.checked-in::before {
+  background: #3b82f6;
+}
+
+/* Completed */
+.status-badge.completed {
+  background: #e0e7ff;
+  color     : #4338ca;
+}
+
+.status-badge.completed::before {
+  background: #6366f1;
+}
+
+/* Cancelled */
 .status-badge.cancelled {
   background: #fee2e2;
   color     : #991b1b;
@@ -1337,14 +1425,188 @@ body {
   background: #ef4444;
 }
 
-.status-badge.in-progress {
+/* No-Show */
+.status-badge.no-show {
+  background: #f3f4f6;
+  color     : #4b5563;
+}
+
+.status-badge.no-show::before {
+  background: #6b7280;
+}
+
+/* Default */
+.status-badge.default-status {
+  background: #f9fafb;
+  color     : #6b7280;
+}
+
+.status-badge.default-status::before {
+  background: #9ca3af;
+}
+
+
+/* Appointment Type Badge */
+
+.type-badge {
+  display      : inline-flex;
+  align-items  : center;
+  gap          : 5px;
+  font-size    : 11.5px;
+  font-weight  : 600;
+  padding      : 4px 10px;
+  border-radius: 20px;
+}
+
+.type-badge::before {
+  content      : '';
+  width        : 6px;
+  height       : 6px;
+  border-radius: 50%;
+}
+
+/* In-Person */
+.type-badge.type-inperson {
+  background: #dcfce7;
+  color     : #166534;
+}
+
+.type-badge.type-inperson::before {
+  background: #22c55e;
+}
+
+/* Telemedicine */
+.type-badge.type-telemedicine {
+  background: #ede9fe;
+  color     : #6d28d9;
+}
+
+.type-badge.type-telemedicine::before {
+  background: #8b5cf6;
+}
+
+/* Default */
+.type-badge.type-default {
+  background: #f3f4f6;
+  color     : #4b5563;
+}
+
+.type-badge.type-default::before {
+  background: #9ca3af;
+}
+
+
+/* Consultation Mode Badge */
+
+.mode-badge {
+  display      : inline-flex;
+  align-items  : center;
+  gap          : 5px;
+  font-size    : 11.5px;
+  font-weight  : 600;
+  padding      : 4px 10px;
+  border-radius: 20px;
+}
+
+.mode-badge::before {
+  content      : '';
+  width        : 6px;
+  height       : 6px;
+  border-radius: 50%;
+}
+
+/* New Patient */
+.mode-badge.mode-newpatient {
+  background: #dcfce7;
+  color     : #166534;
+}
+
+.mode-badge.mode-newpatient::before {
+  background: #22c55e;
+}
+
+/* Follow Up */
+.mode-badge.mode-followup {
   background: #dbeafe;
   color     : #1e40af;
 }
 
-.status-badge.in-progress::before {
+.mode-badge.mode-followup::before {
   background: #3b82f6;
 }
+
+/* Emergency */
+.mode-badge.mode-emergency {
+  background: #fee2e2;
+  color     : #991b1b;
+}
+
+.mode-badge.mode-emergency::before {
+  background: #ef4444;
+}
+
+/* Default */
+.mode-badge.mode-default {
+  background: #f3f4f6;
+  color     : #4b5563;
+}
+
+.mode-badge.mode-default::before {
+  background: #9ca3af;
+}
+
+.appt-badge {
+  display        : inline-block;
+  padding        : 4px 10px;
+  border-radius  : 20px;
+  font-size      : 12px;
+  font-weight    : 600;
+  margin-right   : 6px;
+  text-decoration: none;
+  cursor         : pointer;
+}
+
+.appt-badge:hover {
+  text-decoration: none;
+  opacity        : 0.9;
+}
+
+
+.appt-pending {
+  background: #ffc107;
+  color     : #000;
+}
+
+.appt-checkedin {
+  background: #28a745;
+  color     : #fff;
+}
+
+.appt-completed {
+  background: #007bff;
+  color     : #fff;
+}
+
+.appt-cancelled {
+  background: #dc3545;
+  color     : #fff;
+}
+
+.appt-confirmed {
+  background: #17a2b8;
+  color     : #fff;
+}
+
+.appt-noshow {
+  background: #343a40;
+  color     : #fff;
+}
+
+.appt-default {
+  background: #6c757d;
+  color     : #fff;
+}
+
 
 .dept-tag {
   display      : inline-block;
@@ -6050,4 +6312,392 @@ body {
   font-weight: 700;
   color      : var(--text-muted);
   margin-left: 4px;
+}
+
+/* ════════════════════════════════════════════
+   DOCTOR PROFILES LIST PAGE
+════════════════════════════════════════════ */
+.dp-filter-bar {
+  display      : flex;
+  align-items  : center;
+  gap          : 10px;
+  margin-bottom: 18px;
+  flex-wrap    : wrap;
+}
+
+.dp-search {
+  flex     : 1;
+  min-width: 200px;
+  position : relative;
+}
+
+.dp-search i {
+  position : absolute;
+  left     : 11px;
+  top      : 50%;
+  transform: translateY(-50%);
+  color    : var(--text-muted);
+  font-size: 14px;
+}
+
+.dp-search input {
+  width        : 100%;
+  background   : var(--bg-card);
+  border       : 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding      : 8px 12px 8px 34px;
+  font-family  : inherit;
+  font-size    : 13px;
+  color        : var(--text-body);
+  outline      : none;
+  transition   : border-color var(--transition);
+}
+
+.dp-search input:focus {
+  border-color: var(--teal);
+}
+
+.dp-spec-filter {
+  display  : flex;
+  gap      : 5px;
+  flex-wrap: wrap;
+}
+
+.dp-spec-pill {
+  border       : 1.5px solid var(--border);
+  background   : var(--bg-card);
+  border-radius: 20px;
+  padding      : 5px 13px;
+  font-size    : 12px;
+  font-weight  : 600;
+  cursor       : pointer;
+  color        : var(--text-muted);
+  font-family  : inherit;
+  transition   : all var(--transition);
+}
+
+.dp-spec-pill:hover {
+  border-color: var(--teal);
+  color       : var(--teal);
+}
+
+.dp-spec-pill.active {
+  border-color: var(--teal);
+  background  : var(--teal);
+  color       : #fff;
+}
+
+.dp-sort {
+  background   : var(--bg-card);
+  border       : 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding      : 7px 12px;
+  font-family  : inherit;
+  font-size    : 12.5px;
+  color        : var(--text-body);
+  outline      : none;
+  cursor       : pointer;
+}
+
+/* Doctor grid cards */
+.dp-grid {
+  display              : grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap                  : 16px;
+}
+
+.dp-card {
+  background   : var(--bg-card);
+  border       : 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow     : hidden;
+  transition   : box-shadow var(--transition), transform var(--transition);
+  cursor       : pointer;
+}
+
+.dp-card:hover {
+  box-shadow: var(--shadow-md);
+  transform : translateY(-2px);
+}
+
+.dp-card-banner {
+  height  : 64px;
+  position: relative;
+}
+
+.dp-card-banner-1 {
+  background: linear-gradient(135deg, #134E4A, #0D9488, #2DD4BF);
+}
+
+.dp-card-banner-2 {
+  background: linear-gradient(135deg, #1E1B4B, #4338CA, #818CF8);
+}
+
+.dp-card-banner-3 {
+  background: linear-gradient(135deg, #7C2D12, #EA580C, #FCD34D);
+}
+
+.dp-card-banner-4 {
+  background: linear-gradient(135deg, #14532D, #16A34A, #86EFAC);
+}
+
+.dp-card-banner-5 {
+  background: linear-gradient(135deg, #1E3A5F, #1976D2, #38BDF8);
+}
+
+.dp-card-banner-6 {
+  background: linear-gradient(135deg, #4A044E, #A21CAF, #E879F9);
+}
+
+.dp-card-avail-dot {
+  position     : absolute;
+  top          : 10px;
+  right        : 12px;
+  display      : flex;
+  align-items  : center;
+  gap          : 5px;
+  background   : rgba(0, 0, 0, .25);
+  border-radius: 10px;
+  padding      : 3px 9px;
+  font-size    : 10px;
+  font-weight  : 700;
+  color        : #fff;
+}
+
+.dp-card-avail-dot::before {
+  content      : '';
+  width        : 6px;
+  height       : 6px;
+  border-radius: 50%;
+}
+
+.dp-card-avail-dot.on::before {
+  background: #4ADE80;
+}
+
+.dp-card-avail-dot.off::before {
+  background: #F87171;
+}
+
+.dp-card-body {
+  padding : 0 16px 16px;
+  position: relative;
+}
+
+.dp-card-avatar {
+  width          : 60px;
+  height         : 60px;
+  border-radius  : 50%;
+  border         : 3px solid #fff;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 20px;
+  font-weight    : 800;
+  color          : #fff;
+  margin-top     : -30px;
+  margin-bottom  : 10px;
+  box-shadow     : 0 4px 12px rgba(0, 0, 0, .15);
+}
+
+.dp-card-name {
+  font-size     : 14px;
+  font-weight   : 800;
+  color         : var(--text-head);
+  letter-spacing: -.2px;
+}
+
+.dp-card-spec {
+  font-size  : 12px;
+  font-weight: 600;
+  color      : var(--teal);
+  margin-top : 1px;
+}
+
+.dp-card-dept {
+  font-size : 11.5px;
+  color     : var(--text-muted);
+  margin-top: 2px;
+}
+
+.dp-card-stats {
+  display      : flex;
+  gap          : 0;
+  margin-top   : 12px;
+  border       : 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow     : hidden;
+}
+
+.dp-card-stat {
+  flex        : 1;
+  text-align  : center;
+  padding     : 8px 4px;
+  border-right: 1px solid var(--border);
+}
+
+.dp-card-stat:last-child {
+  border-right: none;
+}
+
+.dp-card-stat-val {
+  font-size  : 14px;
+  font-weight: 800;
+  color      : var(--text-head);
+}
+
+.dp-card-stat-lbl {
+  font-size : 10px;
+  color     : var(--text-muted);
+  margin-top: 1px;
+}
+
+.dp-card-tags {
+  display   : flex;
+  gap       : 5px;
+  margin-top: 10px;
+  flex-wrap : wrap;
+}
+
+.dp-tag {
+  font-size    : 10.5px;
+  font-weight  : 600;
+  padding      : 3px 8px;
+  border-radius: 5px;
+}
+
+.dp-card-footer {
+  display    : flex;
+  gap        : 6px;
+  margin-top : 12px;
+  padding-top: 12px;
+  border-top : 1px solid var(--border);
+}
+
+.dp-card-footer .btn {
+  flex           : 1;
+  justify-content: center;
+  font-size      : 11.5px;
+  padding        : 6px 8px;
+}
+
+/* Rating stars */
+.dp-stars {
+  display    : flex;
+  gap        : 2px;
+  align-items: center;
+  margin-top : 4px;
+}
+
+.dp-star {
+  color    : #F59E0B;
+  font-size: 11px;
+}
+
+.dp-star.half {
+  color: #FDE68A;
+}
+
+.dp-star.empty {
+  color: #E2E8F0;
+}
+
+.dp-rating-num {
+  font-size  : 11px;
+  font-weight: 700;
+  color      : var(--text-muted);
+  margin-left: 4px;
+}
+
+
+.header-actions {
+  display    : flex;
+  align-items: center;
+  gap        : 8px;
+}
+
+.header-dropdown {
+  position: relative;
+}
+
+.btn-more-actions {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+}
+
+.header-dropdown-menu {
+  position     : absolute;
+  top          : calc(100% + 8px);
+  right        : 0;
+  width        : 220px;
+  background   : #fff;
+  border       : 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow   : 0 10px 30px rgba(15, 23, 42, 0.12);
+  padding      : 8px;
+  z-index      : 100;
+  animation    : dropdownFade .18s ease;
+}
+
+.header-dropdown-item {
+  width        : 100%;
+  border       : none;
+  background   : transparent;
+  padding      : 10px 12px;
+  border-radius: 10px;
+  display      : flex;
+  align-items  : center;
+  gap          : 10px;
+  font-size    : 13px;
+  color        : var(--text-body);
+  transition   : all .18s ease;
+  cursor       : pointer;
+}
+
+.header-dropdown-item:hover {
+  background: var(--bg-soft);
+  color     : var(--primary);
+}
+
+.header-dropdown-item i {
+  font-size: 14px;
+}
+
+.header-dropdown-divider {
+  height    : 1px;
+  background: var(--border);
+  margin    : 6px 0;
+}
+
+.header-dropdown-item.default:hover {
+  background: var(--teal-light);
+  color     : var(--teal);
+}
+
+.header-dropdown-item.danger:hover {
+  background: #FEF2F2;
+  color     : #B91C1C;
+}
+
+
+.header-dropdown-item.danger {
+  color: #DC2626;
+}
+
+.header-dropdown-item.danger:hover {
+  background: #FEF2F2;
+  color     : #B91C1C;
+}
+
+@keyframes dropdownFade {
+  from {
+    opacity  : 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity  : 1;
+    transform: translateY(0);
+  }
 }

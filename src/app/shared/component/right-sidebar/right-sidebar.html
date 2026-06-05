@@ -13,6 +13,20 @@
     <app-patient-medical-history-details
       [patientDetails]="sidebarService.details()"></app-patient-medical-history-details>
     }
+    @else if(sidebarService.content() == 'doctor'){
+    <app-edit-doctor-details [doctorDetails]="sidebarService.details()"
+      (saveSuccess)="onsaveSuccess($event)"></app-edit-doctor-details>
+    <!-- <div style="padding:20px;">
+      <h4>Doctor Details</h4>
+      <p><strong>Name:</strong> {{sidebarService.details()?.firstName}} {{sidebarService.details()?.lastName}}</p>
+      <p><strong>Specialization:</strong> {{sidebarService.details()?.specializations[0]?.name}}</p>
+      <p><strong>Contact:</strong> {{sidebarService.details()?.contactNumber}}</p>
+      <p><strong>Email:</strong> {{sidebarService.details()?.email}}</p>
+    </div> -->
+    }@else if(sidebarService.content() == 'edit-appointment'){
+    <app-edit-appointment-booking [appointmentDetails]="sidebarService.details()"
+      (saveSuccess)="onsaveSuccess($event)"></app-edit-appointment-booking>
+    }
   </div>
   <div class="rs-footer">
     <button class="btn btn-sm btn-outline-default" (click)="sidebarService.close()">Dismiss</button>

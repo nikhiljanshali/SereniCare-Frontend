@@ -1,146 +1,144 @@
-<div class="appt-row">
-  <div class="appt-card">
-    <div id="page-wizard" class="page-section">
-      <div class="page-header">
-        <div class="page-header-left">
-          <div class="ph-title">Doctor List</div>
-          <div class="ph-sub">List of Registered Doctors List</div>
-        </div>
-        <div class="page-header-right d-flex gap-2">
-          <button class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-funnel"></i>Filter
-          </button>
-          <button class="btn btn-primary btn-sm" (click)="createPatient()"><i class="bi bi-plus-lg"></i> Create
-            Doctor</button>
-        </div>
-      </div>
+<div id="page-patient-list" class="page-section">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="ph-title">Patient List</div>
+      <div class="ph-sub">List of Registered Patients</div>
     </div>
-    <div class="appt-row">
-      <div class="appt-card">
-        <table class="appt-table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Code</th>
-              <th>Patient</th>
-              <th>Aadhar Number</th>
-              <th>Date of Birth</th>
-              <th>Age</th>
-              <th>Address</th>
-              <th>Contact</th>
-              <th>Status</th>
-              <th>Created On</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            @if(patientsList.length > 0) {
-            @for (patient of patientsList; track patient._id) {
-            <tr>
-              <td>
-                <button class="action-btn" (click)="toggleRow(patient._id);$event.stopPropagation()"
-                  style="cursor:pointer;"><i class="bi bi-arrow-90deg-down"></i></button>
-              </td>
-              <td>
-                <div class="patient-id">#{{patient.patientCode}}</div>
-              </td>
-              <td>
-                <div class="patient-cell">
-                  <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">DR</div>
-                  <div>
-                    <div class="patient-name">{{patient.firstName}}. {{patient.middleName}}. {{patient.lastName}}</div>
-                    <div class="patient-id">#{{patient.patientCode}}</div>
-                  </div>
+    <div class="page-header-right d-flex gap-2">
+      <button class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-funnel"></i>Filter
+      </button>
+      <button class="btn btn-primary btn-sm" (click)="createPatient()">
+        <i class="bi bi-plus-lg"></i> Create Patient
+      </button>
+    </div>
+  </div>
+  <div class="appt-row">
+    <div class="appt-card">
+      <table class="appt-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Code</th>
+            <th>Patient</th>
+            <th>Aadhar Number</th>
+            <th>Date of Birth</th>
+            <th>Age</th>
+            <th>Address</th>
+            <th>Contact</th>
+            <th>Status</th>
+            <th>Created On</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if(patientsList.length > 0) {
+          @for (patient of patientsList; track patient._id) {
+          <tr>
+            <td>
+              <button class="action-btn" (click)="toggleRow(patient._id);$event.stopPropagation()"
+                style="cursor:pointer;"><i class="bi bi-arrow-90deg-down"></i></button>
+            </td>
+            <td>
+              <div class="patient-id">#{{patient.patientCode}}</div>
+            </td>
+            <td>
+              <div class="patient-cell">
+                <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">DR</div>
+                <div>
+                  <div class="patient-name">{{patient.firstName}}. {{patient.middleName}}. {{patient.lastName}}</div>
+                  <div class="patient-id">#{{patient.patientCode}}</div>
                 </div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.aadhaarNumber}}</div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.dateOfBirth | date : 'dd-MM-yyyy'}}</div>
-                <!-- <div style="font-size:11px;color:var(--text-muted);">Cardiologist</div> -->
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.age }}</div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.city}}</div>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.state}}</div>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.country}}</div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">
-                  <i class="bi bi-envelope-at-fill"></i>
-                  <span class="px-2">{{patient.email}}</span>
-                </div>
-                <div style="font-size:11px;color:var(--text-muted);">
-                  <i class="bi bi-telephone-fill"></i>
-                  <span class="px-2">{{patient.phone}}</span>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{patient.createdAt | date : 'dd-MM-yyyy'}}</div>
-              </td>
-              <!-- <td style="font-weight:600;color:var(--text-head);">09:00 AM</td> -->
-              <td><span class="status-badge confirmed">{{patient.status}}</span></td>
-              <td>
-                <button class="action-btn" (click)="openMedicalHistory(patient)">
-                  <i class="bi bi-info-circle-fill"></i>
-                </button>
-                <button class="action-btn" (click)="editPatient(patient)">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
-              </td>
-            </tr>
-            <!-- 🔹 SUB ROW -->
-            @if (expandedPatientId === patient._id) {
-            <tr class="sub-row">
-              <td colspan="12">
-                <div class="sub-content">
-                  <div class="sub-title">Insurance Details</div>
-                  <div class="clinic-grid">
-                    @for (clinic of patient.insuranceDetails; track clinic._id) {
-                    <div class="clinic-card"
-                      style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
-                      <div
-                        style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
-                        {{clinic._id}}</div>
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Insurance Name</span>
-                        <span class="wz-review-val">{{clinic.coverageDetails}}</span>
-                      </div>
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Coverage Amount</span>
-                        <span class="wz-review-val">{{clinic.coverageAmount}}</span>
-                      </div>
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Policy Holder</span>
-                        <span class="wz-review-val">{{clinic.policyHolderName}}</span>
-                      </div>
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Policy Number</span>
-                        <span class="wz-review-val">{{clinic.policyNumber}}</span>
-                      </div>
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Provider Name</span>
-                        <span class="wz-review-val">{{clinic.providerName}}</span>
-                      </div>
-                      <div class="wz-review-row" style="border:none;">
-                        <span class="wz-review-label">Active</span>
-                        <span class="wz-review-val">📞 {{clinic.status}}</span>
-                      </div>
-                      <div class="wz-review-row" style="border:none;">
-                        <span class="wz-review-label">Valid From </span>
-                        <span class="wz-review-val">📧 {{clinic.validFrom | date : 'dd-MM-yyyy'}}</span>
-                      </div>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.aadhaarNumber}}</div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.dateOfBirth | date : 'dd/MM/yyyy'}}</div>
+              <!-- <div style="font-size:11px;color:var(--text-muted);">Cardiologist</div> -->
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.age }}</div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.city}}</div>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.state}}</div>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.country}}</div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">
+                <i class="bi bi-envelope-at-fill"></i>
+                <span class="px-2">{{patient.email}}</span>
+              </div>
+              <div style="font-size:11px;color:var(--text-muted);">
+                <i class="bi bi-telephone-fill"></i>
+                <span class="px-2">{{patient.phone}}</span>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{patient.createdAt | date : 'dd/MM/yyyy'}}</div>
+            </td>
+            <!-- <td style="font-weight:600;color:var(--text-head);">09:00 AM</td> -->
+            <td><span class="status-badge confirmed">{{patient.status}}</span></td>
+            <td>
+              <button class="action-btn" (click)="openMedicalHistory(patient)">
+                <i class="bi bi-info-circle-fill"></i>
+              </button>
+              <button class="action-btn" (click)="editPatient(patient)">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+            </td>
+          </tr>
+          <!-- 🔹 SUB ROW -->
+          @if (expandedPatientId === patient._id) {
+          <tr class="sub-row">
+            <td colspan="12">
+              <div class="sub-content">
+                <div class="sub-title">Insurance Details</div>
+                <div class="clinic-grid">
+                  @for (clinic of patient.insuranceDetails; track clinic._id) {
+                  <div class="clinic-card"
+                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                    <div
+                      style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                      {{clinic._id}}</div>
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Insurance Name</span>
+                      <span class="wz-review-val">{{clinic.coverageDetails}}</span>
                     </div>
-                    }
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Coverage Amount</span>
+                      <span class="wz-review-val">{{clinic.coverageAmount}}</span>
+                    </div>
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Policy Holder</span>
+                      <span class="wz-review-val">{{clinic.policyHolderName}}</span>
+                    </div>
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Policy Number</span>
+                      <span class="wz-review-val">{{clinic.policyNumber}}</span>
+                    </div>
+                    <div class="wz-review-row">
+                      <span class="wz-review-label">Provider Name</span>
+                      <span class="wz-review-val">{{clinic.providerName}}</span>
+                    </div>
+                    <div class="wz-review-row" style="border:none;">
+                      <span class="wz-review-label">Active</span>
+                      <span class="wz-review-val">📞 {{clinic.status}}</span>
+                    </div>
+                    <div class="wz-review-row" style="border:none;">
+                      <span class="wz-review-label">Valid From </span>
+                      <span class="wz-review-val">📧 {{clinic.validFrom | date : 'dd/MM/yyyy'}}</span>
+                    </div>
                   </div>
+                  }
                 </div>
-              </td>
-            </tr>
-            <!-- <tr class="sub-row">
+              </div>
+            </td>
+          </tr>
+          <!-- <tr class="sub-row">
               <td colspan="12">
                 <div class="sub-content">
                   <div class="sub-title">Medical History</div>
@@ -244,18 +242,17 @@
                 </div>
               </td>
             </tr> -->
-            }
-            }
-            } @else {
-            <tr style="border:none;">
-              <td colspan="10" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
-                No doctors available
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+          }
+          }
+          } @else {
+          <tr style="border:none;">
+            <td colspan="11" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
+              No doctors available
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
   <app-right-sidebar #medicalSidebar></app-right-sidebar>

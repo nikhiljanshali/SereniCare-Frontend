@@ -30,7 +30,7 @@ export class Authentication {
       tap((data) => {
         this._notificationServices.success(
           'success',
-          `${data.role === 'Patient' ? 'Pt.' : 'Dr.'} ${data.firstName} ${data.lastName} created successfully`
+          `Welcom, Mr. ${data.firstName} ${data.lastName}, Your account created successfully`
         );
       })
     );
@@ -40,26 +40,26 @@ export class Authentication {
   // 🔹 SIGNIN
   // =======================
   public signin(value: object, showNotification: boolean = false): Observable<SigninResponse> {
-    return this._coreApiService
-      .post<SigninResponse>(this.baseUrl + 'signin', value, true)
-      .pipe(
-        map(res => res.data),
-        tap((data) => {
-          this._storageOperation.set('user', data.user, 'local');
-          this._storageOperation.set('token', data.token, 'session');
-          if (data.clinic) {
-            this._storageOperation.set('clinic', data.clinic, 'local');
-          }
-          // Replace 'clinic' with 'settings' or any other allowed value
-          // 🔔 Notify
-          if (showNotification) {
-            this._notificationServices.success(
-              'success',
-              `Welcome ${data.user.role === 'Patient' ? 'Pt.' : 'Dr.'} ${data.user.firstName} ${data.user.lastName}.`
-            );
-          }
-        })
-      );
+    return this._coreApiService.post<SigninResponse>(this.baseUrl + 'signin', value, true).pipe(map(res => res.data),
+      tap((data) => {
+        this._storageOperation.set('user', data.user, 'local');
+        this._storageOperation.set('token', data.token, 'session');
+        if (data.userDetails) {
+          this._storageOperation.set('userDetails', data.userDetails, 'local');
+        }
+        if (data.clinic) {
+          this._storageOperation.set('clinic', data.clinic, 'local');
+        }
+        // Replace 'clinic' with 'settings' or any other allowed value
+        // 🔔 Notify
+        if (showNotification) {
+          this._notificationServices.success(
+            'success',
+            `Welcome ${data.user.role === 'Patient' ? 'Pt.' : 'Dr.'} ${data.user.firstName} ${data.user.lastName}.`
+          );
+        }
+      })
+    );
   }
 
   // =======================

@@ -1,6 +1,5 @@
 import { Component, Input, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IPatientsData } from '../../../core/interface/patients.interface';
 
 @Component({
   selector: 'app-patient-medical-history-details',

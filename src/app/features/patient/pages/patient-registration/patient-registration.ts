@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { BloodGroupService } from '../../../../core/services/blood-group';
-import { IBloodGroupData, IPrimaryConditionData } from '../../../../core/interface/basic.interface';
+import { IBloodGroupData, IDoctors, ILimitedDocotorsData, IPrimaryConditionData } from '../../../../core/interface/basic.interface';
 import { PrimaryConditionService } from '../../../../core/services/primary-condition';
 import { DoctorService } from '../../../../core/services/doctor';
 import { PatientService } from '../../../../core/services/patients';
-import { IDoctors, ILimitedDocotorsData } from '../../../../core/interface/doctors.interface';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { LocationService } from '../../../../core/services/location-service';
 import { take } from 'rxjs';
@@ -66,13 +65,11 @@ export class PatientRegistration {
 
   private getBloodGroup(): void {
     this._bloodGroupService.getAllBloodGroup().subscribe((res: any) => {
-      // console.log(res);
       this.bloodGroups = res.data;
     });
   }
   private getPrimaryCondition(): void {
     this._primaryConditonService.getAllPrimaryCondition().subscribe((res: any) => {
-      // console.log(res);
       this.primaryConditions = res.data;
     });
   }

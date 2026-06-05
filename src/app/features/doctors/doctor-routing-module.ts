@@ -6,9 +6,9 @@ import { roleGuard } from '../../core/guards/role-guard-guard';
 import { DoctorRegistration } from './pages/doctor-registration/doctor-registration';
 import { DoctorList } from './pages/doctor-list/doctor-list';
 import { ClinicList } from './pages/clinic-list/clinic-list';
-import { BookAppointments } from './pages/book-appointments/book-appointments';
-import { DoctorClinics } from './pages/doctor-clinics/doctor-clinics';
 import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
+import { AdminDoctorView } from './pages/admin-doctor-view/admin-doctor-view';
+import { DoctorAppointment } from './pages/doctor-appointment/doctor-appointment';
 
 const routes: Routes = [
   {
@@ -31,14 +31,13 @@ const routes: Routes = [
         path: 'master/clinics',
         component: ClinicList,
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin] }
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },
-
       {
-        path: 'master/calendar',
-        component: ClinicList,
+        path: 'master/doctor-list',
+        component: AdminDoctorView,
         canActivate: [roleGuard],
-        data: { roles: [Roles.Doctor] }
+        data: { roles: [Roles.SystemAdmin] }
       },
       {
         path: 'master/appointements',
@@ -47,21 +46,14 @@ const routes: Routes = [
         data: { roles: [Roles.Doctor] }
       },
       {
-        path: 'master/bookappointment',
-        component: BookAppointments,
-        canActivate: [roleGuard],
-        data: { roles: [Roles.Doctor] }
-      },
-
-      {
-        path: 'master/doctor-profile',
+        path: 'master/doctor-profile/:id',
         component: DoctorProfile,
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin,Roles.Doctor] }
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },
       {
-        path: 'master/doctor-clinics',
-        component: DoctorClinics,
+        path: 'master/doctor-appointments',
+        component: DoctorAppointment,
         canActivate: [roleGuard],
         data: { roles: [Roles.Doctor] }
       },

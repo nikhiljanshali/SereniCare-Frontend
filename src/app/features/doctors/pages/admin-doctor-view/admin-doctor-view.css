@@ -1,0 +1,145 @@
+/* =========================
+   COMMON FLEX UTILITIES
+========================= */
+.dp-flex-gap-8 {
+  display: flex;
+  gap    : 8px;
+}
+
+.dp-mb-20 {
+  margin-bottom: 20px;
+}
+
+.dp-mt-6 {
+  margin-top: 6px;
+}
+
+.dp-icon-xs {
+  font-size: 11px;
+}
+
+/* =========================
+   MINI STAT ICON COLORS
+========================= */
+.dp-stat-icon-teal {
+  background: #CCFBF1;
+  color     : var(--teal);
+}
+
+.dp-stat-icon-blue {
+  background: #DBEAFE;
+  color     : #1D4ED8;
+}
+
+.dp-stat-icon-amber {
+  background: #FEF9C3;
+  color     : #B45309;
+}
+
+.dp-stat-icon-violet {
+  background: var(--violet-light);
+  color     : var(--violet);
+}
+
+/* =========================
+   MINI STAT TEXT
+========================= */
+.dp-mini-change {
+  font-size : 11px;
+  margin-top: 2px;
+}
+
+.dp-mini-change-success {
+  color: var(--emerald);
+}
+
+.dp-mini-change-muted {
+  color: var(--text-muted);
+}
+
+/* =========================
+   AVATAR BACKGROUNDS
+========================= */
+.dp-avatar-teal {
+  background: linear-gradient(135deg, #0D9488, #2DD4BF);
+}
+
+.dp-avatar-violet {
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+}
+
+.dp-avatar-orange {
+  background: linear-gradient(135deg, #EA580C, #F97316);
+}
+
+.dp-avatar-green {
+  background: linear-gradient(135deg, #16A34A, #4ADE80);
+}
+
+.dp-avatar-blue {
+  background: linear-gradient(135deg, #1976D2, #38BDF8);
+}
+
+.dp-avatar-pink {
+  background: linear-gradient(135deg, #A21CAF, #E879F9);
+}
+
+/* =========================
+   TAG COLORS
+========================= */
+.dp-tag-teal {
+  background: #CCFBF1;
+  color     : #065F46;
+}
+
+.dp-tag-blue {
+  background: #DBEAFE;
+  color     : #1E40AF;
+}
+
+.dp-tag-violet {
+  background: var(--violet-light);
+  color     : #5B21B6;
+}
+
+.dp-tag-indigo {
+  background: var(--indigo-light);
+  color     : #3730A3;
+}
+
+.dp-tag-red {
+  background: #FEE2E2;
+  color     : #991B1B;
+}
+
+.dp-tag-amber {
+  background: var(--amber-light);
+  color     : #92400E;
+}
+
+.dp-tag-green {
+  background: #DCFCE7;
+  color     : #14532D;
+}
+
+.dp-tag-orange {
+  background: #FED7AA;
+  color     : #C2410C;
+}
+
+.dp-tag-sky {
+  background: var(--sky-light);
+  color     : #075985;
+}
+
+.dp-tag-teal-alt {
+  background: var(--teal-light);
+  color     : var(--teal-dark);
+}
+
+/* =========================
+   STAR COLORS
+========================= */
+.dp-star-half-gold {
+  color: #FDE68A;
+}

@@ -23,9 +23,9 @@
     </div>
   </div>
 
+  @if(menuItems.length>0){
   <div class="nav-group">
-    <div class="nav-label">Clinical</div>
-
+    <div class="nav-label">System Admin</div>
     @for (item of menuItems; track item.id) {
     <!-- Parent -->
     <div class="nav-item" (click)="item.children && toggleNav(item.id)" [class.open]="openMenus[item.id]">
@@ -54,10 +54,11 @@
     }
     }
   </div>
-  <!-- Inventory — expandable -->
-  <div class="nav-group">
-    <div class="nav-label">Operations</div>
+  }
 
+  @if(operationsMenu.length>0){
+  <div class="nav-group">
+    <div class="nav-label">Operations Menu</div>
     @for (item of operationsMenu; track item.id) {
     <!-- Parent -->
     <div class="nav-item" (click)="item.children && toggleNav(item.id)" [class.open]="openMenus[item.id]">
@@ -85,7 +86,9 @@
     </div>
     }
     }
-    <!-- <div class="nav-item" onclick="toggleNav(this,'sub-inventory')">
+  </div>
+  }
+  <!-- <div class="nav-item" onclick="toggleNav(this,'sub-inventory')">
       <i class="bi bi-box-seam nav-icon"></i><span>Inventory</span>
       <i class="bi bi-chevron-right nav-chevron"></i>
     </div>
@@ -105,9 +108,7 @@
       <div class="nav-item"><i class="bi bi-radioactive"></i><span>Radiology</span></div>
       <div class="nav-item"><i class="bi bi-eyedropper"></i><span>Pathology</span></div>
     </div> -->
-  </div>
-
-  <div class="nav-group">
+  <!-- <div class="nav-group">
     <div class="nav-label">UI Elements</div>
     <div class="nav-item" onclick="showPage('buttons',this)">
       <i class="bi bi-toggle-on nav-icon"></i><span>Buttons</span>
@@ -130,7 +131,7 @@
     <div class="nav-item" onclick="showPage('pagination',this)">
       <i class="bi bi-123 nav-icon"></i><span>Pagination</span>
     </div>
-  </div>
+  </div> -->
   <!-- <div class="nav-group">
     <div class="nav-label">Pages</div>
     <div class="nav-item" onclick="toggleNav(this,'sub-auth')">

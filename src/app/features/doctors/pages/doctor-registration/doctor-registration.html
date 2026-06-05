@@ -1,71 +1,65 @@
-<div class="appt-row">
-  <div class="appt-card">
-    <div id="page-wizard" class="page-section">
-      <div class="page-header">
-        <div class="page-header-left">
-          <div class="ph-title">Doctor Registration</div>
-          <div class="ph-sub">Multi-step doctor registration form</div>
-        </div>
-        <div class="page-header-right">
-          <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;" (click)="fillDummyData();">
-            <i class="bi bi-twitter-x"></i>
-            <span>
-              Generate Dummy Doctor
-            </span>
-          </button>
+<div id="page-doctor-list" class="page-section">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="ph-title">Doctor Registration</div>
+      <div class="ph-sub">Multi-step doctor registration form</div>
+    </div>
+    <div class="page-header-right d-flex gap-2">
+      <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;" (click)="fillDummyData();">
+        <i class="bi bi-twitter-x"></i>
+        <span> Generate Dummy Doctor </span>
+      </button>
+    </div>
+  </div>
+  <div class="wizard-wrap">
+
+    <!-- Steps -->
+    <div class="wizard-steps">
+      <div class="wizard-step" [ngClass]="{active: currentStep >= 1}">
+        <div class="wizard-step-num">1</div>
+        <div>
+          <div class="wizard-step-label">Personal Info</div>
+          <div class="step-desc">Basic details</div>
         </div>
       </div>
-      <div>
 
-        <div class="wizard-wrap">
+      <div class="wizard-step" [ngClass]="{active: currentStep >= 2}">
+        <div class="wizard-step-num">2</div>
+        <div>
+          <div class="wizard-step-label">Clinic Details</div>
+          <div class="step-desc">Clinic info</div>
+        </div>
+      </div>
 
-          <!-- Steps -->
-          <div class="wizard-steps">
-            <div class="wizard-step" [ngClass]="{active: currentStep >= 1}">
-              <div class="wizard-step-num">1</div>
-              <div>
-                <div class="wizard-step-label">Personal Info</div>
-                <div class="step-desc">Basic details</div>
-              </div>
-            </div>
+      <div class="wizard-step" [ngClass]="{active: currentStep === 3}">
+        <div class="wizard-step-num">3</div>
+        <div>
+          <div class="wizard-step-label">Review</div>
+          <div class="step-desc">Confirm & submit</div>
+        </div>
+      </div>
+    </div>
 
-            <div class="wizard-step" [ngClass]="{active: currentStep >= 2}">
-              <div class="wizard-step-num">2</div>
-              <div>
-                <div class="wizard-step-label">Clinic Details</div>
-                <div class="step-desc">Clinic info</div>
-              </div>
-            </div>
-
-            <div class="wizard-step" [ngClass]="{active: currentStep === 3}">
-              <div class="wizard-step-num">3</div>
-              <div>
-                <div class="wizard-step-label">Review</div>
-                <div class="step-desc">Confirm & submit</div>
-              </div>
-            </div>
-          </div>
-
-          <form [formGroup]="doctorForm" class="wizard-form">
-            <!-- BODY -->
-            <div class="wizard-body">
-              <!-- STEP 1 -->
-              @if (currentStep === 1) {
-              <div class="wizard-panel">
-                <!-- <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Personal
+    <form [formGroup]="doctorForm" class="wizard-form">
+      <!-- BODY -->
+      <div class="wizard-body">
+        <!-- STEP 1 -->
+        @if (currentStep === 1) {
+        <div class="wizard-panel">
+          <!-- <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Personal
                   Information
                 </div>
                 <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's basic
                   personal and contact details</div> -->
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Personal
-                      Information
-                    </div>
-                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's basic
-                      personal and contact details</div>
-                  </div>
-                  <!-- <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Personal
+                Information
+              </div>
+              <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Enter the patient's basic
+                personal and contact details</div>
+            </div>
+            <!-- <div style="display:flex;flex-wrap:wrap;gap:8px;">
                     <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;"
                       (click)="fillDummyData();">
                       <i class="bi bi-twitter-x"></i>
@@ -74,65 +68,220 @@
                       </span>
                     </button>
                   </div> -->
+          </div>
+
+          <div class="wz-form-row">
+            <div class="wz-form-group">
+              <label class="wz-label">First Name
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="text" placeholder="First Name" formControlName="firstName">
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Last Name
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="text" placeholder="Last Name" formControlName="lastName">
+            </div>
+          </div>
+
+          <div class="wz-form-row">
+            <div class="wz-form-group">
+              <label class="wz-label">Date Of Birth
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="date" formControlName="dateOfBirth" (change)="onDobChange($event)">
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Date Of Join
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="date" formControlName="dateOfJoin">
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Gender
+                <span class="wz-req">*</span>
+              </label>
+              <select class="wz-select" formControlName="gender">
+                <option value="">Select gender</option>
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Age
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="number" placeholder="Age" formControlName="age">
+            </div>
+          </div>
+
+          <div class="wz-form-row">
+            <div class="wz-form-group">
+              <label class="wz-label">Phone / Mobile
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="tel" placeholder="Phone" formControlName="phone">
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Email Address
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="email" placeholder="Email" formControlName="email">
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Specialization <span class="wz-req">*</span></label>
+              <select class="form-select" formControlName="doctorSpecialization" (change)="onSpecializationChange()">
+                <option [ngValue]="null">Select speciality</option>
+                <option *ngFor="let spec of primarySpecialities" [ngValue]="spec">
+                  {{ spec.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="wz-form-group">
+            <div class="wz-form-group">
+              <label class="wz-label">Address
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="text" placeholder="Address" formControlName="address">
+            </div>
+          </div>
+          <div class="wz-form-row">
+            <div class="wz-form-group">
+              <label class="wz-label">Country
+                <span class="wz-req">*</span>
+              </label>
+              <!-- <input class="wz-input" type="text" placeholder="Country" formControlName="country"> -->
+              <select class="wz-select" id="country" formControlName="country">
+                <option [ngValue]="null">— Select country —</option>
+                <option *ngFor="let c of countries$ | async" [ngValue]="c.id">{{ c.name }}</option>
+              </select>
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">State
+                <span class="wz-req">*</span>
+              </label>
+              <!-- <input class="wz-input" type="text" placeholder="State" formControlName="state"> -->
+              <select class="wz-select" id="state" formControlName="state"
+                [attr.disabled]="(states$ | async)?.length ? null : true">
+                <option [ngValue]="null">— Select state —</option>
+                <option *ngFor="let s of states$ | async" [ngValue]="s.id">{{ s.name }}</option>
+              </select>
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">City
+                <span class="wz-req">*</span>
+              </label>
+              <!-- <input class="wz-input" type="text" placeholder="City" formControlName="city"> -->
+              <select class="wz-select" id="city" formControlName="city"
+                [attr.disabled]="(cities$ | async)?.length ? null : true">
+                <option [ngValue]="null">— Select city —</option>
+                <option *ngFor="let c of cities$ | async" [ngValue]="c.id">{{ c.name }}</option>
+              </select>
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">Pincode
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="text" placeholder="Pincode" formControlName="pincode">
+            </div>
+          </div>
+          <div class="wz-form-row">
+            <div class="wz-form-group">
+              <label class="wz-label">Aadhar Number
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="text" placeholder="Aadhaar Number" formControlName="aadhaarNumber">
+            </div>
+            <div class="wz-form-group">
+              <label class="wz-label">License Number
+                <span class="wz-req">*</span>
+              </label>
+              <input class="wz-input" type="text" placeholder="License Number" formControlName="licenseNumber">
+            </div>
+          </div>
+
+        </div>
+        }
+
+        <!-- STEP 2 -->
+        @if (currentStep === 2) {
+        <div class="wizard-panel">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Clinic Details
+              </div>
+              <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Register a clinic</div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+              <button class="btn btn-primary btn-label" (click)="addClinic();">
+                <span class="btn-label-icon">
+                  <i class="bi bi-plus-lg"></i>
+                </span>Add
+              </button>
+              <!-- <button class="btn btn-danger btn-label" (click)="removeClinic()">
+                      <span class="btn-label-icon">
+                        <i class="bi bi-x-lg"></i>
+                      </span>Remove
+                    </button> -->
+            </div>
+          </div>
+
+          <div formArrayName="clinicDetails">
+
+            <div *ngFor="let clinic of clinicDetails.controls; let i = index" [formGroupName]="i"
+              class="accordion-item">
+
+              <!-- HEADER -->
+              <div class="accordion-header" (click)="toggleClinic(i)">
+                <div>
+                  <strong>
+                    {{ clinic.value?.clinicName || ('Clinic ' + (i + 1)) }}
+                  </strong>
+                </div>
+
+                <div class="accordion-actions">
+                  <button type="button" class="btn btn-sm btn-danger"
+                    (click)="removeClinic(i); $event.stopPropagation()">
+                    Remove
+                  </button>
+
+                  <span class="arrow">
+                    {{ openedIndex === i ? '▲' : '▼' }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- BODY -->
+              <div class="accordion-body" *ngIf="openedIndex === i">
+
+                <div class="wz-form-row">
+                  <div class="wz-form-group">
+                    <label class="wz-label">Clinic / Hospital Name <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="clinicName">
+                  </div>
+
+                  <div class="wz-form-group">
+                    <label class="wz-label">Registration Number <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="registrationNumber">
+                  </div>
                 </div>
 
                 <div class="wz-form-row">
                   <div class="wz-form-group">
-                    <label class="wz-label">First Name
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="text" placeholder="First Name" formControlName="firstName">
-                  </div>
-                  <div class="wz-form-group">
-                    <label class="wz-label">Last Name
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="text" placeholder="Last Name" formControlName="lastName">
-                  </div>
-                </div>
-
-                <div class="wz-form-row">
-                  <div class="wz-form-group">
-                    <label class="wz-label">Date Of Birth
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="date" formControlName="dateOfBirth" (change)="onDobChange($event)">
-                  </div>
-                  <div class="wz-form-group">
-                    <label class="wz-label">Gender
-                      <span class="wz-req">*</span>
-                    </label>
-                    <select class="wz-select" formControlName="gender">
-                      <option value="">Select gender</option>
-                      <option>Male</option>
-                      <option>Female</option>
+                    <label class="wz-label">Clinic Type <span class="wz-req">*</span></label>
+                    <select class="form-select" formControlName="clinicType">
+                      <option [ngValue]="null">Select Clinic Type</option>
+                      <option *ngFor="let item of clinicTypeList" [ngValue]="item.name">
+                        {{ item.name }}
+                      </option>
                     </select>
                   </div>
-                  <div class="wz-form-group">
-                    <label class="wz-label">Age
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="number" placeholder="Age" formControlName="age">
-                  </div>
-                </div>
 
-                <div class="wz-form-row">
-                  <div class="wz-form-group">
-                    <label class="wz-label">Phone / Mobile
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="tel" placeholder="Phone" formControlName="phone">
-                  </div>
-                  <div class="wz-form-group">
-                    <label class="wz-label">Email Address
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="email" placeholder="Email" formControlName="email">
-                  </div>
                   <div class="wz-form-group">
                     <label class="wz-label">Specialization <span class="wz-req">*</span></label>
-                    <select class="form-select" formControlName="doctorSpecialization"
-                      (change)="onSpecializationChange()">
+                    <select class="form-select" formControlName="primarySpeciality" (change)="onSpecialityChange()">
                       <option [ngValue]="null">Select speciality</option>
                       <option *ngFor="let spec of primarySpecialities" [ngValue]="spec">
                         {{ spec.name }}
@@ -140,353 +289,199 @@
                     </select>
                   </div>
                 </div>
+
                 <div class="wz-form-group">
-                  <div class="wz-form-group">
-                    <label class="wz-label">Address
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="text" placeholder="Address" formControlName="address">
-                  </div>
+                  <label class="wz-label">Clinic Address <span class="wz-req">*</span></label>
+                  <textarea class="wz-input" rows="2" formControlName="address"></textarea>
                 </div>
+
                 <div class="wz-form-row">
                   <div class="wz-form-group">
-                    <label class="wz-label">Country
-                      <span class="wz-req">*</span>
-                    </label>
-                    <!-- <input class="wz-input" type="text" placeholder="Country" formControlName="country"> -->
-                    <select class="wz-select" id="country" formControlName="country">
-                      <option [ngValue]="null">— Select country —</option>
-                      <option *ngFor="let c of countries$ | async" [ngValue]="c.id">{{ c.name }}</option>
-                    </select>
+                    <label class="wz-label">City <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="city">
                   </div>
+
                   <div class="wz-form-group">
-                    <label class="wz-label">State
-                      <span class="wz-req">*</span>
-                    </label>
-                    <!-- <input class="wz-input" type="text" placeholder="State" formControlName="state"> -->
-                    <select class="wz-select" id="state" formControlName="state"
-                      [attr.disabled]="(states$ | async)?.length ? null : true">
-                      <option [ngValue]="null">— Select state —</option>
-                      <option *ngFor="let s of states$ | async" [ngValue]="s.id">{{ s.name }}</option>
-                    </select>
-                  </div>
-                  <div class="wz-form-group">
-                    <label class="wz-label">City
-                      <span class="wz-req">*</span>
-                    </label>
-                    <!-- <input class="wz-input" type="text" placeholder="City" formControlName="city"> -->
-                    <select class="wz-select" id="city" formControlName="city"
-                      [attr.disabled]="(cities$ | async)?.length ? null : true">
-                      <option [ngValue]="null">— Select city —</option>
-                      <option *ngFor="let c of cities$ | async" [ngValue]="c.id">{{ c.name }}</option>
-                    </select>
-                  </div>
-                  <div class="wz-form-group">
-                    <label class="wz-label">Pincode
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="text" placeholder="Pincode" formControlName="pincode">
+                    <label class="wz-label">Pincode <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="pincode">
                   </div>
                 </div>
+
                 <div class="wz-form-row">
                   <div class="wz-form-group">
-                    <label class="wz-label">Aadhar Number
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="text" placeholder="Aadhaar Number" formControlName="aadhaarNumber">
+                    <label class="wz-label">Phone / Landline <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="phone">
                   </div>
+
                   <div class="wz-form-group">
-                    <label class="wz-label">License Number
-                      <span class="wz-req">*</span>
-                    </label>
-                    <input class="wz-input" type="text" placeholder="License Number" formControlName="licenseNumber">
+                    <label class="wz-label">Clinic Email Address <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="clinicEmail">
                   </div>
                 </div>
 
               </div>
-              }
 
-              <!-- STEP 2 -->
-              @if (currentStep === 2) {
-              <div class="wizard-panel">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">Clinic Details
-                    </div>
-                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Register a clinic</div>
-                  </div>
-                  <div style="display:flex;flex-wrap:wrap;gap:8px;">
-                    <button class="btn btn-primary btn-label" (click)="addClinic();">
-                      <span class="btn-label-icon">
-                        <i class="bi bi-plus-lg"></i>
-                      </span>Add
-                    </button>
-                    <!-- <button class="btn btn-danger btn-label" (click)="removeClinic()">
-                      <span class="btn-label-icon">
-                        <i class="bi bi-x-lg"></i>
-                      </span>Remove
-                    </button> -->
-                  </div>
-                </div>
-
-                <div formArrayName="clinicDetails">
-
-                  <div *ngFor="let clinic of clinicDetails.controls; let i = index" [formGroupName]="i"
-                    class="accordion-item">
-
-                    <!-- HEADER -->
-                    <div class="accordion-header" (click)="toggleClinic(i)">
-                      <div>
-                        <strong>
-                          {{ clinic.value?.clinicName || ('Clinic ' + (i + 1)) }}
-                        </strong>
-                      </div>
-
-                      <div class="accordion-actions">
-                        <button type="button" class="btn btn-sm btn-danger"
-                          (click)="removeClinic(i); $event.stopPropagation()">
-                          Remove
-                        </button>
-
-                        <span class="arrow">
-                          {{ openedIndex === i ? '▲' : '▼' }}
-                        </span>
-                      </div>
-                    </div>
-
-                    <!-- BODY -->
-                    <div class="accordion-body" *ngIf="openedIndex === i">
-
-                      <div class="wz-form-row">
-                        <div class="wz-form-group">
-                          <label class="wz-label">Clinic / Hospital Name <span class="wz-req">*</span></label>
-                          <input class="wz-input" formControlName="clinicName">
-                        </div>
-
-                        <div class="wz-form-group">
-                          <label class="wz-label">Registration Number <span class="wz-req">*</span></label>
-                          <input class="wz-input" formControlName="registrationNumber">
-                        </div>
-                      </div>
-
-                      <div class="wz-form-row">
-                        <div class="wz-form-group">
-                          <label class="wz-label">Clinic Type <span class="wz-req">*</span></label>
-                          <select class="form-select" formControlName="clinicType">
-                            <option [ngValue]="null">Select Clinic Type</option>
-                            <option *ngFor="let item of clinicTypeList" [ngValue]="item.name">
-                              {{ item.name }}
-                            </option>
-                          </select>
-                        </div>
-
-                        <div class="wz-form-group">
-                          <label class="wz-label">Specialization <span class="wz-req">*</span></label>
-                          <select class="form-select" formControlName="primarySpeciality"
-                            (change)="onSpecialityChange()">
-                            <option [ngValue]="null">Select speciality</option>
-                            <option *ngFor="let spec of primarySpecialities" [ngValue]="spec">
-                              {{ spec.name }}
-                            </option>
-                          </select>
-                        </div>
-                      </div>
-
-                      <div class="wz-form-group">
-                        <label class="wz-label">Clinic Address <span class="wz-req">*</span></label>
-                        <textarea class="wz-input" rows="2" formControlName="address"></textarea>
-                      </div>
-
-                      <div class="wz-form-row">
-                        <div class="wz-form-group">
-                          <label class="wz-label">City <span class="wz-req">*</span></label>
-                          <input class="wz-input" formControlName="city">
-                        </div>
-
-                        <div class="wz-form-group">
-                          <label class="wz-label">Pincode <span class="wz-req">*</span></label>
-                          <input class="wz-input" formControlName="pincode">
-                        </div>
-                      </div>
-
-                      <div class="wz-form-row">
-                        <div class="wz-form-group">
-                          <label class="wz-label">Phone / Landline <span class="wz-req">*</span></label>
-                          <input class="wz-input" formControlName="phone">
-                        </div>
-
-                        <div class="wz-form-group">
-                          <label class="wz-label">Clinic Email Address <span class="wz-req">*</span></label>
-                          <input class="wz-input" formControlName="clinicEmail">
-                        </div>
-                      </div>
-
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-              }
-
-              <!-- STEP 3 -->
-              @if (currentStep === 3) {
-              <div class="wizard-panel">
-
-                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
-                  Review & Confirm
-                </div>
-                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
-                  Please review all details before registering the doctor</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-                  <div
-                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
-                    <div
-                      style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
-                      Doctor Info
-                    </div>
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">Name</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.firstName }} {{ doctorForm.value.lastName }}
-                      </span>
-                    </div>
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">DOB</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.dateOfBirth | date:'dd MMM yyyy' }}
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">Age</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.age }} yrs
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">Gender</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.gender }}
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">Phone</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.phone }}
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">Email</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.email || '-' }}
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">Aadhar No.</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.aadhaarNumber || '-' }}
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row">
-                      <span class="wz-review-label">License No.</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.licenseNumber || '-' }}
-                      </span>
-                    </div>
-
-                    <div class="wz-review-row" style="border:none;">
-                      <span class="wz-review-label">Address</span>
-                      <span class="wz-review-val">
-                        {{ doctorForm.value.address }}, {{ doctorForm.value.city }}, {{ doctorForm.value.pincode }}, {{
-                        doctorForm.value.state }}, {{ doctorForm.value.country }}
-                      </span>
-                    </div>
-                  </div>
-                  <div
-                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
-                    <div
-                      style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
-                      Clinic Details
-                    </div>
-                    <div *ngFor="let clinic of clinicDetails.value; let i = index"
-                      style="border: 2px dotted var(--border); margin-bottom: 2px;">
-                      <!-- HTML content to be repeated for each item in the collection -->
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Clinic name</span>
-                        <span class="wz-review-val">
-                          {{ clinic.clinicName || '-' }}
-                        </span>
-                      </div>
-
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Registration Number </span>
-                        <span class="wz-review-val">
-                          {{ clinic.registrationNumber || 'None' }}
-                        </span>
-                      </div>
-
-                      <div class="wz-review-row">
-                        <span class="wz-review-label">Clinic Type</span>
-                        <span class="wz-review-val">
-                          {{ clinic.clinicType || 'None' }}
-                        </span>
-                      </div>
-
-                      <div class="wz-review-row" style="border:none;">
-                        <span class="wz-review-label">Primary Speciality</span>
-                        <span class="wz-review-val">
-                          {{ clinic.primarySpeciality.name || 'None' }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-body);">
-                  <input type="checkbox" id="consent-chk" style="accent-color:var(--teal);width:15px;height:15px;">
-                  <label for="consent-chk">I confirm the above details are accurate and the patient has given consent
-                    for treatment</label>
-                </div>
-
-              </div>
-              }
             </div>
 
-            <!-- FOOTER -->
-            <div class="wizard-footer">
-              <div style="font-size:12px;color:var(--text-muted);" id="wz-step-info">Step {{ currentStep }} of 3</div>
-              <div style="display:flex;gap:8px;">
-                <!-- Previous -->
-                @if(currentStep > 1){
-                <button class="btn btn-outline-default" (click)="prevStep()">
-                  <i class="bi bi-arrow-left"></i> Previous
-                </button>
-                }
+          </div>
+        </div>
+        }
 
-                <!-- Next -->
-                @if(!isLastStep){
-                <button class="btn btn-primary" (click)="nextStep()">
-                  Next <i class="bi bi-arrow-right"></i>
-                </button>
-                }
+        <!-- STEP 3 -->
+        @if (currentStep === 3) {
+        <div class="wizard-panel">
 
-                <!-- Submit -->
-                @if(isLastStep){
-                <button class="btn btn-success" type="submit" (click)="onSubmit()">
-                  <i class="bi bi-check-circle"></i> Register Patient
-                </button>
-                }
+          <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+            Review & Confirm
+          </div>
+          <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+            Please review all details before registering the doctor</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div
+              style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+              <div
+                style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                Doctor Info
+              </div>
+              <div class="wz-review-row">
+                <span class="wz-review-label">Name</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.firstName }} {{ doctorForm.value.lastName }}
+                </span>
+              </div>
+              <div class="wz-review-row">
+                <span class="wz-review-label">DOB</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.dateOfBirth | date:'dd MMM yyyy' }}
+                </span>
+              </div>
+
+              <div class="wz-review-row">
+                <span class="wz-review-label">Age</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.age }} yrs
+                </span>
+              </div>
+
+              <div class="wz-review-row">
+                <span class="wz-review-label">Gender</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.gender }}
+                 </span>
+              </div>
+
+              <div class="wz-review-row">
+                <span class="wz-review-label">Phone</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.phone }}
+                </span>
+              </div>
+
+              <div class="wz-review-row">
+                <span class="wz-review-label">Email</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.email || '-' }}
+                </span>
+              </div>
+
+              <div class="wz-review-row">
+                <span class="wz-review-label">Aadhar No.</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.aadhaarNumber || '-' }}
+                </span>
+              </div>
+
+              <div class="wz-review-row">
+                <span class="wz-review-label">License No.</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.licenseNumber || '-' }}
+                </span>
+              </div>
+
+              <div class="wz-review-row" style="border:none;">
+                <span class="wz-review-label">Address</span>
+                <span class="wz-review-val">
+                  {{ doctorForm.value.address }}, {{ doctorForm.value.city }}, {{ doctorForm.value.pincode }}, {{
+                  doctorForm.value.state }}, {{ doctorForm.value.country }}
+                </span>
               </div>
             </div>
+            <div
+              style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+              <div
+                style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                Clinic Details
+              </div>
+              <div *ngFor="let clinic of clinicDetails.value; let i = index"
+                style="border: 2px dotted var(--border); margin-bottom: 2px;">
+                <!-- HTML content to be repeated for each item in the collection -->
+                <div class="wz-review-row">
+                  <span class="wz-review-label">Clinic name</span>
+                  <span class="wz-review-val">
+                    {{ clinic.clinicName || '-' }}
+                  </span>
+                </div>
 
-          </form>
+                <div class="wz-review-row">
+                  <span class="wz-review-label">Registration Number </span>
+                  <span class="wz-review-val">
+                    {{ clinic.registrationNumber || 'None' }}
+                  </span>
+                </div>
+
+                <div class="wz-review-row">
+                  <span class="wz-review-label">Clinic Type</span>
+                  <span class="wz-review-val">
+                    {{ clinic.clinicType || 'None' }}
+                  </span>
+                </div>
+
+                <div class="wz-review-row" style="border:none;">
+                  <span class="wz-review-label">Primary Speciality</span>
+                  <span class="wz-review-val">
+                    {{ clinic.primarySpeciality.name || 'None' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-body);">
+            <input type="checkbox" id="consent-chk" style="accent-color:var(--teal);width:15px;height:15px;">
+            <label for="consent-chk">I confirm the above details are accurate and the patient has given consent
+              for treatment</label>
+          </div>
+
+        </div>
+        }
+      </div>
+
+      <!-- FOOTER -->
+      <div class="wizard-footer">
+        <div style="font-size:12px;color:var(--text-muted);" id="wz-step-info">Step {{ currentStep }} of 3</div>
+        <div style="display:flex;gap:8px;">
+          <!-- Previous -->
+          @if(currentStep > 1){
+          <button class="btn btn-outline-default" (click)="prevStep()">
+            <i class="bi bi-arrow-left"></i> Previous
+          </button>
+          }
+
+          <!-- Next -->
+          @if(!isLastStep){
+          <button class="btn btn-primary" (click)="nextStep()">
+            Next <i class="bi bi-arrow-right"></i>
+          </button>
+          }
+
+          <!-- Submit -->
+          @if(isLastStep){
+          <button class="btn btn-success" type="submit" (click)="onSubmit()">
+            <i class="bi bi-check-circle"></i> Register Patient
+          </button>
+          }
         </div>
       </div>
-    </div>
+
+    </form>
   </div>
 </div>

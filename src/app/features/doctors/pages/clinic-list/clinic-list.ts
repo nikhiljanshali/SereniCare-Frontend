@@ -27,9 +27,7 @@ export class ClinicList {
   }
 
   private getClinics(): void {
-    console.log('Get Clinics');
     this._clinicsService.getAllClinics().subscribe((res: IClinics) => {
-      console.log(res);
       this.clinicList = res.data;
       // this.doctorsList = res.data;
 
