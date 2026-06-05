@@ -21,20 +21,17 @@ export const roleGuard: CanActivateFn = (route, state) => {
   }
   const userId = user.id;
   // ✅ Call API with userId
-  return meshTableService.getRoleByUserId(userId).pipe(
-    map((res: any) => {
-      const userRole = res?.role;
-      if (expectedRoles?.includes(userRole)) {
-        return true;
-      } else {
-        router.navigate(['/auth/unauthorized']);
-        return false;
-      }
-    }),
-    catchError((err) => {
-      console.error('Role guard error:', err);
-      router.navigate(['/signin']);
-      return of(false);
-    })
-  );
+  return meshTableService.getRoleByUserId(userId).pipe(map((res: any) => {
+    const userRole = res?.role;
+    if (expectedRoles?.includes(userRole)) {
+      return true;
+    } else {
+      router.navigate(['/auth/unauthorized']);
+      return false;
+    }
+  }), catchError((err) => {
+    // console.error('Role guard error:', err);
+    router.navigate(['/signin']);
+    return of(false);
+  }));
 };

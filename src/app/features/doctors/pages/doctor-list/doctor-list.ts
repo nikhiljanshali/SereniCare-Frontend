@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { DoctorService } from '../../../../core/services/doctor';
-import { IDoctors, IDoctorsData } from '../../../../core/interface/doctors.interface';
 import { DatePipe } from '@angular/common';
 import { LocationService } from '../../../../core/services/location-service';
 import { Router } from '@angular/router';
+import { IDoctorsData, IDoctors } from '../../../../core/interface/basic.interface';
 
 @Component({
   selector: 'app-doctor-list',
@@ -26,7 +26,6 @@ export class DoctorList {
   ngOnInit(): void {
     this.getDoctors();
     this._locationService.getLocationName(1, 101, 1002).subscribe(res => {
-      console.log(res);
     });
   }
 
@@ -59,6 +58,7 @@ export class DoctorList {
   }
 
   public editDoctor(doctor: IDoctorsData): void {
-    this.router.navigate(['/layout/doctors/master/registration', doctor._id]);
+    // this.router.navigate(['/layout/doctors/master/registration', doctor._id]);
+    this.router.navigate(['/layout/doctors/master/doctor-profile', doctor._id]);
   }
 }

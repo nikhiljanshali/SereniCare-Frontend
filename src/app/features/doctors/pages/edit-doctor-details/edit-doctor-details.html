@@ -1,0 +1,94 @@
+<div class="doctor-edit-card">
+  <!-- Header -->
+  <div class="doctor-edit-header">
+    <div class="doctor-avatar">AS</div>
+
+    <div class="doctor-basic-info">
+      <h4>Edit Doctor Profile</h4>
+      <p>Update doctor information and availability</p>
+    </div>
+  </div>
+
+  <!-- Form -->
+  <form [formGroup]="doctorProfileForm" class="doctor-edit-form">
+    <!-- Personal Info -->
+    <div class="form-section">
+      <div class="section-title">Personal Information</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Date Of Join
+            <span class="wz-req">*</span>
+          </label>
+          <input class="form-control" type="date" formControlName="dateOfJoin">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-control" formControlName="officeStatus">
+            <option value="On Duty">On Duty</option>
+            <option value="Off Duty">Off Duty</option>
+            <option value="On Leave">On Leave</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Specialization </label>
+          <select class="form-control" formControlName="specializations" multiple
+            (change)="onSpecializationChange($event)">
+            <option *ngFor="let spec of primarySpecialities" [ngValue]="spec">
+              {{ spec.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="form-section">
+      <div class="section-title">Education Information</div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Qualification</label>
+          <textarea rows="3" class="form-control" formControlName="qualifications"
+            placeholder="MBBS · MD · DM"></textarea>
+        </div>
+        <div class="form-group full-width">
+          <label>Experience</label>
+          <input type="text" class="form-control" formControlName="experience" placeholder="5 years">
+        </div>
+        <div class="form-group full-width">
+          <label>Office Number</label>
+          <input type="text" class="form-control" formControlName="officeNumber" placeholder="102">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Is Resident Doctor</label>
+        <label class="switch">
+          <input type="checkbox" [checked]="doctorProfileForm.value.residentDoctor === 'active'"
+            (change)="onStatusToggle($event)" formControlName="residentDoctor" />
+          <span class="slider"></span>
+        </label>
+        <!-- <span class="status-label">
+          {{ doctorProfileForm.value.residentDoctor }}
+        </span> -->
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="section-title">Other Information</div>
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label>Area of Expertise</label>
+          <textarea rows="3" class="form-control" formControlName="areaOfExpertise"
+            placeholder="e.g. Interventional Cardiology"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="form-actions">
+      <button type="submit" class="btn-save" (click)="saveDoctorProfile();">
+        Save Changes
+      </button>
+    </div>
+
+  </form>
+</div>

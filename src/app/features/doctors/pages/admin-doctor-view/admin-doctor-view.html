@@ -1,0 +1,175 @@
+<!-- ══════════════════════════════════════════════
+  PAGE: DOCTOR PROFILES LIST
+══════════════════════════════════════════════ -->
+<div id="page-doctor-profiles" class="page-section">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="ph-title">Doctor Profiles</div>
+      <div class="ph-sub">{{doctorsList.length}} active doctors across 9 specialties</div>
+    </div>
+    <div class="dp-flex-gap-8">
+      <button class="btn btn-outline-primary">
+        <i class="bi bi-download"></i> Export
+      </button>
+      <button class="btn btn-primary" (click)="createDoctor(); $event.stopPropagation();">
+        <i class="bi bi-person-plus"></i> Add Doctor
+      </button>
+    </div>
+  </div>
+  <!-- KPI strip -->
+  <div class="mini-stats dp-mb-20">
+    <div class="mini-stat">
+      <div class="mini-stat-icon dp-stat-icon-teal">
+        <i class="bi bi-person-badge-fill"></i>
+      </div>
+      <div>
+        <div class="mini-stat-label">Total Doctors</div>
+        <div class="mini-stat-value">{{doctorsList.length}}</div>
+        <div class="mini-stat-change change-up dp-mini-change dp-mini-change-success">
+          ↑ 2 new this month
+        </div>
+      </div>
+    </div>
+    <div class="mini-stat">
+      <div class="mini-stat-icon dp-stat-icon-blue">
+        <i class="bi bi-person-check-fill"></i>
+      </div>
+      <div>
+        <div class="mini-stat-label">Available Now</div>
+        <div class="mini-stat-value">11</div>
+        <div class="mini-stat-change dp-mini-change dp-mini-change-muted">
+          7 in consultation
+        </div>
+      </div>
+    </div>
+
+    <div class="mini-stat">
+      <div class="mini-stat-icon dp-stat-icon-amber">
+        <i class="bi bi-star-fill"></i>
+      </div>
+
+      <div>
+        <div class="mini-stat-label">Avg. Rating</div>
+        <div class="mini-stat-value">4.8</div>
+
+        <div class="mini-stat-change dp-mini-change dp-mini-change-muted">
+          Based on 2,340 reviews
+        </div>
+      </div>
+    </div>
+
+    <div class="mini-stat">
+      <div class="mini-stat-icon dp-stat-icon-violet">
+        <i class="bi bi-calendar2-check-fill"></i>
+      </div>
+
+      <div>
+        <div class="mini-stat-label">Today's Appts</div>
+        <div class="mini-stat-value">147</div>
+
+        <div class="mini-stat-change change-up dp-mini-change dp-mini-change-success">
+          ↑ 12 vs yesterday
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Filter bar -->
+  <div class="dp-filter-bar">
+
+    <div class="dp-search">
+      <i class="bi bi-search"></i>
+
+      <input type="text" placeholder="Search by name, specialty, ID…">
+    </div>
+
+    <div class="dp-spec-filter">
+      <button class="dp-spec-pill active">All</button>
+      <button class="dp-spec-pill">Cardiology</button>
+      <button class="dp-spec-pill">Neurology</button>
+      <button class="dp-spec-pill">Orthopedics</button>
+      <button class="dp-spec-pill">Ophthalmology</button>
+      <button class="dp-spec-pill">Pulmonology</button>
+    </div>
+
+    <select class="dp-sort">
+      <option value="name">Sort: Name A-Z</option>
+      <option value="rating">Sort: Rating</option>
+      <option value="patients">Sort: Patients</option>
+    </select>
+
+  </div>
+
+  <!-- Doctor grid -->
+  <div class="dp-grid" id="dp-grid">
+
+    @if(doctorsList.length > 0) {
+    @for (doctor of doctorsList; track doctor._id) {
+    <!-- Card 1 -->
+    <div class="dp-card">
+      <div class="dp-card-banner" [ngClass]="getRandomBackgroundClass(doctor)">
+        <div class="dp-card-avail-dot on">
+          {{doctor.status == 'active' ? 'Available Now' : 'In Consultation'}}
+        </div>
+      </div>
+      <div class="dp-card-body">
+        <div class="dp-card-avatar" [ngClass]="getRandomAvatarClass(doctor)">
+          {{ doctor.firstName.charAt(0) + doctor.lastName.charAt(0) }}
+        </div>
+
+        <div class="dp-card-name">Dr. {{doctor.firstName}} {{doctor.lastName}}</div>
+
+        <div class="dp-card-spec">Senior {{doctor.specializations[0]?.name}}</div>
+
+        <div class="dp-card-dept">
+          <i class="bi bi-building dp-icon-xs"></i>
+          Cardiology #{{doctor.licenseNumber}} · #{{doctor.doctorCode}}
+        </div>
+
+        <div class="dp-stars dp-mt-6">
+          <i class="bi bi-star-fill dp-star"></i>
+          <i class="bi bi-star-fill dp-star"></i>
+          <i class="bi bi-star-fill dp-star"></i>
+          <i class="bi bi-star-fill dp-star"></i>
+          <i class="bi bi-star-half dp-star"></i>
+
+          <span class="dp-rating-num">4.9 (312 reviews)</span>
+        </div>
+
+        <div class="dp-card-stats">
+
+          <div class="dp-card-stat">
+            <div class="dp-card-stat-val">2,841</div>
+            <div class="dp-card-stat-lbl">Patients</div>
+          </div>
+          <div class="dp-card-stat">
+            <div class="dp-card-stat-val">12y</div>
+            <div class="dp-card-stat-lbl">Experience</div>
+          </div>
+          <div class="dp-card-stat">
+            <div class="dp-card-stat-val">14</div>
+            <div class="dp-card-stat-lbl">Today</div>
+          </div>
+        </div>
+        <div class="dp-card-tags">
+          <span class="dp-tag" [ngClass]="getRandomTagClass(doctor)">Interventional</span>
+          <span class="dp-tag dp-tag-blue" [ngClass]="getRandomTagClass(doctor)">Echo</span>
+          <span class="dp-tag dp-tag-violet" [ngClass]="getRandomTagClass(doctor)">Electrophysiology</span>
+        </div>
+        <div class="dp-card-footer">
+          <button class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-calendar2-plus"></i>
+            Book
+          </button>
+          <button class="btn btn-primary btn-sm" (click)="viewDoctor(doctor._id); $event.stopPropagation();">
+            <i class="bi bi-person-vcard"></i>
+            Profile
+          </button>
+        </div>
+      </div>
+    </div>
+    }
+    }
+  </div><!-- /dp-grid -->
+</div><!-- /page-doctor-profiles -->

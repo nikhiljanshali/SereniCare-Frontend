@@ -1,83 +1,78 @@
-<div class="appt-row">
-  <div class="appt-card">
-    <div id="page-wizard" class="page-section">
-      <div class="page-header">
-        <div class="page-header-left">
-          <div class="ph-title">Clinic List</div>
-          <div class="ph-sub">List of Registered Clinic List</div>
-        </div>
-        <div class="page-header-right d-flex gap-2">
-          <button class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-funnel"></i>Filter
-          </button>
-          <!-- <button class="btn btn-primary btn-sm" (click)="createDoctor()"><i class="bi bi-plus-lg"></i> Create
-            Doctor</button> -->
-        </div>
-      </div>
+<div id="page-clinic-list" class="page-section">
+  <div class="page-header">
+    <div class="page-header-left">
+      <div class="ph-title">Clinic List</div>
+      <div class="ph-sub">List of Registered Clinics</div>
     </div>
-
-    <div class="appt-row">
-      <div class="appt-card">
-        <table class="appt-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Address</th>
-              <th>City</th>
-              <th>Pincode</th>
-              <th>Create At</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (clinic of clinicList; track clinic._id) {
-            <tr>
-              <td>
-                <div class="patient-id">#{{clinic.clinicName}}</div>
-              </td>
-              <td>
-                <div class="patient-cell">
-                  <!-- <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">DR</div> -->
-                  <div>
-                    <div class="patient-name">{{clinic.clinicType}}</div>
-                    <div class="patient-id">#{{clinic.registrationNumber}}</div>
-                  </div>
+    <div class="page-header-right d-flex gap-2">
+      <button class="btn btn-outline-primary btn-sm">
+        <i class="bi bi-funnel"></i>Filter
+      </button>
+      <!-- <button class="btn btn-primary btn-sm" (click)="createDoctor()"><i class="bi bi-plus-lg"></i> Create
+            Doctor</button> -->
+    </div>
+  </div>
+  <div class="appt-row">
+    <div class="appt-card">
+      <table class="appt-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>City</th>
+            <th>Pincode</th>
+            <th>Create At</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (clinic of clinicList; track clinic._id) {
+          <tr>
+            <td>
+              <div class="patient-name">#{{clinic.clinicName}}</div>
+            </td>
+            <td>
+              <div class="patient-cell">
+                <!-- <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">DR</div> -->
+                <div>
+                  <div class="patient-name">{{clinic.clinicType}}</div>
+                  <div class="patient-id">#{{clinic.registrationNumber}}</div>
                 </div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">
-                  <i class="bi bi-envelope-at-fill"></i>
-                  <span class="px-2">{{clinic.clinicEmail}}</span>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">
-                  <i class="bi bi-telephone-fill"></i>
-                  <span class="px-2">{{clinic.phone}}</span>
-                </div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">
-                  <i class="bi bi-building-down"></i>
-                  {{clinic.address}}
-                </div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{clinic.city}}</div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{clinic.pincode}}</div>
-              </td>
-              <td>
-                <div style="font-size:11px;color:var(--text-muted);">{{clinic.createdAt | date : 'dd-MM-yyyy'}}</div>
-              </td>
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">
+                <i class="bi bi-envelope-at-fill"></i>
+                <span class="px-2">{{clinic.clinicEmail}}</span>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">
+                <i class="bi bi-telephone-fill"></i>
+                <span class="px-2">{{clinic.phone}}</span>
+              </div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">
+                <i class="bi bi-building-down"></i>
+                {{clinic.address}}
+              </div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{clinic.city}}</div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{clinic.pincode}}</div>
+            </td>
+            <td>
+              <div style="font-size:11px;color:var(--text-muted);">{{clinic.createdAt | date : 'dd/MM/yyyy'}}</div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

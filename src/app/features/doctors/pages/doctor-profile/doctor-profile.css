@@ -1,0 +1,1029 @@
+
+
+/* ─────────────────────────────────────────────────────────────────
+   BREADCRUMB & HEADER STYLES
+   ───────────────────────────────────────────────────────────────── */
+.breadcrumb-wrapper {
+  display      : flex;
+  align-items  : center;
+  gap          : 8px;
+  margin-bottom: 4px;
+}
+
+.breadcrumb-sep {
+  color    : var(--text-muted);
+  font-size: 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   BUTTON STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.btn-icon-wrapper {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+  padding   : 4px 10px;
+}
+
+.btn-download-cv {
+  background     : var(--bg);
+  border         : 1px solid var(--border);
+  color          : var(--text-body);
+  justify-content: center;
+}
+
+.btn-more-actions {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+}
+
+.btn-recent-activity {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+  font-size : 11.5px;
+}
+
+.btn-filter-group {
+  display: flex;
+  gap    : 6px;
+}
+
+.btn-pagination-wrapper {
+  display: flex;
+  gap    : 4px;
+}
+
+.btn-pagination-active {
+  background  : var(--teal);
+  color       : #fff;
+  border-color: var(--teal);
+}
+
+.btn-filter-light {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+}
+
+.btn-slot-config {
+  display       : flex;
+  flex-direction: column;
+  gap           : 12px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ICON STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.icon-small {
+  font-size   : 11px;
+  margin-right: 4px;
+}
+
+.icon-circle-teal {
+  background     : #CCFBF1;
+  color          : var(--teal);
+  border-radius  : 8px;
+  width          : 28px;
+  height         : 28px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 13px;
+}
+
+.icon-circle-blue {
+  background     : #DBEAFE;
+  color          : #1D4ED8;
+  border-radius  : 8px;
+  width          : 28px;
+  height         : 28px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 13px;
+}
+
+.icon-circle-violet {
+  background     : var(--violet-light);
+  color          : var(--violet);
+  border-radius  : 8px;
+  width          : 28px;
+  height         : 28px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 13px;
+}
+
+.icon-circle-amber {
+  background     : #FEF9C3;
+  color          : #B45309;
+  border-radius  : 8px;
+  width          : 28px;
+  height         : 28px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 13px;
+}
+
+.icon-circle-green {
+  background     : #DCFCE7;
+  color          : #15803D;
+  border-radius  : 10px;
+  width          : 34px;
+  height         : 34px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 15px;
+  flex-shrink    : 0;
+}
+
+.icon-circle-blue-lg {
+  background     : #DBEAFE;
+  color          : #1D4ED8;
+  border-radius  : 10px;
+  width          : 34px;
+  height         : 34px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 15px;
+  flex-shrink    : 0;
+}
+
+.icon-circle-violet-lg {
+  background     : var(--violet-light);
+  color          : var(--violet);
+  border-radius  : 10px;
+  width          : 34px;
+  height         : 34px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 15px;
+  flex-shrink    : 0;
+}
+
+.icon-circle-amber-lg {
+  background     : var(--amber-light);
+  color          : var(--amber);
+  border-radius  : 10px;
+  width          : 34px;
+  height         : 34px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 15px;
+  flex-shrink    : 0;
+}
+
+.icon-star-amber {
+  color      : #F59E0B;
+  font-size  : 12px;
+  margin-left: 2px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   TYPOGRAPHY & TEXT STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.label-uppercase-small {
+  font-size     : 11px;
+  font-weight   : 700;
+  color         : var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom : 8px;
+}
+
+.text-label-bold {
+  font-size    : 12px;
+  color        : var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.text-metric {
+  font-size     : 28px;
+  font-weight   : 800;
+  color         : var(--text-head);
+  letter-spacing: -0.5px;
+}
+
+.text-subheading {
+  font-size : 12px;
+  color     : var(--text-muted);
+  margin-top: 2px;
+}
+
+.text-detail {
+  font-size  : 13px;
+  font-weight: 600;
+  color      : var(--text-head);
+}
+
+.text-detail-small {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+}
+
+.text-time {
+  font-size: 11px;
+  color    : var(--text-muted);
+}
+
+.text-muted-small {
+  font-size: 12px;
+  color    : var(--text-muted);
+}
+
+.text-teal-strong {
+  color      : var(--teal);
+  font-weight: 600;
+}
+
+.text-emerald-strong {
+  color      : var(--emerald);
+  font-weight: 700;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   SECTION & LAYOUT STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.section-flex-center {
+  display    : flex;
+  align-items: center;
+  gap        : 8px;
+}
+
+.section-flex-gap {
+  display: flex;
+  gap    : 8px;
+}
+
+.header-actions {
+  display: flex;
+  gap    : 8px;
+}
+
+.grid-2 {
+  display              : grid;
+  grid-template-columns: 1fr 1fr;
+  gap                  : 14px;
+  margin-bottom        : 14px;
+}
+
+.grid-2-mb {
+  margin-bottom: 14px;
+}
+
+.overflow-auto {
+  overflow-x: auto;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   CARD & CONTENT STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.card-body-no-padding {
+  padding: 0;
+}
+
+.card-body-flex-col {
+  display       : flex;
+  flex-direction: column;
+  gap           : 12px;
+}
+
+.card-mb-14 {
+  margin-bottom: 14px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   REVENUE CONTRIBUTION SECTION
+   ───────────────────────────────────────────────────────────────── */
+
+.revenue-amount {
+  font-size     : 28px;
+  font-weight   : 800;
+  color         : var(--text-head);
+  letter-spacing: -0.5px;
+}
+
+.revenue-label {
+  font-size : 12px;
+  color     : var(--text-muted);
+  margin-top: 2px;
+}
+
+.revenue-breakdown {
+  margin-top    : 14px;
+  display       : flex;
+  flex-direction: column;
+  gap           : 8px;
+}
+
+.revenue-item-row {
+  display        : flex;
+  justify-content: space-between;
+  font-size      : 12px;
+  margin-bottom  : 4px;
+}
+
+.revenue-item-label {
+  color: var(--text-muted);
+}
+
+.revenue-item-value {
+  font-weight: 700;
+}
+
+.revenue-bar-container {
+  height       : 6px;
+  background   : var(--bg);
+  border-radius: 3px;
+}
+
+.revenue-bar-fill-teal {
+  height       : 100%;
+  width        : 61%;
+  background   : var(--teal);
+  border-radius: 3px;
+}
+
+.revenue-bar-fill-indigo {
+  height       : 100%;
+  width        : 29%;
+  background   : var(--indigo);
+  border-radius: 3px;
+}
+
+.revenue-bar-fill-rose {
+  height       : 100%;
+  width        : 10%;
+  background   : var(--rose);
+  border-radius: 3px;
+}
+
+.revenue-comparison {
+  margin-top     : 12px;
+  padding-top    : 12px;
+  border-top     : 1px solid var(--border);
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+}
+
+.revenue-comparison-vs {
+  font-size: 12px;
+  color    : var(--text-muted);
+}
+
+.revenue-comparison-value {
+  font-size  : 12.5px;
+  font-weight: 700;
+  color      : var(--emerald);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   SCHEDULE HEATMAP LEGEND
+   ───────────────────────────────────────────────────────────────── */
+
+.heatmap-legend {
+  display    : flex;
+  gap        : 8px;
+  align-items: center;
+  font-size  : 11px;
+}
+
+.heatmap-legend-item {
+  display    : flex;
+  align-items: center;
+  gap        : 4px;
+}
+
+.heatmap-legend-dot {
+  width        : 10px;
+  height       : 10px;
+  border-radius: 3px;
+}
+
+.heatmap-dot-off {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+}
+
+.heatmap-dot-light {
+  background: #CCFBF1;
+}
+
+.heatmap-dot-busy {
+  background: var(--teal);
+}
+
+.heatmap-dot-full {
+  background: var(--teal-dark);
+}
+
+.heatmap-legend-text {
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACTIVITY FEED STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.activity-item {
+  padding      : 12px 20px;
+  border-bottom: 1px solid var(--border);
+  display      : flex;
+  align-items  : center;
+  gap          : 12px;
+}
+
+.activity-item-last {
+  padding    : 12px 20px;
+  display    : flex;
+  align-items: center;
+  gap        : 12px;
+}
+
+.activity-icon-container {
+  width          : 34px;
+  height         : 34px;
+  border-radius  : 10px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 15px;
+  flex-shrink    : 0;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-title {
+  font-size  : 13px;
+  font-weight: 600;
+  color      : var(--text-head);
+}
+
+.activity-subtitle {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+}
+
+.activity-time {
+  font-size: 11px;
+  color    : var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   APPOINTMENT TABLE STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.appt-table-wrapper {
+  padding        : 14px 20px;
+  border-top     : 1px solid var(--border);
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+}
+
+.appt-time-value {
+  font-weight: 600;
+  color      : var(--text-head);
+}
+
+.appt-time-duration {
+  font-size: 11px;
+  color    : var(--text-muted);
+}
+
+.appt-notes {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+  max-width: 140px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   SLOT CONFIGURATION STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.slot-config-wrapper {
+  display       : flex;
+  flex-direction: column;
+  gap           : 12px;
+}
+
+.slot-info-box {
+  margin-top   : 4px;
+  padding      : 12px;
+  background   : var(--teal-xlight);
+  border       : 1px solid var(--teal-light);
+  border-radius: var(--radius-sm);
+  font-size    : 12.5px;
+  color        : var(--teal-dark);
+}
+
+.slot-info-icon {
+  margin-right: 6px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   LEAVE TABLE STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.leave-table-date {
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   TIMELINE ITEM LAST
+   ───────────────────────────────────────────────────────────────── */
+
+.timeline-item-last {
+  margin-bottom: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   CERTIFICATION TABLE STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.cert-table-bold {
+  font-weight: 600;
+}
+
+.cert-table-muted {
+  color: var(--text-muted);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PUBLICATION STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.pub-item {
+  padding      : 14px 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.pub-item-last {
+  padding: 14px 20px;
+}
+
+.pub-title {
+  font-size  : 13px;
+  font-weight: 700;
+  color      : var(--text-head);
+}
+
+.pub-meta {
+  font-size : 12px;
+  color     : var(--text-muted);
+  margin-top: 3px;
+}
+
+.pub-author-role {
+  color      : var(--teal);
+  font-weight: 600;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   RATING SUMMARY STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.rating-summary {
+  display    : flex;
+  align-items: center;
+  gap        : 28px;
+  flex-wrap  : wrap;
+}
+
+.rating-center {
+  text-align: center;
+}
+
+.rating-big {
+  font-size  : 48px;
+  font-weight: 800;
+  color      : var(--text-head);
+}
+
+.rating-stars-center {
+  justify-content: center;
+  margin-top     : 6px;
+}
+
+.rating-count {
+  font-size : 11.5px;
+  color     : var(--text-muted);
+  margin-top: 4px;
+}
+
+.rating-attributes {
+  display       : flex;
+  flex-direction: column;
+  gap           : 8px;
+  flex          : 1;
+  min-width     : 160px;
+}
+
+.rating-attr-label {
+  font-size     : 11.5px;
+  font-weight   : 700;
+  color         : var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom : 4px;
+}
+
+.rating-attr-row {
+  display        : flex;
+  justify-content: space-between;
+  align-items    : center;
+  font-size      : 12.5px;
+}
+
+.rating-attr-value {
+  font-weight: 700;
+  color      : var(--teal);
+}
+
+.rating-attr-value-amber {
+  font-weight: 700;
+  color      : var(--amber);
+}
+
+.rating-attr-value-emerald {
+  font-weight: 700;
+  color      : var(--emerald);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   REVIEW TAG STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.review-verified {
+  font-size  : 11px;
+  color      : var(--text-muted);
+  font-weight: 400;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACTION BUTTONS & PAGINATION
+   ───────────────────────────────────────────────────────────────── */
+
+.pagination-group {
+  display: flex;
+  gap    : 4px;
+}
+
+.btn-pagination {
+  border-radius: 6px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   REVIEW CONTAINER
+   ───────────────────────────────────────────────────────────────── */
+
+.review-container-end {
+  text-align: center;
+  padding   : 14px 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   DONUT LEGEND FLEX
+   ───────────────────────────────────────────────────────────────── */
+
+.donut-legend-dot {
+  background: inherit;
+}
+
+.donut-legend-flex {
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   REVENUE BADGE
+   ───────────────────────────────────────────────────────────────── */
+
+.revenue-badge {
+  font-size    : 11px;
+  background   : var(--teal-light);
+  color        : var(--teal-dark);
+  padding      : 3px 8px;
+  border-radius: 6px;
+  font-weight  : 700;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   APPOINTMENT NOTES TEXT
+   ───────────────────────────────────────────────────────────────── */
+
+.appt-notes {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+  max-width: 140px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   RATING BIG DISPLAY
+   ───────────────────────────────────────────────────────────────── */
+
+.dpd-rating-big {
+  font-size  : 48px;
+  font-weight: 800;
+  color      : var(--text-head);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   METRIC ICON COLOR VARIANTS
+   ───────────────────────────────────────────────────────────────── */
+
+.metric-icon-teal {
+  background: #CCFBF1;
+  color     : var(--teal);
+}
+
+.metric-icon-blue {
+  background: #DBEAFE;
+  color     : #1D4ED8;
+}
+
+.metric-icon-yellow {
+  background: #FEF9C3;
+  color     : #B45309;
+}
+
+.metric-icon-violet {
+  background: var(--violet-light);
+  color     : var(--violet);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   DONUT LEGEND DOT COLORS
+   ───────────────────────────────────────────────────────────────── */
+
+.donut-dot-teal {
+  background: #0D9488;
+}
+
+.donut-dot-indigo {
+  background: #6366F1;
+}
+
+.donut-dot-amber {
+  background: #F59E0B;
+}
+
+.donut-dot-rose {
+  background: #F43F5E;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   DONUT LEGEND FLEX
+   ───────────────────────────────────────────────────────────────── */
+
+.donut-legend-flex {
+  flex: 1;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ACTIVITY FEED ICON CONTAINERS - COLOR VARIANTS
+   ───────────────────────────────────────────────────────────────── */
+
+.activity-icon-green {
+  background: #DCFCE7;
+  color     : #15803D;
+}
+
+.activity-icon-blue {
+  background: #DBEAFE;
+  color     : #1D4ED8;
+}
+
+.activity-icon-violet {
+  background: var(--violet-light);
+  color     : var(--violet);
+}
+
+.activity-icon-amber {
+  background: var(--amber-light);
+  color     : var(--amber);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   PATIENT AVATAR GRADIENTS
+   ───────────────────────────────────────────────────────────────── */
+
+.patient-avatar-teal-blue {
+  background: linear-gradient(135deg, #0D9488, #38BDF8);
+}
+
+.patient-avatar-indigo-purple {
+  background: linear-gradient(135deg, #6366F1, #8B5CF6);
+}
+
+.patient-avatar-amber-orange {
+  background: linear-gradient(135deg, #F59E0B, #F97316);
+}
+
+.patient-avatar-green-light {
+  background: linear-gradient(135deg, #10B981, #34D399);
+}
+
+.patient-avatar-rose-pink {
+  background: linear-gradient(135deg, #F43F5E, #EC4899);
+}
+
+.patient-avatar-cyan-blue {
+  background: linear-gradient(135deg, #0EA5E9, #38BDF8);
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   TAG COLOR VARIANTS
+   ───────────────────────────────────────────────────────────────── */
+
+.tag-consultation {
+  background: #CCFBF1;
+  color     : #065F46;
+}
+
+.tag-followup {
+  background: #DBEAFE;
+  color     : #1E40AF;
+}
+
+.tag-procedure {
+  background: var(--violet-light);
+  color     : #5B21B6;
+}
+
+.tag-training {
+  background: #DBEAFE;
+  color     : #1E40AF;
+}
+
+.tag-holiday {
+  background: #FEE2E2;
+  color     : #991B1B;
+}
+
+.tag-conference {
+  background: #DCFCE7;
+  color     : #14532D;
+}
+
+
+
+
+
+.doctor-edit-form {
+  display       : flex;
+  flex-direction: column;
+  gap           : 24px;
+}
+
+.form-section {
+  display       : flex;
+  flex-direction: column;
+  gap           : 16px;
+}
+
+.section-title {
+  font-size  : 14px;
+  font-weight: 700;
+  color      : #0f172a;
+}
+
+.form-grid {
+  display                    : grid;
+  /* grid-template-columns   : repeat(auto-fit, minmax(220px, 1fr)); */
+  /* gap                     : 18px; */
+}
+
+.form-group {
+  display       : flex;
+  flex-direction: column;
+  gap           : 8px;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  font-size  : 13px;
+  font-weight: 600;
+  color      : #334155;
+}
+
+.form-control {
+  width        : 100%;
+  border       : 1px solid #dbe3ec;
+  border-radius: 10px;
+  padding      : 11px 14px;
+  font-size    : 14px;
+  transition   : 0.2s ease;
+  background   : #fff;
+}
+
+.form-control:focus {
+  outline     : none;
+  border-color: #14b8a6;
+  box-shadow  : 0 0 0 3px rgba(20, 184, 166, 0.12);
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+.form-actions {
+  display        : flex;
+  justify-content: flex-start;
+  gap            : 12px;
+  margin-top     : 8px;
+}
+
+
+.dp-tag {
+  padding      : 4px 10px;
+  border-radius: 20px;
+  font-size    : 12px;
+  font-weight  : 600;
+  display      : inline-block;
+}
+
+/* Sick Leave */
+.leave-sick {
+  background: #fee2e2;
+  color     : #b91c1c;
+}
+
+/* Casual Leave */
+.leave-casual {
+  background: #dbeafe;
+  color     : #1e40af;
+}
+
+/* Emergency Leave */
+.leave-emergency {
+  background: #fef3c7;
+  color     : #92400e;
+}
+
+/* Vacation Leave */
+.leave-vacation {
+  background: #dcfce7;
+  color     : #166534;
+}
+
+/* Maternity Leave */
+.leave-maternity {
+  background: #f3e8ff;
+  color     : #7e22ce;
+}
+
+
+.scroll-bar {
+  height    : 100vh;
+  max-height: calc(100vh - 250px);
+  overflow-y: scroll;
+  overflow-x: hidden;
+  padding   : 0 16px;
+}
+
+
+.dpd-tl-item {
+  position     : relative;
+  padding-left : 24px;
+  margin-bottom: 20px;
+}
+
+.dpd-tl-content {
+  background   : #fff;
+  border-radius: 12px;
+  padding      : 10px 14px;
+  border       : 1px solid #e5e7eb;
+}
+
+.dpd-edit-btn {
+  border-radius: 8px;
+  padding      : 4px 8px;
+  transition   : all 0.2s ease;
+}
+
+.dpd-edit-btn:hover {
+  transform: scale(1.05);
+}

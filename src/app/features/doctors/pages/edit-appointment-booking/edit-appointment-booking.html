@@ -1,0 +1,137 @@
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="ph-title"><i class="bi bi-calendar-plus-fill text-teal"></i> Update Appointment</div>
+        <div class="ph-sub">
+            <i class="bi bi-hash"></i> Appontment No.:
+            <strong> {{ appointmentDetails?.appointmentNumber }}</strong>
+            <div class="ph-sub"><i class="bi bi-person-heart"></i> Patient: <strong>{{
+                    appointmentDetails?.patientId.firstName }} {{
+                    appointmentDetails?.patientId.lastName }}</strong>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clinic-grid">
+    <form [formGroup]="appointmentBookingForm">
+        <div id="reg-step1">
+            <div class="card-section-label" style="margin-top:0;">Appointment Details</div>
+            <div class="form-group">
+                <label> Patient <span class="text-danger">*</span> </label>
+                <div class="input-wrap">
+                    <i class="bi bi-person-hearts input-icon"></i>
+                    <input type="text" class="form-input" formControlName="patientName" placeholder="Paitnet Name">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Appointment Date. <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-calendar-event input-icon"></i>
+                        <input type="date" class="form-input" formControlName="appointmentDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Day of Week <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-calendar-day input-icon"></i>
+                        <input type="text" class="form-input" formControlName="dayOfWeek">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Start Time <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-clock input-icon"></i>
+                        <input type="time" class="form-input" formControlName="startTime" placeholder="HH:mm">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">End Time <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-clock input-icon"></i>
+                        <input type="time" class="form-input" formControlName="endTime" placeholder="HH:mm">
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Appointment Type <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-hash input-icon"></i>
+                        <select class="form-select" formControlName="appointmentType">
+                            <option [ngValue]="null">Select Appointment Type</option>
+                            @for(type of AppointmentTypes; track type) {
+                            <option [value]="type">
+                                {{ type }}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Consultation Mode <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-hash input-icon"></i>
+                        <select class="form-select" formControlName="consultationMode">
+                            <option [ngValue]="null">Select Consultation Mode</option>
+                            @for(mode of consultationModes; track mode) {
+                            <option [value]="mode">
+                                {{ mode }}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Appointment Status <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-hash input-icon"></i>
+                        <select class="form-select" formControlName="appointmentStatus">
+                            <option [ngValue]="null">Select Status</option>
+
+                            @for (status of appointmentStatusOptions; track status) {
+                            <option [value]="status">
+                                {{ status }}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Booking Source <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-hash input-icon"></i>
+                        <select class="form-select" formControlName="bookingSource">
+                            <option [ngValue]="null">Select Booking Source</option>
+                            @for(option of bookingSourceOptions; track option) {
+                            <option [value]="option">
+                                {{ option }}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Symptoms <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i class="bi bi-virus input-icon"></i>
+                    <textarea rows="3" class="form-input" formControlName="symptoms"
+                        placeholder="Enter symptoms..."> </textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Notes </label>
+                <div class="input-wrap">
+                    <i class="bi bi-heart-pulse input-icon"></i>
+                    <textarea rows="3" class="form-input" formControlName="notes"></textarea>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<button type="button" class="btn btn-primary" (click)="updateBookAppointment()"> Update </button>

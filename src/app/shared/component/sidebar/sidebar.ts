@@ -132,18 +132,21 @@ export class Sidebar implements OnInit {
   //     roles: [Roles.SystemAdmin, Roles.Admin]
   //   }
   // ];
-
-
-
+  public doctorId: string = '';
   constructor(
     private dataCommunication: DataCommunication,
     private storageOperation: StorageOperation,
     private router: Router,
-    private meshTable: MeshTable
+    private meshTable: MeshTable,
+    private _storageOperation: StorageOperation
   ) {
     this.dataCommunication.toggleState$.subscribe(res => {
       this.isEnabled = res;
     });
+
+    if (this._storageOperation.get<UserDetails>('user', 'local')?.role === Roles.Doctor) {
+      this.doctorId = this._storageOperation.get<UserDetails>('userDetails', 'local')?.id || '';
+    }
   }
 
   ngOnInit(): void {
@@ -161,26 +164,26 @@ export class Sidebar implements OnInit {
           id: 'appointments',
           label: 'Appointments',
           icon: 'bi-calendar2-check',
-          badge: 12,
-          roles: ['System Admin'],
+          badge: 0,
+          roles: [Roles.SystemAdmin],
           children: [
             {
               id: 'calendar',
               label: 'Calendar View',
               icon: 'bi-calendar3',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'all',
               label: 'All Appointments',
               icon: 'bi-list-ul',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'book',
               label: 'Book Appointment',
               icon: 'bi-plus-circle',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             }
           ]
         },
@@ -190,21 +193,21 @@ export class Sidebar implements OnInit {
           icon: 'bi-people',
           badge: () => `${this.patientCount}`,
           badgeColor: 'var(--rose)',
-          roles: ['System Admin'],
+          roles: [Roles.SystemAdmin],
           children: [
             {
               id: 'list',
               label: 'Patient List',
               icon: 'bi-person-lines-fill',
               route: 'patients/master/list',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'register',
               label: 'Register Patient',
               icon: 'bi-person-plus',
               route: 'patients/master/registration',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             }
           ]
         },
@@ -214,28 +217,35 @@ export class Sidebar implements OnInit {
           icon: 'bi-people',
           badge: () => `${this.doctorCount}`,
           badgeColor: 'var(--rose)',
-          roles: ['ADMIN'],
+          roles: [Roles.SystemAdmin],
           children: [
             {
               id: 'clinic',
               label: 'Clinic List',
               icon: 'bi-hospital-fill',
               route: 'doctors/master/clinics',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'doctor-list',
+              label: 'Doctor List',
+              icon: 'bi-person-lines-fill',
+              route: 'doctors/master/doctor-list',
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'list',
               label: 'Doctor List',
               icon: 'bi-person-lines-fill',
               route: 'doctors/master/list',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'register',
               label: 'Register Doctor',
               icon: 'bi-person-plus',
               route: 'doctors/master/registration',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             }
           ]
         },
@@ -244,25 +254,25 @@ export class Sidebar implements OnInit {
           label: 'Prescriptions',
           icon: 'bi-capsule',
           badge: 3,
-          roles: ['System Admin'],
+          roles: [Roles.SystemAdmin],
           children: [
             {
               id: 'new',
               label: 'New Prescription',
               icon: 'bi-clipboard-plus',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'all',
               label: 'All Prescriptions',
               icon: 'bi-list-check',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'refill',
               label: 'Refill Requests',
               icon: 'bi-repeat',
-              roles: ['System Admin']
+              roles: [Roles.SystemAdmin]
             }
           ]
         }
@@ -271,62 +281,91 @@ export class Sidebar implements OnInit {
     else if (user?.role === Roles.Doctor) {
       this.operationsMenu = [
         {
-          id: 'doctors',
-          label: 'Doctor Support',
-          icon: 'bi-people',
-          badge: () => `${this.doctorCount}`,
-          badgeColor: 'var(--rose)',
-          roles: ['doctor'],
-          children: [
-            {
-              id: 'profile',
-              label: 'Profile',
-              icon: 'bi-person',
-              route: 'doctors/master/doctor-profile',
-              roles: ['doctor']
-            },
-            {
-              id: 'clinics',
-              label: 'All Clinics',
-              icon: 'bi-hospital-fill',
-              route: 'doctors/master/doctor-clinics',
-              roles: ['doctor']
-            },
-          ]
-        }
-      ];
-      this.menuItems = [
-        {
           id: 'appointments',
           label: 'Appointments',
           icon: 'bi-calendar2-check',
-          badge: 12,
-          roles: ['doctor'],
+          badge: 0,
+          roles: [Roles.SystemAdmin],
           children: [
             {
               id: 'calendar',
               label: 'Calendar View',
               icon: 'bi-calendar3',
-              route: 'doctors/master/calendar',
-              roles: ['doctor']
-            },
-            {
-              id: 'all',
-              label: 'All Appointments',
-              icon: 'bi-list-ul',
-              route: 'doctors/master/appointements',
-              roles: ['doctor']
+              roles: [Roles.SystemAdmin]
             },
             {
               id: 'book',
               label: 'Book Appointment',
               icon: 'bi-plus-circle',
-              route: 'doctors/master/bookappointment',
-              roles: ['doctor']
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'doctor-appointment',
+              label: 'Appointments',
+              icon: 'bi bi-calendar3',
+              route: 'doctors/master/doctor-appointments',
+              roles: [Roles.Doctor]
+            },
+          ]
+        },
+        {
+          id: 'doctors',
+          label: 'Doctor Support',
+          icon: 'bi-people',
+          badge: () => `${this.doctorCount}`,
+          badgeColor: 'var(--rose)',
+          roles: [Roles.Doctor],
+          children: [
+            {
+              id: 'profile',
+              label: 'Profile',
+              icon: 'bi-person',
+              route: 'doctors/master/doctor-profile/' + this.doctorId,
+              roles: [Roles.Doctor]
+            },
+            {
+              id: 'doctor-clinics',
+              label: 'Clinics',
+              icon: 'bi-hospital-fill',
+              route: 'doctors/master/clinics',
+              roles: [Roles.Doctor]
             }
+
           ]
         }
       ];
+      // this.menuItems = [
+      //   {
+      //     id: 'appointments',
+      //     label: 'Appointments',
+      //     icon: 'bi-calendar2-check',
+      //     badge: 12,
+      //     roles: ['Doctor'],
+      //     children: [
+      //       {
+      //         id: 'calendar',
+      //         label: 'Calendar View',
+      //         icon: 'bi-calendar3',
+      //         route: 'doctors/master/calendar',
+      //         roles: ['Doctor']
+      //       },
+      //       {
+      //         id: 'all',
+      //         label: 'All Appointments',
+      //         icon: 'bi-list-ul',
+      //         route: 'doctors/master/appointements',
+      //         roles: ['Doctor']
+      //       },
+      //       {
+      //         id: 'book',
+      //         label: 'Book Appointment',
+      //         icon: 'bi-plus-circle',
+      //         route: 'doctors/master/bookappointment',
+      //         roles: ['Doctor']
+      //       }
+      //     ]
+      //   }
+      // ];
     }
   }
 
@@ -334,6 +373,7 @@ export class Sidebar implements OnInit {
     const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
     this.meshTable.getDoctorCountByUserId(user?.id!).subscribe(res => {
       this.doctorCount = res.data.doctorCount;
+
     });
   }
 

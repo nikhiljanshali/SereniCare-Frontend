@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Authentication } from '../../../../../core/services/authentication';
 import { take } from 'rxjs';
+import { RoleService } from '../../../../../core/services/role-service';
+import { IRole, IRoleData } from '../../../../../core/interface/basic.interface';
 
 @Component({
   selector: 'app-signup',
@@ -18,18 +20,33 @@ export class Signup {
   public showConfirmPassword = false;
   public passwordStrength = 0; // 0 to 4
   public strengthLabel = 'Enter a password';
+  public rolesList: IRoleData[] = [];
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private _authentication: Authentication
+    private _authentication: Authentication,
+    private _roleService: RoleService,
   ) {
   }
 
   ngOnInit(): void {
+    this.getAllRoles();
     this.initSignUpForm();
     this.signupForm.get('password')?.valueChanges.subscribe(value => {
       this.calculatePasswordStrength(value || '');
+    });
+  }
+
+  private getAllRoles(): void {
+    this._roleService.getAllRoles().subscribe({
+      next: (res: IRole) => {
+        this.rolesList = res.data ?? [];
+      },
+      error: (err) => {
+        console.error('Error fetching clinic types:', err);
+        this.rolesList = [];
+      }
     });
   }
 

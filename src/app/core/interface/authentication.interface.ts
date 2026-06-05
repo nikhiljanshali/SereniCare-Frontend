@@ -7,13 +7,14 @@ export interface SignupResponse {
 
 
 export interface SigninResponse {
-  user: UserDetails;
+  user: AuthUser;
   token: string;
-  clinic: Clinic
+  clinic: Clinic,
+  userDetails: UserDetails;
 }
 
 
-export interface UserDetails {
+export interface AuthUser {
   id: string
   firstName: string
   lastName: string

@@ -87,21 +87,20 @@
       <div class="role-selector">
 
         <!-- Doctor -->
-        <label class="role-card" [class.active]="signupForm.value.role === 'Doctor'">
-
-          <input type="radio" value="Doctor" formControlName="role" hidden>
-
+        @for (role of rolesList ; track role) {
+        <label class="role-card" [class.active]="signupForm.get('role')?.value === role.name">
+          <input type="radio" [value]="role.name" formControlName="role" hidden>
           <div class="role-content">
             <i class="bi bi-person-badge role-icon"></i>
             <div>
-              <div class="role-title">Doctor</div>
-              <div class="role-sub">Manage patients & clinic</div>
+              <div class="role-title">{{ role.name }}</div>
+              <div class="role-sub">{{ role.description }}</div>
             </div>
           </div>
         </label>
-
+        }
         <!-- Patient -->
-        <label class="role-card" [class.active]="signupForm.value.role === 'Patient'">
+        <!-- <label class="role-card" [class.active]="signupForm.value.role === 'Patient'">
           <input type="radio" value="Patient" formControlName="role" hidden>
           <div class="role-content">
             <i class="bi bi-person role-icon"></i>
@@ -110,8 +109,19 @@
               <div class="role-sub">Book appointments & records</div>
             </div>
           </div>
-        </label>
+        </label> -->
 
+        <!-- Admin-->
+        <!-- <label class="role-card" [class.active]="signupForm.value.role === 'System Admin'">
+          <input type="radio" value="Patient" formControlName="role" hidden>
+          <div class="role-content">
+            <i class="bi bi-person role-icon"></i>
+            <div>
+              <div class="role-title">Admin</div>
+              <div class="role-sub">System Manager</div>
+            </div>
+          </div>
+        </label> -->
       </div>
 
       @if (submitted && f['role'].invalid) {

@@ -1,0 +1,172 @@
+<div class="modal-header">
+    <h5 class="modal-title">Book Appointment</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+    </button>
+</div>
+<div class="modal-body">
+    <form [formGroup]="appointmentBookingForm">
+        <div class="scroll-bar">
+            <div id="reg-step1">
+                <div class="card-section-label" style="margin-top:0;">Appointment Details</div>
+                <div class="form-group">
+                    <label> Patient <span class="text-danger">*</span> </label>
+                    <div class="input-wrap">
+                        <i class="bi bi-person-hearts input-icon"></i>
+                        <select class="form-select" formControlName="patientId">
+                            <option [ngValue]="null"> Select Patient </option>
+                            @for(patient of patients; track patient._id){
+                            <option [value]="patient._id">
+                                {{patient.firstName}} {{patient.lastName}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Appointment Date. <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-calendar-event input-icon"></i>
+                            <input type="date" class="form-input" formControlName="appointmentDate" [min]="minDate">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Day of Week <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-calendar-day input-icon"></i>
+                            <select class="form-select" formControlName="dayOfWeek" placeholder="Select Day">
+                                <option [ngValue]="null">Select Day</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                                <option>Sunday</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Start Time <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-clock input-icon"></i>
+                            <select class="form-select" formControlName="startTime" placeholder="Select Time Slot">
+                                <option [ngValue]="null">Select Time Slot</option>
+                                @for(time of availableStartSlots; track time) {
+                                <option [value]="time">
+                                    {{ time }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input type="time" class="form-input" formControlName="startTime" placeholder="HH:mm"> -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">End Time <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-clock input-icon"></i>
+                            <!-- <input type="time" class="form-input" formControlName="endTime"> -->
+                            <select class="form-select" formControlName="endTime" placeholder="Select Time Slot">
+                                <option [ngValue]="null">Select Time Slot</option>
+                                @for(time of availableEndSlots; track time) {
+                                <option [value]="time">
+                                    {{ time }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Appointment Type <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-hash input-icon"></i>
+                            <select class="form-select" formControlName="appointmentType">
+                                <option [ngValue]="null">Select Appointment Type</option>
+                                @for(type of AppointmentTypes; track type) {
+                                <option [value]="type">
+                                    {{ type }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Consultation Mode <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-hash input-icon"></i>
+                            <select class="form-select" formControlName="consultationMode">
+                                <option [ngValue]="null">Select Consultation Mode</option>
+                                @for(mode of consultationModes; track mode) {
+                                <option [value]="mode">
+                                    {{ mode }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Appointment Status <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-hash input-icon"></i>
+                            <select class="form-select" formControlName="appointmentStatus">
+                                <option [ngValue]="null">Select Status</option>
+
+                                @for (status of appointmentStatusOptions; track status) {
+                                <option [value]="status">
+                                    {{ status }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Booking Source <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-hash input-icon"></i>
+                            <select class="form-select" formControlName="bookingSource">
+                                <option [ngValue]="null">Select Booking Source</option>
+                                @for(option of bookingSourceOptions; track option) {
+                                <option [value]="option">
+                                    {{ option }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Symptoms <span class="req">*</span></label>
+                    <div class="input-wrap">
+                        <i class="bi bi-virus input-icon"></i>
+                        <textarea rows="1" class="form-input" formControlName="symptoms"
+                            placeholder="Enter symptoms..."> </textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Notes </label>
+                    <div class="input-wrap">
+                        <i class="bi bi-heart-pulse input-icon"></i>
+                        <textarea rows="1" cols="1" class="form-input" formControlName="notes"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="modal-footer">
+    @if(breakMessage) {
+    <div class="alert alert-warning p-2" role="alert">
+        {{ breakMessage }}
+    </div>
+    }
+    <button type="button" class="btn btn-secondary" (click)="closeModePopup()"> Close </button>
+    <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
+    <button type="button" class="btn btn-primary" (click)="bookAppointment()"> Book Appointment </button>
+</div>
