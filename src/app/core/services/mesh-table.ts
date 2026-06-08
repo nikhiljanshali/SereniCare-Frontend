@@ -51,5 +51,16 @@ export class MeshTable {
       })
     );
   }
+  
+  public getSupplierCountByUserId(userId: string, showNotificaion: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrl}getSupplierCount/${userId}`).pipe(
+      map(res => res),
+      tap((data) => {
+        if (showNotificaion) {
+          this._notificationServices.success('Success', `Count fetched successfully`);
+        }
+      })
+    );
+  }
 
 }

@@ -290,6 +290,7 @@ export interface IAppointmentDetails {
   createdAt: string
   updatedAt: string
   __v: number
+  clinicId?: string
 }
 
 export interface DoctorId {
@@ -698,7 +699,31 @@ export interface IPatientsData {
   primaryDoctorId: string
   medicalHistories: MedicalHistory[]
   insuranceDetails: InsuranceDetail[]
+  appointments: Appointment[]
   isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface Appointment {
+  _id: string
+  appointmentNumber: string
+  doctorId: string
+  patientId: string
+  appointmentDate: string
+  dayOfWeek: string
+  startTime: string
+  endTime: string
+  appointmentType: string
+  consultationMode: string
+  appointmentStatus: string
+  bookingSource: string
+  symptoms: string
+  notes: string
+  consultationFee: number
+  paymentStatus: string
+  cancelledReason?: string
   createdAt: string
   updatedAt: string
   __v: number
@@ -769,4 +794,231 @@ export interface InsuranceDetail {
   __v: number
   createdAt: string
   updatedAt: string
+}
+
+
+
+
+export interface ISupplier {
+  success: boolean
+  message: string
+  data: ISupplierDetails[]
+}
+
+export interface ISupplierDetails {
+  _id: string
+  authUserId: string
+  supplierCode: string
+  firstName: string
+  lastName: string
+  supplierType: string
+  registrationNumber: string
+  gstNumber: string
+  panNumber: string
+  drugLicenseNumber: string
+  website: string
+  email: string
+  phoneNumber: string
+  alternatePhoneNumber: string
+  contacts: IContact[]
+  billingAddress: IBillingAddress
+  shippingAddress: IShippingAddress
+  bankDetails: IBankDetails
+  paymentTerms: string
+  creditLimit: number
+  openingBalance: number
+  outstandingBalance: number
+  suppliedCategories: string[]
+  suppliedBrands: string[]
+  rating: number
+  status: string
+  remarks: string
+  documents: any[]
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface IContact {
+  contactPersonName: string
+  designation: string
+  mobileNumber: string
+  alternateMobileNumber: string
+  email: string
+  isPrimary: boolean
+}
+
+export interface IBillingAddress {
+  addressLine1: string
+  addressLine2: string
+  city: string
+  state: string
+  country: string
+  postalCode: string
+}
+
+export interface IShippingAddress {
+  addressLine1: string
+  addressLine2: string
+  city: string
+  state: string
+  country: string
+  postalCode: string
+}
+
+export interface IBankDetails {
+  bankName: string
+  accountHolderName: string
+  accountNumber: string
+  ifscCode: string
+  branchName: string
+  swiftCode: string
+}
+
+
+export interface IMedicine {
+  success: boolean
+  message: string
+  count: number
+  data: IMedicineDetails[]
+}
+
+export interface IMedicineDetails {
+  _id: string
+  medicineCode: string
+  medicineName: string
+  genericName: string
+  brandName: string
+  category: string
+  therapeuticClass: string
+  strength: string
+  unit: string
+  manufacturer: string
+  supplierId: string
+  hsnCode: string
+  gstPercentage: number
+  purchasePrice: number
+  sellingPrice: number
+  reorderLevel: number
+  maxStockLevel: number
+  storageCondition: string
+  requiresPrescription: boolean
+  isControlledDrug: boolean
+  contraindications: string[]
+  sideEffects: string[]
+  drugInteractions: string[]
+  dosageInstructions: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+
+export interface IPrescriptions {
+  status: boolean
+  message: string
+  count: number
+  data: IPrescriptionsDetails[]
+}
+
+export interface IPrescriptionsDetails {
+  _id: string
+  prescriptionNumber: string
+  appointmentId: Appointment
+  patientId: string
+  doctorId: string
+  diagnosis: string[]
+  symptoms: string[]
+  medicines: IMedicine[]
+  investigations: IInvestigation[]
+  advice: string
+  followUpDate: string
+  notes: string
+  status: string
+  prescribedDate: string
+  createdAt: string
+  updatedAt: string
+  patientDetails: PatientDetails
+  doctorDetails: DoctorDetails
+  __v: number
+}
+
+export interface PatientDetails {
+  emergencyContact: EmergencyContact
+  _id: string
+  authUserId: string
+  firstName: string
+  middleName: string
+  lastName: string
+  dateOfBirth: string
+  gender: string
+  age: number
+  phone: string
+  email: string
+  address: string
+  country: string
+  state: string
+  city: string
+  pincode: string
+  patientCode: string
+  aadhaarNumber: string
+  status: string
+  primaryDoctorId: string
+  medicalHistories: string[]
+  insuranceDetails: string[]
+  isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface DoctorDetails {
+  _id: string
+  authUserId: string
+  doctorCode: string
+  firstName: string
+  lastName: string
+  gender: string
+  dateOfBirth: string
+  age: number
+  phone: string
+  email: string
+  address: string
+  city: string
+  state: string
+  country: string
+  pincode: string
+  aadhaarNumber: string
+  licenseNumber: string
+  status: string
+  specializations: Specialization[]
+  officeStatus: string
+  experience: number
+  officeNumber: number
+  residentDoctor: boolean
+  isDeleted: boolean
+  qualifications: Qualification[]
+  areaOfExpertise: AreaOfExpertise[]
+  createdAt: string
+  updatedAt: string
+  __v: number
+  dateOfJoin: string
+}
+
+export interface IMedicine {
+  medicineName: string
+  dosage: string
+  dosageUnit: string
+  frequency: string
+  frequencyUnit: string
+  duration: string
+  durationType: string
+  instructions: string
+}
+
+export interface IInvestigation {
+  testName: string
+  remarks: string
 }

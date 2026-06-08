@@ -1,0 +1,63 @@
+.file-drop-info {
+    margin-top: 12px;
+    font-size : 11.5px;
+    color     : var(--text-muted);
+}
+
+.file-drop-icon {
+    font-size: 48px;
+    color    : #198754;
+}
+
+.file-drop.drag-over {
+    border-color: #198754;
+    background  : #f8fff9;
+}
+
+
+.uploaded-file-card {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    gap            : 12px;
+
+    padding      : 12px;
+    margin-bottom: 12px;
+
+    border       : 1px solid var(--border);
+    border-radius: var(--radius-sm);
+
+    background: var(--card-bg);
+}
+
+.file-left {
+    display    : flex;
+    align-items: center;
+    gap        : 12px;
+    flex       : 1;
+}
+
+.file-left i {
+    font-size: 24px;
+}
+
+.file-info {
+    flex: 1;
+}
+
+.file-name {
+    font-size  : 13px;
+    font-weight: 600;
+    color      : var(--text-head);
+}
+
+.file-meta {
+    font-size : 11px;
+    color     : var(--text-muted);
+    margin-top: 2px;
+}
+
+.file-actions {
+    display: flex;
+    gap    : 6px;
+}

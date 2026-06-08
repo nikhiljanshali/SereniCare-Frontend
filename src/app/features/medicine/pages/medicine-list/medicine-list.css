@@ -1,0 +1,16 @@
+.vh-scroll-container {
+    max-height: 75vh;
+}
+
+.appt-table {
+    width          : 100%;
+    border-collapse: separate;
+    border-spacing : 0;
+}
+
+.appt-table thead th {
+    position  : sticky;
+    top       : 0;
+    z-index   : 100;
+    background: white;
+}

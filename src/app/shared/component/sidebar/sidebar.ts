@@ -22,6 +22,7 @@ export class Sidebar implements OnInit {
   public openMenus: { [key: string]: boolean } = {};
   public doctorCount: number = 0;
   public patientCount: number = 0;
+  public supplierCount: number = 0;
 
   // public menuItems: MenuItem[] = [];
   public menuItems: MenuItem[] = [];
@@ -154,6 +155,7 @@ export class Sidebar implements OnInit {
     this.loadUserRole();
     this.loadDoctorCount();
     this.loadPatientCount();
+    this.loadSupplierCount();
   }
 
   private initMenu(): void {
@@ -192,7 +194,7 @@ export class Sidebar implements OnInit {
           label: 'Patients',
           icon: 'bi-people',
           badge: () => `${this.patientCount}`,
-          badgeColor: 'var(--rose)',
+          badgeColor: 'var(--teal)',
           roles: [Roles.SystemAdmin],
           children: [
             {
@@ -216,7 +218,7 @@ export class Sidebar implements OnInit {
           label: 'Doctors',
           icon: 'bi-people',
           badge: () => `${this.doctorCount}`,
-          badgeColor: 'var(--rose)',
+          badgeColor: 'var(--teal)',
           roles: [Roles.SystemAdmin],
           children: [
             {
@@ -252,16 +254,16 @@ export class Sidebar implements OnInit {
         {
           id: 'prescriptions',
           label: 'Prescriptions',
-          icon: 'bi-capsule',
+          icon: 'bi-prescription',
           badge: 3,
           roles: [Roles.SystemAdmin],
           children: [
-            {
-              id: 'new',
-              label: 'New Prescription',
-              icon: 'bi-clipboard-plus',
-              roles: [Roles.SystemAdmin]
-            },
+            // {
+            //   id: 'new',
+            //   label: 'New Prescription',
+            //   icon: 'bi-clipboard-plus',
+            //   roles: [Roles.SystemAdmin]
+            // },
             {
               id: 'all',
               label: 'All Prescriptions',
@@ -275,7 +277,62 @@ export class Sidebar implements OnInit {
               roles: [Roles.SystemAdmin]
             }
           ]
-        }
+        },
+        {
+          id: 'supplier',
+          label: 'Supplier',
+          icon: 'bi-person-circle',
+          badge: () => `${this.supplierCount}`,
+          badgeColor: 'var(--teal)',
+          roles: [Roles.SystemAdmin],
+          children: [
+            {
+              id: 'supplierlist',
+              label: 'Supplier List',
+              icon: 'bi-person-lines-fill',
+              route: 'supplier/master/list',
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'supplieregister',
+              label: 'Register Supplier',
+              icon: 'bi-person-fill-add',
+              route: 'supplier/master/registration',
+              roles: [Roles.SystemAdmin]
+            }
+          ]
+        },
+        {
+          id: 'medicine',
+          label: 'Medicion',
+          icon: 'bi-capsule-pill',
+          badge: () => `${this.supplierCount}`,
+          badgeColor: 'var(--teal)',
+          roles: [Roles.SystemAdmin],
+          children: [
+            {
+              id: 'addmedicine',
+              label: 'Add Medicion',
+              icon: 'bi-bag-plus-fill',
+              route: 'medicine/master/add',
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'addmedicine',
+              label: 'Medicion List',
+              icon: 'bi-bag-plus-fill',
+              route: 'medicine/master/list',
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'addmedicine',
+              label: 'Import Medicions',
+              icon: 'bi-bag-plus-fill',
+              route: 'medicine/master/import',
+              roles: [Roles.SystemAdmin]
+            }
+          ]
+        },
       ];
     }
     else if (user?.role === Roles.Doctor) {
@@ -294,12 +351,6 @@ export class Sidebar implements OnInit {
               roles: [Roles.SystemAdmin]
             },
             {
-              id: 'book',
-              label: 'Book Appointment',
-              icon: 'bi-plus-circle',
-              roles: [Roles.SystemAdmin]
-            },
-            {
               id: 'doctor-appointment',
               label: 'Appointments',
               icon: 'bi bi-calendar3',
@@ -310,10 +361,10 @@ export class Sidebar implements OnInit {
         },
         {
           id: 'doctors',
-          label: 'Doctor Support',
+          label: 'Doctor Details',
           icon: 'bi-people',
           badge: () => `${this.doctorCount}`,
-          badgeColor: 'var(--rose)',
+          badgeColor: 'var(--teal)',
           roles: [Roles.Doctor],
           children: [
             {
@@ -324,6 +375,13 @@ export class Sidebar implements OnInit {
               roles: [Roles.Doctor]
             },
             {
+              id: 'book',
+              label: 'Book Appointment',
+              icon: 'bi-plus-circle',
+              route: 'doctors/master/book-appointments',
+              roles: [Roles.SystemAdmin]
+            },
+            {
               id: 'doctor-clinics',
               label: 'Clinics',
               icon: 'bi-hospital-fill',
@@ -332,40 +390,54 @@ export class Sidebar implements OnInit {
             }
 
           ]
-        }
+        },
+        {
+          id: 'patient',
+          label: 'Patients',
+          icon: 'bi-people',
+          badge: () => `${this.doctorCount}`,
+          badgeColor: 'var(--teal)',
+          roles: [Roles.Doctor],
+          children: [
+            {
+              id: 'list',
+              label: 'Patient List',
+              icon: 'bi-person-lines-fill',
+              route: 'patients/master/list',
+              roles: [Roles.Doctor]
+            },
+          ]
+        },
+        {
+          id: 'prescriptions',
+          label: 'Prescriptions',
+          icon: 'bi-prescription',
+          badge: 3,
+          roles: [Roles.Doctor],
+          children: [
+            {
+              id: 'new',
+              label: 'New Prescription',
+              icon: 'bi-clipboard-plus',
+              route: 'prescription/master/create',
+              roles: [Roles.Doctor]
+            },
+            {
+              id: 'all',
+              label: 'All Prescriptions',
+              icon: 'bi-list-check',
+              route: 'prescription/master/list',
+              roles: [Roles.Doctor]
+            },
+            {
+              id: 'refill',
+              label: 'Refill Requests',
+              icon: 'bi-repeat',
+              roles: [Roles.Doctor]
+            }
+          ]
+        },
       ];
-      // this.menuItems = [
-      //   {
-      //     id: 'appointments',
-      //     label: 'Appointments',
-      //     icon: 'bi-calendar2-check',
-      //     badge: 12,
-      //     roles: ['Doctor'],
-      //     children: [
-      //       {
-      //         id: 'calendar',
-      //         label: 'Calendar View',
-      //         icon: 'bi-calendar3',
-      //         route: 'doctors/master/calendar',
-      //         roles: ['Doctor']
-      //       },
-      //       {
-      //         id: 'all',
-      //         label: 'All Appointments',
-      //         icon: 'bi-list-ul',
-      //         route: 'doctors/master/appointements',
-      //         roles: ['Doctor']
-      //       },
-      //       {
-      //         id: 'book',
-      //         label: 'Book Appointment',
-      //         icon: 'bi-plus-circle',
-      //         route: 'doctors/master/bookappointment',
-      //         roles: ['Doctor']
-      //       }
-      //     ]
-      //   }
-      // ];
     }
   }
 
@@ -381,6 +453,13 @@ export class Sidebar implements OnInit {
     const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
     this.meshTable.getPatientCountByUserId(user?.id!).subscribe(res => {
       this.patientCount = res.data.patientCount;
+    });
+  }
+
+  private loadSupplierCount(): void {
+    const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
+    this.meshTable.getSupplierCountByUserId(user?.id!).subscribe(res => {
+      this.supplierCount = res.data.supplierCount;
     });
   }
 

@@ -1,0 +1,801 @@
+<div id="page-doctor-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">SupplierRegistration</div>
+            <div class="ph-sub">Multi-step supplier registration form</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;"
+                (click)="populateDummyData()">
+                <i class="bi bi-twitter-x"></i>
+                <span> Generate Dummy Supplier </span>
+            </button>
+        </div>
+    </div>
+    <div class="wizard-wrap">
+        <!-- Steps -->
+        <div class="wizard-steps">
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 1}">
+                <div class="wizard-step-num">1</div>
+                <div>
+                    <div class="wizard-step-label">Supplier Info</div>
+                    <div class="step-desc">Basic details</div>
+                </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 2}">
+                <div class="wizard-step-num">2</div>
+                <div>
+                    <div class="wizard-step-label">Address Details</div>
+                    <div class="step-desc">Provide address info</div>
+                </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 3}">
+                <div class="wizard-step-num">3</div>
+                <div>
+                    <div class="wizard-step-label">Bank Details</div>
+                    <div class="step-desc">Bank Information </div>
+                </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 4}">
+                <div class="wizard-step-num">4</div>
+                <div>
+                    <div class="wizard-step-label">Financial Details</div>
+                    <div class="step-desc">Financial Information </div>
+                </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 5}">
+                <div class="wizard-step-num">5</div>
+                <div>
+                    <div class="wizard-step-label">Category & Brand</div>
+                    <div class="step-desc">Category & Brand Info </div>
+                </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 6}">
+                <div class="wizard-step-num">6</div>
+                <div>
+                    <div class="wizard-step-label">Contact Person</div>
+                    <div class="step-desc">Contact Person Details</div>
+                </div>
+            </div>
+            <div class="wizard-step" [ngClass]="{active: currentStep === 7}">
+                <div class="wizard-step-num">7</div>
+                <div>
+                    <div class="wizard-step-label">Review</div>
+                    <div class="step-desc">Confirm & Submit</div>
+                </div>
+            </div>
+        </div>
+        <!-- BODY -->
+        <form [formGroup]="supplierForm" class="wizard-form">
+            <div class="wizard-body">
+                <!-- STEP 1 -->
+                @if (currentStep === 1) {
+                <div class="wizard-panel">
+                    <div class="wizard-panel">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Basic Info
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Provide basic supplier details
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> First Name <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" type="text" placeholder="First Name"
+                                    formControlName="firstName">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Last Name <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" type="text" placeholder="Last Name" formControlName="lastName">
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">
+                                    Supplier Type
+                                </label>
+                                <select class="wz-select" formControlName="supplierType">
+                                    <option value="">Select Type</option>
+                                    <option value="Medicine"> Medicine </option>
+                                    <option value="Medical Equipment"> Medical Equipment </option>
+                                    <option value="Laboratory"> Laboratory </option>
+                                    <option value="Consumables"> Consumables </option>
+                                    <option value="General"> General </option>
+                                </select>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">GST Number</label>
+                                <input class="wz-input" formControlName="gstNumber">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">PAN Number</label>
+                                <input class="wz-input" formControlName="panNumber">
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Drug License</label>
+                                <input class="wz-input" formControlName="drugLicenseNumber">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Website</label>
+                                <input class="wz-input" formControlName="website">
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Email</label>
+                                <input class="wz-input" formControlName="email">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Phone Number</label>
+                                <input class="wz-input" formControlName="phoneNumber">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Alternate Phone</label>
+                                <input class="wz-input" formControlName="alternatePhoneNumber">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @if (currentStep === 2) {
+                <!-- STEP 2 -->
+                <div class="wizard-panel" formGroupName="billingAddress">
+                    <div class="wizard-panel">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Billing Address
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Provide supplier billing address
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Address 1 <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" placeholder="Address Line 1" formControlName="addressLine1">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Addres 2 <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" placeholder="Address Line 2" formControlName="addressLine2">
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> City </label>
+                                <input class="wz-input" placeholder="City" formControlName="city">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> State </label>
+                                <input class="wz-input" placeholder="State" formControlName="state">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Postal Code </label>
+                                <input class="wz-input" placeholder="Postal Code" formControlName="postalCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-panel" formGroupName="shippingAddress">
+                    <div class="wizard-panel">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Shippling Address
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Provide supplier shippling address
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Address 1 <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" placeholder="Address Line 1" formControlName="addressLine1">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Addres 2 <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" placeholder="Address Line 2" formControlName="addressLine2">
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> City </label>
+                                <input class="wz-input" placeholder="City" formControlName="city">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> State </label>
+                                <input class="wz-input" placeholder="State" formControlName="state">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Postal Code </label>
+                                <input class="wz-input" placeholder="Postal Code" formControlName="postalCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 3 -->
+                @if (currentStep === 3) {
+                <div formGroupName="bankDetails">
+                    <div class="wizard-panel">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Bank Details
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Provide supplier bank details
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Bank Name <span class="wz-req">*</span>
+                                </label>
+                                <input class="wz-input" placeholder="Bank Name" formControlName="bankName">
+                            </div>
+                        </div>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Account Holder Name </label>
+                                <input class="wz-input" placeholder="Account Holder Name"
+                                    formControlName="accountHolderName">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Account Number </label>
+                                <input class="wz-input" placeholder="Account Number" formControlName="accountNumber">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> IFSC Code </label>
+                                <input class="wz-input" placeholder="IFSC Code" formControlName="ifscCode">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Branch name </label>
+                                <input class="wz-input" placeholder="Branch Name" formControlName="branchName">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Swift Code </label>
+                                <input class="wz-input" placeholder="Swift Code" formControlName="swiftCode">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 4 -->
+                @if(currentStep == 4){
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Review & Financial Details
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                Provide supplier Review & Financial Details
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label>Payment Terms</label>
+                            <input class="wz-input" formControlName="paymentTerms">
+                        </div>
+                        <div class="wz-form-group">
+                            <label>Credit Limit</label>
+                            <input type="number" class="wz-input" formControlName="creditLimit">
+                        </div>
+                        <div class="wz-form-group">
+                            <label>Status</label>
+                            <select class="wz-select" formControlName="status">
+                                <option value="Pending">Pending</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Rejected">Rejected</option>
+                                <option value="Inactive">Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label>Remarks</label>
+                            <textarea rows="4" class="wz-input" formControlName="remarks">
+                            </textarea>
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 5 -->
+                @if(currentStep == 5){
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Supplier Brands
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                Add brands supplied by this vendor
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addBrand()">
+                            <i class="bi bi-plus-lg"></i>
+                            Add Brand
+                        </button>
+                    </div>
+                    <div formArrayName="suppliedBrands">
+                        @for (brand of suppliedBrands.controls; track $index) {
+                        <div class="row mb-3">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" [formControlName]="$index"
+                                    placeholder="Enter Brand Name">
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-danger w-100" (click)="removeBrand($index)">
+                                    <i class="bi bi-trash"></i>
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Supplier Category
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                Add category supplied by this vendor
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addCategory()">
+                            <i class="bi bi-plus-lg"></i>
+                            Add category
+                        </button>
+                    </div>
+                    <div formArrayName="suppliedCategories">
+                        @for (category of suppliedCategories.controls; track $index) {
+                        <div class="row mb-3">
+                            <div class="col-md-11">
+                                <input type="text" class="form-control" [formControlName]="$index"
+                                    placeholder="Enter Brand Name">
+                            </div>
+                            <div class="col-md-1">
+                                <button type="button" class="btn btn-danger w-100" (click)="removeCategory($index)">
+                                    <i class="bi bi-trash"></i>
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+                <!-- STEP 6 -->
+                @if (currentStep === 6) {
+                <div class="wizard-panel">
+                    <div class="wizard-panel">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Contact Details
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Provide supplier contact details
+                                </div>
+                            </div>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px;">
+                                <button class="btn btn-primary btn-label" (click)="addContact();">
+                                    <span class="btn-label-icon">
+                                        <i class="bi bi-plus-lg"></i>
+                                    </span>Add
+                                </button>
+                            </div>
+                        </div>
+                        <div formArrayName="contacts">
+                            <div *ngFor="let contact of contacts.controls; let i=index" [formGroupName]="i"
+                                class="accordion-item">
+                                <!-- HEADER -->
+                                <div class="accordion-header" (click)="toggleContact(i)">
+                                    <div>
+                                        <strong>
+                                            {{ ('Contact ' + (i + 1)) }}
+                                        </strong>
+                                    </div>
+
+                                    <div class="accordion-actions">
+                                        <button class="btn btn-danger btn-label btn-sm" (click)="removeContact(i);">
+                                            <span class="btn-label-icon">
+                                                <i class="bi bi-x-lg"></i>
+                                            </span>Danger
+                                        </button>
+                                        <span class="arrow">
+                                            {{ openedIndex === i ? '▲' : '▼' }}
+                                        </span>
+                                    </div>
+                                </div>
+                                @if(openedIndex === i){
+                                <div class="accordion-body">
+                                    <div class="wz-form-row">
+                                        <div class="wz-form-group">
+                                            <label class="wz-label"> Contact Person Name <span class="wz-req">*</span>
+                                            </label>
+                                            <input class="wz-input" placeholder="Contact Person Name"
+                                                formControlName="contactPersonName">
+                                        </div>
+                                    </div>
+                                    <div class="wz-form-row">
+                                        <div class="wz-form-group">
+                                            <label class="wz-label"> Designation </label>
+                                            <input class="wz-input" placeholder="Designation"
+                                                formControlName="designation">
+                                        </div>
+                                        <div class="wz-form-group">
+                                            <label class="wz-label"> Mobile Number </label>
+                                            <input class="wz-input" placeholder="Mobile Number"
+                                                formControlName="mobileNumber">
+                                        </div>
+                                        <div class="wz-form-group">
+                                            <label class="wz-label"> Alt. Mobile Number </label>
+                                            <input class="wz-input" placeholder="Alt.Mobile Number"
+                                                formControlName="alternateMobileNumber">
+                                        </div>
+                                        <div class="wz-form-group">
+                                            <label class="wz-label"> Email </label>
+                                            <input class="wz-input" placeholder="Email" formControlName="email">
+                                        </div>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 7 -->
+                @if (currentStep === 7) {
+                <div class="wizard-panel">
+                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                        Review & Confirm
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                        Please review all details before registering the supplier
+                    </div>
+                    <div class="review-grid-two">
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Supplier Info
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Name</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.firstName }} {{ supplierForm.value.lastName }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Supplier Type</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.supplierType }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Registration Number</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.registrationNumber }} yrs
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">GST Number</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.gstNumber }} yrs
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">PAN Number</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.panNumber }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Drug LicenseNumber</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.drugLicenseNumber }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Website</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.website }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Email</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.email }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Phone Number</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.phoneNumber || '-' }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Alt. Phone No.</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.alternatePhoneNumber || '-' }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="review-card">
+                            <div class="flex-container">
+                                <div class="box">
+                                    <div class="review-card-title">
+                                        Supplier Billing Address Details
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Address 1</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.billingAddress?.addressLine1 }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Address 2</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.billingAddress?.addressLine2 }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">City</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.billingAddress?.addressLine2 }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">State </span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.billingAddress?.state }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">PostalCode</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.billingAddress?.postalCode }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="box">
+                                    <div class="review-card-title">
+                                        Supplier Billing Address Details
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Address 1</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.shippingAddress?.addressLine1 }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Address 2</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.shippingAddress?.addressLine2 }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">City</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.shippingAddress?.addressLine2 }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">State </span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.shippingAddress?.state }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">PostalCode</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.shippingAddress?.postalCode }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex-container pt-4">
+                                <div class="box">
+                                    <div class="review-card-title">
+                                        Supplier Bank Details
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Bank Name</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.bankDetails?.bankName }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Account Holder Name</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.bankDetails?.accountHolderName }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Account Number</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.bankDetails?.accountNumber }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">IFSC Code</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.bankDetails?.ifscCode }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Branch</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.bankDetails?.branchName }}
+                                        </span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Swift Code</span>
+                                        <span class="wz-review-val">
+                                            {{ supplierForm.value.bankDetails?.swiftCode }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Supplier Info
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Payment Terms</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.paymentTerms }}
+                                </span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Credit Limit</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.creditLimit }}
+                                </span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Status</span>
+                                <span class="wz-review-val">
+                                    <span class="badge" [ngClass]="{
+                                        'bg-warning': supplierForm.value.status === 'Pending',
+                                        'bg-success': supplierForm.value.status === 'Approved',
+                                        'bg-danger': supplierForm.value.status === 'Rejected',
+                                        'bg-secondary': supplierForm.value.status === 'Inactive'
+                                        }">
+                                        {{ supplierForm.value.status }}
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Rating</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.rating }}
+                                </span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Opening Balance</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.openingBalance }}
+                                </span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Outstanding Balance</span>
+                                <span class="wz-review-val">
+                                    {{ supplierForm.value.outstandingBalance }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Supplier Brand
+                            </div>
+                            <div class="wz-review-row">
+                                <div class="tag-container">
+                                    @for (brand of supplierForm.value.suppliedBrands; track $index) {
+                                    <span class="custom-tag brand-tag">
+                                        {{ brand }}
+                                    </span>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="review-card-title">
+                                Supplier Category
+                            </div>
+                            <div class="wz-review-row">
+                                <div class="tag-container">
+                                    @for (category of supplierForm.value.suppliedCategories; track $index) {
+                                    <span class="custom-tag category-tag">
+                                        {{ category }}
+                                    </span>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-grid-row">
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Supplier Contact Person
+                            </div>
+                            <div class="wz-review-row">
+                                @for (contact of supplierForm.value.contacts; track $index) {
+                                <div class="contact-card">
+                                    <div class="contact-name">
+                                        {{ contact.contactPersonName }}
+                                    </div>
+                                    <div class="contact-designation">
+                                        {{ contact.designation }}
+                                    </div>
+                                    <div>
+                                        📞 {{ contact.mobileNumber }}
+                                    </div>
+                                    <div>
+                                        ✉️ {{ contact.email }}
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+        </form>
+        <!-- FOOTER -->
+        <div class="wizard-footer">
+            <div style="font-size:12px;color:var(--text-muted);" id="wz-step-info">Step {{ currentStep }} of 5</div>
+            <div style="display:flex;gap:8px;">
+                <!-- Previous -->
+                @if(currentStep > 1){
+                <button class="btn btn-outline-default" (click)="prevStep()">
+                    <i class="bi bi-arrow-left"></i> Previous
+                </button>
+                }
+
+                <!-- Next -->
+                @if(!isLastStep){
+                <button class="btn btn-primary" (click)="nextStep()">
+                    Next <i class="bi bi-arrow-right"></i>
+                </button>
+                }
+
+                <!-- Submit -->
+                @if(isLastStep){
+                <button class="btn btn-success" type="submit" (click)="onSubmit()">
+                    <i class="bi bi-check-circle"></i> Register Supplier
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+</div>

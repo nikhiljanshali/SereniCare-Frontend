@@ -4,17 +4,18 @@ import { Sidebar } from '../../../core/services/sidebar';
 import { PatientMedicalHistoryDetails } from '../../../features/patient/pages/patient-medical-history-details/patient-medical-history-details';
 import { EditDoctorDetails } from '../../../features/doctors/pages/edit-doctor-details/edit-doctor-details';
 import { EditAppointmentBooking } from '../../../features/doctors/pages/edit-appointment-booking/edit-appointment-booking';
+import { MedicineDetails } from '../../../features/medicine/pages/medicine-details/medicine-details';
 
 @Component({
   selector: 'app-right-sidebar',
   standalone: true,
-  imports: [CommonModule, PatientMedicalHistoryDetails, EditDoctorDetails, EditAppointmentBooking],
+  imports: [CommonModule, PatientMedicalHistoryDetails, EditDoctorDetails, EditAppointmentBooking, MedicineDetails],
   templateUrl: './right-sidebar.html',
   styleUrl: './right-sidebar.css',
 })
 export class RightSidebar {
   public rightBarDetails: any;
-  
+
   // Inject your shared state service
   protected sidebarService = inject(Sidebar);
 

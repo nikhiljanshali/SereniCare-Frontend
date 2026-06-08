@@ -1,0 +1,169 @@
+.accordion-item {
+    border       : 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    overflow     : hidden;
+}
+
+.accordion-header {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    padding        : 12px;
+    background     : #f7f7f7;
+    cursor         : pointer;
+}
+
+.accordion-body {
+    padding   : 15px;
+    background: #fff;
+}
+
+.accordion-actions {
+    display    : flex;
+    align-items: center;
+    gap        : 10px;
+}
+
+.arrow {
+    font-size: 14px;
+}
+
+.review-container {
+    display              : grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap                  : 24px;
+}
+
+.info-card {
+    background   : #fff;
+    border-radius: 14px;
+    border       : 1px solid #e5e7eb;
+    overflow     : hidden;
+    box-shadow   : 0 2px 12px rgba(0, 0, 0, .05);
+    transition   : .3s ease;
+}
+
+.info-card:hover {
+    transform : translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, .08);
+}
+
+.card-header {
+    display    : flex;
+    align-items: center;
+    gap        : 10px;
+
+    padding: 16px 20px;
+
+    background: linear-gradient(135deg,
+            #0d6efd,
+            #4f8cff);
+
+    color         : #fff;
+    font-size     : 15px;
+    font-weight   : 600;
+    letter-spacing: .4px;
+}
+
+.card-header i {
+    font-size: 18px;
+}
+
+.info-row {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+
+    padding: 14px 20px;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.label {
+    color      : #64748b;
+    font-size  : 13px;
+    font-weight: 500;
+}
+
+.value {
+    color      : #0f172a;
+    font-size  : 14px;
+    font-weight: 600;
+    text-align : right;
+    max-width  : 60%;
+}
+
+.badge-gender,
+.badge-clinic {
+    display    : inline-flex;
+    align-items: center;
+
+    padding: 4px 12px;
+
+    border-radius: 30px;
+
+    font-size  : 12px;
+    font-weight: 600;
+}
+
+.badge-gender {
+    background: #ecfeff;
+    color     : #0891b2;
+}
+
+.badge-clinic {
+    background: #eef2ff;
+    color     : #4f46e5;
+}
+
+.review-grid-two {
+    display              : grid;
+    grid-template-columns: 1fr 1fr;
+    gap                  : 16px;
+    margin-bottom        : 16px;
+}
+
+.review-card {
+    background   : var(--bg);
+    border-radius: var(--radius-sm);
+    padding      : 14px;
+    border       : 1px solid var(--border);
+}
+
+.review-card-title {
+    font-size     : 11px;
+    font-weight   : 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color         : var(--text-muted);
+    margin-bottom : 10px;
+}
+
+
+.tag-container {
+    padding: 20px;
+}
+
+.custom-tag {
+    display      : inline-block;
+    padding      : 6px 14px;
+    border-radius: 20px;
+    margin       : 4px;
+    font-size    : 12px;
+    font-weight  : 600;
+}
+
+.brand-tag {
+    background: #e0f2fe;
+    color     : #0369a1;
+}
+
+.category-tag {
+    background: #dcfce7;
+    color     : #15803d;
+}

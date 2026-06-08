@@ -21,7 +21,7 @@ const routes: Routes = [
         path: 'master/list',
         component: PatientList,
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin, Roles.Patient] }
+        data: { roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor] }
       },
       { path: '', redirectTo: 'appointments', pathMatch: 'full' },
     ]

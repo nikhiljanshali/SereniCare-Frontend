@@ -1,0 +1,202 @@
+<div class="modal-header">
+    <h5 class="modal-title">Prescription</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+    </button>
+</div>
+<div class="modal-body p-1">
+    @if(prescriptionDetails){
+    <div class="prescriptionDetails-print" #printSection>
+        <div class="vh-scroll-container">
+            <!-- Header -->
+            <div class="prescriptionDetails-header">
+                <!-- <div>
+                    <h2>City Care Hospital</h2>
+                    <p>123 Medical Street, Surat, Gujarat</p>
+                    <p>Phone: +91 9876543210</p>
+                </div> -->
+                <div class="prescriptionDetails-meta">
+                    <p><strong>Prescription No:</strong> {{prescriptionDetails.prescriptionNumber}}</p>
+                    <p><strong>Date:</strong> {{prescriptionDetails.prescribedDate | date:'dd/MM/yyyy'}}</p>
+                </div>
+            </div>
+
+            <!-- Patient Information -->
+            <div class="section">
+                <h4>Patient Information</h4>
+
+                <div class="info-grid">
+                    <div>
+                        <label>Patient Name</label>
+                        <span>{{prescriptionDetails.patientDetails.firstName}} {{prescriptionDetails.patientDetails.lastName}}</span>
+                    </div>
+
+                    <div>
+                        <label>Doctor</label>
+                        <span>Dr. {{prescriptionDetails.doctorDetails.firstName}} {{prescriptionDetails.doctorDetails.lastName}}</span>
+                    </div>
+
+                    <div>
+                        <label>Appointment No</label>
+                        <span>{{prescriptionDetails.appointmentId.appointmentNumber}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diagnosis -->
+            <div class="section">
+                <h4>Diagnosis</h4>
+
+                <div class="tag-list">
+                    @for (item of prescriptionDetails.diagnosis; track $index) {
+                    <span class="tag">{{item}}</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Symptoms -->
+            <div class="section">
+                <h4>Symptoms</h4>
+
+                <div class="tag-list">
+                    @for (item of prescriptionDetails.symptoms; track $index) {
+                    <span class="tag tag-light">{{item}}</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Medicines -->
+            <div class="section">
+                <h4>Medicines Prescribed</h4>
+
+                <table class="medicine-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Medicine</th>
+                            <th>Dosage</th>
+                            <th>Frequency</th>
+                            <th>Duration</th>
+                            <th>Instructions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (medicine of prescriptionDetails.medicines; track $index) {
+                        <tr>
+                            <td>{{$index + 1}}</td>
+                            <td>{{medicine.medicineName}}</td>
+                            <td>{{medicine.dosage}} {{medicine.dosageUnit}}</td>
+                            <td>{{medicine.frequency}} {{medicine.frequencyUnit}}</td>
+                            <td>{{medicine.duration}} {{medicine.durationType}}</td>
+                            <td>{{medicine.instructions}}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Investigations -->
+            <div class="section">
+                <h4>Investigations</h4>
+
+                <table class="investigation-table">
+                    <thead>
+                        <tr>
+                            <th>Test Name</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (test of prescriptionDetails.investigations; track $index) {
+                        <tr>
+                            <td>{{test.testName}}</td>
+                            <td>{{test.remarks}}</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Advice -->
+            <div class="section">
+                <h4>Advice</h4>
+                <p>{{prescriptionDetails.advice}}</p>
+            </div>
+
+            <!-- Notes -->
+            <div class="section">
+                <h4>Clinical Notes</h4>
+                <p>{{prescriptionDetails.notes}}</p>
+            </div>
+
+            <!-- Follow Up -->
+            <div class="followup-box">
+                <strong>Follow-up Date:</strong>
+                {{prescriptionDetails.followUpDate | date:'dd MMM yyyy'}}
+            </div>
+
+            <!-- Footer -->
+            <div class="prescription-details-footer">
+
+                <div class="footer-notes">
+                    <h6>Important Instructions</h6>
+                    <ul>
+                        <li>Complete the full course of medicines as prescribed.</li>
+                        <li>Avoid self-medication.</li>
+                        <li>Contact your doctor immediately if symptoms worsen.</li>
+                        <li>Follow dietary and lifestyle recommendations.</li>
+                    </ul>
+                </div>
+
+                <div class="footer-signature-section">
+
+                    <div class="signature-box">
+                        <div class="signature-line"></div>
+                        <h6>Doctor Signature</h6>
+                        <p>Dr. {{prescriptionDetails.doctorDetails.firstName}} {{prescriptionDetails.doctorDetails.lastName}}</p>
+                        <span>Reg. No: {{prescriptionDetails.doctorDetails.licenseNumber}} </span>
+                    </div>
+
+                    <div class="stamp-box">
+                        <div class="stamp-placeholder">
+                            Clinic Stamp
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="footer-meta">
+                    <span>
+                        Prescription No:
+                        <strong>{{ prescriptionDetails.prescriptionNumber }}</strong>
+                    </span>
+
+                    <span>
+                        Generated:
+                        {{ prescriptionDetails.prescribedDate | date:'dd MMM yyyy, hh:mm a' }}
+                    </span>
+                </div>
+
+                <div class="footer-disclaimer">
+                    This prescription is electronically generated and valid without a physical signature unless required
+                    by
+                    local regulations.
+                </div>
+
+            </div>
+        </div>
+    </div>
+    }@else{
+    <ng-template #noPrescription>
+        <div class="prescriptionDetails-print">
+            <p>No prescription details available.</p>
+        </div>
+    </ng-template>
+    }
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary"> Print </button>
+    <button type="button" class="btn btn-secondary" (click)="closeModePopup()"> Close </button>
+</div>

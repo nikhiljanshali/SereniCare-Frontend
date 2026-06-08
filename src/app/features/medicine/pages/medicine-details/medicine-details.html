@@ -1,0 +1,318 @@
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="ph-title"><i class="bi bi-folder2-open text-teal"></i> Medical History Registry</div>
+        <div class="ph-sub">Medicine: <strong>{{ medicineDetails?.medicineName }} </strong>
+        </div>
+    </div>
+</div>
+<div class="clinic-grid">
+    <div class="clinic-card refined-card">
+        <div class="card-body-segmented">
+            <div class="medical-section">
+                <!-- Basic Information -->
+                <div class="review-sub-section">
+                    <div class="section-badge-header">
+                        <i class="bi bi-capsule-pill"></i>
+                        Medicine Details
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Therapeutic Class</span>
+                            <span class="badge-pill alert-success">{{ medicineDetails.therapeuticClass }}</span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Strength</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.strength }} {{ medicineDetails.unit }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Pricing -->
+                <div class="review-sub-section">
+                    <div class="section-badge-header">
+                        <i class="bi bi-capsule-pill"></i>
+                        Pricing & Inventory
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Purchase Price</span>
+                            <span class="badge-pill alert-success">
+                                ₹{{ medicineDetails.purchasePrice }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Selling Price</span>
+                            <span class="badge-pill alert-success">
+                                ₹{{ medicineDetails.sellingPrice }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+
+                        <div class="wz-review-row">
+                            <span class="label">GST</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.gstPercentage }}%
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">HSN Code</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.hsnCode }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Reorder Level</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.reorderLevel }}
+                            </span>
+                        </div>
+
+                        <div class="wz-review-row">
+                            <span class="label">Max Stock Level</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.maxStockLevel }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Medical Information -->
+                <div class="review-sub-section">
+                    <div class="section-badge-header">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                        Medical Information
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Prescription Required</span>
+                            <span class="badge-pill"
+                                [ngClass]="medicineDetails.requiresPrescription ? 'alert-warning' : 'alert-success'">
+                                {{ medicineDetails.requiresPrescription ? 'Yes' : 'No' }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Controlled Drug</span>
+                            <span class="badge-pill"
+                                [ngClass]="medicineDetails.isControlledDrug ? 'alert-danger' : 'alert-success'">
+                                {{ medicineDetails.isControlledDrug ? 'Yes' : 'No' }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Status</span>
+                            <span class="badge-pill"
+                                [ngClass]="medicineDetails.isActive ? 'alert-success' : 'alert-danger'">
+                                {{ medicineDetails.isActive ? 'Active' : 'Inactive' }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Storage Condition</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.storageCondition }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Dosage Instructions</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.dosageInstructions }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Side Effects -->
+                <div class="review-sub-section mt-2">
+                    <div class="section-badge-header">
+                        <i class="bi bi-heart-pulse-fill"></i>
+                        Side Effect
+                    </div>
+
+                    <div class="tags-container">
+                        @if (medicineDetails.sideEffects?.length) {
+                        @for (effect of medicineDetails.sideEffects; track $index) {
+                        <span class="badge-pill alert-danger">
+                            {{ effect }}
+                        </span>
+                        }
+                        } @else {
+                        <span class="muted-dash">No Side Effects Recorded</span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Contraindications -->
+                <div class="review-sub-section mt-3">
+                    <div class="section-badge-header">
+                        <i class="bi bi-shield-exclamation"></i>
+                        Contraindications
+                    </div>
+
+                    <div class="tags-container">
+                        @if (medicineDetails.contraindications?.length) {
+                        @for (item of medicineDetails.contraindications; track $index) {
+                        <span class="badge-pill alert-info ">
+                            {{ item }}
+                        </span>
+                        }
+                        } @else {
+                        <span class="muted-dash">No Contraindications</span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Drug Interactions -->
+                <div class="review-sub-section mt-3">
+                    <div class="section-badge-header">
+                        <i class="bi bi-arrow-left-right"></i>
+                        Drug Interactions
+                    </div>
+
+                    <div class="tags-container">
+                        @if (medicineDetails.drugInteractions?.length) {
+                        @for (interaction of medicineDetails.drugInteractions; track $index) {
+                        <span class="badge-pill alert-info">
+                            {{ interaction }}
+                        </span>
+                        }
+                        } @else {
+                        <span class="muted-dash">No Drug Interactions</span>
+                        }
+                    </div>
+                </div>
+
+                <!-- Supplier Information -->
+                <div class="review-sub-section mt-3">
+                    <div class="section-badge-header">
+                        <i class="bi bi-building"></i>
+                        Supplier Information
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Supplier Code</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.supplierId?.supplierCode }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Supplier Name</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.supplierId?.firstName }}
+                                {{ medicineDetails.supplierId?.lastName }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Supplier Type</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.supplierId?.supplierType }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Email</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.supplierId?.email }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Phone</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.supplierId?.phoneNumber }}
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Payment Terms</span>
+                            <span class="badge-pill alert-success">
+                                {{ medicineDetails.supplierId?.paymentTerms }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between gap-3">
+                        <div class="wz-review-row">
+                            <span class="label">Rating</span>
+                            <span class="badge-pill alert-success">
+                                ⭐ {{ medicineDetails.supplierId?.rating }}/5
+                            </span>
+                        </div>
+                        <div class="wz-review-row">
+                            <span class="label">Supplier Status</span>
+                            <span class="badge-pill" [ngClass]="{
+                            'alert-success': medicineDetails.supplierId?.status === 'Approved',
+                            'alert-warning': medicineDetails.supplierId?.status === 'Pending',
+                            'alert-danger': medicineDetails.supplierId?.status === 'Rejected',
+                            'alert-secondary': medicineDetails.supplierId?.status === 'Inactive'
+                            }">
+                                {{ medicineDetails.supplierId?.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="medical-section">
+                <div class="section-badge-header">
+                    <i class="bi bi-heart-pulse-fill"></i> Medicine Details
+                </div>
+
+                <div class="wz-review-row">
+                    <span class="label">Side Effect</span>
+                    <div class="tags-container">
+                        @if (medicineDetails.sideEffects?.length) {
+                        @for (sideEffect of medicineDetails.sideEffects; track $index) {
+                        <span class="badge-pill alert-danger">{{ sideEffect }}</span>
+                        }
+                        } @else {
+                        <span class="muted-dash">— None Recorded</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="wz-review-row">
+                    <span class="label">Contraindications</span>
+                    <div class="tags-container">
+                        @if (medicineDetails.contraindications?.length) {
+                        @for (cod of medicineDetails.contraindications; track $index) {
+                        <span class="badge-pill alert-info">{{ cod }}</span>
+                        }
+                        } @else {
+                        <span class="muted-dash">— None</span>
+                        }
+                    </div>
+                </div>
+
+
+                <div class="wz-review-row">
+                    <span class="label">Drug Interactions</span>
+                    <div class="tags-container">
+                        @if (medicineDetails.drugInteractions?.length) {
+                        @for (drug of medicineDetails.drugInteractions; track $index) {
+                        <span class="badge-pill alert-info">{{ drug }}</span>
+                        }
+                        } @else {
+                        <span class="muted-dash">— None</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="wz-review-row">
+                    <span class="label">Storage Condition</span>
+                    <span class="value list-text">{{ medicineDetails.storageCondition }}</span>
+                </div>
+
+                <div class="wz-review-row">
+                    <span class="label">Family Genetic History</span>
+                    <span class="value list-text">{{ medicineDetails.familyHistory || 'No hereditary factors reported' }}</span>
+                </div>
+
+            </div> -->
+        </div>
+    </div>
+</div>

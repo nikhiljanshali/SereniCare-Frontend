@@ -14,6 +14,7 @@ import { StorageUserDetails, IAppointmentDetails, IAppointment, IDoctorByIdData 
 import { DoctorService } from '../../../../core/services/doctor';
 import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
 import { NotificationServices } from '../../../../core/services/notification-services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -25,13 +26,12 @@ import { NotificationServices } from '../../../../core/services/notification-ser
 export class DoctorAppointment {
   @ViewChild('calendar') calendar!: DayPilotCalendarComponent;
   public sidebar = viewChild<RightSidebar>('medicalSidebar');
-
-  currentView: 'Day' | 'Week' | 'Month' = 'Week';
-  currentDate = DayPilot.Date.today();
+  public currentView: 'Day' | 'Week' | 'Month' = 'Week';
+  public currentDate = DayPilot.Date.today();
   public doctorProfile: IDoctorByIdData | null = null;
   public appointmentDetails: IAppointmentDetails | null = null;
   public appointmentStatuses = ['Pending', 'Checked-In', 'Completed', 'Cancelled', 'Confirmed', 'No Show'];
-  eventMenu = new DayPilot.Menu({
+  public eventMenu = new DayPilot.Menu({
     items: [
       {
         text: 'Update Appointment',
@@ -125,14 +125,32 @@ export class DoctorAppointment {
           this._appointmentBookService.updateAppointmentStatus(event.data.id, 'No-Show', false)
             .subscribe({
               next: (res) => {
-                console.log('Status updated successfully:', res);
-
                 this.getBookedAppointment();
               },
               error: (error) => {
                 console.error('Failed to update appointment status:', error);
               }
             });
+        }
+      },
+      {
+        text: 'Write a Prescription',
+        onClick: (args) => {
+          console.log('Confirmed:', args.source.data.id);
+          const event = args.source;
+          // console.log(event.data);
+          // console.log(event.data.patientId);
+          // console.log(event.data.doctorId);
+          this.router.navigate(['/layout/prescription/master/create', event.data.patientId, event.data.id])
+          // this._appointmentBookService.updateAppointmentStatus(event.data.id, 'No-Show', false)
+          //   .subscribe({
+          //     next: (res) => {
+          //       this.getBookedAppointment();
+          //     },
+          //     error: (error) => {
+          //       console.error('Failed to update appointment status:', error);
+          //     }
+          //   });
         }
       },
     ]
@@ -167,7 +185,8 @@ export class DoctorAppointment {
     onEventClick: async (args) => {
       this._appointmentBookService.getAppointmentsByAppointmentId(args.e.data.id).subscribe((res: any) => {
         if (res.success) {
-          this.appointmentDetails = res.data
+          this.appointmentDetails = res.data;
+          console.log(this.appointmentDetails);
           this.sidebar()?.openRightSidebar('', 'edit-appointment', this.appointmentDetails);
         }
       })
@@ -317,6 +336,7 @@ export class DoctorAppointment {
   public bookedAppointments: IAppointmentDetails[] = [];
 
   constructor(
+    private router: Router,
     private _appointmentBookService: AppointmentBookService,
     private _storageOperation: StorageOperation,
     private _doctorService: DoctorService,
@@ -504,9 +524,10 @@ export class DoctorAppointment {
           borderColor = '#1d2124';
           break;
       }
-
       return {
         id: appointment._id,
+        doctorId: appointment?.doctorId?._id,
+        patientId:appointment?.patientId?._id,
         text: `${appointment.appointmentNumber} - ${appointment.consultationMode} / (${appointment.appointmentStatus})`,
         start: `${appointment.appointmentDate.split('T')[0]}T${appointment.startTime}:00`,
         end: `${appointment.appointmentDate.split('T')[0]}T${appointment.endTime}:00`,
@@ -536,12 +557,22 @@ export class DoctorAppointment {
   }
 
   bookAppointment(): void {
-    const modalRef = this._modalService.openComponentModal(AppointmentBooking, {
-      class: 'modal-dialog-centered modal-lg',
-      initialState: {
-        doctorDetails: this.doctorProfile
-      }
-    });
+    // const modalRef = this._modalService.openComponentModal(AppointmentBooking, {
+    //   class: 'modal-dialog-centered modal-lg',
+    //   initialState: {
+    //     doctorDetails: this.doctorProfile
+    //   }
+    // });
+    const modalRef = this._modalService.openComponentModal(AppointmentBooking,
+      {
+        class: 'modal-dialog-centered modal-lg',
+        backdrop: 'static',
+        keyboard: false,
+        initialState: {
+          doctorDetails: this.doctorProfile,
+          isModel: true,
+        }
+      });
 
     modalRef.content.appointmentSaved.subscribe((data: any) => {
       this.getBookedAppointment();
