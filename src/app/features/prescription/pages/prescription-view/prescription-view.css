@@ -1,0 +1,288 @@
+.prescription-print {
+    max-width    : 1000px;
+    margin       : auto;
+    background   : #fff;
+    padding      : 30px;
+    border       : 1px solid #ddd;
+    border-radius: 12px;
+    color        : #222;
+}
+
+.prescription-header {
+    display        : flex;
+    justify-content: space-between;
+    border-bottom  : 2px solid #0ea5e9;
+    padding-bottom : 15px;
+    margin-bottom  : 25px;
+}
+
+.prescription-header h2 {
+    margin: 0;
+    color : #0f172a;
+}
+
+.prescription-meta {
+    text-align: right;
+}
+
+.section {
+    margin-bottom: 22px;
+}
+
+.section h4 {
+    margin-bottom: 10px;
+    color        : #0f172a;
+    border-left  : 4px solid #0ea5e9;
+    padding-left : 10px;
+}
+
+.info-grid {
+    display              : grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap                  : 15px;
+}
+
+.info-grid label {
+    display  : block;
+    font-size: 12px;
+    color    : #64748b;
+}
+
+.info-grid span {
+    font-weight: 600;
+}
+
+.tag-list {
+    display  : flex;
+    gap      : 8px;
+    flex-wrap: wrap;
+}
+
+.tag {
+    background   : #dbeafe;
+    color        : #1d4ed8;
+    padding      : 6px 10px;
+    border-radius: 20px;
+    font-size    : 12px;
+}
+
+.tag-light {
+    background: #e0f2fe;
+    color     : #0369a1;
+}
+
+.medicine-table,
+.investigation-table {
+    width          : 100%;
+    border-collapse: collapse;
+}
+
+.medicine-table th,
+.medicine-table td,
+.investigation-table th,
+.investigation-table td {
+    border    : 1px solid #e2e8f0;
+    padding   : 10px;
+    text-align: left;
+}
+
+.medicine-table th,
+.investigation-table th {
+    background: #f8fafc;
+}
+
+.followup-box {
+    background   : #fef3c7;
+    padding      : 12px;
+    border-radius: 8px;
+    border-left  : 4px solid #f59e0b;
+}
+
+.prescription-footer {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : flex-end;
+    margin-top     : 40px;
+}
+
+.signature {
+    width     : 220px;
+    text-align: center;
+}
+
+.signature .line {
+    border-top   : 1px solid #000;
+    margin-bottom: 5px;
+}
+
+.status.completed {
+    color      : #16a34a;
+    font-weight: 600;
+}
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .prescription-print {
+        border    : none;
+        box-shadow: none;
+        width     : 100%;
+        max-width : 100%;
+        padding   : 0;
+    }
+
+    button,
+    .no-print {
+        display: none !important;
+    }
+}
+
+
+.prescription-details-footer {
+    margin-top : 20px;
+    border-top : 2px solid #e5e7eb;
+    padding-top: 24px;
+}
+
+.footer-notes {
+    background   : #f8fafc;
+    border       : 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding      : 16px;
+    margin-bottom: 24px;
+
+    h6 {
+        font-size    : 15px;
+        font-weight  : 700;
+        margin-bottom: 10px;
+        color        : #1e293b;
+    }
+
+    ul {
+        margin      : 0;
+        padding-left: 18px;
+
+        li {
+            font-size  : 13px;
+            color      : #475569;
+            line-height: 1.8;
+        }
+    }
+}
+
+.footer-followup {
+    margin-bottom: 24px;
+}
+
+.followup-card {
+    display       : inline-flex;
+    flex-direction: column;
+    gap           : 4px;
+    background    : #ecfeff;
+    border        : 1px solid #99f6e4;
+    padding       : 12px 20px;
+    border-radius : 8px;
+
+    label {
+        font-size  : 12px;
+        color      : #0f766e;
+        font-weight: 600;
+    }
+
+    span {
+        font-size  : 15px;
+        font-weight: 700;
+        color      : #134e4a;
+    }
+}
+
+.footer-signature-section {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : flex-end;
+    margin-top     : 40px;
+    margin-bottom  : 24px;
+}
+
+.signature-box {
+    width     : 280px;
+    text-align: center;
+
+    h6 {
+        margin-top   : 10px;
+        margin-bottom: 5px;
+        font-weight  : 700;
+        color        : #1f2937;
+    }
+
+    p {
+        margin     : 0;
+        font-size  : 14px;
+        font-weight: 600;
+    }
+
+    span {
+        font-size: 12px;
+        color    : #64748b;
+    }
+}
+
+.signature-line {
+    border-top   : 2px solid #111827;
+    margin-bottom: 10px;
+}
+
+.stamp-box {
+    width : 140px;
+    height: 140px;
+}
+
+.stamp-placeholder {
+    width          : 100%;
+    height         : 100%;
+    border         : 2px dashed #cbd5e1;
+    border-radius  : 50%;
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    color          : #94a3b8;
+    font-size      : 13px;
+    font-weight    : 600;
+}
+
+.footer-meta {
+    display        : flex;
+    justify-content: space-between;
+    padding-top    : 15px;
+    border-top     : 1px dashed #cbd5e1;
+    font-size      : 12px;
+    color          : #64748b;
+}
+
+.footer-disclaimer {
+    margin-top: 15px;
+    text-align: center;
+    font-size : 11px;
+    color     : #94a3b8;
+    font-style: italic;
+}
+
+@media print {
+    .prescription-details-footer {
+        page-break-inside: avoid;
+    }
+
+    .footer-notes {
+        background: transparent !important;
+        border    : 1px solid #ddd !important;
+    }
+
+    .followup-card {
+        background: transparent !important;
+        border    : 1px solid #ddd !important;
+    }
+}
+

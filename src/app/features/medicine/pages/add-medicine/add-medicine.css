@@ -1,0 +1,72 @@
+.switch {
+    position: relative;
+    width   : 42px;
+    height  : 22px;
+}
+
+.switch input {
+    display: none;
+}
+
+.slider {
+    position     : absolute;
+    cursor       : pointer;
+    inset        : 0;
+    background   : #ccc;
+    border-radius: 20px;
+    transition   : 0.3s;
+}
+
+.slider::before {
+    content      : '';
+    position     : absolute;
+    width        : 18px;
+    height       : 18px;
+    left         : 2px;
+    top          : 2px;
+    background   : white;
+    border-radius: 50%;
+    transition   : 0.3s;
+}
+
+input:checked+.slider {
+    background: #14b8a6;
+}
+
+input:checked+.slider::before {
+    transform: translateX(20px);
+}
+
+.btn-deceased {
+    margin-left  : 10px;
+    background   : #ef4444;
+    color        : white;
+    border       : none;
+    padding      : 4px 10px;
+    border-radius: 6px;
+    cursor       : pointer;
+}
+
+
+.review-grid-two {
+    display              : grid;
+    grid-template-columns: 1fr 1fr;
+    gap                  : 16px;
+    margin-bottom        : 16px;
+}
+
+.review-card {
+    background   : var(--bg);
+    border-radius: var(--radius-sm);
+    padding      : 14px;
+    border       : 1px solid var(--border);
+}
+
+.review-card-title {
+    font-size     : 11px;
+    font-weight   : 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color         : var(--text-muted);
+    margin-bottom : 10px;
+}

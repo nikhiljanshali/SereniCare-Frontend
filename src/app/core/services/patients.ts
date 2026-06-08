@@ -33,9 +33,31 @@ export class PatientService {
     );
   }
 
-  public getPatientById(id: string): Observable<any> {
+  public getPatientById(id: string, showNotification: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getPatientById/${id}`).pipe(
-      map(res => res.data)
+      map(res => res),
+      tap(() => {
+        if (showNotification) {
+          this._notificationServices.success(
+            'Success',
+            'Patients fetched successfully'
+          );
+        }
+      })
+    );
+  }
+
+  public getPatientsByDoctorId(id: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrl}getPatientsByDoctorId/${id}`).pipe(
+      map(res => res),
+      tap(() => {
+        if (showNotification) {
+          this._notificationServices.success(
+            'Success',
+            'Patients fetched successfully'
+          );
+        }
+      })
     );
   }
 

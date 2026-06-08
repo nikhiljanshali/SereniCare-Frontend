@@ -29,7 +29,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./../features/patient/patient-module').then(m => m.PatientModule),
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin, Roles.Patient] }
+        data: { roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor] }
       },
       // 🏨 Doctors Module - Role: SystemAdmin, Admin
       {
@@ -38,6 +38,27 @@ const routes: Routes = [
           import('../features/doctors/doctor-module').then(m => m.DoctorModule),
         canActivate: [roleGuard],
         data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
+      },
+      {
+        path: 'supplier',
+        loadChildren: () =>
+          import('../features/supplier/supplier-module').then(m => m.SupplierModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Supplier] }
+      },
+      {
+        path: 'medicine',
+        loadChildren: () =>
+          import('../features/medicine/medicine-module').then(m => m.MedicineModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor] }
+      },
+      {
+        path: 'prescription',
+        loadChildren: () =>
+          import('../features/prescription/prescription-module').then(m => m.PrescriptionModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor] }
       },
       // 🔄 Default route
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }

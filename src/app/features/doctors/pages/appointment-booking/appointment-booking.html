@@ -1,25 +1,64 @@
+@if(!isModel){
+<div id="page-clinic-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Book Appointment</div>
+            <div class="ph-sub">Schedule your consultation with ease</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <!-- <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>Filter
+            </button> -->
+            <button class="btn btn-primary btn-sm" (click)="bookAppointment();">
+                <i class="bi bi-plus-lg"></i>
+                Create Doctor
+            </button>
+        </div>
+    </div>
+</div>
+}
+
+@if(isModel){
 <div class="modal-header">
     <h5 class="modal-title">Book Appointment</h5>
     <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
     </button>
 </div>
-<div class="modal-body">
+}
+<div class="modal-body rounded-4">
     <form [formGroup]="appointmentBookingForm">
         <div class="scroll-bar">
             <div id="reg-step1">
                 <div class="card-section-label" style="margin-top:0;">Appointment Details</div>
-                <div class="form-group">
-                    <label> Patient <span class="text-danger">*</span> </label>
-                    <div class="input-wrap">
-                        <i class="bi bi-person-hearts input-icon"></i>
-                        <select class="form-select" formControlName="patientId">
-                            <option [ngValue]="null"> Select Patient </option>
-                            @for(patient of patients; track patient._id){
-                            <option [value]="patient._id">
-                                {{patient.firstName}} {{patient.lastName}}
-                            </option>
-                            }
-                        </select>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label> Clinics <span class="text-danger">*</span> </label>
+                        <div class="input-wrap">
+                            <i class="bi bi-person-hearts input-icon"></i>
+                            <select class="form-select" formControlName="clinicId">
+                                <option [ngValue]="null"> Select Clinic </option>
+                                @for(clinic of clinicList; track clinic._id){
+                                <option [value]="clinic._id">
+                                    {{clinic.clinicName}}
+                                    <!-- [{{clinic.clinicType}} - {{clinic.registrationNumber}}] -->
+                                </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label> Patient <span class="text-danger">*</span> </label>
+                        <div class="input-wrap">
+                            <i class="bi bi-person-hearts input-icon"></i>
+                            <select class="form-select" formControlName="patientId">
+                                <option [ngValue]="null"> Select Patient </option>
+                                @for(patient of patients; track patient._id){
+                                <option [value]="patient._id">
+                                    {{patient.firstName}} {{patient.lastName}}
+                                </option>
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="form-row">
@@ -160,6 +199,7 @@
     </form>
 </div>
 
+@if(isModel){
 <div class="modal-footer">
     @if(breakMessage) {
     <div class="alert alert-warning p-2" role="alert">
@@ -170,3 +210,4 @@
     <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
     <button type="button" class="btn btn-primary" (click)="bookAppointment()"> Book Appointment </button>
 </div>
+}

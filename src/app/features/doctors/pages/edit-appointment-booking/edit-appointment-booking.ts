@@ -102,6 +102,18 @@ export class EditAppointmentBooking {
         }
       ],
 
+      clinicId: [
+        { value: this.appointmentDetails?.clinicId?._id, disabled: true },
+        Validators.required
+      ],
+
+      clinicName: [
+        {
+          value: `${this.appointmentDetails?.clinicId?.clinicName}`,
+          disabled: true
+        }
+      ],
+
       appointmentDate: [
         {
           value: this._commonMethod.formatDateForInput(this.appointmentDetails?.appointmentDate),

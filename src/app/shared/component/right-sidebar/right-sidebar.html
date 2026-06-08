@@ -9,13 +9,6 @@
   }
   <div class="rs-content">
     <!-- <p>{{ sidebarService.content() }}</p> -->
-    @if(sidebarService.content() == 'patient'){
-    <app-patient-medical-history-details
-      [patientDetails]="sidebarService.details()"></app-patient-medical-history-details>
-    }
-    @else if(sidebarService.content() == 'doctor'){
-    <app-edit-doctor-details [doctorDetails]="sidebarService.details()"
-      (saveSuccess)="onsaveSuccess($event)"></app-edit-doctor-details>
     <!-- <div style="padding:20px;">
       <h4>Doctor Details</h4>
       <p><strong>Name:</strong> {{sidebarService.details()?.firstName}} {{sidebarService.details()?.lastName}}</p>
@@ -23,9 +16,20 @@
       <p><strong>Contact:</strong> {{sidebarService.details()?.contactNumber}}</p>
       <p><strong>Email:</strong> {{sidebarService.details()?.email}}</p>
     </div> -->
-    }@else if(sidebarService.content() == 'edit-appointment'){
-    <app-edit-appointment-booking [appointmentDetails]="sidebarService.details()"
-      (saveSuccess)="onsaveSuccess($event)"></app-edit-appointment-booking>
+    @if(sidebarService.content() == 'patient'){
+    <app-patient-medical-history-details [patientDetails]="sidebarService.details()">
+    </app-patient-medical-history-details>
+    }
+    @else if(sidebarService.content() == 'doctor'){
+    <app-edit-doctor-details [doctorDetails]="sidebarService.details()" (saveSuccess)="onsaveSuccess($event)">
+    </app-edit-doctor-details>
+    }
+    @else if(sidebarService.content() == 'edit-appointment'){
+    <app-edit-appointment-booking [appointmentDetails]="sidebarService.details()" (saveSuccess)="onsaveSuccess($event)">
+    </app-edit-appointment-booking>
+    }
+    @else if(sidebarService.content() == 'medicine-detail'){
+    <app-medicine-details [medicineDetails]="sidebarService.details()"></app-medicine-details>
     }
   </div>
   <div class="rs-footer">

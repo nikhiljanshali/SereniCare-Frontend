@@ -4774,6 +4774,7 @@ body {
 .rs-content {
   padding   : 20px;
   overflow-y: auto;
+  overflow-x: hidden;
   flex      : 1;
 }
 
@@ -6700,4 +6701,12 @@ body {
     opacity  : 1;
     transform: translateY(0);
   }
+}
+
+/* Medicine dynamic item box */
+.medicine-row {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-evenly;
+  gap            : 10px;
 }

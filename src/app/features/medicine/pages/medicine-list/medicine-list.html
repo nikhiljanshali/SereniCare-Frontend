@@ -1,0 +1,88 @@
+<div id="page-medicine-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Medicine List</div>
+            <div class="ph-sub">List of Registered Medicines</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>Filter
+            </button>
+            <!-- <button class="btn btn-primary btn-sm" (click)="createDoctor()"><i class="bi bi-plus-lg"></i> Create
+            Doctor</button> -->
+        </div>
+    </div>
+    <div class="appt-row">
+        <div class="appt-card">
+            <div class="vh-scroll-container">
+                <table class="appt-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Generic Name</th>
+                            <th>Manufacturer & Brand Name</th>
+                            <th>Category</th>
+                            <th>Unit</th>
+                            <th>Is Active</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (med of medicineList; track med._id) {
+                        <tr>
+                            <td>
+                                <div class="patient-cell">
+                                    <div>
+                                        <div class="patient-name">{{med.medicineName}}</div>
+                                        <div class="patient-id">#{{med.medicineCode}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="patient-cell">
+                                    <div>
+                                        <div class="patient-name">{{med.genericName}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="patient-cell">
+                                    <div>
+                                        <div class="patient-name">{{med.manufacturer}}</div>
+                                        <div class="patient-id">#{{med.brandName}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="patient-cell">
+                                    <div>
+                                        <div class="patient-name">{{med.category}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="patient-cell">
+                                    <div>
+                                        <div class="patient-name">{{med.unit}}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge confirmed">{{med.isActive}}</span></td>
+                            <td>
+                                <button class="action-btn" (click)="openMedicineDetails(med)">
+                                    <i class="bi bi-info-circle-fill"></i>
+                                </button>
+                                <button class="action-btn">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <app-right-sidebar #medicalSidebar></app-right-sidebar>
+</div>

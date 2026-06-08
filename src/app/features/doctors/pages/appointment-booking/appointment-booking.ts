@@ -5,7 +5,8 @@ import { PatientService } from '../../../../core/services/patients';
 import { ModalService } from '../../../../core/services/modal-service';
 import { AppointmentBookService } from '../../../../core/services/appointment-book';
 import { StorageOperation } from '../../../../core/services/storage-operation';
-import { IPatientsData, IDoctorByIdData, Slot, IAvailableSlots, IDoctorSlotsByDay, DoctorId } from '../../../../core/interface/basic.interface';
+import { IPatientsData, IDoctorByIdData, Slot, IAvailableSlots, IDoctorSlotsByDay, DoctorId, IClinicList, IClinics } from '../../../../core/interface/basic.interface';
+import { Clinics } from '../../../../core/services/clinics';
 
 @Component({
   selector: 'app-appointment-booking',
@@ -19,6 +20,7 @@ export class AppointmentBooking {
   public appointmentBookingForm!: FormGroup;
   public patients: IPatientsData[] = [];
   public doctorDetails: IDoctorByIdData | null = null;
+  public isModel: boolean = false;
   public data: any;
   public minDate: string = new Date().toISOString().split('T')[0];
   public doctorSlots: Slot[] = [];
@@ -27,6 +29,7 @@ export class AppointmentBooking {
   public breakMessage: string = '';
   public userRole: string = '';
   public bookingSourceOptions: string[] = [];
+  public clinicList: IClinicList[] = [];
   public appointmentStatusOptions: string[] = [
     'Pending',
     'Confirmed',
@@ -44,22 +47,29 @@ export class AppointmentBooking {
     'In-Person',
     'Telemedicine',
   ];
+  public doctorId: string = '';
   constructor(
     private fb: FormBuilder,
     public _modalService: ModalService,
     private _patientService: PatientService,
     private _appointmentBookService: AppointmentBookService,
-    private _storageOperation: StorageOperation
+    private _storageOperation: StorageOperation,
+    private _clinicsService: Clinics,
   ) {
-    const storedDoctorDetails = this._storageOperation.get<any>('user');
-    if (storedDoctorDetails) {
-      this.userRole = storedDoctorDetails.role || '';
+    const storedUser = this._storageOperation.get<any>('user');
+    if (storedUser) {
+      this.userRole = storedUser.role || '';
+    }
+    const storedUserDetails = this._storageOperation.get<any>('userDetails');
+    if (storedUserDetails) {
+      this.doctorId = storedUserDetails.id || '';
     }
   }
 
   ngOnInit(): void {
     this.setBookingSourceOptions();
     this.initAppointmentBookingForm();
+    this.getClinicsByDoctorId();
     this.getPatients();
   }
 
@@ -84,6 +94,12 @@ export class AppointmentBooking {
     }
   }
 
+  private getClinicsByDoctorId(): void {
+    this._clinicsService.getAllClinics().subscribe((res: IClinics) => {
+      this.clinicList = res.data;
+    });
+  }
+
   private getPatients(): void {
     this._patientService.getPatients().subscribe((res) => {
       this.patients = res.data || [];
@@ -93,8 +109,9 @@ export class AppointmentBooking {
   private initAppointmentBookingForm(): void {
     this.appointmentBookingForm = this.fb.group({
       appointmentNumber: [''],
-      doctorId: [this.doctorDetails?._id, Validators.required],
+      doctorId: [this.isModel ? this.doctorDetails?._id : this.doctorId, Validators.required],
       patientId: ['', Validators.required],
+      clinicId: ['', Validators.required],
       appointmentDate: ['', Validators.required],
       dayOfWeek: ['', Validators.required],
       startTime: ['', Validators.required],

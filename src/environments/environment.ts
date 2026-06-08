@@ -16,6 +16,9 @@ export const environment = {
     allergies: '/allergies',
     doctors: '/doctors',
     appointmentBooking: '/appointmentBookings',
+    supplier: '/supplier',
+    medicine: '/medicine',
+    prescription: '/prescription'
   },
   features: {
     enableNotifications: true,

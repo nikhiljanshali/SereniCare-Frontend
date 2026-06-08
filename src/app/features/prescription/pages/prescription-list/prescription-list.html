@@ -1,0 +1,164 @@
+<div id="page-patient-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Prescription List</div>
+            <div class="ph-sub">List of Prescription</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>Filter
+            </button>
+            <!-- <button class="btn btn-primary btn-sm" (click)="createPatient()">
+                <i class="bi bi-plus-lg"></i> Create Patient
+            </button> -->
+        </div>
+    </div>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Prescribe Date</th>
+                        <th>Followup Date</th>
+                        <th>Advice</th>
+                        <th>Notes</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                @if(prescriptionList.length > 0) {
+                @for (presc of prescriptionList; track presc._id) {
+                <tr>
+                    <td>
+                        <div class="patient-id">#{{presc.prescriptionNumber}}</div>
+                    </td>
+                    <td>
+                        <div style="font-size:11px;color:var(--text-muted);">{{presc.prescribedDate |
+                            date:'dd/MM/yyyy'}}
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-size:11px;color:var(--text-muted);">{{presc.followUpDate | date:'dd/MM/yyyy'}}
+                        </div>
+                    </td>
+                    <td>
+                        <div style="font-size:11px;color:var(--text-muted);">{{presc.advice}}</div>
+                    </td>
+                    <td>
+                        <div style="font-size:11px;color:var(--text-muted);">{{presc.notes}}</div>
+                    </td>
+                    <td><span class="status-badge confirmed">{{presc.status}}</span></td>
+                    <td>
+                        <button class="action-btn" (click)="viewPrescription(presc)">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+                        <button class="action-btn" (click)="toggleDetailsRow(presc._id)">
+                            <i class="bi bi-info-circle-fill"></i>
+                        </button>
+                        <button class="action-btn">
+                            <i class="bi bi-printer-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+                @if (expandedDetails === presc._id) {
+                <tr class="sub-row">
+                    <td colspan="12">
+                        <div class="sub-content">
+                            <div class="sub-title"><i class="bi bi-info-circle-fill"></i> Investigations Details</div>
+                            <div class="clinic-grid">
+                                @for (clinic of presc.investigations; track $index) {
+                                <div class="clinic-card"
+                                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">TestName</span>
+                                        <span class="wz-review-val">{{clinic.testName}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Remark</span>
+                                        <span class="wz-review-val">{{clinic.remarks}}</span>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="sub-row">
+                    <td colspan="12">
+                        <div class="sub-content">
+                            <div class="sub-title"><i class="bi bi-file-earmark-medical-fill"></i> Diagnosis Details
+                            </div>
+                            <div class="clinic-grid">
+                                {{presc.diagnosis[0]}}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="sub-row">
+                    <td colspan="12">
+                        <div class="sub-content">
+                            <div class="sub-title"> <i class="bi bi-lungs-fill"></i> Symptoms Details</div>
+                            <div class="clinic-grid">
+                                {{presc.symptoms}}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="sub-row">
+                    <td colspan="12">
+                        <div class="sub-content">
+                            <div class="sub-title"><i class="bi bi-capsule-pill"></i> Medicine Details</div>
+                            <div class="clinic-grid">
+                                @for (clinic of presc.medicines; track $index) {
+                                <div class="clinic-card"
+                                    style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                                    <!-- <div
+                                        style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                                        {{clinic._id}}</div> -->
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Medicine Name</span>
+                                        <span class="wz-review-val">{{clinic.medicineName}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Dosage</span>
+                                        <span class="wz-review-val">{{clinic.dosage}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Unit</span>
+                                        <span class="wz-review-val">{{clinic.dosageUnit}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Duration</span>
+                                        <span class="wz-review-val">{{clinic.duration}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Duration Type</span>
+                                        <span class="wz-review-val">{{clinic.durationType}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Frequency</span>
+                                        <span class="wz-review-val">{{clinic.frequency}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Frequency Unit</span>
+                                        <span class="wz-review-val">{{clinic.frequencyUnit}}</span>
+                                    </div>
+                                    <div class="wz-review-row">
+                                        <span class="wz-review-label">Instructions</span>
+                                        <span class="wz-review-val">{{clinic.instructions}}</span>
+                                    </div>
+
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                }
+                }
+                }
+            </table>
+        </div>
+    </div>
+</div>

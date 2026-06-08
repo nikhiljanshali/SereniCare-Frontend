@@ -36,8 +36,10 @@
           @for (patient of patientsList; track patient._id) {
           <tr>
             <td>
-              <button class="action-btn" (click)="toggleRow(patient._id);$event.stopPropagation()"
-                style="cursor:pointer;"><i class="bi bi-arrow-90deg-down"></i></button>
+              <button class="action-btn" (click)="toggleInsuranceRow(patient._id);$event.stopPropagation()"
+                style="cursor:pointer;">
+                <i class="bi bi-caret-down-fill"></i>
+              </button>
             </td>
             <td>
               <div class="patient-id">#{{patient.patientCode}}</div>
@@ -85,14 +87,23 @@
               <button class="action-btn" (click)="openMedicalHistory(patient)">
                 <i class="bi bi-info-circle-fill"></i>
               </button>
+              @if(userDetails?.role != 'Doctor'){
               <button class="action-btn" (click)="editPatient(patient)">
                 <i class="bi bi-pencil"></i>
               </button>
               <button class="action-btn danger"><i class="bi bi-trash3"></i></button>
+              }
+              @if(userDetails?.role == 'Doctor'){
+              <button class="action-btn" (click)="togglePrescriptionRow(patient._id);$event.stopPropagation()"
+                style="cursor:pointer;">
+                <i class="bi bi-caret-down-fill"></i>
+              </button>
+
+              }
             </td>
           </tr>
           <!-- 🔹 SUB ROW -->
-          @if (expandedPatientId === patient._id) {
+          @if (expandedInsurance === patient._id) {
           <tr class="sub-row">
             <td colspan="12">
               <div class="sub-content">
@@ -138,110 +149,53 @@
               </div>
             </td>
           </tr>
-          <!-- <tr class="sub-row">
-              <td colspan="12">
-                <div class="sub-content">
-                  <div class="sub-title">Medical History</div>
-                  <div class="clinic-grid">
-                    @for (mh of patient.medicalHistories; track mh._id) {
-                    <div class="clinic-card refined-card">
+          }
+          @if (expandedAppointment === patient._id) {
+          <tr class="sub-row">
+            <td colspan="12">
 
-                      <div class="card-header">
-                        <span class="card-id">#{{ mh._id }}</span>
-                        <span class="card-date">{{ mh.createdAt | date:'dd MMM yyyy' }}</span>
-                      </div>
-
-                      <div class="section">
-                        <div class="section-title">Medical</div>
-
-                        <div class="wz-review-row">
-                          <span>Condition</span>
-                          <b>{{ mh.condition }}</b>
-                        </div>
-
-                        <div class="wz-review-row">
-                          <span>Allergies</span>
-                          <span>{{ mh.allergies.join(', ') || '-' }}</span>
-                        </div>
-
-                        <div class="wz-review-row">
-                          <span>Medications</span>
-                          <span>{{ mh.medications.join(', ') || '-' }}</span>
-                        </div>
-
-                        <div class="wz-review-row">
-                          <span>Surgeries</span>
-                          <span>{{ mh.surgeries.join(', ') || '-' }}</span>
-                        </div>
-
-                        <div class="wz-review-row">
-                          <span>Family History</span>
-                          <span>{{ mh.familyHistory || '-' }}</span>
-                        </div>
-                      </div>
-
-                      <div class="section">
-                        <div class="section-title">Lifestyle</div>
-
-                        <div class="grid-2">
-
-                          <div class="item">
-                            <span>Smoking</span>
-                            <b>{{ mh.lifestyle.smoking.status ? 'Yes' : 'No' }}</b>
-                          </div>
-
-                          <div class="item">
-                            <span>Alcohol</span>
-                            <b>{{ mh.lifestyle.alcohol.status ? 'Yes' : 'No' }}</b>
-                          </div>
-
-                          <div class="item">
-                            <span>Activity</span>
-                            <b>{{ mh.lifestyle.activityLevel }}</b>
-                          </div>
-
-                          <div class="item">
-                            <span>Diet</span>
-                            <b>{{ mh.lifestyle.dietType }}</b>
-                          </div>
-
-                          <div class="item">
-                            <span>Sleep</span>
-                            <b>{{ mh.lifestyle.sleepHours }}h</b>
-                          </div>
-
-                          <div class="item">
-                            <span>Stress</span>
-                            <b>{{ mh.lifestyle.stressLevel }}</b>
-                          </div>
-
-                        </div>
-
-                        <div class="wz-review-row">
-                          <span>Hobbies</span>
-                          <span>{{ mh.lifestyle.hobbies.join(', ') || '-' }}</span>
-                        </div>
-
-                        <div class="wz-review-row">
-                          <span>Substance</span>
-                          <span>
-                            Tobacco: {{ mh.lifestyle.substanceUse.tobacco ? 'Yes' : 'No' }},
-                            Drugs: {{ mh.lifestyle.substanceUse.drugs ? 'Yes' : 'No' }}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div class="section">
-                        <div class="section-title">Notes</div>
-                        <div class="notes">{{ mh.notes || '-' }}</div>
-                      </div>
-
-                    </div>
+              @if (patient.appointments.length) {
+              <div class="appointment-sub-table-container">
+                <table class="appointment-sub-table w-100">
+                  <thead>
+                    <tr>
+                      <th>Appointment No</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Day</th>
+                      <th>Symptoms</th>
+                      <th>Notes</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (appointment of patient.appointments; track appointment._id) {
+                    <tr>
+                      <td>{{ appointment.appointmentNumber }}</td>
+                      <td>{{ appointment.appointmentDate | date:'dd/MM/yyyy' }}</td>
+                      <td>{{ appointment.startTime }}- {{ appointment.endTime }}</td>
+                      <td>{{ appointment.dayOfWeek }}</td>
+                      <td>{{ appointment.symptoms }}</td>
+                      <td>{{ appointment.notes }}</td>
+                      <td>
+                        <button class="action-btn" (click)="writeAPrescription(patient._id, appointment._id)">
+                          <i class="bi bi-prescription"></i>
+                        </button>
+                      </td>
+                    </tr>
                     }
-                  </div>
-                </div>
-              </td>
-            </tr> -->
+                  </tbody>
+                </table>
+              </div>
+              } @else {
+              <div class="empty-appointment">
+                <i class="bi bi-calendar-x"></i>
+                No appointments found
+              </div>
+              }
+
+            </td>
+          </tr>
           }
           }
           } @else {

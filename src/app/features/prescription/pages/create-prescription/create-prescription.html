@@ -1,0 +1,434 @@
+<div id="page-doctor-profile-detail" class="page-section">
+    <!-- Breadcrumb header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="breadcrumb-wrapper">
+                <button class="btn btn-sm btn-icon-wrapper">
+                    <i class="bi bi-chevron-left"></i> Prescription
+                </button>
+                /
+                <span class="breadcrumb-sep">Patient Name </span>
+            </div>
+            <div class="ph-title">Dr. Doctor Name</div>
+            <!-- <div class="ph-sub">
+                {{doctorProfile?.specializations?.[0]?.name}} ·
+                Joined {{doctorProfile?.dateOfJoin | date : 'MMM, yyyy' }} ·
+                #{{doctorProfile?.doctorCode}}
+            </div> -->
+        </div>
+        <div class="header-actions">
+            <!-- <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i> Edit Profile
+            </button> -->
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="generateDummyPrescription()">
+                <i class="bi bi-magic"></i> Generate Dummy Prescription
+            </button>
+            <button class="btn btn-primary btn-sm" (click)="submitPrescription();">
+                <i class="bi bi-prescription2"></i>Create Prescription
+            </button>
+            <!-- More Dropdown -->
+            <!-- <div class="header-dropdown">
+                <button class="btn btn-sm btn-more-actions" type="button" (click)="isMoreMenuOpen = !isMoreMenuOpen">
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                @if(isMoreMenuOpen){
+                <div class="header-dropdown-menu">
+                    <button class="header-dropdown-item default">
+                        <i class="bi bi-prescription"></i>
+                        Write Prescription
+                    </button>
+                    <button class="header-dropdown-item">
+                        <i class="bi bi-file-earmark-arrow-down"></i>
+                        Download CV
+                    </button>
+                    <button class="header-dropdown-item">
+                        <i class="bi bi-printer"></i>
+                        Print Profile
+                    </button>
+                    <button class="header-dropdown-item">
+                        <i class="bi bi-share"></i>
+                        Share Profile
+                    </button>
+                    <div class="header-dropdown-divider"></div>
+                    <button class="header-dropdown-item danger">
+                        <i class="bi bi-trash"></i>
+                        Delete Doctor
+                    </button>
+                </div>
+                }
+            </div> -->
+        </div>
+    </div>
+
+    <!-- ── LEFT COLUMN ── -->
+    <div class="dpd-layout">
+        <div class="dpd-id-card">
+            <div class="dpd-banner">
+                <div class="dpd-banner-blob dpd-banner-blob-1"></div>
+                <div class="dpd-banner-blob dpd-banner-blob-2"></div>
+            </div>
+            <div class="dpd-id-body">
+                <div class="dpd-avatar-wrap">
+                    <div class="dpd-avatar">
+                        {{patientsDetails?.firstName?.charAt(0)}}{{patientsDetails?.lastName?.charAt(0)}}
+                    </div>
+                    <!-- <div class="dpd-status-badge">On Duty</div> -->
+                </div>
+                <div class="dpd-name">
+                    {{patientsDetails?.firstName}}
+                    {{patientsDetails?.middleName}}
+                    {{patientsDetails?.lastName}}</div>
+                <div class="dpd-spec">{{patientsDetails?.patientCode}}</div>
+                <div class="dpd-id-row">
+                    <i class="bi bi-gender-ambiguous"></i>
+                    {{patientsDetails?.gender}}
+                </div>
+                <div class="dpd-id-row" style="margin-top:10px;">
+                    <i class="bi bi-calendar-check-fill"></i>
+                    <span>{{patientsDetails?.dateOfBirth | date :'mm/dd/yyyy'}}</span>
+                </div>
+                <div class="dpd-id-row">
+                    <i class="bi bi-telephone-fill"></i>
+                    <span>{{patientsDetails?.phone}}</span>
+                </div>
+                <div class="dpd-id-row">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>{{patientsDetails?.email}}</span>
+                </div>
+                <!-- <div class="dpd-id-row">
+                    <i class="bi bi-calendar3"></i>
+                    <span>Joined March 2013 · 12 years</span>
+                </div> -->
+                <div class="dpd-divider"></div>
+                <!-- Action buttons -->
+                <div class="dpd-action-btns" style="margin-top:16px;">
+                    <button class="btn btn-primary">
+                        <i class="bi bi-envelope-fill"></i>
+                        Send Email
+                    </button>
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="bi bi-chat-dots"></i>
+                        WhatsApp to Patient
+                    </button>
+                    <!-- <button class="btn"><i class="bi bi-file-earmark-person"></i> Download CV</button> -->
+                </div>
+            </div>
+        </div>
+        <!-- /left col -->
+        <!-- ── RIGHT COLUMN ── -->
+        <div class="dpd-right ">
+            <form [formGroup]="prescriptionForm">
+                <div class="flex-container">
+                    <div class="card box">
+                        <div class="card-header prescription-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                </div>
+                                <div class="header-text">
+                                    <h5 class="header-title">
+                                        Diagnosis Information
+                                    </h5>
+                                    <span class="header-subtitle">
+                                        Enter diagnosis, symptoms, medicines and treatment details
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="header-actions">
+                            </div>
+                        </div>
+                        <div class="wizard-body pt-2">
+                            <div class="wizard-panel">
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Diagnosis
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <textarea class="wz-input" rows="4" formControlName="diagnosis"
+                                            placeholder="Enter Diagnosis"></textarea>
+                                        <small class="text-muted">
+                                            Enter comma separated symptoms
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Symptoms
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <div formArrayName="symptoms">
+                                            @for(symptom of symptoms.controls; track $index){
+                                            <div class="d-flex align-items-center mb-2">
+                                                <input
+                                                    class="wz-input flex-fill"
+                                                    type="text"
+                                                    [formControlName]="$index"
+                                                    placeholder="Enter symptom"
+                                                >
+                                                <button
+                                                    type="button"
+                                                    class="btn btn-sm btn-danger ms-2"
+                                                    (click)="removeSymptom($index)"
+                                                >
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </div>
+                                            }
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-primary" (click)="addSymptom()">
+                                            Add Symptom
+                                        </button>
+                                        <small class="text-muted">
+                                            Add symptoms one by one.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card box">
+                        <div class="card-header prescription-header">
+                            <div class="header-content">
+                                <div class="header-icon">
+                                    <!-- <i class="bi bi-clipboard2-pulse"></i> -->
+                                </div>
+                                <div class="header-text">
+                                    <h5 class="header-title">
+                                        Additional Information
+                                    </h5>
+                                    <span class="header-subtitle">
+                                        Enter diagnosis, symptoms, medicines and treatment details
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="header-actions">
+                            </div>
+                        </div>
+
+                        <div class="wizard-body pt-2">
+                            <div class="wizard-panel">
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Advice
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <input class="wz-input" type="text" placeholder="Write Advice"
+                                            formControlName="advice">
+                                    </div>
+                                </div>
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Notes
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <input class="wz-input" type="text" placeholder="Write Notes"
+                                            formControlName="notes">
+                                    </div>
+                                </div>
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Follow Up Date
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <input class="wz-input" type="date" placeholder="Write Notes"
+                                            formControlName="followUpDate">
+                                    </div>
+                                </div>
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Status
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <select class="form-select" formControlName="status">
+                                            <option value="Draft">Draft</option>
+                                            <option value="Completed">Completed</option>
+                                            <option value="Cancelled">Cancelled</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card box mt-3">
+                    <div class="card-header prescription-header">
+                        <div class="header-content">
+                            <div class="header-icon">
+                                <!-- <i class="bi bi-clipboard2-pulse"></i> -->
+                            </div>
+                            <div class="header-text">
+                                <h5 class="header-title">
+                                    Medicines
+                                </h5>
+                                <span class="header-subtitle">
+                                    Enter medicines details
+                                </span>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-sm btn-primary" (click)="addMedicine()">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Medicine
+                            </button>
+                        </div>
+                    </div>
+                    <div class="wizard-body pt-2">
+                        <div class="wizard-panel">
+                            <div formArrayName="medicines">
+                                @for(medicine of medicines.controls; track $index){
+                                <div class="wz-form-row p-0 m-0 d-flex" [formGroupName]="$index">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Medicine Name <span class="req">*</span>
+                                        </label>
+                                        <div class="prescription-wrapper">
+                                            <span class="prescription-icon">
+                                                <i class="bi bi-capsule-pill"></i>
+                                            </span>
+                                            <select class="form-select prescription-input"
+                                                formControlName="medicineName"
+                                                (change)="onMedicineChange($event)">
+                                                <option [ngValue]="null">Select Medicine</option>
+
+                                                @for (medicine of medicineList; track medicine._id) {
+                                                <option [value]="medicine.medicineName">
+                                                    {{ medicine.medicineName }} -
+                                                    {{ medicine.genericName }} -
+                                                    {{ medicine.strength }} {{ medicine.unit }}
+                                                </option>
+                                                }
+                                            </select>
+                                            <span class="prescription-icon-end">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Dosage <span class="req">*</span>
+                                        </label>
+                                        <div class="prescription-wrapper">
+                                            <span class="prescription-icon">
+                                                <i class="bi bi-capsule-pill"></i>
+                                            </span>
+                                            <input type="number" class="form-input prescription-input"
+                                                formControlName="dosage"
+                                                placeholder="dosage">
+                                            <select class="form-select prescription-select" formControlName="dosageUnit">
+                                                <option value="">Unit</option>
+                                                <option value="Tablet">Tablet</option>
+                                                <option value="Capsule">Capsule</option>
+                                                <option value="Drop">Drop</option>
+                                                <option value="ml">ml</option>
+                                                <option value="mg">mg</option>
+                                                <option value="mcg">mcg</option>
+                                                <option value="g">g</option>
+                                                <option value="Unit">Unit</option>
+                                                <option value="Puff">Puff</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Frequency <span class="req">*</span>
+                                        </label>
+                                        <div class="prescription-wrapper">
+                                            <span class="prescription-icon">
+                                                <i class="bi bi-clock"></i>
+                                            </span>
+                                            <input type="number" class="form-input prescription-input"
+                                                formControlName="frequency"
+                                                placeholder="Frequency">
+                                            <select class="form-select prescription-select" formControlName="frequencyUnit">
+                                                <option value="">Unit</option>
+                                                <option value="Hours">Hours</option>
+                                                <option value="Daily">Daily</option>
+                                                <option value="Weekly">Weekly</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Duration <span class="req">*</span>
+                                        </label>
+                                        <div class="prescription-wrapper">
+                                            <span class="prescription-icon">
+                                                <i class="bi bi-clock"></i>
+                                            </span>
+                                            <input type="number" class="form-input prescription-input"
+                                                formControlName="duration"
+                                                placeholder="Duration">
+                                            <select class="form-select prescription-select" formControlName="durationType">
+                                                <option value="">Unit</option>
+                                                <option value="Days">Days</option>
+                                                <option value="Weekly">Weekly</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="margin:40px 0px;">
+                                        <button class="btn btn-danger btn-sm" (click)="removeMedicine($index)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card box mt-3">
+                    <div class="card-header prescription-header">
+                        <div class="header-content">
+                            <div class="header-icon">
+                                <!-- <i class="bi bi-clipboard2-pulse"></i> -->
+                            </div>
+                            <div class="header-text">
+                                <h5 class="header-title">
+                                    Investigations
+                                </h5>
+                                <span class="header-subtitle">
+                                    Enter investigations details
+                                </span>
+                            </div>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-sm btn-primary" (click)="addInvestigation()">
+                                <i class="bi bi-plus-circle"></i>
+                                Add Investingation
+                            </button>
+                        </div>
+                    </div>
+                    <div class="wizard-body pt-2">
+                        <div class="wizard-panel">
+                            <div formArrayName="investigations">
+                                @for(test of investigations.controls; track $index){
+                                <div class="wz-form-row p-0 m-0 d-flex" [formGroupName]="$index">
+                                    <div class="wz-form-group w-25 m-0">
+                                        <label class="wz-label">Test Name
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <input class="wz-input" type="text" placeholder="Test Name"
+                                            formControlName="testName">
+                                    </div>
+                                    <div class="wz-form-group w-75 m-0">
+                                        <label class="wz-label">Remark
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <input class="wz-input" type="text" placeholder="Remarks"
+                                            formControlName="remarks">
+                                    </div>
+                                    <div style="margin:25px 0px;">
+                                        <button class="btn btn-danger btn-sm" (click)="removeInvestigation($index);">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </form>
+        </div>
+    </div>
+</div>

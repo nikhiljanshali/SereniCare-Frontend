@@ -643,6 +643,7 @@ export class DoctorProfile implements OnDestroy {
         keyboard: false,
         initialState: {
           doctorDetails: doctor,
+          isModel: true,
         }
       }
     );

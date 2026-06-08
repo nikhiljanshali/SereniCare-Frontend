@@ -265,11 +265,7 @@ export class LocationService {
   /**
  * Generic method to resolve names from IDs
  */
-  getLocationName(
-    countryId?: number,
-    stateId?: number,
-    cityId?: number
-  ): Observable<{ country?: string; state?: string; city?: string }> {
+  getLocationName(countryId?: number, stateId?: number, cityId?: number): Observable<{ country?: string; state?: string; city?: string }> {
     return this.locationData$.pipe(
       map((data) => {
         let countryName: string | undefined;

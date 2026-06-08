@@ -9,6 +9,7 @@ import { ClinicList } from './pages/clinic-list/clinic-list';
 import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
 import { AdminDoctorView } from './pages/admin-doctor-view/admin-doctor-view';
 import { DoctorAppointment } from './pages/doctor-appointment/doctor-appointment';
+import { AppointmentBooking } from './pages/appointment-booking/appointment-booking';
 
 const routes: Routes = [
   {
@@ -54,6 +55,12 @@ const routes: Routes = [
       {
         path: 'master/doctor-appointments',
         component: DoctorAppointment,
+        canActivate: [roleGuard],
+        data: { roles: [Roles.Doctor] }
+      },
+      {
+        path: 'master/book-appointments',
+        component: AppointmentBooking,
         canActivate: [roleGuard],
         data: { roles: [Roles.Doctor] }
       },

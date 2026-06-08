@@ -1,0 +1,96 @@
+<div id="page-supplier-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Supplier List</div>
+            <div class="ph-sub">List of Registered Suppliers</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>Filter </button>
+            <!-- <button class="btn btn-primary btn-sm" (click)="createDoctor()"><i class="bi bi-plus-lg"></i> Create
+            Doctor</button> -->
+        </div>
+    </div>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>GST and PAN</th>
+                        <th>Drug License Number</th>
+                        <th>Email & Phone</th>
+                        <th>Address</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (supplier of supplierList; track supplier._id) {
+                    <tr>
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">{{supplier.firstName}} {{supplier.lastName}}</div>
+                                    <div class="patient-id">#{{supplier.supplierCode}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">{{supplier.supplierType}}</div>
+                                    <div class="patient-id">#{{supplier.registrationNumber}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">{{supplier.gstNumber}}</div>
+                                    <div class="patient-id">#{{supplier.panNumber}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">{{supplier.drugLicenseNumber}}</div>
+                                    <!-- <div class="patient-id">#{{supplier.panNumber}}</div> -->
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name"><i class="bi bi-envelope-fill"></i>{{supplier.email}}
+                                    </div>
+                                    <div class="patient-id"><i class="bi bi-globe"></i>{{supplier.website}}</div>
+                                    <div class="patient-id"><i class="bi bi-telephone-fill"></i>{{supplier.phoneNumber}}
+                                    </div>
+                                    <div class="patient-id"><i
+                                            class="bi bi-telephone-fill"></i>{{supplier.alternatePhoneNumber}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                                <i class="bi bi-building-down"></i>
+                                {{supplier?.billingAddress?.addressLine1}}
+                                {{supplier?.billingAddress?.addressLine2}}
+                                <div style="font-size:11px;color:var(--text-muted);">{{supplier?.billingAddress?.city}}
+                                </div>
+                                <div style="font-size:11px;color:var(--text-muted);">{{supplier?.billingAddress?.state}}
+                                </div>
+                                <div style="font-size:11px;color:var(--text-muted);">
+                                    {{supplier?.billingAddress?.postalCode}}</div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge confirmed">{{supplier.status}}</span></td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

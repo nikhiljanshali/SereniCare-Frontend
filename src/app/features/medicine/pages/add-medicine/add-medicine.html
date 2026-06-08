@@ -1,0 +1,630 @@
+<div id="page-medicine-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Add Medicine</div>
+            <div class="ph-sub">Multi-step medicin form</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;"
+                (click)="populateMedicineDummyData();">
+                <i class="bi bi-twitter-x"></i>
+                <span> Generate Dummy Medicine </span>
+            </button>
+        </div>
+    </div>
+    <div class="wizard-wrap">
+        <!-- Steps -->
+        <div class="wizard-steps">
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 1}">
+                <div class="wizard-step-num">1</div>
+                <div>
+                    <div class="wizard-step-label">Medicine Info</div>
+                    <div class="step-desc">Basic details</div>
+                </div>
+            </div>
+
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 2}">
+                <div class="wizard-step-num">2</div>
+                <div>
+                    <div class="wizard-step-label">PriceDetails</div>
+                    <div class="step-desc">Medicine Price Configuraiton</div>
+                </div>
+            </div>
+
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 3}">
+                <div class="wizard-step-num">3</div>
+                <div>
+                    <div class="wizard-step-label">Contraindications / Side Effects / Drug Interactions</div>
+                    <div class="step-desc">Configuraiton</div>
+                </div>
+            </div>
+
+            <div class="wizard-step" [ngClass]="{active: currentStep === 4}">
+                <div class="wizard-step-num">3</div>
+                <div>
+                    <div class="wizard-step-label">Review</div>
+                    <div class="step-desc">Confirm & submit</div>
+                </div>
+            </div>
+        </div>
+        <form [formGroup]="medicineForm">
+            <div class="wizard-body">
+                <!-- STEP 1 -->
+                @if (currentStep === 1) {
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Medicine Information
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Medicine details
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Medicine Name
+                                <span class="wz-req">*</span>
+                            </label>
+                            <input class="wz-input" type="text" placeholder="Medicine Name"
+                                formControlName="medicineName">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Generic Name
+                                <span class="wz-req">*</span>
+                            </label>
+                            <input class="wz-input" type="text" placeholder="Generic Name"
+                                formControlName="genericName">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Brand Name
+                                <span class="wz-req">*</span>
+                            </label>
+                            <input class="wz-input" type="text" placeholder="Brand Name" formControlName="brandName">
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Category
+                                <span class="wz-req">*</span>
+                            </label>
+                            <!-- <input class="wz-input" type="text" placeholder="Brand Name" formControlName="brandName"> -->
+                            <select class="wz-select" formControlName="category">
+                                <option value=""> Select Category </option>
+                                @for(category of medicineCategories; track category) {
+                                <option [value]="category">
+                                    {{ category }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Therapeutic Class
+                                <span class="wz-req">*</span>
+                            </label>
+                            <input class="wz-input" type="text" placeholder="Therapeutic Class"
+                                formControlName="therapeuticClass">
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Strength & Manufacturer
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Strength &
+                                Manufacturer details
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Strength <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="Strength" formControlName="strength">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Unit <span class="wz-req">*</span> </label>
+                            <select class="wz-select" formControlName="unit">
+                                <option value=""> Select Unit </option>
+                                @for(unit of medicineUnits; track unit) {
+                                <option [value]="unit">
+                                    {{ unit }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Manufacturer <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="Manufacturer"
+                                formControlName="manufacturer">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Supplier <span class="wz-req">*</span> </label>
+                            <select class="wz-select" formControlName="supplierId">
+                                <option value=""> Select Unit </option>
+                                @for(sup of suppliers; track sup._id) {
+                                <option [value]="sup._id">
+                                    {{ sup.firstName }} {{ sup.lastName }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <ng-select [items]="suppliers" bindLabel="supplierName" bindValue="_id"
+                                formControlName="supplierId" placeholder="Select Supplier">
+                            </ng-select> -->
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 2 -->
+                @if (currentStep === 2) {
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Medicine Price Information
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Config Medicine
+                                Price Config
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">HSN Code <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="HSN Code" formControlName="hsnCode">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> GST % <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="GST %" formControlName="gstPercentage">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Selling Price <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="Selling Price"
+                                formControlName="sellingPrice">
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Inventory Management
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Config Inventory
+                                Management
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Reorder Level <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder=" Reorder Level"
+                                formControlName="reorderLevel">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Max Stock Level <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="Max Stock Level"
+                                formControlName="maxStockLevel">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Storage Condition <span class="wz-req">*</span> </label>
+                            <input class="wz-input" type="text" placeholder="Storage Condition"
+                                formControlName="storageCondition">
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Medical Information
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Config Medical
+                                Information
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <div class="status-switch d-flex align-items-center justify-content-start gap-2 mt-4">
+                                <label class="switch">
+                                    <input type="checkbox" [checked]="medicineForm.value.requiresPrescription === true"
+                                        (change)="onRequiresPrescriptionToggle($event)" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-label">
+                                    Requires Prescription
+                                </span>
+                            </div>
+                        </div>
+                        <div class="wz-form-group">
+                            <div class="status-switch d-flex align-items-center justify-content-start gap-2 mt-4">
+                                <label class="switch">
+                                    <input type="checkbox" [checked]="medicineForm.value.isControlledDrug === true"
+                                        (change)="onControlledDrugToggle($event)" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-label">
+                                    Controlled Drug
+                                </span>
+                            </div>
+                        </div>
+                        <div class="wz-form-group">
+                            <div class="status-switch d-flex align-items-center justify-content-start gap-2 mt-4">
+                                <label class="switch">
+                                    <input type="checkbox" [checked]="medicineForm.value.isActive === true"
+                                        (change)="onActiveDoggle($event)" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-label">
+                                    Active
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label"> Dosage Instructions <span class="wz-req">*</span> </label>
+                            <textarea class="wz-input" type="text" placeholder="Dosage Instructions" cols="0" rows="5"
+                                formControlName="dosageInstructions"></textarea>
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 3 -->
+                @if (currentStep === 3) {
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Contraindications Information
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Config
+                                Contraindications
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addContraindication()">
+                            <i class="bi bi-plus-lg"></i>
+                            Add
+                        </button>
+                    </div>
+                    <div class="wz-form-row">
+                        <div formArrayName="contraindications">
+                            @for(item of contraindications.controls; track $index) {
+                            <div class="wz-form-group d-flex align-items-center justify-content-between gap-2">
+                                <input type="text" class="wz-input" [formControlName]="$index"
+                                    placeholder="Enter Contraindications">
+                                <button type="button" class="btn btn-danger" (click)="removeContraindication($index)">
+                                    <i class="bi bi-trash"></i>
+                                    Remove
+                                </button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Side Effects Information
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Config
+                                Side Effects
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addSideEffect()">
+                            <i class="bi bi-plus-lg"></i>
+                            Add
+                        </button>
+                    </div>
+                    <div class="wz-form-row">
+                        <div formArrayName="sideEffects">
+                            @for(item of sideEffects.controls; track $index) {
+                            <div class="wz-form-group d-flex align-items-center justify-content-between gap-2">
+                                <input type="text" class="wz-input" [formControlName]="$index"
+                                    placeholder="Enter Side Effects">
+                                <button type="button" class="btn btn-danger" (click)="removeSideEffect($index)">
+                                    <i class="bi bi-trash"></i>
+                                    Remove
+                                </button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Drug Interactions Information
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Config
+                                Drug Interactions
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary" (click)="addDrugInteraction()">
+                            <i class="bi bi-plus-lg"></i> Add </button>
+                    </div>
+                    <div class="wz-form-row">
+                        <div formArrayName="drugInteractions">
+                            @for(item of drugInteractions.controls; track $index) {
+                            <div class="wz-form-group d-flex align-items-center justify-content-between gap-2">
+                                <input type="text" class="wz-input" [formControlName]="$index"
+                                    placeholder="Enter Drug Interactions">
+                                <button type="button" class="btn btn-danger" (click)="removeDrugInteraction($index)">
+                                    <i class="bi bi-trash"></i>
+                                    Remove
+                                </button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                }
+                <!-- STEP 4 -->
+                @if (currentStep === 4) {
+                <div class="wizard-panel">
+                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                        Review & Confirm
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                        Please review all details before add medicine
+                    </div>
+                    <div class="review-grid-two">
+
+                        <!-- Medicine Information -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Medicine Information
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Medicine Name</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.medicineName }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Generic Name</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.genericName }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Brand Name</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.brandName || '-' }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Category</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.category }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Therapeutic Class</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.therapeuticClass || '-' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Strength & Manufacturer -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Strength & Manufacturer
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Strength</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.strength }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Unit</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.unit }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Manufacturer</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.manufacturer }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Supplier</span>
+                                <span class="wz-review-val">
+                                    <!-- {{ selectedSupplierName || '-' }} -->
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Pricing -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Pricing Information
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">HSN Code</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.hsnCode || '-' }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">GST %</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.gstPercentage }}%
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Selling Price</span>
+                                <span class="wz-review-val">
+                                    ₹ {{ medicineForm.value.sellingPrice }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Inventory -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Inventory Management
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Reorder Level</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.reorderLevel }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Max Stock Level</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.maxStockLevel }}
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Storage Condition</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.storageCondition || '-' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Medical Information -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Medical Information
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Requires Prescription</span>
+                                <span class="wz-review-val">
+                                    <span class="badge"
+                                        [ngClass]="medicineForm.value.requiresPrescription ? 'bg-success' : 'bg-secondary'">
+                                        {{ medicineForm.value.requiresPrescription ? 'Yes' : 'No' }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Controlled Drug</span>
+                                <span class="wz-review-val">
+                                    <span class="badge"
+                                        [ngClass]="medicineForm.value.isControlledDrug ? 'bg-danger' : 'bg-secondary'">
+                                        {{ medicineForm.value.isControlledDrug ? 'Yes' : 'No' }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Status</span>
+                                <span class="wz-review-val">
+                                    <span class="badge"
+                                        [ngClass]="medicineForm.value.isActive ? 'bg-success' : 'bg-danger'">
+                                        {{ medicineForm.value.isActive ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </span>
+                            </div>
+
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Dosage Instructions</span>
+                                <span class="wz-review-val">
+                                    {{ medicineForm.value.dosageInstructions || '-' }}
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Contraindications -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Contraindications
+                            </div>
+
+                            <div class="tag-container">
+                                @for(item of medicineForm.value.contraindications; track $index) {
+                                <span class="custom-tag danger-tag">
+                                    {{ item }}
+                                </span>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Side Effects -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Side Effects
+                            </div>
+
+                            <div class="tag-container">
+                                @for(item of medicineForm.value.sideEffects; track $index) {
+                                <span class="custom-tag warning-tag">
+                                    {{ item }}
+                                </span>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Drug Interactions -->
+                        <div class="review-card">
+                            <div class="review-card-title">
+                                Drug Interactions
+                            </div>
+
+                            <div class="tag-container">
+                                @for(item of medicineForm.value.drugInteractions; track $index) {
+                                <span class="custom-tag info-tag">
+                                    {{ item }}
+                                </span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <!-- FOOTER -->
+            <div class="wizard-footer">
+                <div style="font-size:12px;color:var(--text-muted);" id="wz-step-info">Step {{ currentStep }} of 4</div>
+                <div style="display:flex;gap:8px;">
+                    <!-- Previous -->
+                    @if(currentStep > 1){
+                    <button class="btn btn-outline-default" (click)="prevStep()">
+                        <i class="bi bi-arrow-left"></i> Previous
+                    </button>
+                    }
+
+                    <!-- Next -->
+                    @if(!isLastStep){
+                    <button class="btn btn-primary" (click)="nextStep()">
+                        Next <i class="bi bi-arrow-right"></i>
+                    </button>
+                    }
+
+                    <!-- Submit -->
+                    @if(isLastStep){
+                    <button class="btn btn-success" type="submit" (click)="submitMedicine()">
+                        <i class="bi bi-check-circle"></i> Add Medicine
+                    </button>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

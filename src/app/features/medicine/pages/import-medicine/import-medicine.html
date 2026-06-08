@@ -1,0 +1,88 @@
+<div id="page-uploads" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Import Medicine Details</div>
+            <div class="ph-sub">Drag & drop or click to upload medicine files, scans and documents</div>
+        </div>
+    </div>
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Upload Medicine Files</div>
+            </div>
+            <div class="card-body">
+                <div id="file-drop-zone" class="file-drop" (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)" (drop)="handleDrop($event)">
+                    <input type="file" multiple accept=".xlsx,.xls,.json" (change)="handleFileSelect($event)">
+                    <div class="file-drop-icon">
+                        <i class="bi bi-file-earmark-spreadsheet"></i>
+                    </div>
+                    <div class="file-drop-title">
+                        Drag & Drop Excel or JSON Files
+                    </div>
+                    <div class="file-drop-sub"> or <span>browse to upload</span> · XLSX, XLS, JSON supported
+                    </div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:16px;">
+                    <button class="btn btn-primary" (click)="processFiles()"><i class="bi bi-upload"></i> Process
+                        Uploaded Medical Files
+                    </button>
+                    <button class="btn btn-outline-default"><i class="bi bi-x-circle"></i> Clear</button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    Uploaded File Details
+                    <span class="badge bg-primary ms-2">
+                        {{ uploadedFiles.length }}
+                    </span>
+                </div>
+            </div>
+            <div class="card-body">
+                @if(uploadedFiles.length === 0){
+                <div class="text-center py-4 text-muted">
+                    <i class="bi bi-folder2-open fs-1"></i>
+                    <div class="mt-2">
+                        No files uploaded yet
+                    </div>
+                </div>
+                }
+                @for(file of uploadedFiles; track $index){
+                <div class="uploaded-file-card">
+                    <div class="file-left">
+                        <i class="bi" [class]="getFileIcon(file.name)" [style.color]="getFileColor(file.name)">
+                        </i>
+                        <div class="file-info">
+                            <div class="file-name">
+                                {{ file.name }}
+                            </div>
+                            <div class="file-meta">
+                                {{ formatBytes(file.size) }}
+                                •
+                                {{ file.type || 'Unknown Type' }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="file-actions">
+                        <button class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" (click)="removeFile($index)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                }
+                @if(processedFiles.length > 0){
+                <div class="alert alert-success mt-3">
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                    {{ processedFiles.length }}
+                    file(s) processed successfully.
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

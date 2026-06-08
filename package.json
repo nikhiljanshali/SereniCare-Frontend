@@ -32,6 +32,7 @@
     "@angular/router": "^20.3.0",
     "@angular/ssr": "^20.3.8",
     "@daypilot/daypilot-lite-angular": "^5.8.0",
+    "@ng-select/ng-select": "^20.4.0",
     "@popperjs/core": "^2.11.8",
     "@sweetalert2/ngx-sweetalert2": "^14.1.4",
     "bootstrap": "^5.3.8",
@@ -40,6 +41,7 @@
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.26.24",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
