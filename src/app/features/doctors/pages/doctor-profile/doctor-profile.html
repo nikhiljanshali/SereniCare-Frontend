@@ -156,7 +156,10 @@
 
         <!-- Action buttons -->
         <div class="dpd-action-btns">
-          <button class="btn btn-primary"><i class="bi bi-calendar2-plus"></i> Book Appointment</button>
+          <button class="btn btn-primary" (click)="bookAppointment(doctorProfile)">
+            <i class="bi bi-calendar2-plus"></i>
+            Book Appointment
+          </button>
           <button class="btn btn-outline-primary"><i class="bi bi-chat-dots"></i> Send Message</button>
           <button class="btn btn-download-cv"><i class="bi bi-file-earmark-person"></i> Download CV</button>
         </div>
@@ -439,7 +442,7 @@
               <button class="btn btn-sm btn-filter-light">No-Show</button>
             </div>
           </div>
-          <div class="overflow-auto">
+          <div class="table-scroll-container">
             <table class="dpd-appt-table">
               <thead>
                 <tr>
@@ -454,7 +457,7 @@
                 </tr>
               </thead>
               <tbody>
-                @for (appointment of bookedAppointments; track appointment._id ) {
+                @for(appointment of paginatedAppointments; track appointment._id) {
                 <tr>
                   <td>
                     <div class="patient-cell">
@@ -463,11 +466,6 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <div class="patient-cell">
-                      <div class="patient-name">
-                        {{appointment.appointmentNumber}}
-                      </div>
-                    </div> -->
                   </td>
                   <td>
                     <div class="patient-cell">
@@ -512,105 +510,6 @@
                   </td>
                 </tr>
                 }
-                <!-- <tr>
-                  <td>
-                    <div class="patient-cell">
-                      <div class="patient-avatar patient-avatar-indigo-purple">AK</div>
-                      <div>
-                        <div class="patient-name">Arjun Kapoor</div>
-                        <div class="patient-id">#PT-00934</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="appt-time-value">24 Apr 2025</div>
-                    <div class="appt-time-duration">10:30 AM · 20 min</div>
-                  </td>
-                  <td><span class="dp-tag" style="background:#DBEAFE;color:#1E40AF;">Follow-up</span></td>
-                  <td><span class="status-badge in-progress">In Progress</span></td>
-                  <td class="appt-notes">Post-procedure review</td>
-                  <td><button class="action-btn" title="View"><i class="bi bi-eye"></i></button><button
-                      class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="patient-cell">
-                      <div class="patient-avatar patient-avatar-amber-orange">PM</div>
-                      <div>
-                        <div class="patient-name">Priya Mishra</div>
-                        <div class="patient-id">#PT-00715</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="appt-time-value">23 Apr 2025</div>
-                    <div class="appt-time-duration">02:00 PM · 60 min</div>
-                  </td>
-                  <td><span class="dp-tag tag-procedure">Procedure</span></td>
-                  <td><span class="status-badge confirmed">Confirmed</span></td>
-                  <td class="appt-notes">Angioplasty · Successful</td>
-                  <td><button class="action-btn" title="View"><i class="bi bi-eye"></i></button><button
-                      class="action-btn danger" title="Cancel"><i class="bi bi-x-circle"></i></button></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="patient-cell">
-                      <div class="patient-avatar patient-avatar-green-light">NV</div>
-                      <div>
-                        <div class="patient-name">Nisha Verma</div>
-                        <div class="patient-id">#PT-00609</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="appt-time-value">22 Apr 2025</div>
-                    <div class="appt-time-duration">03:30 PM · 30 min</div>
-                  </td>
-                  <td><span class="dp-tag" style="background:#CCFBF1;color:#065F46;">Consultation</span></td>
-                  <td><span class="status-badge confirmed">Confirmed</span></td>
-                  <td class="appt-notes">Palpitations, Holter ordered</td>
-                  <td><button class="action-btn" title="View"><i class="bi bi-eye"></i></button><button
-                      class="action-btn" title="Edit"><i class="bi bi-pencil"></i></button></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="patient-cell">
-                      <div class="patient-avatar patient-avatar-rose-pink">RG</div>
-                      <div>
-                        <div class="patient-name">Rajesh Gupta</div>
-                        <div class="patient-id">#PT-01022</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="appt-time-value">21 Apr 2025</div>
-                    <div class="appt-time-duration">11:00 AM · 30 min</div>
-                  </td>
-                  <td><span class="dp-tag" style="background:#DBEAFE;color:#1E40AF;">Follow-up</span></td>
-                  <td><span class="status-badge cancelled">Cancelled</span></td>
-                  <td class="appt-notes">Patient no-show</td>
-                  <td><button class="action-btn" title="View"><i class="bi bi-eye"></i></button></td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="patient-cell">
-                      <div class="patient-avatar patient-avatar-cyan-blue">VK</div>
-                      <div>
-                        <div class="patient-name">Vikram Kohli</div>
-                        <div class="patient-id">#PT-00443</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="appt-time-value">25 Apr 2025</div>
-                    <div class="appt-time-duration">09:30 AM · 30 min</div>
-                  </td>
-                  <td><span class="dp-tag" style="background:#CCFBF1;color:#065F46;">Consultation</span></td>
-                  <td><span class="status-badge pending">Pending</span></td>
-                  <td class="appt-notes">New patient — hypertension</td>
-                  <td><button class="action-btn" title="View"><i class="bi bi-eye"></i></button><button
-                      class="action-btn danger" title="Cancel"><i class="bi bi-x-circle"></i></button></td>
-                </tr> -->
               </tbody>
             </table>
           </div>
@@ -626,24 +525,19 @@
               {{ bookedAppointments.length }}
               appointments
             </span>
-
             <div class="pagination-group">
-
               <button class="action-btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
                 <i class="bi bi-chevron-left"></i>
               </button>
-
               @for(page of pages; track page) {
               <button class="action-btn" [class.btn-pagination-active]="page === currentPage"
                 [class.btn-pagination]="page !== currentPage" (click)="goToPage(page)">
                 {{ page }}
               </button>
               }
-
               <button class="action-btn btn-pagination" (click)="nextPage()" [disabled]="currentPage === totalPages">
                 <i class="bi bi-chevron-right"></i>
               </button>
-
             </div>
           </div>
         </div>

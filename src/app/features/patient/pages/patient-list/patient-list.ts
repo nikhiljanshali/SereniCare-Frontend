@@ -40,7 +40,7 @@ export class PatientList {
 
 
   private getPatients(): void {
-    if (this.userDetails?.role == Roles.Patient) {
+    if (this.userDetails?.role == Roles.Patient || this.userDetails?.role == Roles.Admin || this.userDetails?.role == Roles.SystemAdmin) {
       this._patientService.getPatients().subscribe((res: IPatients) => {
         const patients = res.data || [];
         const locationRequests = patients.map((pat: IPatientsData) => {

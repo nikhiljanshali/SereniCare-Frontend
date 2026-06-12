@@ -1,4 +1,5 @@
-import { IDoctorById } from './../../../../core/interface/basic.interface';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { IClinicList, IClinics, IDoctorById } from './../../../../core/interface/basic.interface';
 import { Component, viewChild, ViewChild } from '@angular/core';
 import {
   DayPilot,
@@ -15,6 +16,7 @@ import { DoctorService } from '../../../../core/services/doctor';
 import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { Router } from '@angular/router';
+import { Clinics } from '../../../../core/services/clinics';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -25,6 +27,10 @@ import { Router } from '@angular/router';
 })
 export class DoctorAppointment {
   @ViewChild('calendar') calendar!: DayPilotCalendarComponent;
+  public clinicSelectionForm!: FormGroup;
+  public clinicList: IClinicList[] = [];
+  public pendingMovedEvent: any;
+
   public sidebar = viewChild<RightSidebar>('medicalSidebar');
   public currentView: 'Day' | 'Week' | 'Month' = 'Week';
   public currentDate = DayPilot.Date.today();
@@ -136,21 +142,9 @@ export class DoctorAppointment {
       {
         text: 'Write a Prescription',
         onClick: (args) => {
-          console.log('Confirmed:', args.source.data.id);
+          console.log('Write a Prescription:', args.source.data.id);
           const event = args.source;
-          // console.log(event.data);
-          // console.log(event.data.patientId);
-          // console.log(event.data.doctorId);
-          this.router.navigate(['/layout/prescription/master/create', event.data.patientId, event.data.id])
-          // this._appointmentBookService.updateAppointmentStatus(event.data.id, 'No-Show', false)
-          //   .subscribe({
-          //     next: (res) => {
-          //       this.getBookedAppointment();
-          //     },
-          //     error: (error) => {
-          //       console.error('Failed to update appointment status:', error);
-          //     }
-          //   });
+          this.router.navigate(['/layout/prescription/master/create', event.data.patientId, event.data.id, event.data.clinicId])
         }
       },
     ]
@@ -191,7 +185,47 @@ export class DoctorAppointment {
         }
       })
       // await DayPilot.Modal.alert(`Appointment: ${args.e.text()}`);
-    }
+    },
+    onEventMoved: (args) => {
+      if (!args.e.data.clinicId) {
+        // Store the moved event temporarily
+        this.pendingMovedEvent = args;
+        this._modalService.openModal('ClinicSelectionModal');
+        return;
+      }
+      const payload = {
+        ...args.e.data,
+        appointmentDate: args.newStart.toString("yyyy-MM-dd"),
+        startTime: args.newStart.toString("HH:mm"),
+        endTime: args.newEnd.toString("HH:mm")
+      };
+      console.log(payload);
+      this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe(res => {
+        if (res.success) {
+          this.getBookedAppointment();
+        }
+      });
+    },
+
+    onEventResized: (args) => {
+      if (!args.e.data.clinicId) {
+        // Store the moved event temporarily
+        this.pendingMovedEvent = args;
+        this._modalService.openModal('ClinicSelectionModal');
+        return;
+      }
+      const payload = {
+        ...args.e.data,
+        appointmentDate: args.newStart.toString("yyyy-MM-dd"),
+        startTime: args.newStart.toString("HH:mm"),
+        endTime: args.newEnd.toString("HH:mm")
+      };
+      this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe(res => {
+        if (res.success) {
+          this.getBookedAppointment();
+        }
+      });
+    },
   };
 
   monthConfig: DayPilot.MonthConfig = {
@@ -336,15 +370,17 @@ export class DoctorAppointment {
   public bookedAppointments: IAppointmentDetails[] = [];
 
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private _appointmentBookService: AppointmentBookService,
     private _storageOperation: StorageOperation,
     private _doctorService: DoctorService,
     private _modalService: ModalService,
     private _sidebar: Sidebar,
-    private _notificationServices: NotificationServices
+    private _notificationServices: NotificationServices,
+    private _clinicsService: Clinics,
   ) {
-
+    this.initClinicForm();
   }
 
   ngOnInit(): void {
@@ -364,6 +400,7 @@ export class DoctorAppointment {
   }
 
   ngAfterViewInit(): void {
+    this.getClinicsByDoctorId();
     this.getDoctorProfile();
     this.getBookedAppointment();
   }
@@ -384,28 +421,30 @@ export class DoctorAppointment {
       return;
     }
 
-    switch (view) {
+    Promise.resolve().then(() => {
+      switch (view) {
 
-      case 'Day':
-        this.calendar.control.update({
-          viewType: 'Days',
-          days: 1
-        });
-        break;
+        case 'Day':
+          this.calendar.control.update({
+            viewType: 'Days',
+            days: 1
+          });
+          break;
 
-      case 'Week':
-        this.calendar.control.update({
-          viewType: 'Week'
-        });
-        break;
+        case 'Week':
+          this.calendar.control.update({
+            viewType: 'Week'
+          });
+          break;
 
-      case 'Month':
-        this.calendar.control.update({
-          viewType: 'Days',
-          days: 30
-        });
-        break;
-    }
+        case 'Month':
+          this.calendar.control.update({
+            viewType: 'Days',
+            days: 30
+          });
+          break;
+      }
+    });
   }
 
   previousPeriod(): void {
@@ -453,8 +492,10 @@ export class DoctorAppointment {
       };
       return;
     }
-    this.calendar.control.update({
-      startDate: this.currentDate
+    Promise.resolve().then(() => {
+      this.calendar?.control.update({
+        startDate: this.currentDate
+      });
     });
   }
 
@@ -466,6 +507,12 @@ export class DoctorAppointment {
         }
       });
     }
+  }
+
+  private getClinicsByDoctorId(): void {
+    this._clinicsService.getAllClinics().subscribe((res: IClinics) => {
+      this.clinicList = res.data;
+    });
   }
 
   getBookedAppointment(): void {
@@ -526,8 +573,9 @@ export class DoctorAppointment {
       }
       return {
         id: appointment._id,
-        doctorId: appointment?.doctorId?._id,
-        patientId:appointment?.patientId?._id,
+        doctorId: appointment?.doctorId?._id ? appointment?.doctorId?._id : '',
+        patientId: appointment?.patientId?._id ? appointment?.patientId?._id : '',
+        clinicId: appointment?.clinicId?._id ? appointment?.clinicId?._id : '',
         text: `${appointment.appointmentNumber} - ${appointment.consultationMode} / (${appointment.appointmentStatus})`,
         start: `${appointment.appointmentDate.split('T')[0]}T${appointment.startTime}:00`,
         end: `${appointment.appointmentDate.split('T')[0]}T${appointment.endTime}:00`,
@@ -549,11 +597,6 @@ export class DoctorAppointment {
       };
     });
     this.events = events;
-    if (this.calendar?.control) {
-      this.calendar.control.update({
-        events
-      });
-    }
   }
 
   bookAppointment(): void {
@@ -596,6 +639,31 @@ export class DoctorAppointment {
       default:
         return 'appt-default';
     }
+  }
+
+  private initClinicForm(): void {
+    this.clinicSelectionForm = this.fb.group({
+      clinicId: [null, Validators.required],
+    });
+  }
+
+  public ChangeClinic(): void {
+    const args = this.pendingMovedEvent;
+    const payload = {
+      ...args.e.data,
+      clinicId: this.clinicSelectionForm.value.clinicId,
+      appointmentDate: args.newStart.toString("yyyy-MM-dd"),
+      startTime: args.newStart.toString("HH:mm"),
+      endTime: args.newEnd.toString("HH:mm")
+    };
+    this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe(res => {
+      if (res.success) {
+        this.clinicSelectionForm.reset();
+        this.pendingMovedEvent = null;
+        this.getBookedAppointment();
+        this._modalService.closeModal('ClinicSelectionModal');
+      }
+    });
   }
 
   // loadDummyAppointments(): void {

@@ -9,14 +9,48 @@
         <div class="vh-scroll-container">
             <!-- Header -->
             <div class="prescriptionDetails-header">
-                <!-- <div>
-                    <h2>City Care Hospital</h2>
-                    <p>123 Medical Street, Surat, Gujarat</p>
-                    <p>Phone: +91 9876543210</p>
-                </div> -->
+                <div class="clinic-brand">
+                    <div class="medical-cross">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="clinic-info">
+                        <h3>{{prescriptionDetails.clinicDetails.clinicName}}</h3>
+                        <p>
+                            {{prescriptionDetails.clinicDetails.address}},
+                            {{prescriptionDetails.clinicDetails.city}},
+                            {{prescriptionDetails.clinicDetails.pincode}}
+                        </p>
+                        <p>
+                            <i class="bi bi-telephone"></i>
+                            {{prescriptionDetails.clinicDetails.phone}}
+                        </p>
+                        <p>
+                            <i class="bi bi-envelope-fill"></i>
+                            {{prescriptionDetails.clinicDetails.clinicEmail}}
+                        </p>
+                    </div>
+                </div>
                 <div class="prescriptionDetails-meta">
-                    <p><strong>Prescription No:</strong> {{prescriptionDetails.prescriptionNumber}}</p>
-                    <p><strong>Date:</strong> {{prescriptionDetails.prescribedDate | date:'dd/MM/yyyy'}}</p>
+                    <div class="meta-card">
+                        <p>
+                            <span>Prescription No</span>
+                            <strong>{{prescriptionDetails.prescriptionNumber}}</strong>
+                        </p>
+
+                        <p>
+                            <span>Date</span>
+                            <strong>
+                                {{prescriptionDetails.prescribedDate | date:'dd/MM/yyyy'}}
+                            </strong>
+                        </p>
+                        <p>
+                            <span>Follow-Up date</span>
+                            <strong>
+                                {{prescriptionDetails.followUpDate | date:'dd/MM/yyyy'}}
+                            </strong>
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -27,12 +61,14 @@
                 <div class="info-grid">
                     <div>
                         <label>Patient Name</label>
-                        <span>{{prescriptionDetails.patientDetails.firstName}} {{prescriptionDetails.patientDetails.lastName}}</span>
+                        <span>{{prescriptionDetails.patientDetails.firstName}}
+                            {{prescriptionDetails.patientDetails.lastName}}</span>
                     </div>
 
                     <div>
                         <label>Doctor</label>
-                        <span>Dr. {{prescriptionDetails.doctorDetails.firstName}} {{prescriptionDetails.doctorDetails.lastName}}</span>
+                        <span>Dr. {{prescriptionDetails.doctorDetails.firstName}}
+                            {{prescriptionDetails.doctorDetails.lastName}}</span>
                     </div>
 
                     <div>
@@ -129,16 +165,8 @@
                 <h4>Clinical Notes</h4>
                 <p>{{prescriptionDetails.notes}}</p>
             </div>
-
-            <!-- Follow Up -->
-            <div class="followup-box">
-                <strong>Follow-up Date:</strong>
-                {{prescriptionDetails.followUpDate | date:'dd MMM yyyy'}}
-            </div>
-
             <!-- Footer -->
             <div class="prescription-details-footer">
-
                 <div class="footer-notes">
                     <h6>Important Instructions</h6>
                     <ul>
@@ -148,13 +176,12 @@
                         <li>Follow dietary and lifestyle recommendations.</li>
                     </ul>
                 </div>
-
                 <div class="footer-signature-section">
-
                     <div class="signature-box">
                         <div class="signature-line"></div>
                         <h6>Doctor Signature</h6>
-                        <p>Dr. {{prescriptionDetails.doctorDetails.firstName}} {{prescriptionDetails.doctorDetails.lastName}}</p>
+                        <p>Dr. {{prescriptionDetails.doctorDetails.firstName}}
+                            {{prescriptionDetails.doctorDetails.lastName}}</p>
                         <span>Reg. No: {{prescriptionDetails.doctorDetails.licenseNumber}} </span>
                     </div>
 

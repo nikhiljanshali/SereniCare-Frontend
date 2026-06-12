@@ -46,5 +46,8 @@ export class ClinicList {
     });
   }
 
+  public addClinic():void{
+    this.router.navigate(['/layout/doctors/master/add-Clinic']);
+  }
 
 }

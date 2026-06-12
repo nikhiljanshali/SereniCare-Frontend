@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title"><i class="bi bi-person-vcard" style="color:var(--teal);margin-right:6px;"></i>Clinic
+            Information</div>
+        <span class="status-pill available"><i class="bi bi-circle-fill" style="font-size:7px;"></i> New Record</span>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="clinicForm" class="wizard-form">
+            <div class="wz-form-row">
+                <div class="wz-form-group">
+                    <label class="wz-label">Clinic / Hospital Name <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="clinicName">
+                </div>
+                <div class="wz-form-group">
+                    <label class="wz-label">Registration Number <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="registrationNumber">
+                </div>
+            </div>
+            <div class="wz-form-row">
+                <div class="wz-form-group">
+                    <label class="wz-label">Clinic Type <span class="wz-req">*</span></label>
+                    <select class="form-select" formControlName="clinicType">
+                        <option [ngValue]="null">Select Clinic Type</option>
+                        <option *ngFor="let item of clinicTypeList" [ngValue]="item.name">
+                            {{ item.name }}
+                        </option>
+                    </select>
+                </div>
+
+                <div class="wz-form-group">
+                    <label class="wz-label">Specialization <span class="wz-req">*</span></label>
+                    <select class="form-select" formControlName="primarySpeciality" (change)="onSpecialityChange()">
+                        <option [ngValue]="null">Select speciality</option>
+                        <option *ngFor="let spec of primarySpecialities" [ngValue]="spec">
+                            {{ spec.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Clinic Address <span class="wz-req">*</span></label>
+                <textarea class="wz-input" rows="2" formControlName="address"></textarea>
+            </div>
+
+            <div class="wz-form-row">
+                <div class="wz-form-group">
+                    <label class="wz-label">City <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="city">
+                </div>
+
+                <div class="wz-form-group">
+                    <label class="wz-label">Pincode <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="pincode">
+                </div>
+            </div>
+
+            <div class="wz-form-row">
+                <div class="wz-form-group">
+                    <label class="wz-label">Phone / Landline <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="phone">
+                </div>
+
+                <div class="wz-form-group">
+                    <label class="wz-label">Clinic Email Address <span class="wz-req">*</span></label>
+                    <input class="wz-input" formControlName="clinicEmail">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex align-items-center justify-content-between gap-2">
+            <span class="reg-note"><i class="bi bi-info-circle" style="color:var(--teal);"></i> Fields marked <strong
+                    style="color:var(--rose)">*</strong> are mandatory.</span>
+            <div style="display:flex;gap:10px;">
+                <button class="btn btn-outline-default"><i class="bi bi-arrow-counterclockwise"></i> Clear Form</button>
+                <button class="btn btn-primary">
+                    <i class="bi bi-plus"></i>
+                    Add Clinic
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

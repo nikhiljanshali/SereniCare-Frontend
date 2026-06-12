@@ -85,57 +85,15 @@ export class EditAppointmentBooking {
   private initAppointmentBookingForm(): void {
     this.appointmentBookingForm = this.fb.group({
       appointmentNumber: [this.appointmentDetails?.appointmentNumber],
-      doctorId: [
-        { value: this.appointmentDetails?.doctorId._id, disabled: true },
-        Validators.required
-      ],
-
-      patientId: [
-        { value: this.appointmentDetails?.patientId._id, disabled: true },
-        Validators.required
-      ],
-
-      patientName: [
-        {
-          value: `${this.appointmentDetails?.patientId.firstName} ${this.appointmentDetails?.patientId.lastName}`,
-          disabled: true
-        }
-      ],
-
-      clinicId: [
-        { value: this.appointmentDetails?.clinicId?._id, disabled: true },
-        Validators.required
-      ],
-
-      clinicName: [
-        {
-          value: `${this.appointmentDetails?.clinicId?.clinicName}`,
-          disabled: true
-        }
-      ],
-
-      appointmentDate: [
-        {
-          value: this._commonMethod.formatDateForInput(this.appointmentDetails?.appointmentDate),
-          disabled: true
-        },
-        Validators.required
-      ],
-
-      dayOfWeek: [
-        { value: this.appointmentDetails?.dayOfWeek, disabled: true },
-        Validators.required
-      ],
-
-      startTime: [
-        { value: this.appointmentDetails?.startTime, disabled: true },
-        Validators.required
-      ],
-
-      endTime: [
-        { value: this.appointmentDetails?.endTime, disabled: true },
-        Validators.required
-      ],
+      doctorId: [{ value: this.appointmentDetails?.doctorId._id, disabled: true }, Validators.required],
+      patientId: [{ value: this.appointmentDetails?.patientId._id, disabled: true }, Validators.required],
+      patientName: [{ value: `${this.appointmentDetails?.patientId.firstName} ${this.appointmentDetails?.patientId.lastName}`, disabled: true }],
+      clinicId: [{ value: this.appointmentDetails?.clinicId?._id, disabled: true }, Validators.required],
+      clinicName: [{ value: `${this.appointmentDetails?.clinicId?.clinicName}`, disabled: true }],
+      appointmentDate: [{ value: this._commonMethod.formatDateForInput(this.appointmentDetails?.appointmentDate), disabled: true }, Validators.required],
+      dayOfWeek: [{ value: this.appointmentDetails?.dayOfWeek, disabled: true }, Validators.required],
+      startTime: [{ value: this.appointmentDetails?.startTime, disabled: false }, Validators.required],
+      endTime: [{ value: this.appointmentDetails?.endTime, disabled: false }, Validators.required],
       appointmentType: [this.appointmentDetails?.appointmentType, Validators.required],
       consultationMode: [this.appointmentDetails?.consultationMode, Validators.required],
       appointmentStatus: [this.appointmentDetails?.appointmentStatus, Validators.required],
@@ -150,6 +108,8 @@ export class EditAppointmentBooking {
   }
 
   updateBookAppointment(): void {
+    console.log(this.appointmentBookingForm.value);
+    debugger;
     this._appointmentBookService.updateAppointmentBooking(this.appointmentDetails._id, this.appointmentBookingForm.value).subscribe((res) => {
       console.log(res.success);
       if (res.success) {

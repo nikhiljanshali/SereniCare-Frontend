@@ -12,7 +12,7 @@ const routes: Routes = [
     component: PrescriptionLayout,
     children: [
       {
-        path: 'master/create/:patientId/:appointmentId',
+        path: 'master/create/:patientId/:appointmentId/:clinicId',
         component: CreatePrescription,
         canActivate: [roleGuard],
         data: { roles: [Roles.SystemAdmin, Roles.Doctor] }

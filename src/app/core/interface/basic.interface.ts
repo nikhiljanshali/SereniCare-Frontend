@@ -942,7 +942,25 @@ export interface IPrescriptionsDetails {
   updatedAt: string
   patientDetails: PatientDetails
   doctorDetails: DoctorDetails
+  clinicDetails: ClinicDetails
   __v: number
+}
+
+export interface ClinicDetails {
+  _id: string
+  doctorId: string
+  clinicName: string
+  registrationNumber: string
+  clinicType: string
+  address: string
+  city: string
+  pincode: number
+  phone: number
+  clinicEmail: string
+  specializations: Specialization2[]
+  __v: number
+  createdAt: string
+  updatedAt: string
 }
 
 export interface PatientDetails {

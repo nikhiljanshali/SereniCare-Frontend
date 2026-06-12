@@ -11,6 +11,7 @@ import { AdminDoctorView } from './pages/admin-doctor-view/admin-doctor-view';
 import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
 import { RightSidebar } from '../../shared/component/right-sidebar/right-sidebar';
 import { DayPilotModule } from '@daypilot/daypilot-lite-angular';
+import { AddClinic } from './pages/add-clinic/add-clinic';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { DayPilotModule } from '@daypilot/daypilot-lite-angular';
     DoctorAppointment,
     AdminDoctorView,
     DoctorProfile,
+    AddClinic
   ],
   imports: [
     CommonModule,

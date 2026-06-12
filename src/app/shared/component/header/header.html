@@ -16,7 +16,6 @@
     <div class="topbar-avatar" (click)="toggleProfileMenu()">
       {{userDetails?.firstName?.trimStart()?.charAt(0)}}{{userDetails?.lastName?.trimStart()?.charAt(0)}}
     </div>
-
     @if (isProfileMenuOpen) {
     <!-- Dropdown Menu -->
     <div class="profile-menu">
@@ -27,8 +26,10 @@
         </div>
         <div class="user-info">
           <div class="name">
-            {{userDetails?.role === 'Patient' ? 'Pt.' : 'Dr.'}}
-            {{userDetails?.firstName}} {{userDetails?.lastName}}</div>
+            {{getMaderianNameBasedOnRole(userDetails)}}
+            <!-- {{userDetails?.role === 'Doctor' ? 'Dr.' : '.'}} -->
+            {{userDetails?.firstName}} {{userDetails?.lastName}}
+          </div>
         </div>
       </div>
       <div class="email">{{userDetails?.workEmail}}</div>
@@ -51,10 +52,10 @@
       </ul>
     </div>
     }
+
     <button class="topbar-settings" (click)="toggleSettingsMenu()">
       <i class="bi bi-gear"></i>
     </button>
-
     @if (isSettingsMenuOpen) {
     <div class="settings-menu">
 

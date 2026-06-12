@@ -20,6 +20,7 @@ export class CreatePrescription {
   public isMoreMenuOpen = false;
   public patientId: string | null = '';
   public appointmentId: string | null = '';
+  public clinicId: string | null = '';
   public patientsDetails: IPatientsData | null = null;
   public medicineList: IMedicineDetails[] = [];
 
@@ -35,8 +36,10 @@ export class CreatePrescription {
     this.route.paramMap.subscribe(params => {
       const patientId = params.get('patientId');
       const appointmentId = params.get('appointmentId');
+      const clinicId = params.get('clinicId');
       this.patientId = patientId;
       this.appointmentId = appointmentId;
+      this.clinicId = clinicId;
     });
   }
 
@@ -51,6 +54,7 @@ export class CreatePrescription {
 
   private initializePrescriptionForm(): void {
     this.prescriptionForm = this.fb.group({
+      clinicId: [this.clinicId, Validators.required],
       prescriptionNumber: ['', Validators.required],
       appointmentId: [this.appointmentId, Validators.required],
       patientId: [this.patientId, Validators.required],

@@ -225,12 +225,9 @@
                     </button> -->
             </div>
           </div>
-
           <div formArrayName="clinicDetails">
-
             <div *ngFor="let clinic of clinicDetails.controls; let i = index" [formGroupName]="i"
               class="accordion-item">
-
               <!-- HEADER -->
               <div class="accordion-header" (click)="toggleClinic(i)">
                 <div>
@@ -238,19 +235,16 @@
                     {{ clinic.value?.clinicName || ('Clinic ' + (i + 1)) }}
                   </strong>
                 </div>
-
                 <div class="accordion-actions">
                   <button type="button" class="btn btn-sm btn-danger"
                     (click)="removeClinic(i); $event.stopPropagation()">
                     Remove
                   </button>
-
                   <span class="arrow">
                     {{ openedIndex === i ? '▲' : '▼' }}
                   </span>
                 </div>
               </div>
-
               <!-- BODY -->
               <div class="accordion-body" *ngIf="openedIndex === i">
 
@@ -318,13 +312,10 @@
                 </div>
 
               </div>
-
             </div>
-
           </div>
         </div>
         }
-
         <!-- STEP 3 -->
         @if (currentStep === 3) {
         <div class="wizard-panel">

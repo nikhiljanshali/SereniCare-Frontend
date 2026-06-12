@@ -125,4 +125,16 @@ export class Header {
     console.log('Language:', lang);
   }
 
+  public getMaderianNameBasedOnRole(userDetails: any): string {
+    let maderian = '';
+    if (userDetails.role == 'Doctor') {
+      maderian = 'Dr.'
+    } else if (userDetails.role == 'Patient') {
+      maderian = 'Mr.'
+    } else if (userDetails.role == 'System Admin') {
+      maderian = '';
+    }
+    return maderian;
+  }
+
 }
