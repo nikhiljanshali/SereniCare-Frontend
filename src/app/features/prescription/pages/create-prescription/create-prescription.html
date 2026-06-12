@@ -7,7 +7,8 @@
                     <i class="bi bi-chevron-left"></i> Prescription
                 </button>
                 /
-                <span class="breadcrumb-sep">Patient Name </span>
+                <span class="breadcrumb-sep">Patient Name : {{patientsDetails?.firstName}}
+                    {{patientsDetails?.middleName}} {{patientsDetails?.lastName}}</span>
             </div>
             <div class="ph-title">Dr. Doctor Name</div>
             <!-- <div class="ph-sub">
@@ -158,17 +159,10 @@
                                         <div formArrayName="symptoms">
                                             @for(symptom of symptoms.controls; track $index){
                                             <div class="d-flex align-items-center mb-2">
-                                                <input
-                                                    class="wz-input flex-fill"
-                                                    type="text"
-                                                    [formControlName]="$index"
-                                                    placeholder="Enter symptom"
-                                                >
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-sm btn-danger ms-2"
-                                                    (click)="removeSymptom($index)"
-                                                >
+                                                <input class="wz-input flex-fill" type="text" [formControlName]="$index"
+                                                    placeholder="Enter symptom">
+                                                <button type="button" class="btn btn-sm btn-danger ms-2"
+                                                    (click)="removeSymptom($index)">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
                                             </div>
@@ -285,8 +279,7 @@
                                                 <i class="bi bi-capsule-pill"></i>
                                             </span>
                                             <select class="form-select prescription-input"
-                                                formControlName="medicineName"
-                                                (change)="onMedicineChange($event)">
+                                                formControlName="medicineName" (change)="onMedicineChange($event)">
                                                 <option [ngValue]="null">Select Medicine</option>
 
                                                 @for (medicine of medicineList; track medicine._id) {
@@ -311,9 +304,9 @@
                                                 <i class="bi bi-capsule-pill"></i>
                                             </span>
                                             <input type="number" class="form-input prescription-input"
-                                                formControlName="dosage"
-                                                placeholder="dosage">
-                                            <select class="form-select prescription-select" formControlName="dosageUnit">
+                                                formControlName="dosage" placeholder="dosage">
+                                            <select class="form-select prescription-select"
+                                                formControlName="dosageUnit">
                                                 <option value="">Unit</option>
                                                 <option value="Tablet">Tablet</option>
                                                 <option value="Capsule">Capsule</option>
@@ -336,9 +329,9 @@
                                                 <i class="bi bi-clock"></i>
                                             </span>
                                             <input type="number" class="form-input prescription-input"
-                                                formControlName="frequency"
-                                                placeholder="Frequency">
-                                            <select class="form-select prescription-select" formControlName="frequencyUnit">
+                                                formControlName="frequency" placeholder="Frequency">
+                                            <select class="form-select prescription-select"
+                                                formControlName="frequencyUnit">
                                                 <option value="">Unit</option>
                                                 <option value="Hours">Hours</option>
                                                 <option value="Daily">Daily</option>
@@ -355,9 +348,9 @@
                                                 <i class="bi bi-clock"></i>
                                             </span>
                                             <input type="number" class="form-input prescription-input"
-                                                formControlName="duration"
-                                                placeholder="Duration">
-                                            <select class="form-select prescription-select" formControlName="durationType">
+                                                formControlName="duration" placeholder="Duration">
+                                            <select class="form-select prescription-select"
+                                                formControlName="durationType">
                                                 <option value="">Unit</option>
                                                 <option value="Days">Days</option>
                                                 <option value="Weekly">Weekly</option>

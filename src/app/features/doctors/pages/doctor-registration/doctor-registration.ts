@@ -456,7 +456,6 @@ export class DoctorRegistration {
   }
 
   private buildDoctorPayload(formValue: any) {
-    debugger;
     return {
       userData: {
         firstName: formValue.firstName,

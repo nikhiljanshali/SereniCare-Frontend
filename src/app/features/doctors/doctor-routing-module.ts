@@ -10,6 +10,7 @@ import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
 import { AdminDoctorView } from './pages/admin-doctor-view/admin-doctor-view';
 import { DoctorAppointment } from './pages/doctor-appointment/doctor-appointment';
 import { AppointmentBooking } from './pages/appointment-booking/appointment-booking';
+import { AddClinic } from './pages/add-clinic/add-clinic';
 
 const routes: Routes = [
   {
@@ -63,6 +64,12 @@ const routes: Routes = [
         component: AppointmentBooking,
         canActivate: [roleGuard],
         data: { roles: [Roles.Doctor] }
+      },
+      {
+        path: 'master/add-Clinic',
+        component: AddClinic,
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },
       { path: '', redirectTo: 'master/registration', pathMatch: 'full' },
     ]

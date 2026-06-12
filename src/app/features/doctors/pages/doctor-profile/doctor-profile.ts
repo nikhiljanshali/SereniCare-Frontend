@@ -12,6 +12,7 @@ import { AppointmentBooking } from '../appointment-booking/appointment-booking';
 import { AppointmentBookService } from '../../../../core/services/appointment-book';
 import { StorageOperation } from '../../../../core/services/storage-operation';
 import { IDoctorByIdData, IDoctorLeaveDetails, IDoctorQualificationDetails, IDoctorWorkExperienceDetails, IDoctorCertifcicaionDetails, IDoctorPublicaionDetails, IDoctorAvailabilityDetails, IAppointmentDetails, IDoctorById, DoctorSlotConfiguration, IDoctorAvailability, IAppointment, IPrimarySpecialityData, IPrimarySpeciality, IDoctorQualification, IDoctorWorkExperience, IDoctorLeaveResponse, IDoctorCertifcicaion, IDoctorPublicaion } from '../../../../core/interface/basic.interface';
+import { Sidebar } from '../../../../core/services/sidebar';
 
 @Component({
   selector: 'app-doctor-profile',
@@ -33,7 +34,7 @@ export class DoctorProfile implements OnDestroy {
   public doctorPublicaion: IDoctorPublicaionDetails[] = [];
   public doctorAvailability: IDoctorAvailabilityDetails[] = [];
   public bookedAppointments: IAppointmentDetails[] = [];
-  public paginatedAppointments: any[] = [];
+  public paginatedAppointments: IAppointmentDetails[] = [];
 
   public currentPage = 1;
   public pageSize = 10;
@@ -94,7 +95,8 @@ export class DoctorProfile implements OnDestroy {
     private _notificationServices: NotificationServices,
     private _CommonMethod: CommonMethod,
     private _appointmentBookService: AppointmentBookService,
-    private _storageOperation: StorageOperation
+    private _storageOperation: StorageOperation,
+    private _sidebar: Sidebar,
   ) {
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
@@ -128,6 +130,10 @@ export class DoctorProfile implements OnDestroy {
     this.getDoctorSlotConfiguration();
     this.getDoctorAvailability();
     this.getBookedAppointment();
+
+    this._sidebar.close$.subscribe((result) => {
+      this.getBookedAppointment();
+    });
   }
 
   private initDoctorLeaveForm(): void {
@@ -483,7 +489,6 @@ export class DoctorProfile implements OnDestroy {
 
   getBookedAppointment(): void {
     if (this.doctorId) {
-      console.log(this.doctorId);
       this._appointmentBookService.getAppointmentBookingByDoctorId(this.doctorId).subscribe((res: IAppointment) => {
         if (res.success) {
           this.bookedAppointments = res.data.sort((a: any, b: any) => {
@@ -498,8 +503,17 @@ export class DoctorProfile implements OnDestroy {
   }
 
   setupPagination(): void {
-    this.totalPages = Math.ceil(this.bookedAppointments.length / this.pageSize);
-    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
+    this.currentPage = 1;
+
+    this.totalPages = Math.ceil(
+      this.bookedAppointments.length / this.pageSize
+    );
+
+    this.pages = Array.from(
+      { length: this.totalPages },
+      (_, i) => i + 1
+    );
+
     this.updatePaginatedData();
   }
 
@@ -509,6 +523,9 @@ export class DoctorProfile implements OnDestroy {
 
     this.paginatedAppointments =
       this.bookedAppointments.slice(startIndex, endIndex);
+
+    console.log('Current Page:', this.currentPage);
+    console.log('Paginated Data:', this.paginatedAppointments);
   }
 
   goToPage(page: number): void {
@@ -636,7 +653,7 @@ export class DoctorProfile implements OnDestroy {
   }
 
   bookAppointment(doctor: IDoctorByIdData | null): void {
-    this._modalService.openComponentModal(AppointmentBooking,
+    const modalRef = this._modalService.openComponentModal(AppointmentBooking,
       {
         class: 'modal-dialog-centered modal-lg',
         backdrop: 'static',
@@ -647,6 +664,9 @@ export class DoctorProfile implements OnDestroy {
         }
       }
     );
+    modalRef.content.appointmentSaved.subscribe((data: any) => {
+      this.getBookedAppointment();
+    });
   }
 
   public isEdit: boolean = false

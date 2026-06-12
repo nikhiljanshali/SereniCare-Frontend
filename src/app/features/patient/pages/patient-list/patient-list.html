@@ -18,7 +18,7 @@
       <table class="appt-table">
         <thead>
           <tr>
-            <th></th>
+            <!-- <th></th> -->
             <th>Code</th>
             <th>Patient</th>
             <th>Aadhar Number</th>
@@ -35,12 +35,12 @@
           @if(patientsList.length > 0) {
           @for (patient of patientsList; track patient._id) {
           <tr>
-            <td>
+            <!-- <td>
               <button class="action-btn" (click)="toggleInsuranceRow(patient._id);$event.stopPropagation()"
                 style="cursor:pointer;">
                 <i class="bi bi-caret-down-fill"></i>
               </button>
-            </td>
+            </td> -->
             <td>
               <div class="patient-id">#{{patient.patientCode}}</div>
             </td>
@@ -87,6 +87,10 @@
               <button class="action-btn" (click)="openMedicalHistory(patient)">
                 <i class="bi bi-info-circle-fill"></i>
               </button>
+              <button class="action-btn" (click)="toggleInsuranceRow(patient._id);$event.stopPropagation()"
+                style="cursor:pointer;">
+                <i class="bi bi-journal-medical"></i>
+              </button>
               @if(userDetails?.role != 'Doctor'){
               <button class="action-btn" (click)="editPatient(patient)">
                 <i class="bi bi-pencil"></i>
@@ -96,9 +100,8 @@
               @if(userDetails?.role == 'Doctor'){
               <button class="action-btn" (click)="togglePrescriptionRow(patient._id);$event.stopPropagation()"
                 style="cursor:pointer;">
-                <i class="bi bi-caret-down-fill"></i>
+                <i class="bi bi-journal-bookmark-fill"></i>
               </button>
-
               }
             </td>
           </tr>
@@ -150,42 +153,71 @@
             </td>
           </tr>
           }
+          <!-- 🔹 SUB ROW -->
           @if (expandedAppointment === patient._id) {
           <tr class="sub-row">
             <td colspan="12">
-
               @if (patient.appointments.length) {
-              <div class="appointment-sub-table-container">
-                <table class="appointment-sub-table w-100">
-                  <thead>
-                    <tr>
-                      <th>Appointment No</th>
-                      <th>Date</th>
-                      <th>Time</th>
-                      <th>Day</th>
-                      <th>Symptoms</th>
-                      <th>Notes</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @for (appointment of patient.appointments; track appointment._id) {
-                    <tr>
-                      <td>{{ appointment.appointmentNumber }}</td>
-                      <td>{{ appointment.appointmentDate | date:'dd/MM/yyyy' }}</td>
-                      <td>{{ appointment.startTime }}- {{ appointment.endTime }}</td>
-                      <td>{{ appointment.dayOfWeek }}</td>
-                      <td>{{ appointment.symptoms }}</td>
-                      <td>{{ appointment.notes }}</td>
-                      <td>
+              <div class="sub-content">
+                <div class="sub-title"><i class="bi bi-info-circle-fill"></i> Appointment List</div>
+                <div class="clinic-grid">
+                  <div class="appointment-sub-table-container">
+                    <table class="appointment-sub-table w-100">
+                      <thead>
+                        <tr>
+                          <th>Appointment No</th>
+                          <th>Date</th>
+                          <th>Time</th>
+                          <th>Day</th>
+                          <th>Symptoms</th>
+                          <th>Notes</th>
+                          <!-- <th>Action</th> -->
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (appointment of patient.appointments; track appointment._id) {
+                        <tr>
+                          <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                              {{ appointment.appointmentNumber }}
+                            </div>
+
+                          </td>
+                          <td>
+                            <div style="font-size:11px;color:var(--text-muted);">{{ appointment.appointmentDate |
+                              date:'dd/MM/yyyy' }}</div>
+                          </td>
+                          <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                              {{ appointment.startTime }}- {{ appointment.endTime }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                              {{ appointment.dayOfWeek }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                              {{ appointment.symptoms }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                              {{ appointment.notes }}
+                            </div>
+                          </td>
+                          <!-- <td>
                         <button class="action-btn" (click)="writeAPrescription(patient._id, appointment._id)">
                           <i class="bi bi-prescription"></i>
                         </button>
-                      </td>
-                    </tr>
-                    }
-                  </tbody>
-                </table>
+                      </td> -->
+                        </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
               } @else {
               <div class="empty-appointment">

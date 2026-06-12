@@ -193,7 +193,6 @@ export class AppointmentBooking {
   public bookAppointment(): void {
     this._appointmentBookService.addAppointmentBooking(this.appointmentBookingForm.value).subscribe({
       next: (res) => {
-        debugger;
         this.appointmentSaved.emit(true);
         this._modalService.closeComponentModal();
       },

@@ -19,6 +19,8 @@
   --emerald     : #10b981;
   --violet      : #8b5cf6;
   --violet-light: #f5f3ff;
+  --white       : #FFFFFF;
+  --dark-gray   : #A9A9A9;
 
   --bg        : #f1f5f4;
   --bg-card   : #ffffff;
@@ -4793,11 +4795,9 @@ body {
 /* ═══════════════ Vertical Scroll Container ═══════════════ */
 .vh-scroll-container {
   max-height   : 50vh;
-  /* adjust as needed */
   overflow-y   : auto;
   overflow-x   : hidden;
   padding-right: 6px;
-  /* avoids scrollbar overlap */
 }
 
 /* Optional: smooth scroll */
@@ -4814,6 +4814,31 @@ body {
   background   : var(--border);
   border-radius: 10px;
 }
+
+/* ═══════════════ Vertical Scroll Container ═══════════════ */
+.table-scroll-container {
+  max-height   : 150vh;
+  height       : 85vh;
+  overflow-y   : auto;
+  overflow-x   : hidden;
+  padding-right: 6px;
+}
+
+/* Optional: smooth scroll */
+.table-scroll-container {
+  scroll-behavior: smooth;
+}
+
+/* Optional: custom scrollbar */
+.table-scroll-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.table-scroll-container::-webkit-scrollbar-thumb {
+  background   : var(--border);
+  border-radius: 10px;
+}
+
 
 /* ═══════════════ Flex Container ═══════════════ */
 .flex-container {
@@ -6709,4 +6734,59 @@ body {
   align-items    : center;
   justify-content: space-evenly;
   gap            : 10px;
+}
+
+
+
+/* Status Badges */
+.status-pill {
+  display      : inline-flex;
+  align-items  : center;
+  gap          : 5px;
+  font-size    : 11px;
+  font-weight  : 700;
+  padding      : 3px 8px;
+  border-radius: 12px;
+}
+
+.status-pill.available {
+  background: var(--teal-light);
+  color     : var(--teal-dark);
+}
+
+.status-pill.occupied {
+  background: var(--indigo-light);
+  color     : var(--indigo);
+}
+
+.status-pill.maintenance {
+  background: var(--amber-light);
+  color     : var(--amber);
+}
+
+.status-pill.pending {
+  background: var(--amber-light);
+  color     : var(--amber);
+}
+
+.status-pill.completed {
+  background: var(--teal-light);
+  color     : var(--teal-dark);
+}
+
+.reg-submit-bar {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  padding-top    : 18px;
+  border-top     : 1px solid var(--border);
+  margin-top     : 20px;
+}
+
+.reg-submit-bar .reg-note {
+  font-size  : 11.5px;
+  color      : var(--text-muted);
+  display    : flex;
+  align-items: center;
+  gap        : 6px;
 }

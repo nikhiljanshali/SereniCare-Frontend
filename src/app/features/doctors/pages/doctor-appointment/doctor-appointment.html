@@ -1,7 +1,7 @@
 <div id="page-clinic-list" class="page-section">
     <div class="page-header">
         <div class="page-header-left">
-            <div class="ph-title">Booked Appointment Viewe</div>
+            <div class="ph-title">Booked Appointment View</div>
             <div class="ph-sub">List of Booked Appointments</div>
         </div>
         <div class="page-header-right d-flex gap-2">
@@ -61,3 +61,50 @@
 </div>
 
 <app-right-sidebar #medicalSidebar></app-right-sidebar>
+
+
+@if(clinicSelectionForm){
+<div class="modal fade" id="ClinicSelectionModal" tabindex="-1">
+    <form [formGroup]="clinicSelectionForm">
+        <div class="modal-dialog modal-md modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title-head"> Clinic </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body p-2">
+                    <div class="doctor-edit-form">
+                        <div class="form-section">
+                            <!-- <div class="section-title">Clinic By Doctors</div> -->
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <!-- <label> Clinics <span class="text-danger">*</span> </label> -->
+                                    <div class="input-wrap">
+                                        <i class="bi bi-person-hearts input-icon"></i>
+                                        <select class="form-select" formControlName="clinicId">
+                                            <option [ngValue]="null"> Select Clinic </option>
+                                            @for(clinic of clinicList; track clinic._id){
+                                            <option [value]="clinic._id">
+                                                {{clinic.clinicName}}
+                                                <!-- [{{clinic.clinicType}} - {{clinic.registrationNumber}}] -->
+                                            </option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex align-items-center justify-content-around gap-2 border-0 mt-3">
+                        <button type="button" class="btn btn-primary" type="submit" (click)="ChangeClinic()">
+                            <span class="submit-text">Submit</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+}
