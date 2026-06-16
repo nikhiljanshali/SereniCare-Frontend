@@ -1,7 +1,8 @@
 export const environment = {
   production: true,
   name: 'production',
-  apiUrl: 'https://serenicare-backend-bdgqd2cpfycnbsbv.eastasia-01.azurewebsites.net/',
+  // apiUrl: 'https://serenicare-backend-bdgqd2cpfycnbsbv.eastasia-01.azurewebsites.net',
+  apiUrl: 'https://serenicare-backend-env.eba-ditk86km.ap-south-1.elasticbeanstalk.com',
   middleware: '/api/v1',
   endpoints: {
     authentication: '/authentication',
