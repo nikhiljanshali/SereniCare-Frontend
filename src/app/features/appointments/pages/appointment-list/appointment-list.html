@@ -1,0 +1,160 @@
+<div id="page-patient-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Appointment List</div>
+            <div class="ph-sub">List of Appointment registered with doctors</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm" (click)="refresh()">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button class="btn btn-outline-primary btn-sm" (click)="openFilter()">
+                <i class="bi bi-funnel"></i>Filter
+            </button>
+            <!-- <button class="btn btn-primary btn-sm" (click)="createappointment()">
+                <i class="bi bi-plus-lg"></i> Create appointment
+            </button> -->
+        </div>
+    </div>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <!-- <th></th> -->
+                        <th>Appointment</th>
+                        <th>appointment</th>
+                        <th>Doctor</th>
+                        <th>Type</th>
+                        <th>Consultation Mode</th>
+                        <th>Status</th>
+                        <th>Booking Source</th>
+                        <th>Symptoms</th>
+                        <th>Payment Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(appointmentList.length > 0) {
+                    @for (appointment of paginatedAppointmentList; track appointment._id) {
+                    <tr>
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">
+                                        {{appointment?.appointmentNumber}}
+                                    </div>
+                                    <div class="patient-id">Date : {{appointment?.createdAt | date : 'dd/MM/yyyy'}}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">
+                                    PT
+                                </div>
+                                <div>
+                                    <div class="patient-name">
+                                        {{appointment?.patientId?.firstName}}.
+                                        {{appointment?.patientId?.middleName}}.
+                                        {{appointment?.patientId?.lastName}}
+                                    </div>
+                                    <div class="patient-id">#{{appointment?.patientId?.patientCode}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">
+                                    DR</div>
+                                <div>
+                                    <div class="patient-name">
+                                        {{appointment?.doctorId?.firstName}}.{{appointment?.doctorId?.lastName}}</div>
+                                    <div class="patient-id">#{{appointment?.doctorId?.doctorCode}}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                                {{ appointment.appointmentType }}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                                {{ appointment.consultationMode }}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                                {{ appointment.appointmentStatus }}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                                {{appointment.bookingSource}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);" class="appt-notes">
+                                {{appointment.symptoms}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:11px;color:var(--text-muted);">
+                                {{appointment.paymentStatus}}
+                            </div>
+                        </td>
+                        <td>
+                            <button class="action-btn">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </button>
+                            <button class="action-btn"
+                                (click)="toggleInsuranceRow(appointment._id);$event.stopPropagation()"
+                                style="cursor:pointer;">
+                                <i class="bi bi-journal-medical"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                    } @else {
+                    <tr style="border:none;">
+                        <td colspan="11" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
+                            No doctors available
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="appt-table-wrapper">
+                <span class="text-muted-small">
+                    Showing
+                    {{ (currentPage - 1) * pageSize + 1 }}
+                    -
+                    {{
+                    Math.min(currentPage * pageSize, appointmentList.length)
+                    }}
+                    of
+                    {{ appointmentList.length }}
+                    medicines
+                </span>
+                <div class="pagination-group">
+                    <button class="action-btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    @for(page of pages; track page) {
+                    <button class="action-btn" [class.btn-pagination-active]="page === currentPage"
+                        [class.btn-pagination]="page !== currentPage" (click)="goToPage(page)">
+                        {{ page }}
+                    </button>
+                    }
+                    <button class="action-btn btn-pagination" (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <app-right-sidebar #medicalSidebar></app-right-sidebar> -->
+</div>

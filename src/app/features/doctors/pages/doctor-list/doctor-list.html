@@ -5,7 +5,10 @@
       <div class="ph-sub">List of Registered Doctors</div>
     </div>
     <div class="page-header-right d-flex gap-2">
-      <button class="btn btn-outline-primary btn-sm">
+      <button class="btn btn-outline-primary btn-sm" (click)="refresh()">
+        <i class="bi bi-arrow-clockwise"></i>
+      </button>
+      <button class="btn btn-outline-primary btn-sm" (click)="openFilter()">
         <i class="bi bi-funnel"></i>Filter
       </button>
       <button class="btn btn-primary btn-sm" (click)="createDoctor()">
@@ -33,7 +36,7 @@
         </thead>
         <tbody>
           @if(doctorsList.length > 0) {
-          @for (doctor of doctorsList; track doctor._id) {
+          @for (doctor of paginatedDoctorList; track doctor._id) {
           <tr (click)="toggleRow(doctor._id)" style="cursor:pointer;">
             <td>
               <div class="patient-id">#{{doctor.doctorCode}}</div>
@@ -149,6 +152,33 @@
           }
         </tbody>
       </table>
+      <div class="appt-table-wrapper">
+        <span class="text-muted-small">
+          Showing
+          {{ (currentPage - 1) * pageSize + 1 }}
+          -
+          {{
+          Math.min(currentPage * pageSize, doctorsList.length)
+          }}
+          of
+          {{ doctorsList.length }}
+          doctors
+        </span>
+        <div class="pagination-group">
+          <button class="action-btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          @for(page of pages; track page) {
+          <button class="action-btn" [class.btn-pagination-active]="page === currentPage"
+            [class.btn-pagination]="page !== currentPage" (click)="goToPage(page)">
+            {{ page }}
+          </button>
+          }
+          <button class="action-btn btn-pagination" (click)="nextPage()" [disabled]="currentPage === totalPages">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

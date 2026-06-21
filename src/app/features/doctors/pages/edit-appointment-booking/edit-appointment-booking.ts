@@ -109,7 +109,6 @@ export class EditAppointmentBooking {
 
   updateBookAppointment(): void {
     console.log(this.appointmentBookingForm.value);
-    debugger;
     this._appointmentBookService.updateAppointmentBooking(this.appointmentDetails._id, this.appointmentBookingForm.value).subscribe((res) => {
       console.log(res.success);
       if (res.success) {

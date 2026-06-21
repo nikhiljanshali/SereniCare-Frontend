@@ -1,9 +1,9 @@
 <nav class="demo-nav">
   <span class="demo-nav-label">SereniCare Auth:</span>
   <span class="quote">{{ currentQuote }}</span>
-  @for (btn of buttons; track btn.action) {
-  <button class="demo-btn" [class.active]="activeAction === btn.action" (click)="onAction(btn.action)">
-    {{ btn.label }}
+  @for (prd of preRequiredDetails; track prd.action) {
+  <button  class="demo-btn" [class.active]="activeAction === prd.action" (click)="onAction(prd.action)">
+    {{ prd.label }}
   </button>
   }
 </nav>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="panel-illustration">
-          <div class="panel-title">Welcome<br>back, <em>Doctor.</em> / <em>Patient.</em></div>
+          <div class="panel-title">Welcome back, <br/> <em>Doctor.</em> / <em>Patient.</em> /<em>Nurse.</em> </div>
           <div class="panel-desc">Sign in to access your clinic dashboard, appointments, patient records and more.</div>
           <div class="panel-features">
             <div class="panel-feature">

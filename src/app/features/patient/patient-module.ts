@@ -8,8 +8,11 @@ import { PatientAppointmentBook } from './pages/patient-appointment-book/patient
 import { PatientRegistration } from './pages/patient-registration/patient-registration';
 import { PatientList } from './pages/patient-list/patient-list';
 import { FocusTrapDirective } from "ngx-bootstrap/focus-trap";
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RightSidebar } from '../../shared/component/right-sidebar/right-sidebar';
+import { PatientMedicalHistory } from './pages/patient-medical-history/patient-medical-history';
+import { PastMedical } from '../../shared/component/past-medical/past-medical';
+import { PastSurgical } from '../../shared/component/past-surgical/past-surgical';
 
 
 @NgModule({
@@ -19,14 +22,18 @@ import { RightSidebar } from '../../shared/component/right-sidebar/right-sidebar
     PatientCalendarView,
     PatientAppointmentBook,
     PatientRegistration,
-    PatientList
+    PatientList,
+    PatientMedicalHistory,
+    PastMedical,
+    PastSurgical
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     PatientRoutingModule,
     FocusTrapDirective,
-    RightSidebar
+    RightSidebar,
   ]
 })
 export class PatientModule { }

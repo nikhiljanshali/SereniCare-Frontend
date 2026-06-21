@@ -53,14 +53,16 @@ export class Clinics {
     );
   }
 
-  public getClinicByDoctorId(id: string): Observable<any> {
+  public getClinicByDoctorId(id: string, showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getClinicByDoctorId/${id}`).pipe(
-      map(res => res.data),
+      map(res => res),
       tap((data) => {
-        this._notificationServices.success(
-          'Success',
-          `${data?.clinicName} details fetched successfully`
-        );
+        if (showNotificaion) {
+          this._notificationServices.success(
+            'Success',
+            `Clinics fetched successfully`
+          );
+        }
       })
     );
   }

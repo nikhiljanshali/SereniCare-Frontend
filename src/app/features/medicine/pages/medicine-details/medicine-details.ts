@@ -12,4 +12,8 @@ export class MedicineDetails {
 
   @Input() medicineDetails: any;
 
+  ngOnInit() {
+    console.log(this.medicineDetails)
+  }
+
 }

@@ -5,8 +5,10 @@ import { PatientService } from '../../../../core/services/patients';
 import { ModalService } from '../../../../core/services/modal-service';
 import { AppointmentBookService } from '../../../../core/services/appointment-book';
 import { StorageOperation } from '../../../../core/services/storage-operation';
-import { IPatientsData, IDoctorByIdData, Slot, IAvailableSlots, IDoctorSlotsByDay, DoctorId, IClinicList, IClinics } from '../../../../core/interface/basic.interface';
+import { IPatientsData, IDoctorByIdData, Slot, IAvailableSlots, IDoctorSlotsByDay, DoctorId, IClinicList, IClinics, IDoctorId, IDoctorsData } from '../../../../core/interface/basic.interface';
 import { Clinics } from '../../../../core/services/clinics';
+import { DoctorService } from '../../../../core/services/doctor';
+import { Roles } from '../../../../core/enum/common.enum';
 
 @Component({
   selector: 'app-appointment-booking',
@@ -30,6 +32,7 @@ export class AppointmentBooking {
   public userRole: string = '';
   public bookingSourceOptions: string[] = [];
   public clinicList: IClinicList[] = [];
+  public doctorsList: IDoctorsData[] = [];
   public appointmentStatusOptions: string[] = [
     'Pending',
     'Confirmed',
@@ -55,6 +58,7 @@ export class AppointmentBooking {
     private _appointmentBookService: AppointmentBookService,
     private _storageOperation: StorageOperation,
     private _clinicsService: Clinics,
+    private _doctorService: DoctorService,
   ) {
     const storedUser = this._storageOperation.get<any>('user');
     if (storedUser) {
@@ -64,52 +68,22 @@ export class AppointmentBooking {
     if (storedUserDetails) {
       this.doctorId = storedUserDetails.id || '';
     }
+    console.log(storedUser.role, storedUserDetails);
   }
 
   ngOnInit(): void {
     this.setBookingSourceOptions();
     this.initAppointmentBookingForm();
-    this.getClinicsByDoctorId();
+    this.getDoctors();
     this.getPatients();
   }
 
-  private setBookingSourceOptions(): void {
-    switch (this.userRole) {
-      case 'Doctor':
-        this.bookingSourceOptions = ['Doctor'];
-        break;
-
-      case 'Patient':
-        this.bookingSourceOptions = ['Patient Portal'];
-        break;
-
-      case 'System Admin':
-        this.bookingSourceOptions = [
-          'Admin'
-        ];
-        break;
-
-      default:
-        this.bookingSourceOptions = [];
-    }
-  }
-
-  private getClinicsByDoctorId(): void {
-    this._clinicsService.getAllClinics().subscribe((res: IClinics) => {
-      this.clinicList = res.data;
-    });
-  }
-
-  private getPatients(): void {
-    this._patientService.getPatients().subscribe((res) => {
-      this.patients = res.data || [];
-    });
-  }
 
   private initAppointmentBookingForm(): void {
     this.appointmentBookingForm = this.fb.group({
       appointmentNumber: [''],
-      doctorId: [this.isModel ? this.doctorDetails?._id : this.doctorId, Validators.required],
+      // doctorId: [{ value: this.isModel ? this.doctorDetails?._id : this.doctorId, disabled: this._storageOperation.get<any>('user')?.role === Roles.Doctor }, Validators.required],
+      doctorId: [{ value: this.isModel ? this.doctorDetails?._id : this.doctorId }, Validators.required],
       patientId: ['', Validators.required],
       clinicId: ['', Validators.required],
       appointmentDate: ['', Validators.required],
@@ -128,10 +102,11 @@ export class AppointmentBooking {
       cancelledBy: ['']
     });
     this.appointmentBookingForm.get('appointmentDate')?.valueChanges.subscribe((date) => {
+      console.log();
       if (date) {
         const dayName = new Date(date).toLocaleDateString('en-US', { weekday: 'long' });
         this.appointmentBookingForm.patchValue({ dayOfWeek: dayName, }, { emitEvent: false });
-        this._appointmentBookService.getDoctorSlotsByDay(this.doctorDetails?._id || '', dayName, false).subscribe({
+        this._appointmentBookService.getDoctorSlotsByDay(this.doctorDetails?._id || this.doctorId || this.appointmentBookingForm.get('doctorId')?.value, dayName, false).subscribe({
           next: (res: IDoctorSlotsByDay) => {
             this.doctorSlots = res.data.slots || [];
             this.availableStartSlots = this.doctorSlots.map(slot => slot.startTime);
@@ -188,7 +163,71 @@ export class AppointmentBooking {
         }, { emitEvent: false });
       }
     });
+    this.appointmentBookingForm.get('doctorId')?.valueChanges.subscribe((doctorId: string) => {
+      this.clinicList = [];
+      this.appointmentBookingForm.patchValue({
+        clinicId: null
+      });
+      if (doctorId) {
+        this.getClinicsByDoctorId(doctorId);
+      }
+    });
+    if (this.doctorId) {
+      this.getClinicsByDoctorId(this.doctorId);
+    }
   }
+
+  private setBookingSourceOptions(): void {
+    switch (this.userRole) {
+      case 'Doctor':
+        this.bookingSourceOptions = ['Doctor'];
+        break;
+
+      case 'Patient':
+        this.bookingSourceOptions = ['Patient Portal'];
+        break;
+
+      case 'System Admin':
+        this.bookingSourceOptions = [
+          'Admin'
+        ];
+        break;
+
+      default:
+        this.bookingSourceOptions = [];
+    }
+  }
+
+  private getDoctors(): void {
+    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin) {
+      this._doctorService.getAllDoctors().subscribe((res: any) => {
+        this.doctorsList = res.data;
+      });
+    } else if (this._storageOperation.get<any>('user').role == Roles.Doctor) {
+      this._doctorService.getDoctorsById(this._storageOperation.get<any>('userDetails').id).subscribe((res: any) => {
+        this.doctorsList = [res.data];
+      });
+    }
+  }
+
+  // public onDoctorChange(event: Event): void {
+  //   const selectedDoctorId = (event.target as HTMLSelectElement).value;
+  //   // this.getClinicsByDoctorId(selectedDoctorId)
+  // }
+
+  private getClinicsByDoctorId(doctorid: string): void {
+    this._clinicsService.getClinicByDoctorId(doctorid).subscribe((res: any) => {
+      this.clinicList = res.data;
+    });
+  }
+
+  private getPatients(): void {
+    this._patientService.getPatients().subscribe((res) => {
+      this.patients = res.data || [];
+    });
+  }
+
+
 
   public bookAppointment(): void {
     this._appointmentBookService.addAppointmentBooking(this.appointmentBookingForm.value).subscribe({

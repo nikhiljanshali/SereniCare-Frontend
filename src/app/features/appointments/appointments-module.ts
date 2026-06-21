@@ -5,10 +5,12 @@ import { AppointmentLayout } from './appointment-layout/appointment-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FocusTrapDirective } from 'ngx-bootstrap/focus-trap';
 import { AppointmentsRoutingModule } from './appointments-routing-module';
+import { AppointmentList } from './pages/appointment-list/appointment-list';
 
 @NgModule({
   declarations: [
-    AppointmentLayout
+    AppointmentLayout,
+    AppointmentList
   ],
   imports: [
     CommonModule,

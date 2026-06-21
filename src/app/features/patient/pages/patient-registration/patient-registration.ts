@@ -5,11 +5,13 @@ import { IBloodGroupData, IDoctors, ILimitedDocotorsData, IPrimaryConditionData 
 import { PrimaryConditionService } from '../../../../core/services/primary-condition';
 import { DoctorService } from '../../../../core/services/doctor';
 import { PatientService } from '../../../../core/services/patients';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, retry, Subject, takeUntil } from 'rxjs';
 import { LocationService } from '../../../../core/services/location-service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
 import { Roles } from '../../../../core/enum/common.enum';
+import { StorageOperation } from '../../../../core/services/storage-operation';
+import { CommonMethod } from '../../../../core/services/common-method';
 
 @Component({
   selector: 'app-patient-registration',
@@ -20,11 +22,11 @@ import { Roles } from '../../../../core/enum/common.enum';
 })
 export class PatientRegistration {
 
-  patientForm!: FormGroup;
-  currentStep = 1;
-  bloodGroups: IBloodGroupData[] = [];
-  primaryConditions: IPrimaryConditionData[] = [];
-  doctorsList: ILimitedDocotorsData[] = [];
+  public patientForm!: FormGroup;
+  public currentStep = 1;
+  public bloodGroups: IBloodGroupData[] = [];
+  public primaryConditions: IPrimaryConditionData[] = [];
+  public doctorsList: ILimitedDocotorsData[] = [];
 
 
   public countries: any[] = [];
@@ -46,7 +48,9 @@ export class PatientRegistration {
     private _primaryConditonService: PrimaryConditionService,
     private _doctorService: DoctorService,
     private _LocationService: LocationService,
-    private _patientService: PatientService
+    private _patientService: PatientService,
+    public _storageOperation: StorageOperation,
+    private _commonMethod: CommonMethod
   ) {
     this.countries$ = this._LocationService.countries$;
     this.states$ = this._LocationService.states$;
@@ -54,6 +58,10 @@ export class PatientRegistration {
     this.selection$ = this._LocationService.selection$;
     this.loading$ = this._LocationService.loading$;
     this.error$ = this._LocationService.error$;
+
+    const storedUser = this._storageOperation.get<any>('user');
+    const storedUserDetails = this._storageOperation.get<any>('userDetails');
+    console.log(storedUser.role, storedUserDetails);
   }
 
   ngOnInit() {
@@ -96,6 +104,12 @@ export class PatientRegistration {
   }
 
   initForm() {
+    let docId: string = '';
+    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin) {
+      docId = '';
+    } else if (this._storageOperation.get<any>('user').role == Roles.Doctor) {
+      docId = this._storageOperation.get<any>('userDetails').id;
+    }
     this.patientForm = this.fb.group({
       // 🔹 Basic Info
       firstName: [
@@ -120,7 +134,7 @@ export class PatientRegistration {
       role: 'patient',
       // 🔹 Contact Info
       phone: [{ value: '', disabled: false }, [Validators.required]],
-      email: [{ value: '', disabled: false }, [Validators.email]],
+      email: [{ value: '', disabled: false }, [Validators.required, Validators.email]],
       address: [{ value: '', disabled: false }],
       country: [{ value: '', disabled: false }, [Validators.required]],
       state: [{ value: '', disabled: false }, [Validators.required]],
@@ -139,7 +153,10 @@ export class PatientRegistration {
       status: ['active'],
       // 🔹 Mapping
       clinicId: ['', Validators.required],
-      primaryDoctorId: [''],
+      primaryDoctorId: [
+        { value: docId, disabled: false },
+        [Validators.required]
+      ],
       // 🔹 Medical History (FormArray)
       medicalHistories: this.fb.array([this.createMedicalHistory()]),
       // 🔹 Insurance (FormArray)
@@ -171,59 +188,51 @@ export class PatientRegistration {
 
   createMedicalHistory(): FormGroup {
     return this.fb.group({
-      bloodType: [''],
-      condition: [''],
-      allergies: [''],
-      medications: [''],
-      surgeries: [''],
-      familyHistory: [''],
+      bloodType: [{ value: '', disabled: false }],
+      condition: [{ value: '', disabled: false }],
+      allergies: [{ value: '', disabled: false }],
+      medications: [{ value: '', disabled: false }],
+      surgeries: [{ value: '', disabled: false }],
+      familyHistory: [{ value: '', disabled: false }],
 
       lifestyle: this.fb.group({
         smoking: this.fb.group({
           status: [false],
-          frequency: [''],
+          frequency: [{ value: '', disabled: false }],
           durationYears: [null]
         }),
-
         alcohol: this.fb.group({
           status: [false],
-          frequency: ['']
+          frequency: [{ value: '', disabled: false }]
         }),
-
-        activityLevel: [''], // Sedentary / Moderate / Active
-        dietType: [''], // Veg / Non-Veg / Vegan
-        exerciseFrequency: [''], // Daily / Weekly / Rare
-
+        activityLevel: [{ value: '', disabled: false }],
+        dietType: [{ value: '', disabled: false }],
+        exerciseFrequency: [{ value: '', disabled: false }], // Daily / Weekly / Rare
         sleepHours: [null],
-        stressLevel: [''], // Low / Medium / High
-
-        caffeineIntake: [''], // Low / Moderate / High
+        stressLevel: [{ value: '', disabled: false }], // Low / Medium / High
+        caffeineIntake: [{ value: '', disabled: false }], // Low / Moderate / High
         waterIntake: [null], // liters
-
-        occupationType: [''], // Desk / Field
-
+        occupationType: [{ value: '', disabled: false }], // Desk / Field
         hobbies: this.fb.array([]),
-
         substanceUse: this.fb.group({
           tobacco: [false],
           drugs: [false]
         })
       }),
-
-      notes: ['']
+      notes: [{ value: '', disabled: false }],
     });
   }
 
   createInsurance(): FormGroup {
     return this.fb.group({
-      providerName: [''],
-      policyNumber: [''],
-      policyHolderName: [''],
-      relationToPatient: [''],
+      providerName: [{ value: '', disabled: false }],
+      policyNumber: [{ value: '', disabled: false }],
+      policyHolderName: [{ value: '', disabled: false }],
+      relationToPatient: [{ value: '', disabled: false }],
       coverageAmount: [null],
-      coverageDetails: [''],
-      validFrom: [''],
-      validTo: [''],
+      coverageDetails: [{ value: '', disabled: false }],
+      validFrom: [{ value: '', disabled: false }],
+      validTo: [{ value: '', disabled: false }],
       status: ['active']
     });
   }
@@ -366,7 +375,7 @@ export class PatientRegistration {
 
       status: 'active',
       clinicId: 'CLINIC123', // ⚠️ replace with real value
-      primaryDoctorId: this.doctorsList?.[0]?._id || null,
+      // primaryDoctorId: this._storageOperation.get<any>('userDetails', 'local').id || null,
 
       term: true,
 
@@ -461,6 +470,14 @@ export class PatientRegistration {
   }
 
   registerPatientSubmit() {
+    if (this.patientForm.invalid) {
+      this.patientForm.markAllAsTouched();
+      this._commonMethod.logInvalidControls(this.patientForm);
+      return;
+    }
+
+
+    console.log(this.patientForm.getRawValue());
     this._patientService.createPatient(this.patientForm.getRawValue()).pipe(take(1)).subscribe({
       next: (data) => {
         this.patientForm.reset();

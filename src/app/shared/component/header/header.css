@@ -46,10 +46,9 @@
 
 .email {
   display: inline-block;
-  font-size: 12px;
+  /* font-size: 12px; */
   font-weight: 500;
-  padding: 15px;
-  /* border-bottom: 1px solid var(--dark-gray); */
+  padding: 10px 15px 0px 15px;
   line-height: 1.2;
   max-width: 100%;
   white-space: nowrap;
@@ -253,11 +252,4 @@
 .language-list li.active {
   background: #e6f0ff;
   font-weight: 600;
-}
-
-/* Divider */
-.menu-divider {
-  margin: 6px 0;
-  border: none;
-  border-top: 1px solid #eee;
 }

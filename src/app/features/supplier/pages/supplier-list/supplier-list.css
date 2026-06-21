@@ -1,0 +1,86 @@
+/* ─────────────────────────────────────────────────────────────────
+   APPOINTMENT TABLE STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.appt-table-wrapper {
+    padding        : 14px 20px;
+    border-top     : 1px solid var(--border);
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+}
+
+.appt-time-value {
+    font-weight: 600;
+    color      : var(--text-head);
+}
+
+.appt-time-duration {
+    font-size: 11px;
+    color    : var(--text-muted);
+}
+
+.appt-notes {
+    font-size: 11.5px;
+    color    : var(--text-muted);
+    max-width: 140px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   BUTTON STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.btn-icon-wrapper {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+    padding   : 4px 10px;
+}
+
+.btn-download-cv {
+    background     : var(--bg);
+    border         : 1px solid var(--border);
+    color          : var(--text-body);
+    justify-content: center;
+}
+
+.btn-more-actions {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+}
+
+.btn-recent-activity {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+    font-size : 11.5px;
+}
+
+.btn-filter-group {
+    display: flex;
+    gap    : 6px;
+}
+
+.btn-pagination-wrapper {
+    display: flex;
+    gap    : 4px;
+}
+
+.btn-pagination-active {
+    background  : var(--teal);
+    color       : #fff;
+    border-color: var(--teal);
+}
+
+.btn-filter-light {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+}
+
+.btn-slot-config {
+    display       : flex;
+    flex-direction: column;
+    gap           : 12px;
+}

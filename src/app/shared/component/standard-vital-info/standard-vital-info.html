@@ -1,0 +1,132 @@
+<div class="modal-header">
+    <h5 class="modal-title">Vital Standard
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+    </button>
+</div>
+<div class="modal-body p-0">
+    <div class="vital-container">
+        <div class="file-tabs">
+            @for (tab of tabs; track $index) {
+            <div class="file-tab" (click)="changeTab($index)" [ngClass]="{ 'active': activeTab === $index}">
+                {{tab.title}}
+            </div>
+            }
+        </div>
+        <!-- Adult Vital Signs Reference Range -->
+        @if (activeTab === 0) {
+        <div class="table-responsive">
+            <table class="vital-table">
+                <thead>
+                    <tr>
+                        <th>Vital Sign</th>
+                        <th>Unit</th>
+                        <th>Normal Adult Male Range</th>
+                        <th>Normal Adult Female Range</th>
+                        <th>Common Display Format</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Blood Pressure (BP)</b></td>
+                        <td>mmHg</td>
+                        <td class="normal">90/60 – 120/80 mmHg</td>
+                        <td class="normal">90/60 – 120/80 mmHg</td>
+                        <td>120/80</td>
+                    </tr>
+                    <tr>
+                        <td><b>Pulse Rate (Heart Rate)</b></td>
+                        <td>BPM</td>
+                        <td class="normal">60 – 100 BPM</td>
+                        <td class="normal">60 – 100 BPM</td>
+                        <td>72 BPM</td>
+                    </tr>
+                    <tr>
+                        <td><b>Temperature</b></td>
+                        <td>°C / °F</td>
+                        <td class="normal">36.1 – 37.2 °C</td>
+                        <td class="normal">36.1 – 37.2 °C</td>
+                        <td>36.8 °C</td>
+                    </tr>
+                    <tr>
+                        <td><b>Respiratory Rate</b></td>
+                        <td>Breaths/min</td>
+                        <td class="normal">12 – 20</td>
+                        <td class="normal">12 – 20</td>
+                        <td>16/min</td>
+                    </tr>
+                    <tr>
+                        <td><b>SpO₂</b></td>
+                        <td>%</td>
+                        <td class="normal">95 – 100%</td>
+                        <td class="normal">95 – 100%</td>
+                        <td>98%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        } @else {
+        <div class="table-responsive">
+
+            <table class="vital-table status-table">
+
+
+                <thead>
+
+                    <tr>
+                        <th>Vital</th>
+                        <th>Low</th>
+                        <th>Normal</th>
+                        <th>High</th>
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    <tr>
+                        <td><b>Systolic BP</b></td>
+                        <td class="low">&lt;90</td>
+                        <td class="normal">90–120</td>
+                        <td class="high">&gt;140</td>
+                    </tr>
+
+
+                    <tr>
+                        <td><b>Diastolic BP</b></td>
+                        <td class="low">&lt;60</td>
+                        <td class="normal">60–80</td>
+                        <td class="high">&gt;90</td>
+                    </tr>
+
+
+                    <tr>
+                        <td><b>Pulse Rate</b></td>
+                        <td class="low">&lt;60</td>
+                        <td class="normal">60–100</td>
+                        <td class="high">&gt;100</td>
+                    </tr>
+
+
+                    <tr>
+                        <td><b>Temperature</b></td>
+                        <td class="low">&lt;36°C</td>
+                        <td class="normal">36.1–37.2°C</td>
+                        <td class="high">&gt;37.5°C</td>
+                    </tr>
+
+
+                    <tr>
+                        <td><b>SpO₂</b></td>
+                        <td class="low">&lt;90%</td>
+                        <td class="normal">95–100%</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+    </div>
+</div>

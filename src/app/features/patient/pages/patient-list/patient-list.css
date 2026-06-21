@@ -14,83 +14,192 @@
   color        : var(--text-head);
 }
 
-/* .clinic-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+.male-row {
+  border-left: 4px solid #3b82f6;
 }
 
-.clinic-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 10px;
-  font-size: 12px;
+.female-row {
+  border-left: 4px solid #ec4899;
 }
 
-.clinic-name {
+.other-row {
+  border-left: 4px solid #a855f7;
+}
+
+.gender-icon {
+  margin-right: 6px;
+  font-size   : 14px;
+  font-weight : bold;
+}
+
+.gender-icon.male {
+  color: #2563eb;
+}
+
+.gender-icon.female {
+  color: #ec4899;
+}
+
+.gender-icon.other {
+  color: #9333ea;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   APPOINTMENT TABLE STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.appt-table-wrapper {
+  padding        : 14px 20px;
+  border-top     : 1px solid var(--border);
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+}
+
+.appt-time-value {
   font-weight: 600;
-  margin-bottom: 4px;
+  color      : var(--text-head);
 }
 
-.clinic-card {
-  transition:
-    box-shadow 0.3s ease,
-    transform 0.2s ease;
+.appt-time-duration {
+  font-size: 11px;
+  color    : var(--text-muted);
 }
 
-.clinic-card:hover {
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transform: translateY(-3px);
-} */
+.appt-notes {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+  max-width: 140px;
+}
 
-/* .refined-card {
-  padding: 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+/* ─────────────────────────────────────────────────────────────────
+   BUTTON STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.btn-icon-wrapper {
   background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+  padding   : 4px 10px;
 }
 
-.card-header {
+.btn-download-cv {
+  background     : var(--bg);
+  border         : 1px solid var(--border);
+  color          : var(--text-body);
+  justify-content: center;
+}
+
+.btn-more-actions {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+}
+
+.btn-recent-activity {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
+  font-size : 11.5px;
+}
+
+.btn-filter-group {
   display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
+  gap    : 6px;
 }
 
-.section {
-  margin-top: 12px;
-}
-
-.section-title {
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--text-primary);
-}
-
-.wz-review-row {
+.btn-pagination-wrapper {
   display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  padding: 4px 0;
+  gap    : 4px;
 }
 
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 6px 12px;
-  margin-bottom: 6px;
+.btn-pagination-active {
+  background  : var(--teal);
+  color       : #fff;
+  border-color: var(--teal);
 }
 
-.item {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
+.btn-filter-light {
+  background: var(--bg);
+  border    : 1px solid var(--border);
+  color     : var(--text-muted);
 }
 
-.notes {
-  font-size: 13px;
-  color: var(--text-muted);
-} */
+.btn-slot-config {
+  display       : flex;
+  flex-direction: column;
+  gap           : 12px;
+}
+
+.appt-notes {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+  max-width: 300px;
+}
+
+.appointment-wrapper {
+  display    : flex;
+  align-items: center;
+  gap        : 10px;
+}
+
+.vertical-sub-title {
+  writing-mode : vertical-rl;
+  transform    : rotate(180deg);
+  background   : #f8f9fa;
+  color        : #495057;
+  font-weight  : 600;
+  font-size    : 13px;
+  padding      : 12px 6px;
+  border-radius: 6px;
+  border       : 1px solid #dee2e6;
+  text-align   : center;
+  min-width    : 35px;
+}
+
+.clinic-grid {
+  width: 100%;
+}
+
+.appointment-sub-table {
+  border-left : 3px solid var(--teal);
+  padding-left: 16px;
+
+  tbody {
+
+    tr,
+    td {
+      padding: 10px !important;
+    }
+  }
+}
+
+.menu-wrapper {
+  position: relative;
+  display : inline-block;
+}
+
+.dropdown-menu {
+  display   : none;
+  position  : absolute;
+  top       : 100%;
+  left      : 0;
+  min-width : 150px;
+  background: #fff;
+  border    : 1px solid #ddd;
+  z-index   : 1000;
+}
+
+.menu-wrapper:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  display        : block;
+  padding        : 8px 12px;
+  text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+  background: #f5f5f5;
+}

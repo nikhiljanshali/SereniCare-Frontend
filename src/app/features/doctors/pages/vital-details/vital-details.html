@@ -1,0 +1,250 @@
+<div class="page-header">
+    <div class="page-header-left">
+        <div class="ph-title"><i class="bi bi-heart-pulse text-teal"></i> Patient's Vitals</div>
+        <div class="ph-sub">Patient Name:
+            <strong>
+                {{ patientDetails?.patient?.firstName }}
+                {{ patientDetails?.patient?.middleName }}
+                {{ patientDetails?.patient?.lastName }}
+            </strong>
+        </div>
+        <div class="ph-sub">Patient No: <strong>{{ patientDetails?.patient?.patientCode }} </strong></div>
+        <div class="ph-sub">Appoint No: <strong>{{ patientDetails?.appointment?.appointmentNumber }} </strong></div>
+    </div>
+    <div class="page-header-right">
+        <button class="btn btn-outline-info btn-sm" title="Vital History" (click)="vitalHistory()">
+            <i class="bi bi-info-circle-fill"></i>
+        </button>
+    </div>
+</div>
+
+
+<form [formGroup]="vitalForm" class="wizard-form" (ngSubmit)="saveVital()">
+    <div class="wizard-body p-0">
+        <div class="wizard-panel">
+            <div class="wz-form-row d-flex align-items-center justify-content-between">
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Vital Date <span class="wz-req">*</span>
+                    </label>
+                    <input class="wz-input" type="date" placeholder="e.g. DD/MM/YYY" formControlName="vitalDate">
+                    @if (vitalForm.get('vitalDate')?.invalid && vitalForm.get('vitalDate')?.touched) {
+                    <small class="text-danger">
+                        Created At is required.
+                    </small>
+                    }
+                </div>
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Vital Time <span class="wz-req">*</span>
+                    </label>
+                    <input class="wz-input" type="time" placeholder="e.g. HH:MM" formControlName="vitalTime">
+                    @if (vitalForm.get('vitalTime')?.invalid && vitalForm.get('vitalTime')?.touched) {
+                    <small class="text-danger">
+                        Created At is required.
+                    </small>
+                    }
+                </div>
+            </div>
+            <div class="wz-form-row">
+                <div class="wz-form-group">
+                    <label class="wz-label">
+                        Description <span class="wz-req">*</span>
+                    </label>
+                    <input class="wz-input" type="text" placeholder="e.g. description" formControlName="description">
+
+                    @if (vitalForm.get('description')?.invalid &&
+                    vitalForm.get('description')?.touched) {
+                    <small class="text-danger">
+                        Description is required.
+                    </small>
+                    }
+                </div>
+            </div>
+            <div class="wz-form-row d-flex align-items-center justify-content-between">
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Blood Pressure <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="form-control wz-input w-50" type="text" placeholder="e.g. 120/80"
+                            formControlName="bloodPressure">
+                        <select class="form-select w-50" formControlName="bloodPressureUnit">
+                            <option value="mmHg">mmHg</option>
+                            <option value="kPa">kPa</option>
+                            <option value="Kelvin">cmH₂O</option>
+                        </select>
+                    </div>
+                    @if (vitalForm.get('bloodPressure')?.invalid &&
+                    vitalForm.get('bloodPressure')?.touched) {
+                    <small class="text-danger">
+                        Blood Pressure is required.
+                    </small>
+                    }
+                </div>
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Pluse Rate <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. 72" formControlName="pulseRate">
+                        <select class="form-select w-50" formControlName="pulseRateUnit">
+                            <option value="bpm">bpm</option>
+                            <option value="beats/min">beats/min</option>
+                            <option value="cmH2O">cmH₂O</option>
+                            <option value="HR (bpm)">HR (bpm)</option>
+                            <option value="pulse/min">pulse/min</option>
+                        </select>
+                    </div>
+                    @if (vitalForm.get('pulseRate')?.invalid &&
+                    vitalForm.get('pulseRate')?.touched) {
+                    <small class="text-danger">
+                        Pulse Rate is required.
+                    </small>
+                    }
+                </div>
+            </div>
+            <div class="wz-form-row d-flex align-items-center justify-content-between">
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Temperature <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. 98.2" formControlName="temperature">
+                        <select class="form-select w-50" formControlName="temperatureUnit">
+                            <option value="Celsius">[°C] Celsius</option>
+                            <option value="Fahrenheit">[°F] Fahrenheit</option>
+                            <option value="Kelvin">[K] Kelvin</option>
+                            <option value="Rankine">[°R] Kelvin</option>
+                        </select>
+                    </div>
+
+                    @if (vitalForm.get('temperature')?.invalid &&
+                    vitalForm.get('temperature')?.touched) {
+                    <small class="text-danger">
+                        Temperature is required.
+                    </small>
+                    }
+                </div>
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Respiratory Rate <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. 98"
+                            formControlName="respiratoryRate">
+                        <select class="form-select w-50" formControlName="respiratoryRateUnit">
+                            <option value="breaths/min">breaths/min</option>
+                            <option value="bpm">bpm</option>
+                            <option value="rpm">rpm</option>
+                            <option value="resp/min">resp/min</option>
+                            <option value="RR">RR</option>
+                        </select>
+                    </div>
+
+                    @if (vitalForm.get('respiratoryRate')?.invalid &&
+                    vitalForm.get('respiratoryRate')?.touched) {
+                    <small class="text-danger">
+                        Respiratory Rate is required.
+                    </small>
+                    }
+                </div>
+            </div>
+            <div class="wz-form-row d-flex align-items-center justify-content-between">
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        SpO2 <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. 99" formControlName="spO2">
+                        <select class="form-select w-50" formControlName="spO2Unit">
+                            <option value="%">%</option>
+                            <option value="Decimal (0–1)">Decimal (0–1)</option>
+                            <option value="L/min">L/min</option>
+                        </select>
+                    </div>
+
+                    @if (vitalForm.get('spO2')?.invalid &&
+                    vitalForm.get('spO2')?.touched) {
+                    <small class="text-danger">
+                        SpO2 Rate is required.
+                    </small>
+                    }
+                </div>
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Weight <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. 70" formControlName="weight">
+                        <select class="form-select w-50" formControlName="weightUnit">
+                            <option value="kg">kg</option>
+                            <option value="g">g</option>
+                            <option value="lbs">lbs</option>
+                            <option value="st">st</option>
+                            <option value="oz">oz</option>
+                        </select>
+                    </div>
+
+                    @if (vitalForm.get('weight')?.invalid &&
+                    vitalForm.get('weight')?.touched) {
+                    <small class="text-danger">
+                        Weight Rate is required.
+                    </small>
+                    }
+                </div>
+            </div>
+            <div class="wz-form-row d-flex align-items-center justify-content-between">
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        Height <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. 175" formControlName="height">
+                        <select class="form-select w-50" formControlName="heightUnit">
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="ft + in">ft + in</option>
+                            <option value="in">in</option>
+                            <option value="mm">mm</option>
+                        </select>
+                    </div>
+
+                    @if (vitalForm.get('height')?.invalid &&
+                    vitalForm.get('height')?.touched) {
+                    <small class="text-danger">
+                        Height Rate is required.
+                    </small>
+                    }
+                </div>
+                <div class="wz-form-group w-50">
+                    <label class="wz-label">
+                        BMI <span class="wz-req">*</span>
+                    </label>
+                    <div class="input-group">
+                        <input class="wz-input w-50" type="text" placeholder="e.g. Sharma" formControlName="bmi"
+                            readonly>
+                        <select class="form-select w-50" formControlName="bmiUnit">
+                            <option value="kg/m²">kg/m²</option>
+                            <option value="lb/in² × 703">lb/in² × 703</option>
+                            <option value="ft + in">ft + in</option>
+                            <option value="cm">cm</option>
+                        </select>
+                    </div>
+
+                    @if (vitalForm.get('bmi')?.invalid &&
+                    vitalForm.get('bmi')?.touched) {
+                    <small class="text-danger">
+                        BMI Rate is required.
+                    </small>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <button class="btn btn-success" type="submit">
+            <i class="bi bi-floppy-fill"></i> Save
+        </button>
+    </div>
+</form>

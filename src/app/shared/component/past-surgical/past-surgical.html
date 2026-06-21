@@ -1,0 +1,194 @@
+<div class="file-viewer-toolbar">
+    <i class="bi bi-file-earmark-medical-fill" style="font-size:18px;color:var(--rose);"></i>
+    <!-- <span
+        class="file-viewer-name">{{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}</span> -->
+    <div class="file-viewer-actions">
+        @if(!showView){
+        <div class="fv-btn" title="Save" (click)="savePastSurgical()"><i class="bi bi-floppy-fill"></i></div>
+        }
+        <div class="fv-btn" title="List" (click)="toggleView()"><i class="bi bi-list"></i></div>
+        <div class="fv-btn" title="form" (click)="toggleView()"><i class="bi bi-code-square"></i></div>
+        <!-- <div class="fv-btn" title="Rotate"><i class="bi bi-arrow-clockwise"></i></div>
+        <div class="fv-btn" title="Download"><i class="bi bi-download"></i></div>
+        <div class="fv-btn" title="Print"><i class="bi bi-printer"></i></div>
+        <div class="fv-btn" title="Share"><i class="bi bi-share"></i></div> -->
+    </div>
+</div>
+
+@if (showView) {
+<div class="wizard-wrap border-0 pt-3">
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>Problem</th>
+                <th>Status</th>
+                <th>Serverity</th>
+                <th>Diagnosed By</th>
+                <th>Diagnosed Date</th>
+                <th>ongoing</th>
+                <th>endDate</th>
+                <th>Outcome</th>
+                <th>Remark</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (pastmedical of pastSurgicalList; track pastmedical._id) {
+            <tr>
+
+                <td>
+                    <div>
+                        <div class="patient-name">{{pastmedical.problem}}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="status-badge" [ngClass]="getStatusClass(pastmedical.status)">
+                        {{ pastmedical.status }}
+                    </div>
+                </td>
+                <td>
+                    <div class="severity-badge" [ngClass]="getSeverityClass(pastmedical.severity)">
+                        {{ pastmedical.severity }}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.diagnosedBy?.firstName}}
+                        {{pastmedical.diagnosedBy?.lastName}}</div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.diagnosedDate | date :
+                        'dd/MM/yyyy'}}
+                    </div>
+                </td>
+                <td>
+                    <div class="status-badge" [ngClass]="pastmedical.ongoing ? 'badge-yes' : 'badge-no'">
+                        {{ pastmedical.ongoing ? 'Yes' : 'No' }}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.endDate | date :
+                        'dd/MM/yyyy'}}</div>
+                </td>
+                <td>
+                    <div class="outcome-badge" [ngClass]="getOutcomeClass(pastmedical.outcome)">
+                        {{ pastmedical.outcome }}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.remark}}</div>
+                </td>
+                <td>
+                    <button class="action-btn" [title]="'Edit'">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Insurance Details'">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+<div class="wizard-wrap border-0">
+    <form [formGroup]="pastSurgicalForm">
+        <div class="wizard-body">
+            <!-- Step 1 -->
+            <div class="wizard-panel">
+                <div class="wz-form-row m-0">
+                    <div class="wz-form-group">
+                        <label class="wz-label">Surgery Name <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="surgeryName">
+                            <option [ngValue]="null">Select Surgery</option>
+                            @for (surgery of surgeryList; track surgery._id) {
+                            <option [value]="surgery.name">
+                                [{{surgery.code}}] - {{ surgery.name }}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Surgery Date <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="date" placeholder="DD/MM/YYYY" formControlName="surgeryDate">
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Surgeon Name <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="surgeonName">
+                            <option [ngValue]="null">Select Doctor</option>
+                            @for (doctor of doctorsList; track doctor._id) {
+                            <option [value]="doctor._id">
+                                [{{doctor.doctorCode}}] - {{ doctor.firstName }} {{doctor.lastName}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Status <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="status">
+                            <option>Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Chronic">Chronic</option>
+                            <option value="In Remission">In Remission</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="wz-form-row m-0">
+                    <div class="wz-form-group">
+                        <label class="wz-label">Hospital / Clinic Name <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="test" placeholder="e.g. Civil Hospital"
+                            formControlName="hospitalName">
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Remark <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="test" placeholder="e.g. Remark" formControlName="remarks">
+                    </div>
+
+                    <div class="wz-form-group">
+                        <label class="wz-label">Outcome <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="outcome">
+                            <option>Select Medicaion</option>
+                            <option value="Recovered">Recovered</option>
+                            <option value="Improved">Improved</option>
+                            <option value="Stable">Stable</option>
+                            <option value="Worsened">Worsened</option>
+                            <option value="Under Treatment">Under Treatment</option>
+                        </select>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Anesthesia Type <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="anesthesiaType">
+                            <option>Select Anesthesia Type</option>
+                            <option value="General Anesthesia">General Anesthesia</option>
+                            <option value="Regional Anesthesia">Regional Anesthesia</option>
+                            <option value="Local Anesthesia">Local Anesthesia</option>
+                            <option value="Monitored Anesthesia Care (MAC)'">Monitored Anesthesia Care (MAC)'</option>
+                            <option value="Conscious Sedation">Conscious Sedation</option>
+                            <option value="Deep Sedation">Deep Sedation</option>
+                            <option value="Spinal Anesthesia">Spinal Anesthesia</option>
+                            <option value="Epidural Anesthesia">Epidural Anesthesia</option>
+                            <option value="Nerve Block">Nerve Block</option>
+                            <option value="Combined Spinal-Epidural (CSE)">Combined Spinal-Epidural (CSE)</option>
+                            <option value="No Anesthesia">No Anesthesia</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="wz-form-row m-0">
+                    <div class="wz-form-group">
+                        <label class="wz-label">Complications <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="test" placeholder="e.g. Remark" formControlName="complications">
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Complication Details <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="test" placeholder="e.g. Remark"
+                            formControlName="complicationDetails">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+}

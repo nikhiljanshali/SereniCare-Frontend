@@ -1,0 +1,95 @@
+<div class="flex-container">
+    <div class="form-card box">
+        <div class="form-card-icon"><i class="bi bi-braces-asterisk"></i></div>
+        <div class="form-card-title"> Diseases </div>
+        <div class="form-card-sub">Enter diseases details.</div>
+        <form [formGroup]="diseasesForm" (ngSubmit)="onSubmit()">
+            <!-- Name -->
+            <div class="form-group">
+                <label class="form-label">Name <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter name" formControlName="name">
+                </div>
+                <small class="text-danger"
+                    *ngIf="diseasesForm.controls['name'].touched && diseasesForm.controls['name'].invalid">
+                    Name is required
+                </small>
+            </div>
+
+            <!-- Code -->
+            <div class="form-group">
+                <label class="form-label">Code <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter code" formControlName="code">
+                </div>
+                <small class="text-danger"
+                    *ngIf="diseasesForm.controls['code'].touched && diseasesForm.controls['code'].invalid">
+                    Code is required
+                </small>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter description" formControlName="description">
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" [disabled]="diseasesForm.invalid">
+                    <i class="bi bi-floppy2-fill"></i>
+                    @if (isEdit) {
+                    <span>Update</span>
+                    }@else {
+                    <span>Save</span>
+                    }
+                </button>
+
+                <div class="form-link-row mt-8">
+                    Back to Registration
+                    <a class="form-link" (click)="gobackToClickRegistration()">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="services-card box">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="bi bi-shield-plus me-2"></i>
+                Registered Allergies
+                <span class="badge-count">{{ DiseasesList.length }}</span>
+            </div>
+        </div>
+        <div class="vh-scroll-container">
+            @for (ctypes of DiseasesList; track ctypes._id) {
+            <div class="itemdetails-item">
+                <div class="itemdetails-icon">
+                    <i class="bi bi-heart-pulse-fill"></i>
+                </div>
+                <div class="itemdetails-content">
+                    <div class="itemdetails-name"> {{ ctypes.name }} </div>
+                    <div class="itemdetails-description"> {{ ctypes.description }} </div>
+                </div>
+                <div class="itemdetails-actions">
+                    <button type="button" class="action-btn edit-btn" (click)="patchDataToForm(ctypes)">
+                        <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button type="button" class="action-btn delete-btn" (click)="deleteRecord(ctypes)">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+        <!-- <div class="view-all"><span>View all departments</span><i class="bi bi-arrow-right"></i></div> -->
+    </div>
+</div>

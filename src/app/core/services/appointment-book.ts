@@ -75,7 +75,7 @@ export class AppointmentBookService {
    */
   public getAllAppointmentBooking(showNotification: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getAllAppointmentBooking`).pipe(
-      map((res) => res.data),
+      map((res) => res),
       tap(() => {
         if (showNotification) {
           this._notificationServices.success(

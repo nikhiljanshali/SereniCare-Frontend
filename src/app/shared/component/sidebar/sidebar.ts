@@ -23,6 +23,8 @@ export class Sidebar implements OnInit {
   public doctorCount: number = 0;
   public patientCount: number = 0;
   public supplierCount: number = 0;
+  public medicineCount: number = 0;
+  public appointmentCount: number = 0;
 
   // public menuItems: MenuItem[] = [];
   public menuItems: MenuItem[] = [];
@@ -153,42 +155,16 @@ export class Sidebar implements OnInit {
   ngOnInit(): void {
     this.initMenu();
     this.loadUserRole();
-    this.loadDoctorCount();
-    this.loadPatientCount();
-    this.loadSupplierCount();
+    this.loadCount();
+    // this.loadDoctorCount();
+    // this.loadPatientCount();
+    // this.loadSupplierCount();
   }
 
   private initMenu(): void {
     const user: { id: string, firstName: string, lastName: string, workEmail: string, phone: number, role: string } | null = this.storageOperation.get('user', 'local');
     if (user?.role === Roles.SystemAdmin) {
       this.menuItems = [
-        {
-          id: 'appointments',
-          label: 'Appointments',
-          icon: 'bi-calendar2-check',
-          badge: 0,
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'calendar',
-              label: 'Calendar View',
-              icon: 'bi-calendar3',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'all',
-              label: 'All Appointments',
-              icon: 'bi-list-ul',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'book',
-              label: 'Book Appointment',
-              icon: 'bi-plus-circle',
-              roles: [Roles.SystemAdmin]
-            }
-          ]
-        },
         {
           id: 'patient',
           label: 'Patients',
@@ -230,7 +206,7 @@ export class Sidebar implements OnInit {
             },
             {
               id: 'doctor-list',
-              label: 'Doctor List',
+              label: 'Doctor Detail View',
               icon: 'bi-person-lines-fill',
               route: 'doctors/master/doctor-list',
               roles: [Roles.SystemAdmin]
@@ -252,6 +228,37 @@ export class Sidebar implements OnInit {
           ]
         },
         {
+          id: 'appointments',
+          label: 'Appointments',
+          icon: 'bi-calendar2-check',
+          badge: () => `${this.appointmentCount}`,
+          badgeColor: 'var(--teal)',
+          roles: [Roles.SystemAdmin],
+          children: [
+            {
+              id: 'calendar',
+              label: 'Calendar View',
+              icon: 'bi-calendar3',
+              route: 'doctors/master/doctor-appointments',
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'all',
+              label: 'All Appointments',
+              icon: 'bi-list-ul',
+              route: 'appointments/master/list',
+              roles: [Roles.SystemAdmin]
+            },
+            {
+              id: 'book',
+              label: 'Book Appointment',
+              icon: 'bi-plus-circle',
+              route: 'doctors/master/book-appointments',
+              roles: [Roles.SystemAdmin]
+            }
+          ]
+        },
+        {
           id: 'prescriptions',
           label: 'Prescriptions',
           icon: 'bi-prescription',
@@ -268,14 +275,15 @@ export class Sidebar implements OnInit {
               id: 'all',
               label: 'All Prescriptions',
               icon: 'bi-list-check',
+              route: 'prescription/master/list',
               roles: [Roles.SystemAdmin]
             },
-            {
-              id: 'refill',
-              label: 'Refill Requests',
-              icon: 'bi-repeat',
-              roles: [Roles.SystemAdmin]
-            }
+            // {
+            //   id: 'refill',
+            //   label: 'Refill Requests',
+            //   icon: 'bi-repeat',
+            //   roles: [Roles.SystemAdmin]
+            // }
           ]
         },
         {
@@ -304,29 +312,29 @@ export class Sidebar implements OnInit {
         },
         {
           id: 'medicine',
-          label: 'Medicion',
+          label: 'Medicine',
           icon: 'bi-capsule-pill',
-          badge: () => `${this.supplierCount}`,
+          badge: () => `${this.medicineCount}`,
           badgeColor: 'var(--teal)',
           roles: [Roles.SystemAdmin],
           children: [
             {
               id: 'addmedicine',
-              label: 'Add Medicion',
+              label: 'Add Medicine',
               icon: 'bi-bag-plus-fill',
               route: 'medicine/master/add',
               roles: [Roles.SystemAdmin]
             },
             {
               id: 'addmedicine',
-              label: 'Medicion List',
+              label: 'Medicine List',
               icon: 'bi-bag-plus-fill',
               route: 'medicine/master/list',
               roles: [Roles.SystemAdmin]
             },
             {
               id: 'addmedicine',
-              label: 'Import Medicions',
+              label: 'Import Medicine',
               icon: 'bi-bag-plus-fill',
               route: 'medicine/master/import',
               roles: [Roles.SystemAdmin]
@@ -337,28 +345,6 @@ export class Sidebar implements OnInit {
     }
     else if (user?.role === Roles.Doctor) {
       this.operationsMenu = [
-        {
-          id: 'appointments',
-          label: 'Appointments',
-          icon: 'bi-calendar2-check',
-          badge: 0,
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'calendar',
-              label: 'Calendar View',
-              icon: 'bi-calendar3',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'doctor-appointment',
-              label: 'Appointments',
-              icon: 'bi bi-calendar3',
-              route: 'doctors/master/doctor-appointments',
-              roles: [Roles.Doctor]
-            },
-          ]
-        },
         {
           id: 'doctors',
           label: 'Doctor Details',
@@ -392,10 +378,26 @@ export class Sidebar implements OnInit {
           ]
         },
         {
+          id: 'appointments',
+          label: 'Appointments',
+          icon: 'bi-calendar2-check',
+          badge: 0,
+          roles: [Roles.SystemAdmin],
+          children: [
+            {
+              id: 'calendar',
+              label: 'Calendar View',
+              icon: 'bi-calendar3',
+              route: 'doctors/master/doctor-appointments',
+              roles: [Roles.SystemAdmin]
+            },
+          ]
+        },
+        {
           id: 'patient',
           label: 'Patients',
           icon: 'bi-people',
-          badge: () => `${this.doctorCount}`,
+          badge: () => `${this.patientCount}`,
           badgeColor: 'var(--teal)',
           roles: [Roles.Doctor],
           children: [
@@ -415,13 +417,13 @@ export class Sidebar implements OnInit {
           badge: 3,
           roles: [Roles.Doctor],
           children: [
-            {
-              id: 'new',
-              label: 'New Prescription',
-              icon: 'bi-clipboard-plus',
-              route: 'prescription/master/create',
-              roles: [Roles.Doctor]
-            },
+            // {
+            //   id: 'new',
+            //   label: 'New Prescription',
+            //   icon: 'bi-clipboard-plus',
+            //   route: 'prescription/master/create',
+            //   roles: [Roles.Doctor]
+            // },
             {
               id: 'all',
               label: 'All Prescriptions',
@@ -441,27 +443,38 @@ export class Sidebar implements OnInit {
     }
   }
 
-  private loadDoctorCount(): void {
+  private loadCount(): void {
     const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-    this.meshTable.getDoctorCountByUserId(user?.id!).subscribe(res => {
-      this.doctorCount = res.data.doctorCount;
-
+    this.meshTable.getCountsByUserId(user?.id!).subscribe(res => {
+      this.doctorCount = res.data.doctorCount
+      this.patientCount = res.data.patientCount
+      this.supplierCount = res.data.supplierCount
+      this.medicineCount = res.data.medicineCount
+      this.appointmentCount = res.data.appointmentCount
     });
   }
 
-  private loadPatientCount(): void {
-    const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-    this.meshTable.getPatientCountByUserId(user?.id!).subscribe(res => {
-      this.patientCount = res.data.patientCount;
-    });
-  }
+  // private loadDoctorCount(): void {
+  //   const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
+  //   this.meshTable.getDoctorCountByUserId(user?.id!).subscribe(res => {
+  //     this.doctorCount = res.data.doctorCount;
 
-  private loadSupplierCount(): void {
-    const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-    this.meshTable.getSupplierCountByUserId(user?.id!).subscribe(res => {
-      this.supplierCount = res.data.supplierCount;
-    });
-  }
+  //   });
+  // }
+
+  // private loadPatientCount(): void {
+  //   const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
+  //   this.meshTable.getPatientCountByUserId(user?.id!).subscribe(res => {
+  //     this.patientCount = res.data.patientCount;
+  //   });
+  // }
+
+  // private loadSupplierCount(): void {
+  //   const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
+  //   this.meshTable.getSupplierCountByUserId(user?.id!).subscribe(res => {
+  //     this.supplierCount = res.data.supplierCount;
+  //   });
+  // }
 
 
   // 🔐 Load user role from localStorage

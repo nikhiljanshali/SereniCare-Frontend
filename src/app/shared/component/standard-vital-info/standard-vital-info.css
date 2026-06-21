@@ -1,0 +1,117 @@
+.vital-container {
+    display       : flex;
+    flex-direction: column;
+    gap           : 20px;
+    font-family   : "Segoe UI", sans-serif;
+}
+
+
+.vital-card {
+
+    background   : #ffffff;
+    border-radius: 12px;
+    padding      : 20px;
+    border       : 1px solid #e5e7eb;
+    box-shadow   : 0 4px 15px rgba(0, 0, 0, 0.06);
+
+}
+
+
+.vital-title {
+
+    font-size     : 16px;
+    font-weight   : 700;
+    color         : #1f2937;
+    margin-bottom : 15px;
+    padding-bottom: 10px;
+    border-bottom : 2px solid #e5e7eb;
+
+}
+
+
+.table-responsive {
+
+    overflow-x: auto;
+
+}
+
+
+.vital-table {
+
+    width          : 100%;
+    border-collapse: collapse;
+    font-size      : 14px;
+
+}
+
+
+.vital-table th {
+
+    background : #f3f4f6;
+    color      : #374151;
+    padding    : 12px;
+    text-align : left;
+    font-weight: 700;
+
+}
+
+
+.vital-table td {
+
+    padding      : 12px;
+    border-bottom: 1px solid #e5e7eb;
+    color        : #4b5563;
+
+}
+
+
+.vital-table tbody tr:hover {
+
+    background: #f9fafb;
+
+}
+
+
+/* Status Colors */
+
+.normal {
+
+    color      : #15803d !important;
+    font-weight: 700;
+
+}
+
+
+.low {
+
+    color      : #2563eb !important;
+    font-weight: 700;
+
+}
+
+
+.high {
+
+    color      : #dc2626 !important;
+    font-weight: 700;
+
+}
+
+
+@media(max-width:768px) {
+
+    .vital-table {
+
+        font-size: 12px;
+
+    }
+
+
+    .vital-table th,
+    .vital-table td {
+
+        padding: 8px;
+
+    }
+
+}

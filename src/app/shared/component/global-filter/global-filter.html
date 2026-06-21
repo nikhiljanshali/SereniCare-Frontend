@@ -1,0 +1,29 @@
+<form [formGroup]="searchForm" class="wizard-form"  (ngSubmit)="search()">
+    <div class="modal-header">
+        <h5 class="modal-title">Filter : </h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+        </button>
+    </div>
+    <div class="modal-body p-2">
+        <div class="wizard-wrap border-0">
+
+            <div class="wizard-body p-1">
+                <div class="wz-form-row">
+                    <div class="wz-form-group">
+                        <label class="wz-label">Search
+                        </label>
+                        <div class="input-wrap">
+                            <i class="bi bi-search input-icon"></i>
+                            <input type="text" class="form-input" formControlName="searchText" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm"  (click)="closeModePopup()"> Close </button>
+        <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
+        <button type="button" class="btn btn-primary"> Search </button>
+    </div>
+</form>

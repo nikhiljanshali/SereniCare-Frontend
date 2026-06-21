@@ -10,13 +10,20 @@ import { NotificationServices } from './notification-services';
 export class DoctorService {
 
   private baseUrl: string = '';
+  private baseUrlExt: string = '';
+  private baseUrlVital: string = '';
   constructor(
     private _coreApiService: CoreApiService,
     private _notificationServices: NotificationServices
   ) {
     this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.doctors + '/';
+    this.baseUrlExt = environment.apiUrl + environment.middleware + environment.endpoints.chiefComplaint + '/';
+    this.baseUrlVital = environment.apiUrl + environment.middleware + environment.endpoints.vitals + '/';
   }
 
+  /* -------------------------------------------------------------------------- */
+  /*                            Doctor Methods                            */
+  /* -------------------------------------------------------------------------- */
   public getAllDoctors(showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(this.baseUrl + 'getAllDoctors').pipe(
       map(res => res),
@@ -30,7 +37,6 @@ export class DoctorService {
       })
     );
   }
-
   public getAllLimitedDoctors(showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(this.baseUrl + 'getAllDoctorsLimited').pipe(
       map(res => res),
@@ -44,7 +50,6 @@ export class DoctorService {
       })
     );
   }
-
   public getDoctorsById(id: string, showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getDoctorById/${id}`).pipe(
       map(res => res),
@@ -58,7 +63,6 @@ export class DoctorService {
       })
     );
   }
-
   public createDoctors(value: object): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'createDoctor', value, true).pipe(
       map(res => res.data),
@@ -70,7 +74,6 @@ export class DoctorService {
       })
     );
   }
-
   public updateDoctors(id: string | number, value: object): Observable<any> {
     return this._coreApiService
       .put<any>(`${this.baseUrl}updateDoctor/${id}`, value, true)
@@ -107,7 +110,6 @@ export class DoctorService {
   /* -------------------------------------------------------------------------- */
   /*                            Doctor Leave Methods                            */
   /* -------------------------------------------------------------------------- */
-
   /**
    * Add Doctor Leave
    */
@@ -124,7 +126,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Update Doctor Leave
    */
@@ -144,7 +145,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Delete Doctor Leave
    */
@@ -166,7 +166,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get All Doctor Leaves
    */
@@ -187,7 +186,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Leave By Leave Id
    */
@@ -209,7 +207,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Leaves By Doctor Id
    */
@@ -231,12 +228,9 @@ export class DoctorService {
         })
       );
   }
-
-
   /* -------------------------------------------------------------------------- */
   /*                         Doctor Education Methods                            */
   /* -------------------------------------------------------------------------- */
-
   /**
    * Add Doctor Education
    */
@@ -253,7 +247,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Update Doctor Education
    */
@@ -273,7 +266,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Delete Doctor Education
    */
@@ -298,7 +290,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get All Doctor Education
    */
@@ -319,7 +310,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Education By Id
    */
@@ -341,7 +331,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Education By Doctor Id
    */
@@ -365,11 +354,9 @@ export class DoctorService {
         })
       );
   }
-
   /* -------------------------------------------------------------------------- */
   /*                    Doctor Work Experience Methods                           */
   /* -------------------------------------------------------------------------- */
-
   /**
    * Add Doctor Work Experience
    */
@@ -392,7 +379,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Update Doctor Work Experience
    */
@@ -416,7 +402,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Delete Doctor Work Experience
    */
@@ -446,7 +431,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get All Doctor Work Experience
    */
@@ -469,7 +453,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Work Experience By Id
    */
@@ -493,7 +476,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Work Experience By Doctor Id
    */
@@ -517,11 +499,9 @@ export class DoctorService {
         })
       );
   }
-
   /* -------------------------------------------------------------------------- */
   /*                     Doctor Certification Methods                            */
   /* -------------------------------------------------------------------------- */
-
   /**
    * Add Doctor Certification
    */
@@ -544,7 +524,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Update Doctor Certification
    */
@@ -568,7 +547,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Delete Doctor Certification
    */
@@ -598,7 +576,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get All Doctor Certifications
    */
@@ -621,7 +598,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Certification By Id
    */
@@ -645,7 +621,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Certifications By Doctor Id
    */
@@ -669,11 +644,9 @@ export class DoctorService {
         })
       );
   }
-
   /* -------------------------------------------------------------------------- */
   /*                     Doctor Publication Methods                             */
   /* -------------------------------------------------------------------------- */
-
   /**
    * Add Doctor Publication
    */
@@ -696,7 +669,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Update Doctor Publication
    */
@@ -720,7 +692,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Delete Doctor Publication
    */
@@ -750,7 +721,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get All Doctor Publications
    */
@@ -773,7 +743,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Publication By Id
    */
@@ -797,7 +766,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Publications By Doctor Id
    */
@@ -821,11 +789,9 @@ export class DoctorService {
         })
       );
   }
-
   /* -------------------------------------------------------------------------- */
   /*               Doctor Slot Configuration Methods                            */
   /* -------------------------------------------------------------------------- */
-
   /**
   * Add Doctor Slot
   */
@@ -848,7 +814,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
   * Update Doctor Slot
   */
@@ -872,7 +837,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
   * Update Doctor Publication
   */
@@ -896,8 +860,6 @@ export class DoctorService {
         })
       );
   }
-
-
   /**
    * Get Doctor's Slots By Doctor Id
    */
@@ -921,12 +883,9 @@ export class DoctorService {
         })
       );
   }
-
-
   /* -------------------------------------------------------------------------- */
   /*                    Doctor Availability Methods                             */
   /* -------------------------------------------------------------------------- */
-
   /**
    * Add Doctor Availability
    */
@@ -949,7 +908,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Update Doctor Availability
    */
@@ -973,7 +931,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Delete Doctor Availability
    */
@@ -1003,7 +960,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get All Doctor Availability
    */
@@ -1026,7 +982,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Availability By Id
    */
@@ -1050,7 +1005,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Availability By Doctor Id
    */
@@ -1074,7 +1028,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Get Doctor Availability By Day
    */
@@ -1099,7 +1052,6 @@ export class DoctorService {
         })
       );
   }
-
   /**
    * Toggle Doctor Availability Status
    */
@@ -1122,6 +1074,147 @@ export class DoctorService {
           );
         })
       );
+  }
+  /* -------------------------------------------------------------------------- */
+  /*                    Doctor Chief Complaint                                  */
+  /* -------------------------------------------------------------------------- */
+  public getAllChiefComplaints(showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlExt}getAllChiefComplaint`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Chief Complaints fetched successfully'
+        );
+      }
+    })
+    );
+  }
+  public getChiefComplaintById(id: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlExt}getChiefComplaintById/${id}`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Chief Complaint details fetched successfully'
+        );
+      }
+    })
+    );
+  }
+  public getChiefComplaintsByPatientId(patientId: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlExt}getChiefComplaintByPatientId/${patientId}`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Patient Chief Complaints fetched successfully'
+        );
+      }
+    })
+    );
+  }
+  public createChiefComplaint(value: object): Observable<any> {
+    return this._coreApiService.post<any>(`${this.baseUrlExt}createChiefComplaint`, value, true).pipe(map(res => res), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'Chief Complaint created successfully'
+      );
+    })
+    );
+  }
+  public updateChiefComplaint(id: string, value: object): Observable<any> {
+    return this._coreApiService.put<any>(`${this.baseUrlExt}updateChiefComplaint/${id}`, value, true).pipe(map(res => res), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'Chief Complaint updated successfully'
+      );
+    })
+    );
+  }
+  public deleteChiefComplaint(id: string): Observable<any> {
+    return this._coreApiService.delete<any>(`${this.baseUrlExt}deleteChiefComplaint/${id}`).pipe(map((res: any) => {
+      if (!res?.success) {
+        throw new Error(
+          res?.message || 'Delete failed'
+        );
+      }
+      return res.data;
+    }), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'Chief Complaint deleted successfully'
+      );
+    })
+    );
+  }
+
+  /* -------------------------------------------------------------------------- */
+  /*                    Doctor Vital                                            */
+  /* -------------------------------------------------------------------------- */
+  public getAllVitals(showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlVital}getAllVitals`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Vitals fetched successfully'
+        );
+      }
+    })
+    );
+  }
+  public getVitalsById(id: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlVital}getVitalsById/${id}`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Vitals details fetched successfully'
+        );
+      }
+    })
+    );
+  }
+  public getVitalsByPatientId(patientId: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlVital}getVitalsByPatientId/${patientId}`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Patient Vitals fetched successfully'
+        );
+      }
+    })
+    );
+  }
+  public createVitals(value: object): Observable<any> {
+    return this._coreApiService.post<any>(`${this.baseUrlVital}createVitals`, value, true).pipe(map(res => res), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'Vital created successfully'
+      );
+    })
+    );
+  }
+  public updateVitals(id: string, value: object): Observable<any> {
+    return this._coreApiService.put<any>(`${this.baseUrlVital}updateVitals/${id}`, value, true).pipe(map(res => res), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'Vital updated successfully'
+      );
+    })
+    );
+  }
+  public deleteVitals(id: string): Observable<any> {
+    return this._coreApiService.delete<any>(`${this.baseUrlVital}deleteVitals/${id}`).pipe(map((res: any) => {
+      if (!res?.success) {
+        throw new Error(
+          res?.message || 'Delete failed'
+        );
+      }
+      return res.data;
+    }), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'Vital deleted successfully'
+      );
+    })
+    );
   }
 }
 

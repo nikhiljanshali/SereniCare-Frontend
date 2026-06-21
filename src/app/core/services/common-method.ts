@@ -1,3 +1,4 @@
+import { FormGroup, FormArray } from '@angular/forms';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -33,5 +34,21 @@ export class CommonMethod {
     const d = new Date(date);
     return d.toISOString().split('T')[0];
   }
-  
+
+
+  logInvalidControls(form: FormGroup | FormArray, parent = '') {
+    Object.keys(form.controls).forEach(key => {
+      const control = form.get(key);
+      const path = parent ? `${parent}.${key}` : key;
+
+      if (control?.invalid) {
+        console.log(`${path} is invalid`, control.errors);
+      }
+
+      if (control instanceof FormGroup || control instanceof FormArray) {
+        this.logInvalidControls(control, path);
+      }
+    });
+  }
+
 }

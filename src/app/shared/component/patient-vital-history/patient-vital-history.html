@@ -1,0 +1,90 @@
+<div class="modal-header">
+    <h5 class="modal-title">Patient Vital History
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+    </button>
+</div>
+<div class="modal-body p-2">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title"><i class="bi bi-journal-medical text-teal"></i> Patient's Chief Complaint</div>
+            <div class="ph-sub">Patient Name:
+                <strong>
+                    {{ patientDetails?.firstName }}
+                    {{ patientDetails?.middleName }}
+                    {{ patientDetails?.lastName }}
+                </strong>
+            </div>
+            <div class="ph-sub">Patient No: <strong>{{ patientDetails?.patientCode }} </strong></div>
+        </div>
+        <div class="page-header-right">
+        </div>
+    </div>
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>Date/Time</th>
+                <th>Blood Pressure</th>
+                <th>Temperature</th>
+                <th>Respiratory Rate</th>
+                <th>SpO2</th>
+                <th>Weight</th>
+                <th>Height</th>
+                <th>BMI</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(vitalList.length > 0) {
+            @for (vital of vitalList; track vital._id) {
+            <tr>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);"> {{vital.vitalDateTime | date: 'dd/MM/yyyy'}}
+                        {{vital.vitalDateTime | date: 'HH:mm'}} </div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">
+                        {{vital.bloodPressure}}-{{vital.bloodPressureUnit}}</div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">{{vital.temperature}}-{{vital.temperature}}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">
+                        {{vital.temperature}}-
+                        {{vital.temperatureUnit}}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">
+                        {{vital.spO2}}-
+                        {{vital.spO2Unit}}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">
+                        {{vital.weight}}-
+                        {{vital.weightUnit}}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">
+                        {{vital.height}}-
+                        {{vital.heightUnit}}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:11px;color:var(--text-muted);">
+                        {{vital.bmi}}-
+                        {{vital.bmiUnit}}
+                    </div>
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+</div>

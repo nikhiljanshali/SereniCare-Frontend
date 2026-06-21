@@ -5,6 +5,7 @@ import { roleGuard } from '../../core/guards/role-guard-guard';
 import { Roles } from '../../core/enum/common.enum';
 import { PatientRegistration } from './pages/patient-registration/patient-registration';
 import { PatientList } from './pages/patient-list/patient-list';
+import { PatientMedicalHistory } from './pages/patient-medical-history/patient-medical-history';
 
 const routes: Routes = [
   {
@@ -15,21 +16,34 @@ const routes: Routes = [
         path: 'master/registration',
         component: PatientRegistration,
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin, Roles.Patient] }
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],
+          animation: 'PatientRegistration'
+        }
       },
       {
         path: 'master/list',
         component: PatientList,
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor] }
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],
+          animation: 'PatientList'
+        }
       },
-      { path: '', redirectTo: 'appointments', pathMatch: 'full' },
+      {
+        path: 'master/details/:patientId',
+        component: PatientMedicalHistory,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],
+          animation: 'PatientDetails'
+        }
+      },
+      { path: '', redirectTo: 'master/list', pathMatch: 'full' }
     ]
   },
-  // ✅ fallback
   { path: '**', redirectTo: '' }
 ];
-
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

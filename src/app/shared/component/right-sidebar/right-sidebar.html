@@ -1,21 +1,14 @@
 <div class="right-sidebar-panel" [class.open]="sidebarService.isOpen()">
-  @if(sidebarService.title()){
-  <div class="rs-header">
-    <h3 class="rs-title">{{ sidebarService.title() }}</h3>
-    <!-- <button class="modal-close" (click)="sidebarService.close()">
+
+  <div class="rs-header d-flex align-items-center">
+    @if(sidebarService.title()){
+    <h3 class="rs-title mb-0">{{ sidebarService.title() }}</h3>
+    }
+    <button class="btn btn-sm btn-outline-danger ms-auto" (click)="sidebarService.close()">
       <i class="bi bi-x-lg"></i>
-    </button> -->
+    </button>
   </div>
-  }
   <div class="rs-content">
-    <!-- <p>{{ sidebarService.content() }}</p> -->
-    <!-- <div style="padding:20px;">
-      <h4>Doctor Details</h4>
-      <p><strong>Name:</strong> {{sidebarService.details()?.firstName}} {{sidebarService.details()?.lastName}}</p>
-      <p><strong>Specialization:</strong> {{sidebarService.details()?.specializations[0]?.name}}</p>
-      <p><strong>Contact:</strong> {{sidebarService.details()?.contactNumber}}</p>
-      <p><strong>Email:</strong> {{sidebarService.details()?.email}}</p>
-    </div> -->
     @if(sidebarService.content() == 'patient'){
     <app-patient-medical-history-details [patientDetails]="sidebarService.details()">
     </app-patient-medical-history-details>
@@ -31,8 +24,14 @@
     @else if(sidebarService.content() == 'medicine-detail'){
     <app-medicine-details [medicineDetails]="sidebarService.details()"></app-medicine-details>
     }
+    @else if(sidebarService.content() == 'patient-chief-complaint'){
+    <app-chief-complaint [patientDetails]="sidebarService.details()"></app-chief-complaint>
+    }
+    @else if(sidebarService.content() == 'patient-vital-details'){
+    <app-vital-details [patientDetails]="sidebarService.details()"></app-vital-details>
+    }
   </div>
   <div class="rs-footer">
-    <button class="btn btn-sm btn-outline-default" (click)="sidebarService.close()">Dismiss</button>
+    <button class="btn btn-sm btn-outline-danger" (click)="sidebarService.close()">Dismiss</button>
   </div>
 </div>

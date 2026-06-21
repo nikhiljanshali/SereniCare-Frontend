@@ -1,5 +1,5 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IClinicList, IClinics, IDoctorById } from './../../../../core/interface/basic.interface';
+import { IClinicList, IClinics, IDoctorById, IDoctorsData } from './../../../../core/interface/basic.interface';
 import { Component, viewChild, ViewChild } from '@angular/core';
 import {
   DayPilot,
@@ -17,6 +17,7 @@ import { RightSidebar } from '../../../../shared/component/right-sidebar/right-s
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { Router } from '@angular/router';
 import { Clinics } from '../../../../core/services/clinics';
+import { Roles } from '../../../../core/enum/common.enum';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -30,7 +31,7 @@ export class DoctorAppointment {
   public clinicSelectionForm!: FormGroup;
   public clinicList: IClinicList[] = [];
   public pendingMovedEvent: any;
-
+  public doctorsList: IDoctorsData[] = [];
   public sidebar = viewChild<RightSidebar>('medicalSidebar');
   public currentView: 'Day' | 'Week' | 'Month' = 'Week';
   public currentDate = DayPilot.Date.today();
@@ -403,6 +404,7 @@ export class DoctorAppointment {
     this.getClinicsByDoctorId();
     this.getDoctorProfile();
     this.getBookedAppointment();
+    this.getDoctors();
   }
 
   get displayRange(): string {
@@ -499,7 +501,25 @@ export class DoctorAppointment {
     });
   }
 
-  getDoctorProfile(): void {
+  private getDoctors(): void {
+    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin) {
+      this._doctorService.getAllDoctors().subscribe((res: any) => {
+        this.doctorsList = res.data;
+      });
+    } else if (this._storageOperation.get<any>('user').role == Roles.Doctor) {
+      this._doctorService.getDoctorsById(this._storageOperation.get<any>('userDetails').id).subscribe((res: any) => {
+        this.doctorsList = [res.data];
+      });
+    }
+  }
+
+  public selectDoctor(event: Event): void {
+    const doctorId = (event.target as HTMLSelectElement).value;
+    this.doctorId = doctorId;
+    this.getBookedAppointment();
+  }
+
+  private getDoctorProfile(): void {
     if (this.doctorId) {
       this._doctorService.getDoctorsById(this.doctorId).subscribe((res: IDoctorById) => {
         if (res.success) {
@@ -515,7 +535,7 @@ export class DoctorAppointment {
     });
   }
 
-  getBookedAppointment(): void {
+  private getBookedAppointment(): void {
     if (this.doctorId) {
       this._appointmentBookService.getAppointmentBookingByDoctorId(this.doctorId).subscribe((res: IAppointment) => {
         if (res.success && res.data.length > 0) {

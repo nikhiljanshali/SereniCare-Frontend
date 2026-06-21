@@ -45,7 +45,6 @@
           </div>
         </div>
       </div>
-
       <form [formGroup]="patientForm" class="wizard-form">
         <!-- Body -->
         <div class="wizard-body">
@@ -59,16 +58,45 @@
               personal and contact details</div>
             <div class="wz-form-row">
               <div class="wz-form-group">
-                <label class="wz-label">First Name <span class="wz-req">*</span></label>
+                <label class="wz-label">
+                  First Name <span class="wz-req">*</span>
+                </label>
                 <input class="wz-input" type="text" placeholder="e.g. Priya" formControlName="firstName">
+
+                @if (patientForm.get('firstName')?.invalid &&
+                patientForm.get('firstName')?.touched) {
+                <small class="text-danger">
+                  First Name is required.
+                </small>
+                }
               </div>
+
               <div class="wz-form-group">
-                <label class="wz-label">Middle Name <span class="wz-req">*</span></label>
+                <label class="wz-label">
+                  Middle Name <span class="wz-req">*</span>
+                </label>
                 <input class="wz-input" type="text" placeholder="e.g. Priya" formControlName="middleName">
+
+                @if (patientForm.get('middleName')?.invalid &&
+                patientForm.get('middleName')?.touched) {
+                <small class="text-danger">
+                  Middle Name is required.
+                </small>
+                }
               </div>
+
               <div class="wz-form-group">
-                <label class="wz-label">Last Name <span class="wz-req">*</span></label>
+                <label class="wz-label">
+                  Last Name <span class="wz-req">*</span>
+                </label>
                 <input class="wz-input" type="text" placeholder="e.g. Sharma" formControlName="lastName">
+
+                @if (patientForm.get('lastName')?.invalid &&
+                patientForm.get('lastName')?.touched) {
+                <small class="text-danger">
+                  Last Name is required.
+                </small>
+                }
               </div>
             </div>
             <div class="wz-form-row">
@@ -76,6 +104,12 @@
                 <label class="wz-label">Date of Birth <span class="wz-req">*</span></label>
                 <input class="wz-input" type="date" placeholder="DD/MM/YYYY" formControlName="dateOfBirth"
                   (change)="onDobChange($event)">
+                @if(patientForm.get('dateOfBirth')?.hasError('required') &&
+                patientForm.get('dateOfBirth')?.touched){
+                <small class="text-danger">
+                  Date of Birth is required
+                </small>
+                }
               </div>
               <div class="wz-form-group">
                 <label class="wz-label">Gender
@@ -88,22 +122,40 @@
                   <option>Non-binary</option>
                   <option>Prefer not to say</option>
                 </select>
+                @if(patientForm.get('gender')?.hasError('required') &&
+                patientForm.get('gender')?.touched){
+                <small class="text-danger">
+                  Gender is required
+                </small>
+                }
               </div>
               <div class="wz-form-group">
                 <label class="wz-label">Age
                   <span class="wz-req">*</span>
                 </label>
-                <input class="wz-input" type="number" placeholder="e.g. 25" formControlName="age">
+                <input class="wz-input" type="number" placeholder="e.g. 25" formControlName="age" readonly>
               </div>
             </div>
             <div class="wz-form-row">
               <div class="wz-form-group">
-                <label class="wz-label">Phone Number *</label>
+                <label class="wz-label">Phone <span class="wz-req">*</span></label>
                 <input class="wz-input" type="tel" placeholder="+91 98765 43210" formControlName="phone">
+                @if(patientForm.get('phone')?.hasError('required') &&
+                patientForm.get('phone')?.touched){
+                <small class="text-danger">
+                  Phone number is required
+                </small>
+                }
               </div>
               <div class="wz-form-group">
-                <label class="wz-label">Email Address</label>
+                <label class="wz-label">Email <span class="wz-req">*</span></label>
                 <input class="wz-input" type="email" placeholder="patient@email.com" formControlName="email">
+                @if(patientForm.get('email')?.hasError('required') &&
+                patientForm.get('email')?.touched){
+                <small class="text-danger">
+                  Email is required
+                </small>
+                }
               </div>
             </div>
             <div class="wz-form-group">
@@ -121,6 +173,12 @@
                     <option [ngValue]="null">— Select country —</option>
                     <option *ngFor="let c of countries$ | async" [ngValue]="c.id">{{ c.name }}</option>
                   </select>
+                  @if(patientForm.get('country')?.hasError('required') &&
+                  patientForm.get('country')?.touched){
+                  <small class="text-danger">
+                    Country is required
+                  </small>
+                  }
                 </div>
                 <div class="wz-form-group">
                   <label class="wz-label">State
@@ -132,6 +190,12 @@
                     <option [ngValue]="null">— Select state —</option>
                     <option *ngFor="let s of states$ | async" [ngValue]="s.id">{{ s.name }}</option>
                   </select>
+                  @if(patientForm.get('state')?.hasError('required') &&
+                  patientForm.get('state')?.touched){
+                  <small class="text-danger">
+                    State is required
+                  </small>
+                  }
                 </div>
                 <div class="wz-form-group">
                   <label class="wz-label">City
@@ -143,12 +207,24 @@
                     <option [ngValue]="null">— Select city —</option>
                     <option *ngFor="let c of cities$ | async" [ngValue]="c.id">{{ c.name }}</option>
                   </select>
+                  @if(patientForm.get('city')?.hasError('required') &&
+                  patientForm.get('city')?.touched){
+                  <small class="text-danger">
+                    City is required
+                  </small>
+                  }
                 </div>
                 <div class="wz-form-group">
                   <label class="wz-label">Pincode
                     <span class="wz-req">*</span>
                   </label>
                   <input class="wz-input" type="text" placeholder="Pincode" formControlName="pincode">
+                  @if(patientForm.get('pincode')?.hasError('required') &&
+                  patientForm.get('pincode')?.touched){
+                  <small class="text-danger">
+                    Pincode is required
+                  </small>
+                  }
                 </div>
               </div>
             </div>
@@ -191,7 +267,6 @@
                 </div>
               </div>
             </div>
-
             <div class="wz-form-row">
               <div class="wz-form-group">
                 <div class="status-switch d-flex align-items-center justify-content-start gap-2 mt-4">
@@ -217,9 +292,14 @@
                     {{ type.firstName }} {{ type.lastName }}
                   </option>
                 </select>
+                @if(patientForm.get('primaryDoctorId')?.hasError('required') &&
+                patientForm.get('primaryDoctorId')?.touched){
+                <small class="text-danger">
+                  Primary Doctor is required
+                </small>
+                }
               </div>
             </div>
-
           </div>
           }
           @if(currentStep === 2){
@@ -239,7 +319,7 @@
                       <option *ngFor="let type of bloodGroups" [value]="type.code">
                         {{ type.name }}
                       </option>
-                    </select>
+                    </select>                   
                   </div>
                   <div class="wz-form-group">
                     <label class="wz-label">Primary Condition</label>

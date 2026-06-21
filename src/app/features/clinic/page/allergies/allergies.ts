@@ -9,6 +9,7 @@ import { AllergiesServices } from '../../../../core/services/allergies';
 
 @Component({
   selector: 'app-allergies',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './allergies.html',
   styleUrl: './allergies.css',

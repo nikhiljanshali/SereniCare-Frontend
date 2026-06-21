@@ -1,0 +1,233 @@
+<div class="file-viewer-toolbar">
+    <i class="bi bi-file-earmark-medical-fill" style="font-size:18px;color:var(--rose);"></i>
+    <!-- <span
+        class="file-viewer-name">{{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}</span> -->
+    <div class="file-viewer-actions">
+        @if(!showView){
+        <div class="fv-btn" title="Save" (click)="savePastMedical()"><i class="bi bi-floppy-fill"></i></div>
+        }
+        <div class="fv-btn" title="List" (click)="toggleView()"><i class="bi bi-list"></i></div>
+        <div class="fv-btn" title="form" (click)="toggleView()"><i class="bi bi-code-square"></i></div>
+        <!-- <div class="fv-btn" title="Rotate"><i class="bi bi-arrow-clockwise"></i></div>
+        <div class="fv-btn" title="Download"><i class="bi bi-download"></i></div>
+        <div class="fv-btn" title="Print"><i class="bi bi-printer"></i></div>
+        <div class="fv-btn" title="Share"><i class="bi bi-share"></i></div> -->
+    </div>
+</div>
+
+@if (showView) {
+<div class="wizard-wrap border-0 pt-3">
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>Problem</th>
+                <th>Status</th>
+                <th>Serverity</th>
+                <th>Diagnosed By</th>
+                <th>Diagnosed Date</th>
+                <th>ongoing</th>
+                <th>endDate</th>
+                <th>Outcome</th>
+                <th>Remark</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (pastmedical of pastMedicalList; track pastmedical._id) {
+            <tr>
+
+                <td>
+                    <div>
+                        <div class="patient-name">{{pastmedical.problem}}
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="status-badge" [ngClass]="getStatusClass(pastmedical.status)">
+                        {{ pastmedical.status }}
+                    </div>
+                </td>
+                <td>
+                    <div class="severity-badge" [ngClass]="getSeverityClass(pastmedical.severity)">
+                        {{ pastmedical.severity }}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.diagnosedBy?.firstName}}
+                        {{pastmedical.diagnosedBy?.lastName}}</div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.diagnosedDate | date :
+                        'dd/MM/yyyy'}}
+                    </div>
+                </td>
+                <td>
+                    <div class="status-badge" [ngClass]="pastmedical.ongoing ? 'badge-yes' : 'badge-no'">
+                        {{ pastmedical.ongoing ? 'Yes' : 'No' }}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.endDate | date :
+                        'dd/MM/yyyy'}}</div>
+                </td>
+                <td>
+                    <div class="outcome-badge" [ngClass]="getOutcomeClass(pastmedical.outcome)">
+                        {{ pastmedical.outcome }}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:13px;color:var(--text-muted);">{{pastmedical.remark}}</div>
+                </td>
+                <td>
+                    <button class="action-btn" [title]="'Edit'">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Insurance Details'">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+<div class="wizard-wrap border-0">
+    <form [formGroup]="pastMedicalForm">
+        <div class="wizard-body">
+            <!-- Step 1 -->
+            <div class="wizard-panel">
+                <div class="wz-form-row m-0">
+                    <div class="wz-form-group">
+                        <label class="wz-label">Problem <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="problem">
+                            <option [ngValue]="null">Select Problem</option>
+                            @for (problem of problemList; track problem._id) {
+                            <option [value]="problem.name">
+                                [{{problem.code}}] - {{ problem.name }}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Status <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="status">
+                            <option>Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Resolved">Resolved</option>
+                            <option value="Chronic">Chronic</option>
+                            <option value="In Remission">In Remission</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="wz-form-row m-0">
+                    <div class="wz-form-group">
+                        <label class="wz-label">Severity <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="severity">
+                            <option>Select Severity</option>
+                            <option value="Mild">Mild</option>
+                            <option value="Moderate">Moderate</option>
+                            <option value="Severe">Severe</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+
+                    <div class="wz-form-group">
+                        <label class="wz-label">Diagnosed By <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="diagnosedBy">
+                            <option [ngValue]="null">Select Doctor</option>
+                            @for (doctor of doctorsList; track doctor._id) {
+                            <option [value]="doctor._id">
+                                [{{doctor.doctorCode}}] - {{ doctor.firstName }} {{doctor.lastName}}
+                            </option>
+                            }
+                        </select>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Diagnosed Date <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="date" placeholder="DD/MM/YYYY" formControlName="diagnosedDate">
+                    </div>
+                </div>
+                <div class="wz-form-row m-0">
+                    <div class="wz-form-group">
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="status-switch d-flex align-items-center gap-2 ">
+                                <label class="switch">
+                                    <input type="checkbox" formControlName="ongoing" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-label">
+                                    Ongoing
+                                </span>
+                            </div>
+                            <div class="wz-form-group w-100">
+                                <label class="wz-label">End Date <span class="wz-req">*</span></label>
+                                <input class="wz-input" type="date" placeholder="DD/MM/YYYY" formControlName="endDate">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Outcome <span class="wz-req">*</span></label>
+                        <select class="wz-select" formControlName="outcome">
+                            <option>Select Medicaion</option>
+                            <option value="Recovered">Recovered</option>
+                            <option value="Improved">Improved</option>
+                            <option value="Stable">Stable</option>
+                            <option value="Worsened">Worsened</option>
+                            <option value="Under Treatment">Under Treatment</option>
+                        </select>
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">Remark <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="text" placeholder="eg. Remark" formControlName="remark">
+                    </div>
+                </div>
+                <div class="card-header d-flex align-items-center justify-content-end">
+                    <button type="button" class="btn btn-primary btn-sm" (click)="addMedication()">
+                        <i class="bi bi-plus-lg"></i> Add Medication
+                    </button>
+                </div>
+                <div formArrayName="medications">
+                    @for (medication of medications.controls; track medication; let i = $index) {
+                    <div class="wz-form-row m-0" [formGroupName]="i">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Assigned Medication</label>
+                            <select class="wz-select" formControlName="medicineName"
+                                (change)="getMedicineDetails($event, i)">
+
+                                <option value="">Select Medication</option>
+
+                                @for (medicine of medicineList; track medicine._id) {
+                                <option [value]="medicine.medicineName">
+                                    [{{ medicine.medicineCode }}] -
+                                    {{ medicine.medicineName }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Dosage</label>
+                            <input class="wz-input" type="text" formControlName="dosage">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Frequency</label>
+                            <input class="wz-input" type="text" formControlName="frequency">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Duration</label>
+                            <div class="input-group">
+                                <input class="wz-input w-75" type="text" formControlName="duration">
+                                <button type="button" class="btn btn-danger btn-sm" (click)="removeMedication(i)">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+}

@@ -32,6 +32,20 @@ export interface IClinicTypeData {
   __v: number
 }
 
+export interface ISurgery {
+  message: string
+  status: boolean
+  data: ISurgeryData[]
+}
+
+export interface ISurgeryData {
+  _id: string
+  name: string
+  code: string
+  description: string
+  __v: number
+}
+
 export interface IPrimarySpeciality {
   message: string
   status: boolean
@@ -160,7 +174,34 @@ export interface CascadeSelection {
   city: ICity | null;
 }
 
+export interface IDiseases {
+  message: string
+  status: boolean
+  data: IDiseasessData[]
+}
 
+export interface IDiseasessData {
+  _id: string
+  name: string
+  code: string
+  description: string
+  __v: number
+}
+
+
+export interface ISurgery {
+  message: string
+  status: boolean
+  data: ISurgeryData[]
+}
+
+export interface ISurgeryData {
+  _id: string
+  name: string
+  code: string
+  description: string
+  __v: number
+}
 
 export interface IClinics {
   message: string
@@ -1039,4 +1080,219 @@ export interface IMedicine {
 export interface IInvestigation {
   testName: string
   remarks: string
+}
+
+
+
+
+export interface IAppointmentLsit {
+  _id: string
+  appointmentNumber: string
+  doctorId: DoctorId
+  patientId: PatientId
+  clinicId: string
+  appointmentDate: string
+  dayOfWeek: string
+  startTime: string
+  endTime: string
+  appointmentType: string
+  consultationMode: string
+  appointmentStatus: string
+  bookingSource: string
+  symptoms: string
+  notes: string
+  consultationFee: number
+  paymentStatus: string
+  cancelledReason?: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface IDoctorId {
+  _id: string
+  authUserId: string
+  doctorCode: string
+  firstName: string
+  lastName: string
+  gender: string
+  dateOfBirth: string
+  age: number
+  phone: string
+  email: string
+  address: string
+  city: string
+  state: string
+  country: string
+  pincode: string
+  aadhaarNumber: string
+  licenseNumber: string
+  status: string
+  specializations: Specialization[]
+  officeStatus: string
+  experience: number
+  officeNumber: number
+  residentDoctor: boolean
+  isDeleted: boolean
+  qualifications: Qualification[]
+  areaOfExpertise: AreaOfExpertise[]
+  createdAt: string
+  updatedAt: string
+  __v: number
+  dateOfJoin: string
+}
+
+export interface Specialization {
+  name: string
+  code: string
+  _id: string
+}
+
+export interface Qualification {
+  name: string
+  _id: string
+}
+
+export interface AreaOfExpertise {
+  name: string
+  _id: string
+}
+
+export interface PatientId {
+  emergencyContact: EmergencyContact
+  _id: string
+  authUserId: string
+  firstName: string
+  middleName: string
+  lastName: string
+  dateOfBirth: string
+  gender: string
+  age: number
+  phone: string
+  email: string
+  address: string
+  country: string
+  state: string
+  city: string
+  pincode: string
+  patientCode: string
+  aadhaarNumber: string
+  status: string
+  primaryDoctorId: string
+  medicalHistories: string[]
+  insuranceDetails: string[]
+  isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface EmergencyContact {
+  name: string
+  relation: string
+  phone: string
+}
+
+
+
+export interface IChiefComplaint {
+  success: boolean
+  data: IChiefComplaintList[]
+}
+
+export interface IChiefComplaintList {
+  _id: string
+  doctorId: string
+  patientId: string
+  appointmentId: string
+  complaint: string
+  isActive: boolean
+  createdBy: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+
+export interface IVitals {
+  success: boolean
+  data: IVitalsDetails[]
+}
+
+export interface IVitalsDetails {
+  _id: string
+  doctorId: string
+  patientId: string
+  appointmentId: string
+  vitalDateTime: string
+  description: string
+  bloodPressure: string
+  bloodPressureUnit: string
+  temperature: number
+  temperatureUnit: string
+  respiratoryRate: number
+  respiratoryRateUnit: string
+  spO2: number
+  spO2Unit: string
+  weight: number
+  weightUnit: string
+  height: number
+  heightUnit: string
+  bmi: number
+  bmiUnit: string
+  createdBy: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+
+
+
+export interface IPastMedicalHistory {
+  success: boolean
+  data: IPastMedicalHistoryData
+}
+
+export interface IPastMedicalHistoryData {
+  message: string
+  data: IPastMedicalHistoryDetails[]
+}
+
+export interface IPastMedicalHistoryDetails {
+  _id: string
+  patientId: string
+  problem: string
+  status: string
+  severity: string
+  diagnosedBy: DiagnosedBy
+  diagnosedDate: string
+  ongoing: boolean
+  endDate: any
+  pastMedicalCode: string
+  medications: Medication[]
+  outcome: string
+  historydocuments: any[]
+  remark: string
+  createdBy: CreatedBy
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface DiagnosedBy {
+  _id: string
+  email: string
+}
+
+export interface Medication {
+  medicineName: string
+  dosage: string
+  frequency: string
+  duration: string
+  _id: string
+}
+
+export interface CreatedBy {
+  _id: string
 }

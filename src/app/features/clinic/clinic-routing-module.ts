@@ -8,6 +8,8 @@ import { Role } from './page/role/role';
 import { BloodGroup } from './page/blood-group/blood-group';
 import { PrimaryCondition } from './page/primary-condition/primary-condition';
 import { Allergies } from './page/allergies/allergies';
+import { Diseases } from './page/diseases/diseases';
+import { Surgery } from './page/surgery/surgery';
 
 const routes: Routes = [
   {
@@ -22,6 +24,8 @@ const routes: Routes = [
       { path: 'bloodgroup', component: BloodGroup },
       { path: 'primarycondition', component: PrimaryCondition },
       { path: 'allergies', component: Allergies },
+      { path: 'diseases', component: Diseases },
+      { path: 'surgeries', component: Surgery },
       { path: '**', redirectTo: 'registration' }
     ]
   },

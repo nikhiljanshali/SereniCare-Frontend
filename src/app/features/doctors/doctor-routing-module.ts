@@ -57,13 +57,13 @@ const routes: Routes = [
         path: 'master/doctor-appointments',
         component: DoctorAppointment,
         canActivate: [roleGuard],
-        data: { roles: [Roles.Doctor] }
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },
       {
         path: 'master/book-appointments',
         component: AppointmentBooking,
         canActivate: [roleGuard],
-        data: { roles: [Roles.Doctor] }
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },
       {
         path: 'master/add-Clinic',

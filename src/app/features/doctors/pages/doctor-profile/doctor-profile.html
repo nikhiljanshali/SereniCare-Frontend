@@ -1864,7 +1864,7 @@
 </div>
 
 <div class="modal fade" id="AvailabilityModal" tabindex="-1">
-  <div class="modal-dialog modal-md modal-dialog-centered">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title-head"> Add Availability </h5>
@@ -1873,83 +1873,94 @@
       </div>
       <form [formGroup]="doctorAvailabilityForm">
         <div class="modal-body">
-          <div class="doctor-edit-form">
-            <div class="form-section">
-              <div class="section-title">Availability Form</div>
-              <div class="form-grid">
+          <div class="flex-container">
+            <div class="box">
+              <div class="form-group">
+                <label class="d-block mb-1 fw-bold">Day of Week</label>
+                <select class="form-control" formControlName="dayOfWeek">
+                  <option [ngValue]="null">
+                    Select Day
+                  </option>
+                  <option value="Sunday">Sunday</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
+                  <option value="Saturday">Saturday</option>
+                </select>
+              </div>
 
-                <div class="form-group">
-                  <label>Day of Week</label>
-                  <select class="form-control" formControlName="dayOfWeek">
-                    <option [ngValue]="null">
-                      Select Day
-                    </option>
-                    <option value="Sunday">Sunday</option>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                  </select>
-                </div>
+              <div class="form-group">
+                <label class="check-wrap">
+                  <input type="checkbox" class="check-input" [checked]="doctorAvailabilityForm.value.isAvailable"
+                    formControlName="isAvailable">
+                  <span class="check-box"></span>
+                  <span class="check-label">
+                    Is Available
+                  </span>
+                </label>
+              </div>
 
-                <div class="form-group">
-                  <label>
-                    <input type="checkbox" [checked]="doctorAvailabilityForm.value.isAvailable"
-                      formControlName="isAvailable" />
-                    <span class="status-label"> Is Available </span>
+              <div class="form-group">
+                <label class="d-block mb-1 fw-bold">
+                  Appointment Type
+                </label>
+                <div class="appointment-type-group d-flex align-items-center justify-content-start gap-2">
+                  <label class="radio-wrap">
+                    <input type="radio" class="radio-input" value="In-Person" formControlName="appointmentTypes">
+                    <span class="radio-box"></span>
+                    <span>In-Person</span>
+                  </label>
+                  <label class="radio-wrap">
+                    <input type="radio" class="radio-input" value="Telemedicine" formControlName="appointmentTypes">
+                    <span class="radio-box"></span>
+                    <span>Telemedicine</span>
                   </label>
                 </div>
-
-                <div class="form-group">
-                  <label class="d-block mb-1">
-                    Appointment Type
+                @if ( doctorAvailabilityForm.get('appointmentTypes')?.touched &&
+                doctorAvailabilityForm.get('appointmentTypes')?.invalid) {
+                <small class="text-danger">
+                  Appointment type is required
+                </small>
+                }
+              </div>
+            </div>
+            <div class="box">
+              <div formArrayName="shifts">
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                  <label class="d-block mb-2 fw-bold">
+                    Shifts
                   </label>
-                  <div class="appointment-type-group">
-                    <label class="radio-wrap">
-                      <input type="radio" class="radio-input" value="In-Person" formControlName="appointmentTypes">
-                      <span class="radio-box"></span>
-                      <span>In-Person</span>
-                    </label>
-                    <label class="radio-wrap">
-                      <input type="radio" class="radio-input" value="Telemedicine" formControlName="appointmentTypes">
-                      <span class="radio-box"></span>
-                      <span>Telemedicine</span>
-                    </label>
-                  </div>
-                  @if ( doctorAvailabilityForm.get('appointmentTypes')?.touched &&
-                  doctorAvailabilityForm.get('appointmentTypes')?.invalid) {
-                  <small class="text-danger">
-                    Appointment type is required
-                  </small>
-                  }
+                  <button type="button" class="btn btn-sm btn-light dpd-edit-btn" (click)="addShift()">
+                    <i class="bi bi-plus"></i>
+                  </button>
                 </div>
-
-                <div formArrayName="shifts">
-                  <div class="d-flex align-items-center justify-content-between gap-2">
-                    <label class="d-block mb-2">
-                      Shifts
-                    </label>
-                    <button type="button" class="btn btn-sm btn-light dpd-edit-btn" (click)="addShift()">
-                      <i class="bi bi-plus"></i>
+                <hr />
+                @for ( shift of shifts.controls; track $index ) {
+                <div class="form-group m-1">
+                  <div [formGroupName]="$index" class="d-flex align-items-center justify-content-between gap-2 m-0">
+                    <div class="form-group m-0">
+                      <label class="check-wrap">
+                        <input type="checkbox" class="check-input" [checked]="doctorAvailabilityForm.value.isBreakTime"
+                          formControlName="isBreakTime">
+                        <span class="check-box"></span>
+                        <span class="check-label">
+                          Break
+                        </span>
+                      </label>
+                    </div>
+                    <!-- <input type="checkbox" [checked]="doctorAvailabilityForm.value.isBreakTime"
+                        formControlName="isBreakTime" /> -->
+                    <!-- <span class="status-label"> Break </span> -->
+                    <input type="time" class="form-control" formControlName="startTime" />
+                    <input type="time" class="form-control" formControlName="endTime" />
+                    <button type="button" class="btn btn-sm btn-light dpd-edit-btn" (click)="removeShift($index)">
+                      <i class="bi bi-trash"></i>
                     </button>
                   </div>
-                  @for ( shift of shifts.controls; track $index ) {
-                  <div class="form-group">
-                    <div [formGroupName]="$index" class="d-flex align-items-center justify-content-between gap-2 mb-1">
-                      <input type="checkbox" [checked]="doctorAvailabilityForm.value.isBreakTime"
-                        formControlName="isBreakTime" />
-                      <span class="status-label"> Break </span>
-                      <input type="time" class="form-control" formControlName="startTime" />
-                      <input type="time" class="form-control" formControlName="endTime" />
-                      <button type="button" class="btn btn-sm btn-light dpd-edit-btn" (click)="removeShift($index)">
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </div>
-                  </div>
-                  }
                 </div>
+                }
               </div>
             </div>
           </div>

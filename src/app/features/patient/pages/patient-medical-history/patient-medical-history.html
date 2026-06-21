@@ -1,0 +1,36 @@
+<div id="page-patient-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="breadcrumb-wrapper">
+                <button class="btn btn-sm btn-icon-wrapper">
+                    <i class="bi bi-chevron-left"></i> Patient's Medical Details
+                </button>
+                <!-- <span class="breadcrumb-sep">
+                    {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}
+                </span> -->
+            </div>
+            <div class="ph-title">
+                {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}</div>
+            <div class="ph-sub">
+                · {{patientDetails?.patientCode}} · {{patientDetails?.dateOfBirth | date : 'dd/MM/yyy' }} · {{
+                patientDetails?.gender }} · {{ patientDetails?.phone }}
+            </div>
+        </div>
+    </div>
+    <div class="appt-card">
+        <div class="file-viewer">
+            <div class="file-tabs">
+                @for (tab of tabs; track tab.id) {
+                <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+                    {{ tab.title }}
+                </div>
+                }
+            </div>
+            @if (activeTab === 1) {
+            <app-past-medical></app-past-medical>
+            }@else if (activeTab === 2) {
+            <app-past-surgical></app-past-surgical>
+            }
+        </div>
+    </div>
+</div>

@@ -504,33 +504,19 @@ export class DoctorProfile implements OnDestroy {
 
   setupPagination(): void {
     this.currentPage = 1;
-
-    this.totalPages = Math.ceil(
-      this.bookedAppointments.length / this.pageSize
-    );
-
-    this.pages = Array.from(
-      { length: this.totalPages },
-      (_, i) => i + 1
-    );
-
+    this.totalPages = Math.ceil(this.bookedAppointments.length / this.pageSize);
+    this.pages = Array.from({ length: this.totalPages }, (_, i) => i + 1);
     this.updatePaginatedData();
   }
 
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-
-    this.paginatedAppointments =
-      this.bookedAppointments.slice(startIndex, endIndex);
-
-    console.log('Current Page:', this.currentPage);
-    console.log('Paginated Data:', this.paginatedAppointments);
+    this.paginatedAppointments = this.bookedAppointments.slice(startIndex, endIndex);
   }
 
   goToPage(page: number): void {
     if (page < 1 || page > this.totalPages) return;
-
     this.currentPage = page;
     this.updatePaginatedData();
   }
@@ -1345,6 +1331,11 @@ export class DoctorProfile implements OnDestroy {
   }
 
   addShift(): void {
+    if (this.shifts.length >= 5) {
+      this._notificationServices.warning('warrning', `Maximum 5 shifts are allowed`);
+      return;
+    }
+
     this.shifts.push(
       this.createShiftFormGroup()
     );
@@ -1367,7 +1358,6 @@ export class DoctorProfile implements OnDestroy {
 
 
   addAvailability(): void {
-    // console.log(this.doctorAvailabilityForm.value);
     this._doctorService.addDoctorAvailability(this.doctorAvailabilityForm.value).subscribe((res: IDoctorAvailability) => {
       console.log(res);
       if (res.success) {

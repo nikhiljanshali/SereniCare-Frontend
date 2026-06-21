@@ -11,7 +11,7 @@
             </button> -->
             <button class="btn btn-primary btn-sm" (click)="bookAppointment();">
                 <i class="bi bi-plus-lg"></i>
-                Create Doctor
+                Book Appointment
             </button>
         </div>
     </div>
@@ -25,178 +25,233 @@
     </button>
 </div>
 }
-<div class="modal-body rounded-4">
-    <form [formGroup]="appointmentBookingForm">
-        <div class="scroll-bar">
-            <div id="reg-step1">
-                <div class="card-section-label" style="margin-top:0;">Appointment Details</div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label> Clinics <span class="text-danger">*</span> </label>
-                        <div class="input-wrap">
-                            <i class="bi bi-person-hearts input-icon"></i>
-                            <select class="form-select" formControlName="clinicId">
-                                <option [ngValue]="null"> Select Clinic </option>
-                                @for(clinic of clinicList; track clinic._id){
-                                <option [value]="clinic._id">
-                                    {{clinic.clinicName}}
-                                    <!-- [{{clinic.clinicType}} - {{clinic.registrationNumber}}] -->
-                                </option>
-                                }
-                            </select>
+<div class="modal-body rounded-5 p-0">
+    <div class="wizard-wrap border-0">
+        <!-- Steps -->
+        <form [formGroup]="appointmentBookingForm" class="wizard-form">
+            <div class="wizard-body" [ngClass]="{ 'p-2': isModel }">
+                <div [ngClass]="{ 'vh-scroll-container': isModel }">
+                    <div class="wizard-panel">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Appointment Information
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Provide the appointment details, including date, time, doctor, and consultation
+                                    information.
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label> Patient <span class="text-danger">*</span> </label>
-                        <div class="input-wrap">
-                            <i class="bi bi-person-hearts input-icon"></i>
-                            <select class="form-select" formControlName="patientId">
-                                <option [ngValue]="null"> Select Patient </option>
-                                @for(patient of patients; track patient._id){
-                                <option [value]="patient._id">
-                                    {{patient.firstName}} {{patient.lastName}}
-                                </option>
-                                }
-                            </select>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Doctor
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-person-bounding-box input-icon"></i>
+                                    <select class="form-select" formControlName="doctorId">
+                                        <option [ngValue]="null">Select Doctor</option>
+                                        @for (doctor of doctorsList; track doctor._id) {
+                                        <option [value]="doctor._id">
+                                            {{ doctor.firstName }} {{ doctor.lastName }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Clinic
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-building input-icon"></i>
+                                    <select class="form-select" formControlName="clinicId">
+                                        <option [ngValue]="null"> Select Clinic </option>
+                                        @for(clinic of clinicList; track clinic._id){
+                                        <option [value]="clinic._id">
+                                            {{clinic.clinicName}}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Patient
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-person-square input-icon"></i>
+                                    <select class="form-select" formControlName="patientId">
+                                        <option [ngValue]="null"> Select Patient </option>
+                                        @for(patient of patients; track patient._id){
+                                        <option [value]="patient._id">
+                                            {{patient.firstName}} {{patient.lastName}}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Appointment Date. <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-calendar-event input-icon"></i>
-                            <input type="date" class="form-input" formControlName="appointmentDate" [min]="minDate">
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Appointment Date.
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-calendar-event input-icon"></i>
+                                    <input type="date" class="form-input" formControlName="appointmentDate"
+                                        [min]="minDate">
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Day of Week
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-calendar-day input-icon"></i>
+                                    <select class="form-select" formControlName="dayOfWeek" placeholder="Select Day">
+                                        <option [ngValue]="null">Select Day</option>
+                                        <option>Monday</option>
+                                        <option>Tuesday</option>
+                                        <option>Wednesday</option>
+                                        <option>Thursday</option>
+                                        <option>Friday</option>
+                                        <option>Saturday</option>
+                                        <option>Sunday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Start Time
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-clock input-icon"></i>
+                                    <select class="form-select" formControlName="startTime"
+                                        placeholder="Select Time Slot">
+                                        <option [ngValue]="null">Select Time Slot</option>
+                                        @for(time of availableStartSlots; track time) {
+                                        <option [value]="time">
+                                            {{ time }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">End Time
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-clock input-icon"></i>
+                                    <select class="form-select" formControlName="endTime"
+                                        placeholder="Select Time Slot">
+                                        <option [ngValue]="null">Select Time Slot</option>
+                                        @for(time of availableEndSlots; track time) {
+                                        <option [value]="time">
+                                            {{ time }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Day of Week <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-calendar-day input-icon"></i>
-                            <select class="form-select" formControlName="dayOfWeek" placeholder="Select Day">
-                                <option [ngValue]="null">Select Day</option>
-                                <option>Monday</option>
-                                <option>Tuesday</option>
-                                <option>Wednesday</option>
-                                <option>Thursday</option>
-                                <option>Friday</option>
-                                <option>Saturday</option>
-                                <option>Sunday</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Start Time <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-clock input-icon"></i>
-                            <select class="form-select" formControlName="startTime" placeholder="Select Time Slot">
-                                <option [ngValue]="null">Select Time Slot</option>
-                                @for(time of availableStartSlots; track time) {
-                                <option [value]="time">
-                                    {{ time }}
-                                </option>
-                                }
-                            </select>
-                            <!-- <input type="time" class="form-input" formControlName="startTime" placeholder="HH:mm"> -->
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">End Time <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-clock input-icon"></i>
-                            <!-- <input type="time" class="form-input" formControlName="endTime"> -->
-                            <select class="form-select" formControlName="endTime" placeholder="Select Time Slot">
-                                <option [ngValue]="null">Select Time Slot</option>
-                                @for(time of availableEndSlots; track time) {
-                                <option [value]="time">
-                                    {{ time }}
-                                </option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Appointment Type <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-hash input-icon"></i>
-                            <select class="form-select" formControlName="appointmentType">
-                                <option [ngValue]="null">Select Appointment Type</option>
-                                @for(type of AppointmentTypes; track type) {
-                                <option [value]="type">
-                                    {{ type }}
-                                </option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Consultation Mode <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-hash input-icon"></i>
-                            <select class="form-select" formControlName="consultationMode">
-                                <option [ngValue]="null">Select Consultation Mode</option>
-                                @for(mode of consultationModes; track mode) {
-                                <option [value]="mode">
-                                    {{ mode }}
-                                </option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label class="form-label">Appointment Status <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-hash input-icon"></i>
-                            <select class="form-select" formControlName="appointmentStatus">
-                                <option [ngValue]="null">Select Status</option>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Appointment Type.
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-hash input-icon"></i>
+                                    <select class="form-select" formControlName="appointmentType">
+                                        <option [ngValue]="null">Select Appointment Type</option>
+                                        @for(type of AppointmentTypes; track type) {
+                                        <option [value]="type">
+                                            {{ type }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Consultation Mode
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-hash input-icon"></i>
+                                    <select class="form-select" formControlName="consultationMode">
+                                        <option [ngValue]="null">Select Consultation Mode</option>
+                                        @for(mode of consultationModes; track mode) {
+                                        <option [value]="mode">
+                                            {{ mode }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Appointment Status
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-hash input-icon"></i>
+                                    <select class="form-select" formControlName="appointmentStatus">
+                                        <option [ngValue]="null">Select Status</option>
 
-                                @for (status of appointmentStatusOptions; track status) {
-                                <option [value]="status">
-                                    {{ status }}
-                                </option>
-                                }
-                            </select>
+                                        @for (status of appointmentStatusOptions; track status) {
+                                        <option [value]="status">
+                                            {{ status }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Booking Source
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-hash input-icon"></i>
+                                    <select class="form-select" formControlName="bookingSource">
+                                        <option [ngValue]="null">Select Booking Source</option>
+                                        @for(option of bookingSourceOptions; track option) {
+                                        <option [value]="option">
+                                            {{ option }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Booking Source <span class="req">*</span></label>
-                        <div class="input-wrap">
-                            <i class="bi bi-hash input-icon"></i>
-                            <select class="form-select" formControlName="bookingSource">
-                                <option [ngValue]="null">Select Booking Source</option>
-                                @for(option of bookingSourceOptions; track option) {
-                                <option [value]="option">
-                                    {{ option }}
-                                </option>
-                                }
-                            </select>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Symptoms
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-virus input-icon"></i>
+                                    <textarea rows="2" cols="1" class="form-input" formControlName="symptoms"
+                                        placeholder="Enter symptoms..."> </textarea>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Symptoms <span class="req">*</span></label>
-                    <div class="input-wrap">
-                        <i class="bi bi-virus input-icon"></i>
-                        <textarea rows="1" class="form-input" formControlName="symptoms"
-                            placeholder="Enter symptoms..."> </textarea>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Notes </label>
-                    <div class="input-wrap">
-                        <i class="bi bi-heart-pulse input-icon"></i>
-                        <textarea rows="1" cols="1" class="form-input" formControlName="notes"></textarea>
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Notes
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-virus input-icon"></i>
+                                    <textarea rows="2" cols="1" class="form-input" formControlName="notes"></textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
 
 @if(isModel){
@@ -206,7 +261,7 @@
         {{ breakMessage }}
     </div>
     }
-    <button type="button" class="btn btn-secondary" (click)="closeModePopup()"> Close </button>
+    <button type="button" class="btn btn-secondary btn-sm"  (click)="closeModePopup()"> Close </button>
     <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
     <button type="button" class="btn btn-primary" (click)="bookAppointment()"> Book Appointment </button>
 </div>

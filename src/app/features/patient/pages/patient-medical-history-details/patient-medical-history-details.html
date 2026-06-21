@@ -1,25 +1,14 @@
 <div class="page-header">
   <div class="page-header-left">
-    <div class="ph-title"><i class="bi bi-folder2-open text-teal"></i> Medical History Registry</div>
-    <div class="ph-sub">Patient: <strong>{{ patientDetails?.firstName }} {{ patientDetails?.lastName }}</strong></div>
+    <div class="ph-title"><i class="bi bi-clock-history text-teal"></i> Patient Medical History</div>
+    <div class="ph-sub">Patient Name: <strong>{{ patientDetails?.firstName }} {{ patientDetails?.lastName }}</strong></div>
+    <div class="ph-sub">Patient No: <strong>{{ patientDetails?.patientCode }} </strong></div>
   </div>
 </div>
 
 <div class="clinic-grid">
   @for (mh of patientDetails?.medicalHistories; track mh._id) {
   <div class="clinic-card refined-card">
-
-    <!-- <div class="card-header-v2">
-      <div class="card-id-wrapper">
-        <i class="bi bi-hash"></i>
-        <span class="card-id">{{ mh._id.substring(mh._id.length - 6) }}</span>
-      </div>
-      <div class="card-date-wrapper">
-        <i class="bi bi-calendar3"></i>
-        <span class="card-date">{{ mh.createdAt | date:'dd MMM yyyy' }}</span>
-      </div>
-    </div> -->
-
     <div class="card-body-segmented">
       <div class="medical-section">
         <div class="section-badge-header">

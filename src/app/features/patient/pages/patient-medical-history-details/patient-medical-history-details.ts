@@ -16,6 +16,6 @@ export class PatientMedicalHistoryDetails {
   }
 
   ngOnInit(): void {
-    console.log(this.patientDetails);
+    // console.log(this.patientDetails);
   }
 }
