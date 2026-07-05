@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { StorageOperation } from '../../core/services/storage-operation';
 import { Router } from '@angular/router';
+import { StorageOperation } from '../../core/services/storage-operation';
 
 @Component({
   selector: 'app-layout',
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   templateUrl: './layout.html',
   styleUrl: './layout.css',
 })
-export class Layout {
+export class LayoutComponent {
 
 
   constructor(

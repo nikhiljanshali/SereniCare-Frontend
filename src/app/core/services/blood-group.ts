@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { map, Observable, tap } from 'rxjs';
 import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
-import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +32,7 @@ export class BloodGroupService {
 
   public getBloodGroupById(id: string, showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getBloodGroupId/${id}`).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         if (showNotificaion) {
           this._notificationServices.success(
@@ -46,7 +46,7 @@ export class BloodGroupService {
 
   public createBloodGroup(value: object): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'createBloodGroup', value, true).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         this._notificationServices.success(
           'success',
@@ -60,7 +60,7 @@ export class BloodGroupService {
     return this._coreApiService
       .put<any>(`${this.baseUrl}updateBloodGroup/${id}`, value, true)
       .pipe(
-        map(res => res.data),
+        map((res: any) => res.data),
         tap(() => {
           this._notificationServices.success(
             'success',

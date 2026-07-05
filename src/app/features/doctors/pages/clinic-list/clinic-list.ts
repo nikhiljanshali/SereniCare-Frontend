@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { LocationService } from '../../../../core/services/location-service';
 import { Router } from '@angular/router';
-import { Clinics } from '../../../../core/services/clinics';
-import { IClinicList, IClinics } from '../../../../core/interface/basic.interface';
 import { DatePipe } from '@angular/common';
-import { ModalService } from '../../../../core/services/modal-service';
-import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
-import { StorageOperation } from '../../../../core/services/storage-operation';
-import { UserDetails } from '../../../../core/interface/authentication.interface';
 import { Roles } from '../../../../core/enum/common.enum';
+import { UserDetails } from '../../../../core/interface/authentication.interface';
+import { IClinicList, IClinics } from '../../../../core/interface/basic.interface';
+import { Clinics } from '../../../../core/services/clinics';
+import { LocationService } from '../../../../core/services/location-service';
+import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
+import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
 
 @Component({
   selector: 'app-clinic-list',

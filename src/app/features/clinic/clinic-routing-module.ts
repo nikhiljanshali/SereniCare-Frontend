@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClinicLayout } from './clinic-layout/clinic-layout';
-import { Registration } from './page/registration/registration';
-import { ClinicType } from './page/clinic-type/clinic-type';
-import { PrimarySpeciality } from './page/primary-speciality/primary-speciality';
-import { Role } from './page/role/role';
-import { BloodGroup } from './page/blood-group/blood-group';
-import { PrimaryCondition } from './page/primary-condition/primary-condition';
 import { Allergies } from './page/allergies/allergies';
+import { BloodGroup } from './page/blood-group/blood-group';
+import { ClinicType } from './page/clinic-type/clinic-type';
 import { Diseases } from './page/diseases/diseases';
+import { PrimaryCondition } from './page/primary-condition/primary-condition';
+import { PrimarySpeciality } from './page/primary-speciality/primary-speciality';
+import { Registration } from './page/registration/registration';
+import { Role } from './page/role/role';
 import { Surgery } from './page/surgery/surgery';
 
 const routes: Routes = [

@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { RoleService } from '../../../../core/services/role-service';
-import { IRole, IRoleData } from '../../../../core/interface/basic.interface';
+import { IRoleData, IRole } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
+import { RoleService } from '../../../../core/services/role-service';
 
 @Component({
   selector: 'app-role',
@@ -85,11 +85,11 @@ export class Role {
       this._roleService.updateRole(this.selectedId, this.roleForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.roleForm.reset();
             this.getAllRoles();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Role failed:', err);
           }
         });
@@ -97,11 +97,11 @@ export class Role {
       this._roleService.createRole(this.roleForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.roleForm.reset();
             this.getAllRoles();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Role failed:', err);
           }
         });
@@ -113,7 +113,7 @@ export class Role {
       next: (res: IRole) => {
         this.rolesList = res.data ?? [];
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching clinic types:', err);
         this.rolesList = [];
       }
@@ -133,10 +133,10 @@ export class Role {
         this._roleService.deleteRole(this.selectedId,)
           .pipe(take(1))
           .subscribe({
-            next: (data) => {
+            next: (data: any) => {
               this.getAllRoles();
             },
-            error: (err) => {
+            error: (err: any) => {
               console.error('Delete failed:', err);
             }
           });

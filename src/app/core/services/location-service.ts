@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, Subject, of, throwError, } from 'rxjs';
 import { catchError, map, shareReplay, takeUntil, tap, } from 'rxjs/operators';
-import { CascadeSelection, ICity, ICountry, IState, LocationData } from '../interface/basic.interface';
+import { LocationData, CascadeSelection, ICountry, IState, ICity } from '../interface/basic.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -157,7 +157,7 @@ export class LocationService {
     }
 
     const city =
-      current.state.cities.find((c) => c.id === cityId) ?? null;
+      current.state.cities.find((c: any) => c.id === cityId) ?? null;
 
     this.selectionSubject.next({ ...current, city });
   }
@@ -190,7 +190,7 @@ export class LocationService {
     return this.locationData$.pipe(
       map(
         (data) =>
-          data.countries.find((c) => c.id === countryId)?.states ?? []
+          data.countries.find((c: any) => c.id === countryId)?.states ?? []
       )
     );
   }
@@ -202,9 +202,9 @@ export class LocationService {
   ): Observable<ICity[]> {
     return this.locationData$.pipe(
       map((data) => {
-        const country = data.countries.find((c) => c.id === countryId);
+        const country = data.countries.find((c: any) => c.id === countryId);
         return (
-          country?.states.find((s) => s.id === stateId)?.cities ?? []
+          country?.states.find((s: any) => s.id === stateId)?.cities ?? []
         );
       })
     );
@@ -272,15 +272,15 @@ export class LocationService {
         let stateName: string | undefined;
         let cityName: string | undefined;
 
-        const country = data.countries.find(c => c.id === countryId);
+        const country = data.countries.find((c: any) => c.id === countryId);
         if (country) {
           countryName = country.name;
 
-          const state = country.states.find(s => s.id === stateId);
+          const state = country.states.find((s: any) => s.id === stateId);
           if (state) {
             stateName = state.name;
 
-            const city = state.cities.find(c => c.id === cityId);
+            const city = state.cities.find((c: any) => c.id === cityId);
             if (city) {
               cityName = city.name;
             }

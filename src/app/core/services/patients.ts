@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { map, Observable, tap } from 'rxjs';
 import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
 import { StorageOperation } from './storage-operation';
-import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -63,8 +63,8 @@ export class PatientService {
 
   public createPatient(payload: any): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'createPatient', payload).pipe(
-      map(res => res.data),
-      tap((data) => {
+      map((res: any) => res.data),
+      tap((data: any) => {
         this._notificationServices.success(
           'Success',
           `Patient ${data.firstName} ${data.lastName} created successfully`
@@ -76,8 +76,8 @@ export class PatientService {
 
   public updatePatient(id: string, payload: any): Observable<any> {
     return this._coreApiService.put<any>(`${this.baseUrl}updatePatient/${id}`, payload).pipe(
-      map(res => res.data),
-      tap((data) => {
+      map((res: any) => res.data),
+      tap((data: any) => {
         this._notificationServices.success(
           'Success',
           `Patient ${data.firstName} ${data.lastName} updated successfully`
@@ -88,7 +88,7 @@ export class PatientService {
 
   public deletePatient(id: string): Observable<any> {
     return this._coreApiService.delete<any>(`${this.baseUrl}deletePatient/${id}`).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap(() => {
         this._notificationServices.success(
           'Success',

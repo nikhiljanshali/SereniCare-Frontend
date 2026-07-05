@@ -56,7 +56,7 @@
             <th>Status</th>
             <th>Created On</th>
             <th>Vital History</th>
-            <th>Actions</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -122,88 +122,34 @@
               </button>
             </td>
             <td>
-              <button class="action-btn" (click)="openMedicalHistory(patient)" [title]="'Info'">
+              <button class="action-btn" [popover]="'Medical History'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="openMedicalHistory(patient)">
                 <i class="bi bi-info-circle-fill"></i>
               </button>
-              <button class="action-btn" (click)="toggleInsuranceRow(patient._id);$event.stopPropagation()"
-                style="cursor:pointer;" [title]="'Insurance Details'">
-                <i class="bi bi-journal-medical"></i>
-              </button>
-              <button class="action-btn" style="cursor:pointer;" [title]="'Medical History'" (click)="redirectToMedicalHistory(patient)">
-                <i class="bi bi-clock-history"></i>
-              </button>
-              @if(userDetails?.role == 'Doctor'){
-              <button class="action-btn" (click)="togglePrescriptionRow(patient._id);$event.stopPropagation()"
-                style="cursor:pointer;" [title]="'Appointment List'">
+              <button class="action-btn" [popover]="'Appointment List'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="toggleAppointmentRow(patient._id);$event.stopPropagation()">
                 <i class="bi bi-journal-bookmark-fill"></i>
               </button>
-
-              @if(userDetails?.role != 'Doctor'){
-              <button class="action-btn" (click)="editPatient(patient)" [title]="'Edit'">
+              <button class="action-btn" [popover]="'Insurance List'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="toggleInsuranceRow(patient._id);$event.stopPropagation()">
+                <i class="bi bi-journal-medical"></i>
+              </button>
+              <button class="action-btn" [popover]="'Paitnet Medical Details'" placement="top"
+                triggers="mouseenter:mouseleave" (click)="redirectToMedicalHistory(patient)">
+                <i class="bi bi-clock-history"></i>
+              </button>
+              <button class="action-btn" [popover]="'Examination Details'" placement="top"
+                triggers="mouseenter:mouseleave" (click)="redirectToExaminationDetails(patient)">
+                <i class="bi bi-clipboard2-pulse-fill"></i>
+              </button>
+              @if(userDetails?.role !== 'Doctor'){
+              <button class="action-btn" title="Edit" placement="top" (click)="editPatient(patient)">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="action-btn danger" [title]="'Delete'"><i class="bi bi-trash3"></i></button>
-              }
-              <!-- <button class="action-btn" (click)="recordSymptoms();" style="cursor:pointer;">
-                <i class="bi bi-clipboard2-pulse"></i>
-              </button> -->
+              <button class="action-btn danger" title="Delete" placement="top"><i class="bi bi-trash3"></i></button>
               }
             </td>
           </tr>
-          <!-- 🔹 SUB Insurance -->
-          @if (expandedInsurance === patient._id) {
-          <tr class="sub-row">
-            <td colspan="12">
-              <div class="appointment-wrapper">
-                <div class="vertical-sub-title">
-                  Insurance Details
-                </div>
-                <div class="clinic-grid">
-                  <div class="appointment-sub-table-container">
-                    <div class="appointment-sub-table w-100">
-                      @for (clinic of patient.insuranceDetails; track clinic._id) {
-                      <div class="clinic-card"
-                        style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
-                        <div
-                          style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
-                          {{clinic._id}}</div>
-                        <div class="wz-review-row">
-                          <span class="wz-review-label">Insurance Name</span>
-                          <span class="wz-review-val">{{clinic.coverageDetails}}</span>
-                        </div>
-                        <div class="wz-review-row">
-                          <span class="wz-review-label">Coverage Amount</span>
-                          <span class="wz-review-val">{{clinic.coverageAmount}}</span>
-                        </div>
-                        <div class="wz-review-row">
-                          <span class="wz-review-label">Policy Holder</span>
-                          <span class="wz-review-val">{{clinic.policyHolderName}}</span>
-                        </div>
-                        <div class="wz-review-row">
-                          <span class="wz-review-label">Policy Number</span>
-                          <span class="wz-review-val">{{clinic.policyNumber}}</span>
-                        </div>
-                        <div class="wz-review-row">
-                          <span class="wz-review-label">Provider Name</span>
-                          <span class="wz-review-val">{{clinic.providerName}}</span>
-                        </div>
-                        <div class="wz-review-row" style="border:none;">
-                          <span class="wz-review-label">Active</span>
-                          <span class="wz-review-val">📞 {{clinic.status}}</span>
-                        </div>
-                        <div class="wz-review-row" style="border:none;">
-                          <span class="wz-review-label">Valid From </span>
-                          <span class="wz-review-val">📧 {{clinic.validFrom | date : 'dd/MM/yyyy'}}</span>
-                        </div>
-                      </div>
-                      }
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          }
           <!-- 🔹 SUB Appontments -->
           @if (expandedAppointment === patient._id) {
           <tr class="sub-row">
@@ -283,6 +229,90 @@
                         </tr>
                         }
                       </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              } @else {
+              <div class="empty-appointment">
+                <i class="bi bi-calendar-x"></i>
+                No appointments found
+              </div>
+              }
+
+            </td>
+          </tr>
+          }
+          <!-- 🔹 SUB Insurance -->
+          @if (expandedInsurance === patient._id) {
+          <tr class="sub-row">
+            <td colspan="12">
+              @if (patient.insuranceDetails.length) {
+              <div class="appointment-wrapper">
+                <div class="vertical-sub-title">
+                  Insurance List
+                </div>
+                <div class="clinic-grid">
+                  <div class="appointment-sub-table-container">
+                    <table class="appointment-sub-table w-100">
+                      <thead>
+                        <tr>
+                          <th>Insurance Name</th>
+                          <th>Provider Name</th>
+                          <th>Coverage Amount</th>
+                          <th>Policy Holder</th>
+                          <th>Policy Number</th>
+                          <th>Active</th>
+                          <th>Valid From</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @for (clinic of patient.insuranceDetails; track clinic._id) {
+                        <tr>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);">
+                              {{ clinic.coverageDetails }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);">
+                              {{ clinic.providerName }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);">{{ clinic.coverageAmount}}</div>
+                          </td>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);">
+                              {{ clinic.policyHolderName }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);">
+                              {{ clinic.policyNumber }}
+                            </div>
+                          </td>
+
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);">
+                              {{ clinic.status }}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);" class="appt-notes">
+                              {{ clinic.validFrom | date : 'dd/MM/yyyy' }}
+                            </div>
+                          </td>
+                        </tr>
+                        }
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th colspan="2">Total Coverage Amount</th>
+                          <th colspan="1">{{ getTotalCoverageAmount(patient) | number:'1.2-2' }}</th>
+                          <th colspan="4"></th>
+                        </tr>
+                      </tfoot>
                     </table>
                   </div>
                 </div>

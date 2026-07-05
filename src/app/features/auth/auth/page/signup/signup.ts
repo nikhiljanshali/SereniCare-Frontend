@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Authentication } from '../../../../../core/services/authentication';
 import { take } from 'rxjs';
-import { RoleService } from '../../../../../core/services/role-service';
 import { IRole, IRoleData } from '../../../../../core/interface/basic.interface';
+import { Authentication } from '../../../../../core/services/authentication';
+import { RoleService } from '../../../../../core/services/role-service';
 
 @Component({
   selector: 'app-signup',
@@ -118,11 +118,11 @@ export class Signup {
     this.submitted = true;
     if (this.signupForm.invalid) return;
     this._authentication.signup(this.signupForm.getRawValue()).pipe(take(1)).subscribe({
-      next: (data) => {
+      next: (data: any) => {
         console.log('User created:', data);
         this.router.navigate(['auth/signin']);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Signup failed:', err);
       }
     });

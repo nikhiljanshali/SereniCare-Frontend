@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatePrescription } from './create-prescription';
+import { CreatePrescription } from '@features/prescription/pages/create-prescription/create-prescription';
 
 describe('CreatePrescription', () => {
   let component: CreatePrescription;

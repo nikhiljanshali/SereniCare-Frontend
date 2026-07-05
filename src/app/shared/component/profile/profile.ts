@@ -25,7 +25,9 @@ export class DoctorProfile {
 
 
   ngOnInit() {
+    console.log('Received User:', this.user);
     // this._clinics.getClinicDetailsById(this.doctor.id).subscribe((res) => {
+    //   console.log(res);
     // });
   }
 

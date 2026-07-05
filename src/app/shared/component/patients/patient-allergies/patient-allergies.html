@@ -1,0 +1,268 @@
+@if (!hideList) {
+<div class="file-viewer-toolbar">
+    <i class="bi bi-file-earmark-medical-fill" style="font-size:18px;color:var(--rose);"></i>
+    <span class="file-viewer-name">
+        Patient's allergies List
+    </span>
+    <div class="file-viewer-actions">
+        @if(!showView){
+        <div class="fv-btn" title="Save" (click)="savePatientAllergies()"><i class="bi bi-floppy-fill"></i></div>
+        }
+        @if (showView) {
+        <div class="fv-btn" title="Form" (click)="toggleView()">
+            <i class="bi bi-code-square"></i>
+        </div>
+        } @else {
+        <div class="fv-btn" title="List" (click)="toggleView()">
+            <i class="bi bi-list"></i>
+        </div>
+        }
+        <div class="fv-btn" title="Refresh" (click)="refresh()"><i class="bi bi-arrow-clockwise"></i></div>
+        <!-- <div class="fv-btn" title="Download"><i class="bi bi-download"></i></div>
+        <div class="fv-btn" title="Print"><i class="bi bi-printer"></i></div>
+        <div class="fv-btn" title="Share"><i class="bi bi-share"></i></div> -->
+    </div>
+</div>
+}
+@if (!hideList && showView) {
+<div class="wizard-wrap border-0 pt-3">
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>No Known Allergies</th>
+                <th>Assesment Not Possible</th>
+                <th>Allergies</th>
+                <th>Group</th>
+                <th>Type</th>
+                <th>Reaction</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(patientAllergiesList.length>0){
+            @for (patientAllergies of patientAllergiesList; track patientAllergies._id) {
+            <tr>
+                <td>
+                    <div class="status-badge" [ngClass]="patientAllergies.noKnownAllergies ? 'badge-yes' : 'badge-no'">
+                        {{ patientAllergies.noKnownAllergies ? 'Yes' : 'No' }}
+                    </div>
+                </td>
+                <td>
+                    <div class="status-badge"
+                        [ngClass]="patientAllergies.assesmentNotPossible ? 'badge-yes' : 'badge-no'">
+                        {{ patientAllergies.assesmentNotPossible ? 'Yes' : 'No' }}
+                    </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{patientAllergies?.allergies}}
+                    </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{patientAllergies?.allergyGroup}}
+                    </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{patientAllergies?.allergyType}}
+                    </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{patientAllergies?.allergyReaction}}
+                    </div>
+                </td>
+                <td>
+                    <button class="action-btn" [title]="'Delete'"
+                        (click)="toggleRow(patientAllergies._id);$event.stopPropagation()">
+                        <i class="bi bi-arrow-bar-down"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Edit'" (click)="editPatientAllergies(patientAllergies)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Delete'" (click)="deletePatienttAllergies(patientAllergies)">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+            <!-- 🔹 SUB Insurance -->
+            <!-- <tr>
+                <th>Evaluation</th>
+                <th>Certainty</th>
+                <th>Serverity</th>
+                <th>Comment</th>
+            </tr> -->
+            @if (expanded === patientAllergies._id) {
+            <tr class="sub-row">
+                <td colspan="1">
+                    <label style="font-size:14px;font-weight: 600;">Evaluation:</label>
+                    <div style="font-size:14px;color:var(--text-muted);">{{patientAllergies?.evaluation}}
+                    </div>
+                </td>
+                <td colspan="1">
+                    <label style="font-size:14px;font-weight: 600;">Certainty:</label>
+                    <div style="font-size:14px;color:var(--text-muted);">{{patientAllergies?.certainty}}
+                    </div>
+                </td>
+                <td colspan="1">
+                    <label style="font-size:14px;font-weight: 600;">Serverity:</label>
+                    <div style="font-size:14px;color:var(--text-muted);">{{patientAllergies?.serverity}}
+                    </div>
+                </td>
+                <td colspan="4">
+                    <label style="font-size:14px;font-weight: 600;">Comment:</label>
+                    <div style="font-size:14px;color:var(--text-muted);" class="appt-notes">
+                        {{patientAllergies.comments}}</div>
+                </td>
+            </tr>
+            }
+            }
+            } @else {
+            <tr style="border:none;">
+                <td colspan="11" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
+                    No Data Found!!
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+@if (hideList) {
+<div class="modal-header">
+    <h5 class="modal-title">Patient Allergies History </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()"></button>
+</div>
+}
+<div class="modal-body p-0">
+    <div class="wizard-wrap border-0">
+        <form [formGroup]="patientAllergiesForm">
+            <div class="wizard-body">
+                <div class="wizard-panel">
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="status-switch d-flex align-items-center gap-2 ">
+                                    <label class="switch">
+                                        <input type="checkbox" formControlName="noKnownAllergies" />
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span class="status-label">
+                                        No Known Allergies
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wz-form-group">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="status-switch d-flex align-items-center gap-2 ">
+                                    <label class="switch">
+                                        <input type="checkbox" formControlName="assesmentNotPossible" />
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span class="status-label">
+                                        Assesment Not Possible
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Allergies <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="allergies"
+                                (change)="getAllergiesDetails($event)">
+                                <option [ngValue]="null">Select Allergies</option>
+                                @for (allergy of allergiesList; track allergy._id) {
+                                <option [value]="allergy.name">
+                                    {{ allergy.name }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Allergen Group <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Enter Allergy Group"
+                                formControlName="allergyGroup">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Allergen Type</label>
+                            <select class="wz-select" formControlName="allergyType">
+                                <option [ngValue]="null">Select Allergy Type</option>
+                                @for (allergyType of AllergenType; track $index) {
+                                <option [value]="allergyType">
+                                    {{ allergyType }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="Enter Allergy Type"
+                            formControlName="allergyType"> -->
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Allergic Rection</label>
+                            <select class="wz-select" formControlName="allergyReaction">
+                                <option [ngValue]="null">Select Reaction</option>
+                                @for (reaction of Reaction; track $index) {
+                                <option [value]="reaction">
+                                    {{ reaction }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="Enter Rection"
+                            formControlName="allergyReaction"> -->
+                        </div>
+                    </div>
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Evaluation</label>
+                            <select class="wz-select" formControlName="evaluation">
+                                <option [ngValue]="null">Select Severity</option>
+                                @for (evaluation of Evaluation; track $index) {
+                                <option [value]="evaluation">
+                                    {{ evaluation }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="Enter Evaluation" formControlName="evaluation"> -->
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Certainty</label>
+                            <select class="wz-select" formControlName="certainty">
+                                <option [ngValue]="null">Select Severity</option>
+                                @for (certainty of Certainty; track $index) {
+                                <option [value]="certainty">
+                                    {{ certainty }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="Enter Certainty" formControlName="certainty"> -->
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Serverity</label>
+                            <select class="wz-select" formControlName="serverity">
+                                <option [ngValue]="null">Select Severity</option>
+                                @for (severity of Severity; track $index) {
+                                <option [value]="severity">
+                                    {{ severity }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="Enter Serverity" formControlName="serverity"> -->
+                        </div>
+                    </div>
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Comments</label>
+                            <input class="wz-input" type="text" placeholder="Enter Comments" formControlName="comments">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (hideList) {
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="savePatientAllergies()"> Save </button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+</div>
+}
+}

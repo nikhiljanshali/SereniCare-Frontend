@@ -24,7 +24,13 @@ export const environment = {
     diseases: '/diseases',
     surgery: '/surgery',
     pastMedical: '/pastMedical',
-    pastSurgical: '/pastSurgical'
+    pastSurgical: '/pastSurgical',
+    riskMaster: '/riskMaster',
+    patientRisk: '/patientRisk',
+    patientDrugReaction: '/patientDrugReaction',
+    patientAllergies: '/patientAllergies',
+    familyHistory: '/familyHistory',
+    familyHistoryLineage: '/familyHistoryLineage'
   },
   features: {
     enableNotifications: true,

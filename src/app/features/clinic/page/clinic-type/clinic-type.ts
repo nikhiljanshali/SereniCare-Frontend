@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ClinicTypeService } from '../../../../core/services/clinic-type';
 import { take } from 'rxjs';
-import { IClinicType, IClinicTypeData } from '../../../../core/interface/basic.interface';
+import { IClinicTypeData, IClinicType } from '../../../../core/interface/basic.interface';
+import { ClinicTypeService } from '../../../../core/services/clinic-type';
 import { NotificationServices } from '../../../../core/services/notification-services';
 
 @Component({

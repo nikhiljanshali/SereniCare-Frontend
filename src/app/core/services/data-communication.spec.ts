@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { DataCommunication } from './data-communication';
+import { DataCommunication } from '@core/services/data-communication';
 
 describe('DataCommunication', () => {
   let service: DataCommunication;

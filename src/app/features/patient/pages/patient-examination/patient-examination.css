@@ -1,0 +1,36 @@
+.breadcrumb-wrapper {
+    display      : flex;
+    align-items  : center;
+    gap          : 8px;
+    margin-bottom: 4px;
+}
+
+.breadcrumb-sep {
+    color    : var(--text-muted);
+    font-size: 12px;
+}
+
+.btn-icon-wrapper {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+    padding   : 4px 10px;
+}
+
+.file-viewer {
+    border: unset !important;
+}
+
+.appt-card {
+    padding: 0px;
+}
+
+.normal-card {
+    border          : 2px solid #198754;
+    background-color: #e8f5e9;
+}
+
+.abnormal-card {
+    border          : 2px solid #dc3545;
+    background-color: #fdeaea;
+}

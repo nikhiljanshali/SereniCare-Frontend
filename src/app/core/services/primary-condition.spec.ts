@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PrimaryCondition } from './primary-condition';
+import { PrimaryCondition } from '@core/services/primary-condition';
 
 describe('PrimaryCondition', () => {
   let service: PrimaryCondition;

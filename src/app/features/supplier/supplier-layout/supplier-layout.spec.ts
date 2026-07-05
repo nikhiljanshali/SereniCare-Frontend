@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupplierLayout } from './supplier-layout';
+import { SupplierLayout } from '@features/supplier/supplier-layout/supplier-layout';
 
 describe('SupplierLayout', () => {
   let component: SupplierLayout;

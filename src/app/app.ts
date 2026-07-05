@@ -1,7 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { StorageOperation } from './core/services/storage-operation';
-
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],

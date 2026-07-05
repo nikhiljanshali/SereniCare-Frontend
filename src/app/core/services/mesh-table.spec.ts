@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { MeshTable } from './mesh-table';
+import { MeshTable } from '@core/services/mesh-table';
 
 describe('MeshTable', () => {
   let service: MeshTable;

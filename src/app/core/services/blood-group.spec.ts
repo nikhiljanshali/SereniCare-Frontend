@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BloodGroup } from './blood-group';
+import { BloodGroup } from '@core/services/blood-group';
 
 describe('BloodGroup', () => {
   let service: BloodGroup;

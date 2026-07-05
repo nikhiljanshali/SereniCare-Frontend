@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PatientCalendarView } from './patient-calendar-view';
+import { PatientCalendarView } from '@features/patient/pages/patient-calendar-view/patient-calendar-view';
 
 describe('PatientCalendarView', () => {
   let component: PatientCalendarView;

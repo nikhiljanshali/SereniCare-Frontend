@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChiefComplaint } from './chief-complaint';
+import { ChiefComplaint } from '@features/doctors/pages/chief-complaint/chief-complaint';
 
 describe('ChiefComplaint', () => {
   let component: ChiefComplaint;

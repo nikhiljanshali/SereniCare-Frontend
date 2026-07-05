@@ -1,14 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
-import { Authentication } from '../../../../../core/services/authentication';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { Authentication } from '../../../../../core/services/authentication';
 
 @Component({
   selector: 'app-resetpassword',
@@ -139,13 +134,13 @@ export class Resetpassword {
     this._authentication.ResetPassword({ email: this.router.url.split('=')[1], password: this.resetForm.value.password }, true)
       .pipe(take(1))
       .subscribe({
-        next: (data) => {
-          if(data.success) {
+        next: (data: any) => {
+          if (data.success) {
             this.showSuccessScreen = true;
             // this.router.navigate(['auth/signin']);
           }
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Signup failed:', err);
         }
       });

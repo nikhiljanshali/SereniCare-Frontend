@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataCommunication } from '../../../core/services/data-communication';
-import { StorageOperation } from '../../../core/services/storage-operation';
 import { Roles } from '../../../core/enum/common.enum';
 import { UserDetails } from '../../../core/interface/authentication.interface';
+import { DataCommunication } from '../../../core/services/data-communication';
 import { MeshTable } from '../../../core/services/mesh-table';
-import { MenuItem } from '../../../core/interface/basic.interface';
-
+import { StorageOperation } from '../../../core/services/storage-operation';
+import { filterMenuByRole, MENU_CONFIG, MenuGroupItem, MenuItem } from '../../methods/menu.config';
 
 
 @Component({
@@ -25,117 +24,11 @@ export class Sidebar implements OnInit {
   public supplierCount: number = 0;
   public medicineCount: number = 0;
   public appointmentCount: number = 0;
-
-  // public menuItems: MenuItem[] = [];
-  public menuItems: MenuItem[] = [];
-  public operationsMenu: MenuItem[] = [];
-
-  // 🎯 Role-Based Menu Configuration
-  // public menuItems: MenuItem[] = [
-  //   {
-  //     label: 'Dashboard',
-  //     icon: 'bi-grid-1x2',
-  //     routerLink: '/layout/dashboard',
-  //     roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor, Roles.Patient]
-  //   },
-  //   {
-  //     label: 'Clinical',
-  //     icon: '',
-  //     roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor, Roles.Patient],
-  //     children: [
-  //       {
-  //         label: 'Patients',
-  //         icon: 'bi-people',
-  //         routerLink: '/layout/patient',
-  //         roles: [Roles.SystemAdmin, Roles.Doctor, Roles.Patient]
-  //       },
-  //       {
-  //         label: 'Appointments',
-  //         icon: 'bi-calendar2-check',
-  //         badge: 12,
-  //         routerLink: '/layout/patient/appointments',
-  //         roles: [Roles.SystemAdmin, Roles.Doctor, Roles.Patient]
-  //       },
-  //       {
-  //         label: 'Medical Records',
-  //         icon: 'bi-clipboard2-pulse',
-  //         routerLink: '/layout/patient/records',
-  //         roles: [Roles.SystemAdmin, Roles.Doctor, Roles.Patient]
-  //       },
-  //       {
-  //         label: 'Prescriptions',
-  //         icon: 'bi-capsule',
-  //         badge: 3,
-  //         badgeColor: '#f43f5e',
-  //         routerLink: '/layout/patient/prescriptions',
-  //         roles: [Roles.SystemAdmin, Roles.Doctor]
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     label: 'Clinic Management',
-  //     icon: '',
-  //     roles: [Roles.SystemAdmin, Roles.Admin],
-  //     children: [
-  //       {
-  //         label: 'Clinic Setup',
-  //         icon: 'bi-hospital',
-  //         routerLink: '/layout/clinic/registration',
-  //         roles: [Roles.SystemAdmin, Roles.Admin]
-  //       },
-  //       {
-  //         label: 'Clinic Types',
-  //         icon: 'bi-tag',
-  //         routerLink: '/layout/clinic/clinictype',
-  //         roles: [Roles.SystemAdmin, Roles.Admin]
-  //       },
-  //       {
-  //         label: 'Specialities',
-  //         icon: 'bi-diagram-3',
-  //         routerLink: '/layout/clinic/speciality',
-  //         roles: [Roles.SystemAdmin, Roles.Admin]
-  //       },
-  //       {
-  //         label: 'Roles & Permissions',
-  //         icon: 'bi-shield-lock',
-  //         routerLink: '/layout/clinic/role',
-  //         roles: [Roles.SystemAdmin]
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     label: 'Operations',
-  //     icon: '',
-  //     roles: [Roles.SystemAdmin, Roles.Admin],
-  //     children: [
-  //       {
-  //         label: 'Inventory',
-  //         icon: 'bi-box-seam',
-  //         routerLink: '/layout/inventory',
-  //         roles: [Roles.SystemAdmin, Roles.Admin]
-  //       },
-  //       {
-  //         label: 'Billing',
-  //         icon: 'bi-currency-dollar',
-  //         routerLink: '/layout/billing',
-  //         roles: [Roles.SystemAdmin, Roles.Admin]
-  //       }
-  //     ]
-  //   },
-  //   {
-  //     label: 'Reports',
-  //     icon: 'bi-bar-chart-line',
-  //     routerLink: '/layout/reports',
-  //     roles: [Roles.SystemAdmin, Roles.Admin]
-  //   },
-  //   {
-  //     label: 'Settings',
-  //     icon: 'bi-gear',
-  //     routerLink: '/layout/settings',
-  //     roles: [Roles.SystemAdmin, Roles.Admin]
-  //   }
-  // ];
   public doctorId: string = '';
+  public currentUserRole: string = '';
+  public menuItems: MenuItem[] = [];
+
+
   constructor(
     private dataCommunication: DataCommunication,
     private storageOperation: StorageOperation,
@@ -146,9 +39,11 @@ export class Sidebar implements OnInit {
     this.dataCommunication.toggleState$.subscribe(res => {
       this.isEnabled = res;
     });
-
-    if (this._storageOperation.get<UserDetails>('user', 'local')?.role === Roles.Doctor) {
+    if (this._storageOperation.get<UserDetails>('user', 'local')?.role) {
+      this.currentUserRole = this._storageOperation.get<UserDetails>('user', 'local')?.role ?? '';
       this.doctorId = this._storageOperation.get<UserDetails>('userDetails', 'local')?.id || '';
+      console.log('currentUserRole', this.currentUserRole);
+      console.log('doctorId', this.doctorId);
     }
   }
 
@@ -156,291 +51,40 @@ export class Sidebar implements OnInit {
     this.initMenu();
     this.loadUserRole();
     this.loadCount();
-    // this.loadDoctorCount();
-    // this.loadPatientCount();
-    // this.loadSupplierCount();
   }
 
   private initMenu(): void {
-    const user: { id: string, firstName: string, lastName: string, workEmail: string, phone: number, role: string } | null = this.storageOperation.get('user', 'local');
-    if (user?.role === Roles.SystemAdmin) {
-      this.menuItems = [
-        {
-          id: 'patient',
-          label: 'Patients',
-          icon: 'bi-people',
-          badge: () => `${this.patientCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'list',
-              label: 'Patient List',
-              icon: 'bi-person-lines-fill',
-              route: 'patients/master/list',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'register',
-              label: 'Register Patient',
-              icon: 'bi-person-plus',
-              route: 'patients/master/registration',
-              roles: [Roles.SystemAdmin]
-            }
-          ]
-        },
-        {
-          id: 'doctor',
-          label: 'Doctors',
-          icon: 'bi-people',
-          badge: () => `${this.doctorCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'clinic',
-              label: 'Clinic List',
-              icon: 'bi-hospital-fill',
-              route: 'doctors/master/clinics',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'doctor-list',
-              label: 'Doctor Detail View',
-              icon: 'bi-person-lines-fill',
-              route: 'doctors/master/doctor-list',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'list',
-              label: 'Doctor List',
-              icon: 'bi-person-lines-fill',
-              route: 'doctors/master/list',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'register',
-              label: 'Register Doctor',
-              icon: 'bi-person-plus',
-              route: 'doctors/master/registration',
-              roles: [Roles.SystemAdmin]
-            }
-          ]
-        },
-        {
-          id: 'appointments',
-          label: 'Appointments',
-          icon: 'bi-calendar2-check',
-          badge: () => `${this.appointmentCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'calendar',
-              label: 'Calendar View',
-              icon: 'bi-calendar3',
-              route: 'doctors/master/doctor-appointments',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'all',
-              label: 'All Appointments',
-              icon: 'bi-list-ul',
-              route: 'appointments/master/list',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'book',
-              label: 'Book Appointment',
-              icon: 'bi-plus-circle',
-              route: 'doctors/master/book-appointments',
-              roles: [Roles.SystemAdmin]
-            }
-          ]
-        },
-        {
-          id: 'prescriptions',
-          label: 'Prescriptions',
-          icon: 'bi-prescription',
-          badge: 3,
-          roles: [Roles.SystemAdmin],
-          children: [
-            // {
-            //   id: 'new',
-            //   label: 'New Prescription',
-            //   icon: 'bi-clipboard-plus',
-            //   roles: [Roles.SystemAdmin]
-            // },
-            {
-              id: 'all',
-              label: 'All Prescriptions',
-              icon: 'bi-list-check',
-              route: 'prescription/master/list',
-              roles: [Roles.SystemAdmin]
-            },
-            // {
-            //   id: 'refill',
-            //   label: 'Refill Requests',
-            //   icon: 'bi-repeat',
-            //   roles: [Roles.SystemAdmin]
-            // }
-          ]
-        },
-        {
-          id: 'supplier',
-          label: 'Supplier',
-          icon: 'bi-person-circle',
-          badge: () => `${this.supplierCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'supplierlist',
-              label: 'Supplier List',
-              icon: 'bi-person-lines-fill',
-              route: 'supplier/master/list',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'supplieregister',
-              label: 'Register Supplier',
-              icon: 'bi-person-fill-add',
-              route: 'supplier/master/registration',
-              roles: [Roles.SystemAdmin]
-            }
-          ]
-        },
-        {
-          id: 'medicine',
-          label: 'Medicine',
-          icon: 'bi-capsule-pill',
-          badge: () => `${this.medicineCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'addmedicine',
-              label: 'Add Medicine',
-              icon: 'bi-bag-plus-fill',
-              route: 'medicine/master/add',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'addmedicine',
-              label: 'Medicine List',
-              icon: 'bi-bag-plus-fill',
-              route: 'medicine/master/list',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'addmedicine',
-              label: 'Import Medicine',
-              icon: 'bi-bag-plus-fill',
-              route: 'medicine/master/import',
-              roles: [Roles.SystemAdmin]
-            }
-          ]
-        },
-      ];
-    }
-    else if (user?.role === Roles.Doctor) {
-      this.operationsMenu = [
-        {
-          id: 'doctors',
-          label: 'Doctor Details',
-          icon: 'bi-people',
-          badge: () => `${this.doctorCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.Doctor],
-          children: [
-            {
-              id: 'profile',
-              label: 'Profile',
-              icon: 'bi-person',
-              route: 'doctors/master/doctor-profile/' + this.doctorId,
-              roles: [Roles.Doctor]
-            },
-            {
-              id: 'book',
-              label: 'Book Appointment',
-              icon: 'bi-plus-circle',
-              route: 'doctors/master/book-appointments',
-              roles: [Roles.SystemAdmin]
-            },
-            {
-              id: 'doctor-clinics',
-              label: 'Clinics',
-              icon: 'bi-hospital-fill',
-              route: 'doctors/master/clinics',
-              roles: [Roles.Doctor]
-            }
+    const user = this.storageOperation.get<{ role: Roles; }>('user', 'local');
+    this.menuItems = filterMenuByRole(
+      MENU_CONFIG,
+      user?.role
+    );
+    this.resolveBadges(this.menuItems);
+  }
 
-          ]
-        },
-        {
-          id: 'appointments',
-          label: 'Appointments',
-          icon: 'bi-calendar2-check',
-          badge: 0,
-          roles: [Roles.SystemAdmin],
-          children: [
-            {
-              id: 'calendar',
-              label: 'Calendar View',
-              icon: 'bi-calendar3',
-              route: 'doctors/master/doctor-appointments',
-              roles: [Roles.SystemAdmin]
-            },
-          ]
-        },
-        {
-          id: 'patient',
-          label: 'Patients',
-          icon: 'bi-people',
-          badge: () => `${this.patientCount}`,
-          badgeColor: 'var(--teal)',
-          roles: [Roles.Doctor],
-          children: [
-            {
-              id: 'list',
-              label: 'Patient List',
-              icon: 'bi-person-lines-fill',
-              route: 'patients/master/list',
-              roles: [Roles.Doctor]
-            },
-          ]
-        },
-        {
-          id: 'prescriptions',
-          label: 'Prescriptions',
-          icon: 'bi-prescription',
-          badge: 3,
-          roles: [Roles.Doctor],
-          children: [
-            // {
-            //   id: 'new',
-            //   label: 'New Prescription',
-            //   icon: 'bi-clipboard-plus',
-            //   route: 'prescription/master/create',
-            //   roles: [Roles.Doctor]
-            // },
-            {
-              id: 'all',
-              label: 'All Prescriptions',
-              icon: 'bi-list-check',
-              route: 'prescription/master/list',
-              roles: [Roles.Doctor]
-            },
-            {
-              id: 'refill',
-              label: 'Refill Requests',
-              icon: 'bi-repeat',
-              roles: [Roles.Doctor]
-            }
-          ]
-        },
-      ];
+
+  private resolveBadges(items: MenuItem[]): void {
+    items.forEach(item => {
+      if (item.badgeKey) {
+        item.badge = () => String(
+          (this as any)[item.badgeKey!] ?? 0
+        );
+      } else if (item.badgeStatic !== undefined) {
+        item.badge = item.badgeStatic;
+      }
+      if (item.children?.length) {
+        this.resolveBadges(item.children);
+      }
+    });
+  }
+
+  public getRoute(item: MenuItem): string {
+    if (!item.route) { return ''; }
+    if (!item.appendParam) {
+      return item.route;
     }
+    const value = (this as any)[item.appendParam];
+    return value ? `${item.route}/${value}` : item.route;
   }
 
   private loadCount(): void {

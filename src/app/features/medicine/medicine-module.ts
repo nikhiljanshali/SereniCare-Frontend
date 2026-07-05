@@ -22,7 +22,7 @@ import { MedicineList } from './pages/medicine-list/medicine-list';
     ReactiveFormsModule,
     FocusTrapDirective,
     RightSidebar,
-    DayPilotModule,    
+    DayPilotModule,
   ]
 })
 export class MedicineModule { }

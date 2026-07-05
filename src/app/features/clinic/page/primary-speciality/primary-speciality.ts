@@ -3,9 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
-import { IPrimarySpeciality, IPrimarySpecialityData } from '../../../../core/interface/basic.interface';
+import { IPrimarySpecialityData, IPrimarySpeciality } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
+import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
 
 @Component({
   selector: 'app-primary-speciality',
@@ -99,11 +99,11 @@ export class PrimarySpeciality {
       this._primarySpecialityService.createSpeciality(this.primarySpecialityForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.primarySpecialityForm.reset();
             this.getAllPrimarySpeciality();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Primary Speciality failed:', err);
           }
         });
@@ -115,7 +115,7 @@ export class PrimarySpeciality {
       next: (res: IPrimarySpeciality) => {
         this.primarySpecialityList = res.data ?? [];
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching clinic types:', err);
         this.primarySpecialityList = [];
       }
@@ -135,10 +135,10 @@ export class PrimarySpeciality {
         this._primarySpecialityService.deleteSpeciality(this.selectedId)
           .pipe(take(1))
           .subscribe({
-            next: (data) => {
+            next: (data: any) => {
               this.getAllPrimarySpeciality();
             },
-            error: (err) => {
+            error: (err: any) => {
               console.error('Delete failed:', err);
             }
           });

@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
-import { IPrescriptionsDetails } from '../../../../core/interface/basic.interface';
 import { CommonModule } from '@angular/common';
+import { IPrescriptionsDetails } from '../../../../core/interface/basic.interface';
 import { ModalService } from '../../../../core/services/modal-service';
 
 @Component({

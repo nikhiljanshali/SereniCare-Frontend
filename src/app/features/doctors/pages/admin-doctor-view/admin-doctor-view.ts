@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DoctorService } from '../../../../core/services/doctor';
-import { LocationService } from '../../../../core/services/location-service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IDoctorsData, IDoctors } from '../../../../core/interface/basic.interface';
+import { DoctorService } from '../../../../core/services/doctor';
+import { LocationService } from '../../../../core/services/location-service';
 
 @Component({
   selector: 'app-admin-doctor-view',

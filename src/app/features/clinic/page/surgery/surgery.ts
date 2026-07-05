@@ -1,9 +1,9 @@
-import { ISurgery, ISurgeryData } from './../../../../core/interface/basic.interface';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
+import { ISurgeryData, ISurgery } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { SurgeryService } from '../../../../core/services/surgery';
 
@@ -76,11 +76,11 @@ export class Surgery {
       this._surgeryService.updateSurgery(this.selectedId, this.surgeryForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.surgeryForm.reset();
             this.getAllSurgery();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Signup failed:', err);
           }
         });
@@ -88,11 +88,11 @@ export class Surgery {
       this._surgeryService.createSurgery(this.surgeryForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.surgeryForm.reset();
             this.getAllSurgery();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Signup failed:', err);
           }
         });

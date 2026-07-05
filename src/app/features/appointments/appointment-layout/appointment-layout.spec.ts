@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AppointmentLayout } from './appointment-layout';
+import { AppointmentLayout } from '@features/appointments/appointment-layout/appointment-layout';
 
 describe('AppointmentLayout', () => {
   let component: AppointmentLayout;

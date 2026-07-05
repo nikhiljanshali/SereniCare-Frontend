@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminDoctorView } from './admin-doctor-view';
+import { AdminDoctorView } from '@features/doctors/pages/admin-doctor-view/admin-doctor-view';
 
 describe('AdminDoctorView', () => {
   let component: AdminDoctorView;

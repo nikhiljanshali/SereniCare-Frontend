@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CommonMethod } from './common-method';
+import { CommonMethod } from '@core/services/common-method';
 
 describe('CommonMethod', () => {
   let service: CommonMethod;

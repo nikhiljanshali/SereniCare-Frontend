@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PatientLayout } from './patient-layout/patient-layout';
-import { roleGuard } from '../../core/guards/role-guard-guard';
 import { Roles } from '../../core/enum/common.enum';
 import { PatientRegistration } from './pages/patient-registration/patient-registration';
 import { PatientList } from './pages/patient-list/patient-list';
 import { PatientMedicalHistory } from './pages/patient-medical-history/patient-medical-history';
+import { PatientProfile } from './pages/patient-profile/patient-profile';
+import { PatientExamination } from './pages/patient-examination/patient-examination';
+import { roleGuard } from '../../core/guards/role.guard';
 
 const routes: Routes = [
   {
@@ -31,8 +33,26 @@ const routes: Routes = [
         }
       },
       {
+        path: 'master/profile',
+        component: PatientProfile,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+          animation: 'PatientProfile'
+        }
+      },
+      {
         path: 'master/details/:patientId',
         component: PatientMedicalHistory,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],
+          animation: 'PatientDetails'
+        }
+      },
+      {
+        path: 'master/examination/:patientId',
+        component: PatientExamination,
         canActivate: [roleGuard],
         data: {
           roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],
