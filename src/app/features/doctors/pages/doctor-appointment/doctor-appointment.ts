@@ -1,23 +1,18 @@
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IClinicList, IClinics, IDoctorById, IDoctorsData } from './../../../../core/interface/basic.interface';
 import { Component, viewChild, ViewChild } from '@angular/core';
-import {
-  DayPilot,
-  DayPilotCalendarComponent,
-  DayPilotModule
-} from '@daypilot/daypilot-lite-angular';
-import { AppointmentBookService } from '../../../../core/services/appointment-book';
-import { StorageOperation } from '../../../../core/services/storage-operation';
-import { ModalService } from '../../../../core/services/modal-service';
-import { Sidebar } from '../../../../core/services/sidebar';
-import { AppointmentBooking } from '../appointment-booking/appointment-booking';
-import { StorageUserDetails, IAppointmentDetails, IAppointment, IDoctorByIdData } from '../../../../core/interface/basic.interface';
-import { DoctorService } from '../../../../core/services/doctor';
-import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
-import { NotificationServices } from '../../../../core/services/notification-services';
+import { DayPilot, DayPilotCalendarComponent, DayPilotModule } from '@daypilot/daypilot-lite-angular';
 import { Router } from '@angular/router';
-import { Clinics } from '../../../../core/services/clinics';
 import { Roles } from '../../../../core/enum/common.enum';
+import { IClinicList, IDoctorsData, IDoctorByIdData, IAppointmentDetails, StorageUserDetails, IDoctorById, IClinics, IAppointment } from '../../../../core/interface/basic.interface';
+import { AppointmentBookService } from '../../../../core/services/appointment-book';
+import { Clinics } from '../../../../core/services/clinics';
+import { DoctorService } from '../../../../core/services/doctor';
+import { ModalService } from '../../../../core/services/modal-service';
+import { NotificationServices } from '../../../../core/services/notification-services';
+import { Sidebar } from '../../../../core/services/sidebar';
+import { StorageOperation } from '../../../../core/services/storage-operation';
+import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
+import { AppointmentBooking } from '../appointment-booking/appointment-booking';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -58,11 +53,11 @@ export class DoctorAppointment {
           const event = args.source;
           this._appointmentBookService.updateAppointmentStatus(event.data.id, 'Checked-In', false)
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 console.log('Status updated successfully:', res);
                 this.getBookedAppointment();
               },
-              error: (error) => {
+              error: (error: any) => {
                 console.error('Failed to update appointment status:', error);
               }
             });
@@ -75,12 +70,12 @@ export class DoctorAppointment {
           const event = args.source;
           this._appointmentBookService.updateAppointmentStatus(event.data.id, 'Completed', false)
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 console.log('Status updated successfully:', res);
 
                 this.getBookedAppointment();
               },
-              error: (error) => {
+              error: (error: any) => {
                 console.error('Failed to update appointment status:', error);
               }
             });
@@ -94,12 +89,12 @@ export class DoctorAppointment {
           const event = args.source;
           this._appointmentBookService.updateAppointmentStatus(event.data.id, 'Confirmed', false)
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 console.log('Status updated successfully:', res);
 
                 this.getBookedAppointment();
               },
-              error: (error) => {
+              error: (error: any) => {
                 console.error('Failed to update appointment status:', error);
               }
             });
@@ -109,14 +104,14 @@ export class DoctorAppointment {
         text: 'Cancel Appointment',
         onClick: (args) => {
           const event = args.source;
-          this._notificationServices.confirm('', 'Are you sure you want to cancel this appointment?').then((result) => {
+          this._notificationServices.confirm('', 'Are you sure you want to cancel this appointment?').then((result: any) => {
             if (result.isConfirmed) {
               this._appointmentBookService.updateAppointmentStatus(event.data.id, 'Cancelled', false).subscribe({
-                next: (res) => {
+                next: (res: any) => {
                   console.log('Status updated successfully:', res);
                   this.getBookedAppointment();
                 },
-                error: (error) => {
+                error: (error: any) => {
                   console.error('Failed to update appointment status:', error);
                 }
               });
@@ -131,10 +126,10 @@ export class DoctorAppointment {
           const event = args.source;
           this._appointmentBookService.updateAppointmentStatus(event.data.id, 'No-Show', false)
             .subscribe({
-              next: (res) => {
+              next: (res: any) => {
                 this.getBookedAppointment();
               },
-              error: (error) => {
+              error: (error: any) => {
                 console.error('Failed to update appointment status:', error);
               }
             });
@@ -221,7 +216,7 @@ export class DoctorAppointment {
         startTime: args.newStart.toString("HH:mm"),
         endTime: args.newEnd.toString("HH:mm")
       };
-      this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe(res => {
+      this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe((res: any) => {
         if (res.success) {
           this.getBookedAppointment();
         }
@@ -385,7 +380,7 @@ export class DoctorAppointment {
   }
 
   ngOnInit(): void {
-    this._sidebar.close$.subscribe((result) => {
+    this._sidebar.close$.subscribe((result: any) => {
       console.log('Right sidebar closed', result);
       this.getBookedAppointment();
     });
@@ -676,7 +671,7 @@ export class DoctorAppointment {
       startTime: args.newStart.toString("HH:mm"),
       endTime: args.newEnd.toString("HH:mm")
     };
-    this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe(res => {
+    this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe((res: any) => {
       if (res.success) {
         this.clinicSelectionForm.reset();
         this.pendingMovedEvent = null;

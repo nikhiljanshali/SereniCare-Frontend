@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GlobalFilter } from './global-filter';
+import { GlobalFilter } from '@shared/component/global-filter/global-filter';
 
 describe('GlobalFilter', () => {
   let component: GlobalFilter;

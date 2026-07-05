@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CoreApiService } from './core-api-service';
 import { environment } from '../../../environments/environment';
+import { Observable, map, tap } from 'rxjs';
+import { SignupResponse, SigninResponse } from '../interface/authentication.interface';
+import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
 import { StorageOperation } from './storage-operation';
-import { SigninResponse, SignupResponse } from '../interface/authentication.interface';
-import { Observable, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -73,7 +73,7 @@ export class Authentication {
     return this._coreApiService
       .post<any>(this.baseUrl + 'sendOTP', value, true)
       .pipe(
-        map((res) => ({
+        map((res: any) => ({
           success: true,
           data: res.data
         })),
@@ -99,7 +99,7 @@ export class Authentication {
     return this._coreApiService
       .post<any>(this.baseUrl + 'verifyOtp', value, true)
       .pipe(
-        map((res) => ({
+        map((res: any) => ({
           success: true,
           data: res.data
         })),
@@ -117,7 +117,7 @@ export class Authentication {
   public ResetPassword(value: object, showNotification: boolean = false): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'resetPassword', value, true)
       .pipe(
-        map((res) => ({
+        map((res: any) => ({
           success: true,
           data: res.data
         })),

@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { DoctorService } from '../../../../core/services/doctor';
 import { DatePipe } from '@angular/common';
-import { LocationService } from '../../../../core/services/location-service';
 import { Router } from '@angular/router';
 import { IDoctorsData, IDoctors } from '../../../../core/interface/basic.interface';
+import { DoctorService } from '../../../../core/services/doctor';
+import { LocationService } from '../../../../core/services/location-service';
 import { ModalService } from '../../../../core/services/modal-service';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
-
 @Component({
   selector: 'app-doctor-list',
   imports: [DatePipe],

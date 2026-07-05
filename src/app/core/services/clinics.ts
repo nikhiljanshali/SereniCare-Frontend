@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+import { map, Observable, tap } from 'rxjs';
 import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
-import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +18,7 @@ export class Clinics {
 
   public createClinic(value: object): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'createClinic', value, true).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         this._notificationServices.success(
           'success',
@@ -29,8 +29,8 @@ export class Clinics {
   }
   public getClinicDetailsById(id: string): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getClinicById/${id}`).pipe(
-      map(res => res.data),
-      tap((data) => {
+      map((res: any) => res.data),
+      tap((data: any) => {
         this._notificationServices.success(
           'Success',
           `${data?.clinicName} details fetched successfully`

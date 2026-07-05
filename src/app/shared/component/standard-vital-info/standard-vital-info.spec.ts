@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StandardVitalInfo } from './standard-vital-info';
+import { StandardVitalInfo } from '@shared/component/standard-vital-info/standard-vital-info';
 
 describe('StandardVitalInfo', () => {
   let component: StandardVitalInfo;

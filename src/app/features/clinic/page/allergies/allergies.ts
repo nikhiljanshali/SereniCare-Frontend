@@ -17,7 +17,8 @@ import { AllergiesServices } from '../../../../core/services/allergies';
 export class Allergies {
 
   allergiesForm!: FormGroup;
-  AllergiesList: IAllergiesData[] = [];
+  // AllergiesList: IAllergiesData[] = [];
+  AllergiesList: any[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
 
@@ -38,6 +39,7 @@ export class Allergies {
 
   initForm() {
     this.allergiesForm = this.fb.group({
+      groupname: ['', Validators.required],
       name: ['', Validators.required],
       code: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(8)]],
       description: [{ value: '', disabled: false }]
@@ -73,37 +75,44 @@ export class Allergies {
       return;
     }
     if (this.isEdit) {
-      this._allergies.updateAllergies(this.selectedId, this.allergiesForm.getRawValue())
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => {
-            this.allergiesForm.reset();
-            this.getAllAllergies();
-          },
-          error: (err) => {
-            console.error('Signup failed:', err);
-          }
-        });
+      this._allergies.updateAllergies(this.selectedId, this.allergiesForm.getRawValue()).pipe(take(1)).subscribe({
+        next: (data) => {
+          this.allergiesForm.reset();
+          this.getAllAllergies();
+        },
+        error: (err) => {
+          console.error('Signup failed:', err);
+        }
+      });
     } else {
-      this._allergies.createAllergies(this.allergiesForm.getRawValue())
-        .pipe(take(1))
-        .subscribe({
-          next: (data) => {
-            this.allergiesForm.reset();
-            this.getAllAllergies();
-          },
-          error: (err) => {
-            console.error('Signup failed:', err);
-          }
-        });
+      this._allergies.createAllergies(this.allergiesForm.getRawValue()).pipe(take(1)).subscribe({
+        next: (data) => {
+          this.allergiesForm.reset();
+          this.getAllAllergies();
+        },
+        error: (err) => {
+          console.error('Signup failed:', err);
+        }
+      });
     }
   }
-
+  public allergiesCount: number = 0;
   private getAllAllergies(): void {
     this._allergies.getAllAllergies().subscribe({
       next: (res: IClinicType) => {
         this.isEdit = false;
+        // this.AllergiesList = res.data ?? [];
         this.AllergiesList = res.data ?? [];
+        this.allergiesCount = res.data.length;
+        const groupedAllergies = this.AllergiesList.reduce((acc: any, allergy: any) => {
+          const group = allergy.groupname;
+          if (!acc[group]) {
+            acc[group] = [];
+          }
+          acc[group].push(allergy);
+          return acc;
+        }, {});
+        this.AllergiesList = groupedAllergies;
       },
       error: (err) => {
         console.error('Error fetching clinic types:', err);

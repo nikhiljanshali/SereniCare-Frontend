@@ -2,6 +2,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component } from '@angular/core';
 import { PatientService } from '../../../../core/services/patients';
 import { IPatients, IPatientsData } from '../../../../core/interface/basic.interface';
+import { LocationService } from '../../../../core/services/location-service';
 
 @Component({
   selector: 'app-patient-medical-history',
@@ -20,7 +21,8 @@ export class PatientMedicalHistory {
     { id: 3, title: 'Family History' },
     { id: 4, title: 'Allergies' },
     { id: 5, title: 'Risk Factors' },
-    { id: 6, title: 'Adverse Drug Reaction' }
+    { id: 6, title: 'Adverse Drug Reaction' },
+    { id: 7, title: 'Family History Lineage' }
   ];
 
   private patientId: string | null = null;
@@ -29,12 +31,12 @@ export class PatientMedicalHistory {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private _patientService: PatientService
+    private _patientService: PatientService,
+    public _locationService: LocationService,
   ) {
     this.route.paramMap.subscribe(params => {
       const id = params.get('patientId');
       this.patientId = params.get('patientId');
-      // console.log(this.patientId);
     });
   }
 
@@ -44,13 +46,22 @@ export class PatientMedicalHistory {
 
   private getPatientDetails(): void {
     this._patientService.getPatientById(this.patientId ?? '').subscribe((res: any) => {
-      this.patientDetails = res.data;
-      // console.log(this.patientDetails);
-    });
+      const patientDeteils = res.data[0]
+      this._locationService.getLocationName(Number(patientDeteils.country), Number(patientDeteils.state), Number(patientDeteils.city)).subscribe((location) => {
+        patientDeteils.country = location.country;
+        patientDeteils.state = location.state;
+        patientDeteils.city = location.city;
+      });
+      this.patientDetails = patientDeteils;
+    })
   }
 
   public changeTab(id: number) {
     this.activeTab = id;
+  }
+
+  public backToList(): void {
+    this.router.navigate(['/layout/patients/master/list'])
   }
 
 

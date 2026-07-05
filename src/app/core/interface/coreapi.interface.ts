@@ -1,4 +1,4 @@
-import { eMessageIcon, eMessageType, StatusFlags } from "../enum/common.enum";
+import { StatusFlags, eMessageType, eMessageIcon } from "../enum/common.enum";
 
 
 export interface APIResponse {

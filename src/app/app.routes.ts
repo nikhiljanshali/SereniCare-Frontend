@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { authenticaionGuard } from './core/guards/authenticaion-guard';
+import { authenticaionGuard } from './core/guards/authenticaion.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'layout', pathMatch: 'full' },

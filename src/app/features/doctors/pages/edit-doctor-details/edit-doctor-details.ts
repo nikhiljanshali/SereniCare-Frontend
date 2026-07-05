@@ -1,13 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { DoctorService } from '../../../../core/services/doctor';
-import { IPrimarySpeciality, IPrimarySpecialityData } from '../../../../core/interface/basic.interface';
-import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
 import { Roles } from '../../../../core/enum/common.enum';
+import { IPrimarySpecialityData, IPrimarySpeciality } from '../../../../core/interface/basic.interface';
 import { APIResponse } from '../../../../core/interface/coreapi.interface';
 import { CommonMethod } from '../../../../core/services/common-method';
-
+import { DoctorService } from '../../../../core/services/doctor';
+import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
 @Component({
   selector: 'app-edit-doctor-details',
   standalone: true,

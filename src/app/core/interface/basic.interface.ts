@@ -1,11 +1,24 @@
+import { Roles } from "../enum/common.enum";
+
+export interface CurrentUser {
+  id: string;
+  firstName: string;
+  lastName: string;
+  workEmail: string;
+  phone: number;
+  role: string;
+}
+
 export interface MenuItem {
   id: string;
   label: string;
-  icon?: string;
+  icon: string;
   route?: string;
-  badge?: any;
+  roles: Roles[];
+  badgeKey?: string;      // name of a component property to read a live count from (e.g. 'patientCount')
+  badgeStatic?: number;   // fixed badge value, when you don't need a live count
   badgeColor?: string;
-  roles?: string[];
+  appendParam?: string;   // name of a component property to append to `route` at render time (e.g. doctorId)
   children?: MenuItem[];
 }
 export interface StorageUserDetails {
@@ -141,9 +154,11 @@ export interface IAllergiesData {
   _id: string
   name: string
   code: string
+  groupname: string
   description: string
   __v: number
 }
+
 
 export interface ICity {
   id: number;
@@ -177,10 +192,10 @@ export interface CascadeSelection {
 export interface IDiseases {
   message: string
   status: boolean
-  data: IDiseasessData[]
+  data: IDiseasesData[]
 }
 
-export interface IDiseasessData {
+export interface IDiseasesData {
   _id: string
   name: string
   code: string
@@ -738,6 +753,7 @@ export interface IPatientsData {
   aadhaarNumber: string
   status: string
   primaryDoctorId: string
+  doctorDetails: any
   medicalHistories: MedicalHistory[]
   insuranceDetails: InsuranceDetail[]
   appointments: Appointment[]
@@ -745,6 +761,7 @@ export interface IPatientsData {
   createdAt: string
   updatedAt: string
   __v: number
+  UHIDSequenceNo: string
 }
 
 export interface Appointment {
@@ -777,18 +794,19 @@ export interface EmergencyContact {
 }
 
 export interface MedicalHistory {
-  lifestyle: Lifestyle
   _id: string
+  lifestyle: Lifestyle
   patientId: string
+  bloodGroup: string
   condition: string
   allergies: string[]
   medications: string[]
   surgeries: string[]
   familyHistory: string
   notes: string
-  __v: number
   createdAt: string
   updatedAt: string
+  __v: number
 }
 
 export interface Lifestyle {
@@ -1246,9 +1264,6 @@ export interface IVitalsDetails {
   __v: number
 }
 
-
-
-
 export interface IPastMedicalHistory {
   success: boolean
   data: IPastMedicalHistoryData
@@ -1283,16 +1298,208 @@ export interface IPastMedicalHistoryDetails {
 export interface DiagnosedBy {
   _id: string
   email: string
+  firstName: string
+  lastName: string
 }
 
 export interface Medication {
   medicineName: string
   dosage: string
+  dosageUnit: string
   frequency: string
   duration: string
+  durationUnit: string
   _id: string
 }
 
 export interface CreatedBy {
+  _id: string
+}
+
+
+
+export interface IPastSurgicalHistory {
+  success: boolean
+  data: IPastSurgicalHistoryData
+}
+
+export interface IPastSurgicalHistoryData {
+  message: string
+  data: IPastSurgicalHistoryDetails[]
+}
+
+export interface IPastSurgicalHistoryDetails {
+  _id: string
+  patientId: string
+  surgeryName: string
+  surgeryDate: string
+  surgeonName: SurgeonName
+  hospitalName: string
+  remarks: string
+  outcome: string
+  complications: string
+  complicationDetails: string
+  anesthesiaType: string
+  status: string
+  createdBy: CreatedBy
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface SurgeonName {
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export interface CreatedBy {
+  _id: string
+}
+
+
+export interface IFamilyHistory {
+  success: boolean
+  data: IFamilyHistoryDetails
+}
+
+export interface IFamilyHistoryDetails {
+  message: string
+  data: IFamilyHistoryDetailsData[]
+}
+
+export interface IFamilyHistoryDetailsData {
+  _id: string
+  patientId: string
+  noFamilyHistory: boolean
+  problem: string
+  father: boolean
+  mother: boolean
+  brother: boolean
+  sister: boolean
+  child: boolean
+  paternal: boolean
+  meternal: boolean
+  comments: string
+  createdBy: CreatedBy
+  createdAt: string
+  updatedAt: string
+  __v: number
+  updatedBy: UpdatedBy
+}
+
+export interface CreatedBy {
+  _id: string
+}
+
+export interface UpdatedBy {
+  _id: string
+}
+
+
+
+export interface IAllergiesHistory {
+  success: boolean
+  data: IAllergiesHistoryData
+}
+
+export interface IAllergiesHistoryData {
+  message: string
+  data: IAllergiesHistoryDetails[]
+}
+
+export interface IAllergiesHistoryDetails {
+  _id: string
+  patientId: string
+  noKnownAllergies: boolean
+  assesmentNotPossible: boolean
+  comments: string
+  allergies: string
+  evaluation: string
+  allergyType: string
+  allergyGroup: string
+  allergyReaction: string
+  certainty: string
+  serverity: string
+  createdBy: CreatedBy
+  createdAt: string
+  updatedAt: string
+  __v: number
+  updatedBy: UpdatedBy
+}
+
+export interface CreatedBy {
+  _id: string
+}
+
+export interface UpdatedBy {
+  _id: string
+}
+
+
+export interface IPatientRisk {
+  success: boolean
+  data: IPatientRiskData
+}
+
+export interface IPatientRiskData {
+  message: string
+  data: IPatientRiskDetails[]
+}
+
+export interface IPatientRiskDetails {
+  _id: string
+  patientId: string
+  riskCode: string
+  riskDescription: string
+  riskComment: string
+  reportedOn: string
+  createdBy: CreatedBy
+  createdAt: string
+  updatedAt: string
+  __v: number
+  updatedBy?: UpdatedBy
+}
+
+export interface CreatedBy {
+  _id: string
+}
+
+export interface UpdatedBy {
+  _id: string
+}
+
+export interface IAdverseDrugReaction {
+  success: boolean
+  data: IAdverseDrugReactionData
+}
+
+export interface IAdverseDrugReactionData {
+  message: string
+  data: IAdverseDrugReactionDetails[]
+}
+
+export interface IAdverseDrugReactionDetails {
+  _id: string
+  patientId: string
+  subject: string
+  medicineCode: string
+  medicineName: string
+  adrDetails: string
+  adrDate: string
+  ovrNumber: string
+  createdBy: CreatedBy
+  createdAt: string
+  updatedAt: string
+  __v: number
+  updatedBy: UpdatedBy
+}
+
+export interface CreatedBy {
+  _id: string
+}
+
+export interface UpdatedBy {
   _id: string
 }

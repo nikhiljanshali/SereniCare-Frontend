@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DoctorLayout } from './doctor-layout/doctor-layout';
 import { Roles } from '../../core/enum/common.enum';
-import { roleGuard } from '../../core/guards/role-guard-guard';
-import { DoctorRegistration } from './pages/doctor-registration/doctor-registration';
-import { DoctorList } from './pages/doctor-list/doctor-list';
-import { ClinicList } from './pages/clinic-list/clinic-list';
-import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
-import { AdminDoctorView } from './pages/admin-doctor-view/admin-doctor-view';
-import { DoctorAppointment } from './pages/doctor-appointment/doctor-appointment';
-import { AppointmentBooking } from './pages/appointment-booking/appointment-booking';
+import { DoctorLayout } from './doctor-layout/doctor-layout';
 import { AddClinic } from './pages/add-clinic/add-clinic';
+import { AdminDoctorView } from './pages/admin-doctor-view/admin-doctor-view';
+import { AppointmentBooking } from './pages/appointment-booking/appointment-booking';
+import { ClinicList } from './pages/clinic-list/clinic-list';
+import { DoctorAppointment } from './pages/doctor-appointment/doctor-appointment';
+import { DoctorList } from './pages/doctor-list/doctor-list';
+import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
+import { DoctorRegistration } from './pages/doctor-registration/doctor-registration';
+import { roleGuard } from '../../core/guards/role.guard';
 
 const routes: Routes = [
   {

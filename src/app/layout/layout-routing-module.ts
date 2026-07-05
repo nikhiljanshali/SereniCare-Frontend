@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { Layout } from './layout/layout';
-import { roleGuard } from '../core/guards/role-guard-guard';
+import { LayoutComponent } from './layout/layout';
 import { Roles } from '../core/enum/common.enum';
+import { roleGuard } from '../core/guards/role.guard';
+
 
 const routes: Routes = [
   {
     path: '',
-    component: Layout,
+    component: LayoutComponent,
     children: [
       // 🏥 Dashboard - Accessible by all authenticated users
       {

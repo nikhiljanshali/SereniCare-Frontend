@@ -1,9 +1,9 @@
 import { Component, HostListener } from '@angular/core';
+import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { UserDetails } from '../../../core/interface/authentication.interface';
 import { DataCommunication } from '../../../core/services/data-communication';
 import { StorageOperation } from '../../../core/services/storage-operation';
-import { Router } from '@angular/router';
-import { UserDetails } from '../../../core/interface/authentication.interface';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { DoctorProfile } from '../profile/profile';
 
 @Component({

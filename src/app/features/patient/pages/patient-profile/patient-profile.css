@@ -1,0 +1,30 @@
+.family-popover {
+    min-width: 180px;
+    font-size: 13px;
+}
+
+.family-popover div {
+    display        : flex;
+    justify-content: space-between;
+    padding        : 4px 0;
+    border-bottom  : 1px solid #f1f1f1;
+}
+
+.family-popover div:last-child {
+    border-bottom: none;
+}
+
+.family-popover strong {
+    color: #4b5563;
+}
+
+
+.appt-notes {
+    font-size         : 11.5px;
+    color             : var(--text-muted);
+    max-width         : 500px;
+    overflow          : hidden;
+    display           : -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}

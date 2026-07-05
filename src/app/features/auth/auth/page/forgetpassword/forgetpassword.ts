@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Authentication } from '../../../../../core/services/authentication';
 import { take } from 'rxjs';
+import { Authentication } from '../../../../../core/services/authentication';
 
 @Component({
   selector: 'app-forgetpassword',
@@ -45,13 +45,13 @@ export class Forgetpassword {
     this._authentication.sendOTP({ email: this.emailSentTo })
       .pipe(take(1))
       .subscribe({
-        next: (data) => {
+        next: (data: any) => {
           this.step = 2;
 
           // Start 5 minute timer
           this.startTimer();
         },
-        error: (err) => {
+        error: (err: any) => {
           console.error('Signup failed:', err);
         }
       });
@@ -80,7 +80,7 @@ export class Forgetpassword {
     this._authentication.verifyOtp({ email: this.emailSentTo, otp: otp })
       .pipe(take(1))
       .subscribe({
-        next: (data) => {
+        next: (data: any) => {
           console.log('OTP verified', data);
           if (data.success) {
             this.router.navigate(

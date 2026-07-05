@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { IClinicType, IClinicTypeData, IPrimarySpeciality, IPrimarySpecialityData } from '../../../../core/interface/basic.interface';
-import { ClinicTypeService } from '../../../../core/services/clinic-type';
-import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
-import { LocationService } from '../../../../core/services/location-service';
 import { Observable, Subject, take, takeUntil } from 'rxjs';
-import { DoctorService } from '../../../../core/services/doctor';
 import { Router } from '@angular/router';
 import { Roles } from '../../../../core/enum/common.enum';
-
+import { IPrimarySpecialityData, IClinicTypeData, IPrimarySpeciality, IClinicType } from '../../../../core/interface/basic.interface';
+import { ClinicTypeService } from '../../../../core/services/clinic-type';
+import { DoctorService } from '../../../../core/services/doctor';
+import { LocationService } from '../../../../core/services/location-service';
+import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
 
 @Component({
   selector: 'app-doctor-registration',
@@ -189,7 +188,7 @@ export class DoctorRegistration {
       next: (res: IClinicType) => {
         this.clinicTypeList = res.data ?? [];
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching clinic types:', err);
         this.clinicTypeList = [];
       }

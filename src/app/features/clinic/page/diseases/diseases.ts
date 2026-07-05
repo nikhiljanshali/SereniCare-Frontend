@@ -3,10 +3,9 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { take } from 'rxjs';
-import { IAllergiesData, IClinicType, IDiseases, IDiseasessData } from '../../../../core/interface/basic.interface';
-import { NotificationServices } from '../../../../core/services/notification-services';
-import { AllergiesServices } from '../../../../core/services/allergies';
+import { IDiseasesData, IDiseases, IAllergiesData } from '../../../../core/interface/basic.interface';
 import { DiseasesService } from '../../../../core/services/diseases';
+import { NotificationServices } from '../../../../core/services/notification-services';
 
 @Component({
   selector: 'app-diseases',
@@ -17,7 +16,7 @@ import { DiseasesService } from '../../../../core/services/diseases';
 })
 export class Diseases {
   diseasesForm!: FormGroup;
-  DiseasesList: IDiseasessData[] = [];
+  DiseasesList: IDiseasesData[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
 
@@ -85,11 +84,11 @@ export class Diseases {
       this._diseasesService.updateDiseases(this.selectedId, this.diseasesForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.diseasesForm.reset();
             this.getAllDiseases();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Signup failed:', err);
           }
         });
@@ -97,11 +96,11 @@ export class Diseases {
       this._diseasesService.createDiseases(this.diseasesForm.getRawValue())
         .pipe(take(1))
         .subscribe({
-          next: (data) => {
+          next: (data: any) => {
             this.diseasesForm.reset();
             this.getAllDiseases();
           },
-          error: (err) => {
+          error: (err: any) => {
             console.error('Signup failed:', err);
           }
         });
@@ -122,13 +121,13 @@ export class Diseases {
     });
   }
 
-  public patchDataToForm(ctypes: IAllergiesData): void {
+  public patchDataToForm(ctypes: any): void {
     this.isEdit = true;
     this.selectedId = ctypes._id;
     this.diseasesForm.patchValue(ctypes);
   }
 
-  public deleteRecord(ctypes: IAllergiesData): void {
+  public deleteRecord(ctypes: any): void {
     this.selectedId = ctypes._id;
     this._notificationServices.confirm('Delete', 'Are you sure you want to delete this record?').then((result) => {
       if (result.isConfirmed) {

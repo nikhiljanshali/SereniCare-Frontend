@@ -11,7 +11,8 @@ export class PrimarySpecialityService {
   private baseUrl: string = '';
   constructor(
     private _coreApiService: CoreApiService,
-    private _notificationServices: NotificationServices) {
+    private _notificationServices: NotificationServices
+  ) {
     this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.primarySpeciality + '/';
   }
 
@@ -32,7 +33,7 @@ export class PrimarySpecialityService {
 
   public getPrimarySpecialityById(id: string, showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getSpecialityById/${id}`).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         if (showNotificaion) {
           this._notificationServices.success(
@@ -47,7 +48,7 @@ export class PrimarySpecialityService {
 
   public createSpeciality(value: object): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'createSpeciality', value, true).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         this._notificationServices.success(
           'success',

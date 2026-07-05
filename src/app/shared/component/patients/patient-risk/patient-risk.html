@@ -1,0 +1,126 @@
+@if (!hideList) {
+<div class="file-viewer-toolbar">
+    <i class="bi bi-file-earmark-medical-fill" style="font-size:18px;color:var(--rose);"></i>
+    <span class="file-viewer-name">
+        Patient's Risk List
+    </span>
+    <div class="file-viewer-actions">
+        @if(!showView){
+        <div class="fv-btn" title="Save" (click)="savePatientRisk()"><i class="bi bi-floppy-fill"></i></div>
+        }
+        @if (showView) {
+        <div class="fv-btn" title="Form" (click)="toggleView()">
+            <i class="bi bi-code-square"></i>
+        </div>
+        } @else {
+        <div class="fv-btn" title="List" (click)="toggleView()">
+            <i class="bi bi-list"></i>
+        </div>
+        }
+        <div class="fv-btn" title="Refresh" (click)="refresh()"><i class="bi bi-arrow-clockwise"></i></div>
+        <!-- <div class="fv-btn" title="Download"><i class="bi bi-download"></i></div>
+        <div class="fv-btn" title="Print"><i class="bi bi-printer"></i></div>
+        <div class="fv-btn" title="Share"><i class="bi bi-share"></i></div> -->
+    </div>
+</div>
+}
+@if (!hideList && showView) {
+<div class="wizard-wrap border-0 pt-3">
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Comment</th>
+                <th>Reported On</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(patientRiskList.length>0){
+            @for (risklst of patientRiskList; track risklst._id) {
+            <tr>
+                <td>
+                    <div style="font-size:14px;color:var(--text-muted);" class="appt-notes">{{risklst?.riskDescription}}
+                    </div>
+                </td>
+                <td>
+                    <div style="font-size:14px;color:var(--text-muted);" class="appt-notes">{{risklst?.riskComment}}
+                    </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{risklst?.reportedOn | date : 'dd/MM/yyyy'}} </div>
+                </td>
+                <td>
+                    <button class="action-btn" [title]="'Edit'" (click)="editPatientRisk(risklst)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Delete'" (click)="deletePatientRisk(risklst)">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+            }
+            } @else {
+            <tr style="border:none;">
+                <td colspan="11" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
+                    No Data Found!!
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+@if (hideList) {
+<div class="modal-header">
+    <h5 class="modal-title">Patient Allergies History </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()"></button>
+</div>
+}
+<div class="modal-body p-0">
+    <div class="wizard-wrap border-0">
+        <form [formGroup]="patientRiskForm">
+            <div class="wizard-body">
+                <div class="wizard-panel">
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Risk Code <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="riskCode" (change)="onRiskChange()">
+                                <option [ngValue]="null">Select Risk</option>
+                                @for (risk of riskList; track risk) {
+                                <option [ngValue]="risk">
+                                    [{{ risk.code }}] - {{ risk.name }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Risk Description <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Enter Risk Description" readonly
+                                formControlName="riskDescription">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Reported On <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="date" placeholder="Enter Reported On"
+                                formControlName="reportedOn">
+                        </div>
+                    </div>
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Comments</label>
+                            <input class="wz-input" type="text" placeholder="Enter Comments"
+                                formControlName="riskComment">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (hideList) {
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="savePatientRisk()"> Save </button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+</div>
+}
+}

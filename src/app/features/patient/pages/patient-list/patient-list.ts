@@ -11,8 +11,7 @@ import { UserDetails } from '../../../../core/interface/authentication.interface
 import { Roles } from '../../../../core/enum/common.enum';
 import { ModalService } from '../../../../core/services/modal-service';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
-import { VitalDetails } from '../../../doctors/pages/vital-details/vital-details';
-import { PatientVitalHistory } from '../../../../shared/component/patient-vital-history/patient-vital-history';
+import { PatientVitalHistory } from '../../../../shared/component/patients/patient-vital-history/patient-vital-history';
 
 @Component({
   selector: 'app-patient-list',
@@ -120,6 +119,13 @@ export class PatientList {
     this.paginatedPatientList = this.patientsList.slice(startIndex, endIndex);
   }
 
+  public getTotalCoverageAmount(patient: any): number {
+    return patient.insuranceDetails.reduce(
+      (sum: number, item: any) => sum + item.coverageAmount,
+      0
+    );
+  }
+
   goToPage(page: number): void {
     if (page < 1 || page > this.totalPages) return;
     this.currentPage = page;
@@ -145,7 +151,7 @@ export class PatientList {
     this.expandedAppointment = null;
   }
 
-  public togglePrescriptionRow(id: string) {
+  public toggleAppointmentRow(id: string) {
     this.expandedAppointment = this.expandedAppointment === id ? null : id;
     this.expandedInsurance = null;
   }
@@ -253,7 +259,12 @@ export class PatientList {
   }
 
   public redirectToMedicalHistory(patient: IPatientsData): void {
-    this.router.navigate(['layout/patients/master/details/'+`${patient._id}`]);
+    this.router.navigate(['layout/patients/master/details/' + `${patient._id}`]);
+  }
+
+
+  public redirectToExaminationDetails(patient: IPatientsData): void {
+    this.router.navigate(['layout/patients/master/examination/' + `${patient._id}`]);
   }
 
 }

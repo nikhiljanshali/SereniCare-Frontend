@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { slideInAnimation } from '../../../shared/methods/route-animation';
 import { RouterOutlet } from '@angular/router';
+import { slideInAnimation } from '../../../shared/methods/route-animation';
 
 @Component({
   selector: 'app-patient-layout',

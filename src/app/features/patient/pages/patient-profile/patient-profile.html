@@ -1,0 +1,641 @@
+<div id="page-emr-workspace" class="page-section active">
+    <!-- Glass Medical Profile Card Widget Header -->
+    <div class="emr-glass-header">
+        <div class="emr-gh-info">
+            <!-- <div class="emr-panel-avatar">
+                {{patientDetails?.firstName?.charAt(0)}}{{patientDetails?.lastName?.charAt(0)}}
+            </div> -->
+            <div class="emr-gh-block">
+                <div class="emr-gh-lbl">Patient Identity</div>
+                <div class="emr-gh-val" style="font-size:18px;">
+                    {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}
+                    <span class="emr-badge-vip">{{patientDetails?.patientCode}}</span>
+                </div>
+            </div>
+            <div class="emr-gh-block">
+                <div class="emr-gh-lbl">UHID Sequence</div>
+                <div class="emr-gh-val">{{patientDetails?.UHIDSequenceNo}}</div>
+            </div>
+            <div class="emr-gh-block">
+                <div class="emr-gh-lbl">Demographics / Age</div>
+                <div class="emr-gh-val">
+                    <span>{{ patientDetails?.age }} Yrs</span>
+                    <span class="dot">|</span>
+                    <span>{{ patientDetails?.gender }}</span>
+                    <span class="dot">|</span>
+                    <span>DOB: {{ patientDetails?.dateOfBirth | date:'dd/MM/yyyy' }}</span>
+                </div>
+            </div>
+            <div class="emr-gh-block">
+                <div class="emr-gh-lbl">Blood Configuration</div>
+                <div class="emr-gh-val" style="color:var(--mint);">
+                    <i class="bi bi-droplet-fill"></i>
+                    {{ patientDetails?.medicalHistories?.[0]?.bloodGroup }}
+                </div>
+            </div>
+            <div class="emr-gh-block">
+                <div class="emr-gh-lbl">
+                    Coverage Amount
+                </div>
+                <div class="emr-gh-val">
+                    <div class="emr-gh-val">
+                        <i class="bi bi-info-circle-fill" style="color:var(--amber);"></i> {{ totalCoverageAmount |
+                        number:'1.2-2' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-sm btn-outline-primary" style="color:#fff; border-color:rgba(255,255,255,0.4)"><i
+                    class="bi bi-qr-code"></i> Generate Code
+            </button>
+        </div>
+    </div>
+    <div class="emr-widgets-row">
+        <div class="emr-widget-box">
+            <div class="emr-w-ico" style="background:var(--teal-light);color:var(--teal);"><i
+                    class="bi bi-calendar2-heart"></i></div>
+            <div>
+                <div class="emr-w-lbl">Total Visits</div>
+                <div class="emr-w-val">24 Active</div>
+            </div>
+        </div>
+        <div class="emr-widget-box">
+            <div class="emr-w-ico" style="background:var(--rose-light);color:var(--rose);"><i
+                    class="bi bi-heart-pulse"></i></div>
+            <div>
+                <div class="emr-w-lbl">Active Problems</div>
+                <div class="emr-w-val">3 Documented</div>
+            </div>
+        </div>
+        <div class="emr-widget-box">
+            <div class="emr-w-ico" style="background:var(--indigo-light);color:var(--indigo);"><i
+                    class="bi bi-capsule"></i></div>
+            <div>
+                <div class="emr-w-lbl">Medications</div>
+                <div class="emr-w-val">3 Continuous</div>
+            </div>
+        </div>
+        <div class="emr-widget-box">
+            <div class="emr-w-ico" style="background:var(--rose-light);color:var(--rose);"><i
+                    class="bi bi-exclamation-octagon"></i></div>
+            <div>
+                <div class="emr-w-lbl">Allergies</div>
+                <div class="emr-w-val" style="color:var(--rose);">2 Critical</div>
+            </div>
+        </div>
+        <div class="emr-widget-box">
+            <div class="emr-w-ico" style="background:var(--sky-light);color:var(--sky);"><i
+                    class="bi bi-file-earmark-ruled"></i></div>
+            <div>
+                <div class="emr-w-lbl">Outstanding Labs</div>
+                <div class="emr-w-val">1 Pending</div>
+            </div>
+        </div>
+        <div class="emr-widget-box">
+            <div class="emr-w-ico" style="background:var(--amber-light);color:var(--amber);"><i
+                    class="bi bi-receipt"></i></div>
+            <div>
+                <div class="emr-w-lbl">Pending Invoice</div>
+                <div class="emr-w-val">$180.00 Due</div>
+            </div>
+        </div>
+    </div>
+    <!-- Main Workspace Split Grid Layout -->
+    <div class="emr-layout">
+        <!-- Sticky Patient Identity Context bar (Left Pillar Layout) -->
+        <div class="emr-sticky-sidebar">
+            <div class="emr-avatar-ctr">
+                <div class="emr-big-avatar">
+                    {{patientDetails?.firstName?.charAt(0)}}{{patientDetails?.lastName?.charAt(0)}}
+                </div>
+                <div class="emr-side-name">{{patientDetails?.firstName}} {{patientDetails?.lastName}}</div>
+                <div class="emr-side-uhid">Patient ID: #{{patientDetails?.patientCode}}</div>
+            </div>
+            <div class="emr-vitals-pill-box">
+                <div class="emr-vitals-p">
+                    <div class="emr-vitals-p-val">{{patientVitalDetails?.bloodPressure}}</div>
+                    <div class="emr-vitals-p-lbl">{{patientVitalDetails?.bloodPressureUnit}}</div>
+                </div>
+                <div class="emr-vitals-p">
+                    <div class="emr-vitals-p-val">{{patientVitalDetails?.respiratoryRate}}
+                        {{patientVitalDetails?.respiratoryRateUnit}}</div>
+                    <div class="emr-vitals-p-lbl">Pulse rate</div>
+                </div>
+                <div class="emr-vitals-p">
+                    <div class="emr-vitals-p-val">{{patientVitalDetails?.temperature}}
+                        {{patientVitalDetails?.temperatureUnit}}</div>
+                    <div class="emr-vitals-p-lbl">Temperature</div>
+                </div>
+                <div class="emr-vitals-p">
+                    <div class="emr-vitals-p-val">{{patientVitalDetails?.height}} {{patientVitalDetails?.heightUnit}}
+                    </div>
+                    <div class="emr-vitals-p-lbl">Stature</div>
+                </div>
+                <div class="emr-vitals-p">
+                    <div class="emr-vitals-p-val">{{patientVitalDetails?.weight}} {{patientVitalDetails?.weightUnit}}
+                    </div>
+                    <div class="emr-vitals-p-lbl">Weight</div>
+                </div>
+                <div class="emr-vitals-p">
+                    <div class="emr-vitals-p-val">{{patientVitalDetails?.bmi}} {{patientVitalDetails?.bmiUnit}}</div>
+                    <div class="emr-vitals-p-lbl">Calculated BMI</div>
+                </div>
+            </div>
+            <div class="emr-meta-list">
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Attending Physician:</span>
+                    <span class="emr-meta-val">Dr. {{ patientDetails?.doctorDetails?.firstName }} {{
+                        patientDetails?.doctorDetails?.lastName }}</span>
+                </div>
+                <div class="dpd-divider"></div>
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Emergency Point:</span>
+                </div>
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Person Name:</span>
+                    <span class="emr-meta-val">{{patientDetails?.emergencyContact?.name}}</span>
+                </div>
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Relation:</span>
+                    <span class="emr-meta-val">{{patientDetails?.emergencyContact?.relation}}</span>
+                </div>
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Phone:</span>
+                    <span class="emr-meta-val">{{patientDetails?.emergencyContact?.phone}}</span>
+                </div>
+                <div class="dpd-divider"></div>
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Primary Address:</span>
+                    <span class="emr-meta-val">{{patientDetails?.address}}, {{patientDetails?.city}},
+                        {{patientDetails?.state}}, {{patientDetails?.country}}</span>
+                </div>
+                <div class="emr-meta-row">
+                    <span class="emr-meta-lbl">Last Interaction:</span>
+                    <span class="emr-meta-val">Yesterday (FollowUp)</span>
+                </div>
+            </div>
+            <!-- <div style="display:flex; flex-direction:column; gap:8px; margin-top:20px;">
+                <button class="btn btn-primary" style="justify-content:center;">
+                    <i class="bi bi-pencil-square"></i>
+                    Modify Demographics
+                </button>
+                <button class="btn btn-outline-default" style="justify-content:center;">
+                    <i class="bi bi-printer"></i>
+                    Output Paper Chart
+                </button>
+            </div> -->
+        </div>
+        <div>
+            <!-- Tab Navigation Context -->
+            <div class="emr-tabs">
+                <button class="emr-tab-btn" [class.active]="activeTab === 'history'" (click)="changeTab('history')">
+                    Medical Histories
+                </button>
+                <!-- <button class="emr-tab-btn" [class.active]="activeTab === 'overview'" (click)="changeTab('overview')">
+                    Overview Dashboard
+                </button>
+                <button class="emr-tab-btn" [class.active]="activeTab === 'timeline'" (click)="changeTab('timeline')">
+                    Longitudinal Clinical Timeline
+                </button> -->
+            </div>
+            @if (activeTab === 'history') {
+            <!-- TAB CONTENT BLOCK 1: CLINICAL COMPREHENSIVE HISTORIES PANEL -->
+            <div id="emr-tab-history" class="emr-sub-panel-view" style="display:block;">
+                <div class="medical-history-grid">
+                    <!-- Past Medical History (PMH) Card Element -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title">
+                                <i class="bi bi-heart-pulse-fill"></i> Medical History
+                            </span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (pastMedicalHistory of pastMedicalList; track pastMedicalHistory._id){
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        {{pastMedicalHistory.problem}}
+                                    </span>
+                                    <span class="med-rec-sub">
+                                        Onset
+                                        <strong>
+                                            {{pastMedicalHistory.diagnosedDate | date:'dd/MM/yyyy'}}
+                                        </strong>
+
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn"
+                                    (click)="deleteRecord(pastMedicalHistory, 'pastMedical')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #pastMedicalHistoryPopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>Outcome:</strong> {{ item.outcome}}</div>
+                                    <div><strong>Remark:</strong></div>
+                                    <div>{{ item.remark }}</div>
+                                    <div><strong>Severity:</strong> {{ item.severity }}</div>
+                                    <div><strong>Ongoing:</strong> {{ item.ongoing ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Status:</strong> {{ item.status }}</div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openMedicalHistoryPopup()">+ Append Medical
+                                History</button>
+                        </div>
+                    </div>
+
+                    <!-- Family History Card Element -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-diagram-3"></i> Family History</span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (familyHisoty of familyHisotyList; track familyHisoty._id) {
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        {{familyHisoty.problem}}
+                                    </span>
+                                    <span class="med-rec-sub d-flex align-items-center gap-1">
+                                        <strong class="appt-notes">{{familyHisoty?.comments}}
+                                        </strong>
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn" (click)="deleteRecord(familyHisoty, 'familyHistory')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #familyHistoryPopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>Father:</strong> {{ item.father ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Mother:</strong> {{ item.mother ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Brother:</strong> {{ item.brother ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Sister:</strong> {{ item.sister ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Child:</strong> {{ item.child ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Paternal:</strong> {{ item.paternal ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Maternal:</strong> {{ item.maternal ? 'Yes' : 'No' }}</div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openFamilyHistory()">+ Append Family History</button>
+                        </div>
+                    </div>
+
+                    <!-- Lineage & Family History Card Element -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-diagram-3"></i> Family History Lineage</span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (familyHisoty of familyHistoryLineageList; track familyHisoty._id) {
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        Maternal Lineage ({{familyHisoty.relationship}})
+                                    </span>
+                                    <span class="med-rec-sub d-flex align-items-center gap-1">
+                                        <strong class="appt-notes">{{familyHisoty?.comments}}
+                                        </strong>
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn" (click)="deleteRecord(familyHisoty, 'familyHistory')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #familyHistoryLineagePopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>Outcome:</strong> {{ item.outcome}}</div>
+                                    <div><strong>Remark:</strong></div>
+                                    <div>{{ item.remark }}</div>
+                                    <div><strong>Severity:</strong> {{ item.severity }}</div>
+                                    <div><strong>Ongoing:</strong> {{ item.ongoing ? 'Yes' : 'No' }}</div>
+                                    <div><strong>Status:</strong> {{ item.status }}</div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openFamilyHistoryLineage()">+ Append Family Genetic
+                                Record</button>
+                        </div>
+                    </div>
+
+                    <!-- Surgical History Card Element -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-scissors"></i> Surgical History</span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (pastSurgicalHistory of pastSurgicalList; track pastSurgicalHistory._id) {
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        {{pastSurgicalHistory.surgeryName}}
+                                    </span>
+                                    <span class="med-rec-sub">
+                                        Executed
+                                        <strong>
+                                            {{pastSurgicalHistory.surgeryDate |
+                                            date:'yyyy'}}
+                                        </strong>
+
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn"
+                                    (click)="deleteRecord(pastSurgicalHistory, 'pastSurgical')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #pastSurgicalHistoryPopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>Surgeon Name:</strong> {{ item.surgeonName?.firstName }} {{
+                                        item.surgeonName?.lastName }}</div>
+                                    <div><strong>Surger yDate:</strong> {{ item.surgeryDate | date:'dd/MM/yyyy' }}</div>
+                                    <div><strong>Hospital Name:</strong> {{ item.hospitalName }}</div>
+                                    <div><strong>Remarks:</strong></div>
+                                    <div>{{ item.remarks }}</div>
+                                    <div><strong>Status:</strong> {{ item.status }}</div>
+                                    <div><strong>Complications:</strong></div>
+                                    <div>{{ item.complications }}</div>
+                                    <div><strong>Details:</strong></div>
+                                    <div>{{ item.complicationDetails }}</div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openSurgicalHistory()">+ Append Surgical History
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Patient Allergies Element -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title" style="color:var(--rose);">
+                                <i class="bi bi-virus"></i> Allergies History / Critical Hypersensitivities
+                            </span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (allergiesHistory of patientAllergiesList; track allergiesHistory._id) {
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        {{allergiesHistory?.allergies}}
+                                    </span>
+                                    <span class="med-rec-sub">
+                                        <strong>
+                                            {{allergiesHistory?.allergyGroup}} —
+                                            {{allergiesHistory?.allergyReaction}}
+                                        </strong>
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn"
+                                    (click)="deleteRecord(allergiesHistory, 'pastAllergies')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #pastAllergiesHistoryPopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>AllergyGroup:</strong> {{ item.allergyGroup }} </div>
+                                    <div><strong>Allergy Reaction:</strong> {{ item.allergyReaction }}</div>
+                                    <div><strong>Allergy Type:</strong> {{ item.allergyType }}</div>
+                                    <div><strong>Certainty:</strong> {{ item.certainty }}</div>
+                                    <div><strong>Evaluation:</strong> {{ item.evaluation }}</div>
+                                    <div><strong>Serverity:</strong> {{ item.serverity }}</div>
+                                    <div><strong>Comments:</strong></div>
+                                    <div>{{ item.comments }}</div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openAllergiesHistory()">+ Flag New Allergen
+                                Variant</button>
+                        </div>
+                    </div>
+
+                    <!-- Risk Element -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title">
+                                <i class="bi bi-virus"></i> Risk History
+                            </span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (riskDetails of patientRiskList; track riskDetails._id) {
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        {{riskDetails?.riskDescription}}
+                                    </span>
+                                    <span class="med-rec-sub">
+                                        <strong>
+                                            {{riskDetails?.reportedOn | date:'dd/MM/yyyy'}}
+                                        </strong>
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn" (click)="deleteRecord(riskDetails, 'pastRisk')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #pastRiskFactorPopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>Code:</strong> {{ item.riskCode }} </div>
+                                    <div><strong>Comment:</strong>
+                                    </div>
+                                    <div>
+                                        {{ item.riskComment }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openRiskFactor()">+ Append Risk Factor</button>
+                        </div>
+                    </div>
+
+                    <!-- Adverse Drug Reaction -->
+                    <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title">
+                                <i class="bi bi-virus"></i> Adverse Drug Reaction
+                            </span>
+                        </div>
+                        <div class="med-card-body">
+                            @for (drugRaction of patientDrugReactionList; track drugRaction._id) {
+                            <div class="med-record-entry">
+                                <div class="med-record-info">
+                                    <span class="med-rec-main">
+                                        {{drugRaction?.adrDetails}}
+                                    </span>
+                                    <span class="med-rec-sub">
+                                        <strong>
+                                            {{drugRaction?.adrDate | date:'dd/MM/yyyy'}}
+                                        </strong>
+                                        <i class="bi bi-info-circle-fill" style="color: var(--sky);">
+                                        </i>
+                                    </span>
+                                </div>
+                                <button class="med-action-btn"
+                                    (click)="deleteRecord(drugRaction, 'adverseDrugReaction')">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            <ng-template #pastRiskFactorPopover let-item>
+                                <div class="family-popover">
+                                    <div><strong>Subject:</strong> {{ item.subject }} </div>
+                                    <div><strong>OVR No.:</strong></div>
+                                    <div>{{ item.ovrNumber }} </div>
+                                    <div><strong>Comment:</strong>
+                                    </div>
+                                    <div>
+                                        {{ item.medicineName }}
+                                    </div>
+                                </div>
+                            </ng-template>
+                            }
+                            <button class="med-btn-add" (click)="openAdverseDrugRaction()">+ Append Adverse Drug
+                                Reaction</button>
+                        </div>
+                    </div>
+
+                    <!-- Active Medication Chart Card Element -->
+                    <!-- <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-capsule-pill"></i> Contemporary
+                                Pharmacotherapy</span>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-record-entry"><span class="med-rec-main">Metformin HCl</span><span
+                                    class="med-rec-sub">500 mg — Oral Route Bis Die (BD)</span></div>
+                            <div class="med-record-entry"><span class="med-rec-main">Amlodipine Besylate</span><span
+                                    class="med-rec-sub">5 mg — Oral Route Omni Die (OD)</span></div>
+                            <div class="med-record-entry"><span class="med-rec-main">Cholecalciferol (Vitamin
+                                    D3)</span><span class="med-rec-sub">60K Units Weekly Induction</span></div>
+                            <button class="med-btn-add">+ Authorize & Add Medication Entry</button>
+                        </div>
+                    </div> -->
+
+                    <!-- Hypersensitivity & Allergies Card Element -->
+                    <!-- <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title" style="color:var(--rose);"><i
+                                    class="bi bi-exclamation-octagon-fill"></i> Critical Hypersensitivities</span>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-record-entry"><span class="med-rec-main">Penicillin G Compound</span><span
+                                    class="med-badge-alert">Anaphylaxis Risk</span></div>
+                            <div class="med-record-entry"><span class="med-rec-main">Arachis Hypogaea
+                                    (Peanuts)</span><span class="med-badge-alert"
+                                    style="background:var(--amber-light); color:var(--amber);">Moderate Variant</span>
+                            </div>
+                            <button class="med-btn-add" style="border-color:var(--rose); color:var(--rose);">+ Flag New
+                                Allergen Variant</button>
+                        </div>
+                    </div> -->
+
+
+
+                    <!-- Lifestyle / Social Profile Card Element -->
+                    <!-- <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-person-vcard-fill"></i> Social & Lifestyle
+                                Profiling</span>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-record-entry"><span class="med-rec-main">Tobacco Nicotine
+                                    Exposure</span><span class="med-rec-sub">Denies Current Intake (Non-Smoker)</span>
+                            </div>
+                            <div class="med-record-entry"><span class="med-rec-main">Ethanol Alcohol
+                                    Consumption</span><span class="med-rec-sub">Socially Occasional Intake</span></div>
+                            <div class="med-record-entry"><span class="med-rec-main">Physical Activity
+                                    Layout</span><span class="med-rec-sub">Cardio Routines 3x Every Week</span></div>
+                            <button class="med-btn-add">+ Chart Lifestyle & Social Factors</button>
+                        </div>
+                    </div> -->
+
+                    <!-- Psychiatric Profile Component -->
+                    <!-- <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-brain"></i> Neuropsychiatric History</span>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-record-entry"><span class="med-rec-main">Generalized Anxiety
+                                    Profile</span><span class="med-rec-sub">Managed via Cognitive Therapy Modules</span>
+                            </div>
+                            <button class="med-btn-add">+ Register Neuropsychiatric Entry</button>
+                        </div>
+                    </div> -->
+
+                    <!-- Occupational Exposure Profiles Component -->
+                    <!-- <div class="med-card">
+                        <div class="med-card-hdr">
+                            <span class="med-card-title"><i class="bi bi-building-gear"></i> Environmental &
+                                Occupational Factors</span>
+                        </div>
+                        <div class="med-card-body">
+                            <div class="med-record-entry"><span class="med-rec-main">Senior Chemical Site
+                                    Supervisor</span><span class="med-rec-sub">Monitored for Organic Particulate
+                                    Hazards</span></div>
+                            <button class="med-btn-add">+ Document Professional Hazards</button>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+            }
+            @if (activeTab === 'overview') {
+            <!-- TAB CONTENT BLOCK 3: GENERAL CHART OVERVIEW -->
+            <div id="emr-tab-overview" class="emr-sub-panel-view">
+                <div class="med-card" style="padding:20px; text-align:center;">
+                    <p style="color:var(--text-muted); font-weight:600;"><i class="bi bi-clipboard-pulse"
+                            style="font-size:24px; color:var(--teal);"></i><br><br>Consolidated EMR Summary interface
+                        online. Select alternate tabs above to navigate specific records blocks.</p>
+                </div>
+            </div>
+            }
+            @if (activeTab === 'timeline') {
+            <div id="emr-tab-timeline" class="emr-sub-panel-view">
+                <div class="timeline-ctr">
+                    <div class="tl-year-hdr">2026 Grid Sequence</div>
+
+                    <div class="tl-block">
+                        <div class="tl-dot" style="background:var(--teal);"></div>
+                        <div class="tl-card">
+                            <div class="tl-hdr">
+                                <span class="tl-type">Outpatient Diagnostics Evaluation</span>
+                                <span class="tl-date">June 24, 2026</span>
+                            </div>
+                            <div class="tl-body">Comprehensive Metabolic Panel & Complete Blood Count Screen</div>
+                            <div class="tl-details">Elevated Fasting Plasma Glucose recorded. HbA1c adjusted upward to
+                                $6.8\%$. Therapeutic modifications to lifestyle protocols
+                                suggested.</div>
+                        </div>
+                    </div>
+
+                    <div class="tl-block">
+                        <div class="tl-dot" style="background:var(--indigo);"></div>
+                        <div class="tl-card">
+                            <div class="tl-hdr">
+                                <span class="tl-type">Cardio Screening Consultation</span>
+                                <span class="tl-date">January 12, 2026</span>
+                            </div>
+                            <div class="tl-body">Post-CABG Follow-up Assessment & Echocardiography Run</div>
+                            <div class="tl-details">Left Ventricular Ejection Fraction (LVEF) quantified steady.No fresh
+                                indicators of secondary coronary ischemia seen during dynamic exercise
+                                stress sequences.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</div>

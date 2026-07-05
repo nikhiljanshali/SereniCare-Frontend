@@ -1,18 +1,14 @@
 import { Component, viewChild } from '@angular/core';
-import { LocationService } from '../../../../core/services/location-service';
 import { Router } from '@angular/router';
-import { PatientService } from '../../../../core/services/patients';
-import { forkJoin } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
-import { IPatientsData, IPatients, IAppointmentLsit } from '../../../../core/interface/basic.interface';
-import { StorageOperation } from '../../../../core/services/storage-operation';
-import { UserDetails } from '../../../../core/interface/authentication.interface';
 import { Roles } from '../../../../core/enum/common.enum';
+import { UserDetails } from '../../../../core/interface/authentication.interface';
+import { IPatientsData, IAppointmentLsit } from '../../../../core/interface/basic.interface';
 import { AppointmentBookService } from '../../../../core/services/appointment-book';
+import { LocationService } from '../../../../core/services/location-service';
 import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
-
+import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
 @Component({
   selector: 'app-appointment-list',
   standalone: false,

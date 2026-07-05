@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClinicList } from './clinic-list';
+import { ClinicList } from '@features/doctors/pages/clinic-list/clinic-list';
 
 describe('ClinicList', () => {
   let component: ClinicList;

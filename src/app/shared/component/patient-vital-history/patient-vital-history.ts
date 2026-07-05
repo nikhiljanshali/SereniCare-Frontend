@@ -5,7 +5,6 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ModalService } from '../../../core/services/modal-service';
 import { DoctorService } from '../../../core/services/doctor';
-
 @Component({
   selector: 'app-patient-vital-history',
   standalone: true,
@@ -14,7 +13,6 @@ import { DoctorService } from '../../../core/services/doctor';
   styleUrl: './patient-vital-history.css',
 })
 export class PatientVitalHistory {
-
   // patientDetails: IPatientsData[] = [];
   public patientDetails: any | null = null;
   public vitalList: IVitalsDetails[] = [];
@@ -43,5 +41,4 @@ export class PatientVitalHistory {
   public closeModePopup(): void {
     this._modalService.closeComponentModal();
   }
-
 }

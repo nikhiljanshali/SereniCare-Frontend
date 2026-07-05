@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { BloodGroupService } from '../../../../core/services/blood-group';
-import { IBloodGroupData, IDoctors, ILimitedDocotorsData, IPrimaryConditionData } from '../../../../core/interface/basic.interface';
-import { PrimaryConditionService } from '../../../../core/services/primary-condition';
-import { DoctorService } from '../../../../core/services/doctor';
-import { PatientService } from '../../../../core/services/patients';
 import { Observable, retry, Subject, takeUntil } from 'rxjs';
-import { LocationService } from '../../../../core/services/location-service';
 import { take } from 'rxjs';
 import { Router } from '@angular/router';
 import { Roles } from '../../../../core/enum/common.enum';
-import { StorageOperation } from '../../../../core/services/storage-operation';
+import { IBloodGroupData, IPrimaryConditionData, ILimitedDocotorsData, IDoctors } from '../../../../core/interface/basic.interface';
+import { BloodGroupService } from '../../../../core/services/blood-group';
 import { CommonMethod } from '../../../../core/services/common-method';
+import { DoctorService } from '../../../../core/services/doctor';
+import { LocationService } from '../../../../core/services/location-service';
+import { PatientService } from '../../../../core/services/patients';
+import { PrimaryConditionService } from '../../../../core/services/primary-condition';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-patient-registration',
@@ -479,12 +479,12 @@ export class PatientRegistration {
 
     console.log(this.patientForm.getRawValue());
     this._patientService.createPatient(this.patientForm.getRawValue()).pipe(take(1)).subscribe({
-      next: (data) => {
+      next: (data: any) => {
         this.patientForm.reset();
         this.currentStep = 1;
         this.router.navigate(['/layout/patients/master/list']);
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Patient Registration failed:', err);
       }
     });

@@ -11,7 +11,8 @@ export class RoleService {
   private baseUrl: string = '';
   constructor(
     private _coreApiService: CoreApiService,
-    private _notificationServices: NotificationServices) {
+    private _notificationServices: NotificationServices
+  ) {
     this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.role + '/';
   }
 
@@ -31,7 +32,7 @@ export class RoleService {
 
   public getRoleById(id: string): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getroleById/${id}`).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         this._notificationServices.success(
           'Success',
@@ -42,7 +43,7 @@ export class RoleService {
   }
   public createRole(value: object): Observable<any> {
     return this._coreApiService.post<any>(this.baseUrl + 'createrole', value, true).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         this._notificationServices.success(
           'success',

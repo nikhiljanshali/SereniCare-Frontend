@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { PatientService } from '../../../../core/services/patients';
 import { ActivatedRoute } from '@angular/router';
-import { IMedicine, IMedicineDetails, IPatientsData } from '../../../../core/interface/basic.interface';
-import { MedicineService } from '../../../../core/services/medicine-services';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { IPatientsData, IMedicineDetails, IMedicine } from '../../../../core/interface/basic.interface';
+import { MedicineService } from '../../../../core/services/medicine-services';
+import { PatientService } from '../../../../core/services/patients';
 import { PrescriptionService } from '../../../../core/services/prescription-services';
 import { StorageOperation } from '../../../../core/services/storage-operation';
 
@@ -137,7 +137,7 @@ export class CreatePrescription {
     if (!this.patientId) {
       return;
     }
-    this._patientService.getPatientById(this.patientId).subscribe((res) => {
+    this._patientService.getPatientById(this.patientId).subscribe((res: any) => {
       if (res.status) {
         this.patientsDetails = res.data;
       }

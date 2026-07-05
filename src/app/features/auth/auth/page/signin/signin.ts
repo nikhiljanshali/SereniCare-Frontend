@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { take } from 'rxjs';
 import { Authentication } from '../../../../../core/services/authentication';
 import { StorageOperation } from '../../../../../core/services/storage-operation';
-import { take } from 'rxjs';
 
 @Component({
   selector: 'app-signin',
@@ -56,12 +56,12 @@ export class Signin {
       return;
     }
     this._authentication.signin(this.signinForm.getRawValue()).pipe(take(1)).subscribe({
-      next: (data) => {
+      next: (data: any) => {
         if (data?.token) {
           this.router.navigate(['layout']);
         }
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Login failed:', err);
       }
     });

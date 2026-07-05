@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupplierRegistration } from './supplier-registration';
+import { SupplierRegistration } from '@features/supplier/pages/supplier-registration/supplier-registration';
 
 describe('SupplierRegistration', () => {
   let component: SupplierRegistration;

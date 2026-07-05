@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SupplierList } from './supplier-list';
+import { SupplierList } from '@features/supplier/pages/supplier-list/supplier-list';
 
 describe('SupplierList', () => {
   let component: SupplierList;

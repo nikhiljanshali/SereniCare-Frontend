@@ -3,7 +3,6 @@ import { Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -121,7 +120,7 @@ export class AppointmentBookService {
         `${this.baseUrl}getDoctorAvailabilityByDay/${doctorId}/${dayOfWeek}`
       )
       .pipe(
-        map((res) => res.data),
+        map((res: any) => res.data),
         tap(() => {
           if (showNotification) {
             this._notificationServices.success(
@@ -146,7 +145,7 @@ export class AppointmentBookService {
         `${this.baseUrl}getDoctorShiftsByDay/${doctorId}/${dayOfWeek}`
       )
       .pipe(
-        map((res) => res.data),
+        map((res: any) => res.data),
         tap(() => {
           if (showNotification) {
             this._notificationServices.success(

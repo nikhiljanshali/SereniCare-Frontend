@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Breadcrumb } from './breadcrumb';
+import { Breadcrumb } from '@shared/component/breadcrumb/breadcrumb';
 
 describe('Breadcrumb', () => {
   let component: Breadcrumb;

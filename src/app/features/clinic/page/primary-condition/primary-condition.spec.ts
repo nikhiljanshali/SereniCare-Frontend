@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PrimaryCondition } from './primary-condition';
+import { PrimaryCondition } from '@features/clinic/page/primary-condition/primary-condition';
 
 describe('PrimaryCondition', () => {
   let component: PrimaryCondition;

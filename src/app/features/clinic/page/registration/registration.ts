@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Clinics } from '../../../../core/services/clinics';
 import { take } from 'rxjs';
+import { IClinicTypeData, IClinicType, IPrimarySpecialityData, IPrimarySpeciality, IRoleData, IRole } from '../../../../core/interface/basic.interface';
 import { ClinicTypeService } from '../../../../core/services/clinic-type';
-import { IClinicType, IClinicTypeData, IPrimarySpeciality, IPrimarySpecialityData, IRole, IRoleData } from '../../../../core/interface/basic.interface';
+import { Clinics } from '../../../../core/services/clinics';
 import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
 import { RoleService } from '../../../../core/services/role-service';
 
@@ -288,7 +288,7 @@ export class Registration {
       next: (res: IClinicType) => {
         this.clinicTypeList = res.data ?? [];
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error fetching clinic types:', err);
         this.clinicTypeList = [];
       }

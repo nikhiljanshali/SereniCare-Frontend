@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SupplierLayout } from './supplier-layout/supplier-layout';
 import { Roles } from '../../core/enum/common.enum';
-import { roleGuard } from '../../core/guards/role-guard-guard';
-import { SupplierRegistration } from './pages/supplier-registration/supplier-registration';
 import { SupplierList } from './pages/supplier-list/supplier-list';
+import { SupplierRegistration } from './pages/supplier-registration/supplier-registration';
+import { SupplierLayout } from './supplier-layout/supplier-layout';
+import { roleGuard } from '../../core/guards/role.guard';
 
 const routes: Routes = [
   {

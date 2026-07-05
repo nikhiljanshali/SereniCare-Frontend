@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BloodGroup } from './blood-group';
+import { BloodGroup } from '@features/clinic/page/blood-group/blood-group';
 
 describe('BloodGroup', () => {
   let component: BloodGroup;

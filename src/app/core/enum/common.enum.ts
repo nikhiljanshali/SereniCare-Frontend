@@ -48,7 +48,7 @@ export enum Roles {
 
 
 
-export enum RightSideComponentName{
+export enum RightSideComponentName {
   $Patient = 'Patient',
   $Doctor = 'Doctor',
   $EditAppointment = 'Edit Appointment'

@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PatientService } from '../../../../core/services/patients';
-import { ModalService } from '../../../../core/services/modal-service';
+import { Roles } from '../../../../core/enum/common.enum';
+import { IPatientsData, IDoctorByIdData, Slot, IAvailableSlots, IClinicList, IDoctorsData, IDoctorSlotsByDay } from '../../../../core/interface/basic.interface';
 import { AppointmentBookService } from '../../../../core/services/appointment-book';
-import { StorageOperation } from '../../../../core/services/storage-operation';
-import { IPatientsData, IDoctorByIdData, Slot, IAvailableSlots, IDoctorSlotsByDay, DoctorId, IClinicList, IClinics, IDoctorId, IDoctorsData } from '../../../../core/interface/basic.interface';
 import { Clinics } from '../../../../core/services/clinics';
 import { DoctorService } from '../../../../core/services/doctor';
-import { Roles } from '../../../../core/enum/common.enum';
+import { ModalService } from '../../../../core/services/modal-service';
+import { PatientService } from '../../../../core/services/patients';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-appointment-booking',

@@ -1,0 +1,311 @@
+@if (!hideList) {
+<div class="file-viewer-toolbar">
+    <i class="bi bi-file-earmark-medical-fill" style="font-size:18px;color:var(--rose);"></i>
+    <span class="file-viewer-name">
+        Patient's Family History Lineage List
+    </span>
+    <div class="file-viewer-actions">
+        @if(!showView){
+        <div class="fv-btn" title="Save" (click)="saveFamilyHistoryLineage()"><i class="bi bi-floppy-fill"></i></div>
+        }
+        @if (showView) {
+        <div class="fv-btn" title="Form" (click)="toggleView()">
+            <i class="bi bi-code-square"></i>
+        </div>
+        } @else {
+        <div class="fv-btn" title="List" (click)="toggleView()">
+            <i class="bi bi-list"></i>
+        </div>
+        }
+        <div class="fv-btn" title="Refresh" (click)="refresh()"><i class="bi bi-arrow-clockwise"></i></div>
+        <!--<div class="fv-btn" title="Download"><i class="bi bi-download"></i></div>
+        <div class="fv-btn" title="Print"><i class="bi bi-printer"></i></div>
+        <div class="fv-btn" title="Share"><i class="bi bi-share"></i></div> -->
+    </div>
+</div>
+}
+
+@if (!hideList && showView) {
+<div class="wizard-wrap border-0 pt-3">
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>Relationship</th>
+                <th>Status</th>
+                <th>Current Age</th>
+                <th>Cause of Death</th>
+                <th>Genetic Factor</th>
+                <th>Comment</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(familyHistoryLineageList.length>0){
+            @for (familyhistory of familyHistoryLineageList; track familyhistory._id) {
+            <tr>
+                <td>
+                    <div class="patient-name">{{familyhistory.relationship}} </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{familyhistory.status}} </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{familyhistory.currentAge}} </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{familyhistory.causeOfDeath}} </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{familyhistory.genetic}} </div>
+                </td>
+                <td>
+                    <div class="patient-name appt-notes">
+                        {{familyhistory.comments}}
+                    </div>
+                </td>
+                <td>
+                    <button class="action-btn" [title]="'Info'">
+                        <i class="bi bi-info-circle-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Show Details'"
+                        (click)="openFamilyHistoryDetails(familyhistory._id);">
+                        <i class="bi bi-arrow-bar-down"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Edit'" (click)="editFamilyHistoryLineage(familyhistory)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Delete'" (click)="deleteFamilyHistoryLineage(familyhistory)">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+            <ng-template #masterCommentsPopover let-item>
+                <div class="family-popover">
+                    <div><strong>Comment:</strong></div>
+                    <div>{{ item.comments }}</div>
+                </div>
+            </ng-template>
+            <ng-template #multipleCondition let-item>
+                <div class="family-popover">
+                    <div><strong>Multiple Condition:</strong></div>
+                    <div>{{ item.multipleConditions }}</div>
+                </div>
+            </ng-template>
+            @if (expandedFamilyHistory === familyhistory._id) {
+            <tr class="sub-row">
+                <td colspan="10">
+                    @if (familyhistory.medicalConditions.length) {
+                    <div class="appointment-wrapper">
+                        <div class="vertical-sub-title">
+                            Medical Conditions
+                        </div>
+                        <div class="clinic-grid">
+                            <div class="appointment-sub-table-container">
+                                <table class="appointment-sub-table w-100">
+                                    <thead>
+                                        <tr>
+                                            <th>Medical Condition</th>
+                                            <th>Age at Diagnosis</th>
+                                            <th>Complications</th>
+                                            <th>Comments</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (medicaion of familyhistory.medicalConditions; track medicaion._id) {
+                                        <tr>
+                                            <td>
+                                                <div style="font-size:13px;color:var(--text-muted);">
+                                                    {{ medicaion.medicalCondition }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size:13px;color:var(--text-muted);">
+                                                    {{ medicaion.ageAtDiagnosis }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size:13px;color:var(--text-muted);">
+                                                    {{ medicaion.complications }}
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div style="font-size:13px;color:var(--text-muted);" class="appt-notes">
+                                                    {{ medicaion.comments }}
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <ng-template #childCommentsPopover let-item>
+                        <div class="family-popover">
+                            <div><strong>Comment :</strong></div>
+                            <div>{{ item.comments }}</div>
+                        </div>
+                    </ng-template>
+                    } @else {
+                    <div class="empty-appointment">
+                        <i class="bi bi-calendar-x"></i>
+                        No Past Medical Registred
+                    </div>
+                    }
+
+                </td>
+            </tr>
+            }
+            }
+            } @else {
+            <tr style="border:none;">
+                <td colspan="11" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
+                    No Data Found!!
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+@if (hideList) {
+<div class="modal-header">
+    <h5 class="modal-title">Past Medical History </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()"></button>
+</div>
+}
+<div class="modal-body p-0">
+    <div class="wizard-wrap border-0">
+        <form [formGroup]="familyHistoryLineageForm">
+            <div class="wizard-body">
+                <div class="wizard-panel">
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Relationship <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="relationship">
+                                <option>Select Relationship</option>
+                                <option value="Father">Father</option>
+                                <option value="Mother">Mother</option>
+                                <option value="Sister">Sister</option>
+                                <option value="Brother">Brother</option>
+                                <option value="Child">Child</option>
+                                <option value="Grandmother">Grandmother</option>
+                                <option value="Grandfather">Grandfather</option>
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Status <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="status">
+                                <option>Select Status</option>
+                                <option value="Living">Living</option>
+                                <option value="Deceased">Deceased</option>
+                                <option value="Unknown">Unknown</option>
+                            </select>
+                        </div>
+                        <div class="wz-form-group w-100">
+                            <label class="wz-label">Current Age <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="number" placeholder="e.g. 50" formControlName="currentAge">
+                        </div>
+                        <div class="wz-form-group w-100">
+                            <label class="wz-label">Cause of Death <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="causeOfDeath">
+                                <option [ngValue]="null">Select Cause of Death</option>
+                                @for (cause of CAUSE_OF_DEATH; track cause) {
+                                <option [value]="cause">
+                                    {{ cause }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="e.g. Heart Disease"
+                                formControlName="causeOfDeath"> -->
+                        </div>
+                        <div class="wz-form-group w-100">
+                            <label class="wz-label">Genetic Factors <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="genetic">
+                                <option [ngValue]="null">Select Genetic Factor</option>
+                                @for (factor of GENETIC_FACTORS; track factor) {
+                                <option [value]="factor">
+                                    {{ factor }}
+                                </option>
+                                }
+                            </select>
+                            <!-- <input class="wz-input" type="text" placeholder="e.g. Family History of Cancer"
+                                formControlName="genetic"> -->
+                        </div>
+                    </div>
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group w-100">
+                            <label class="wz-label">Multiple Conditions <span class="wz-req">*</span></label>
+                            <!-- <input class="wz-input" type="text" placeholder="e.g. Diabetes, Hypertension" formControlName="multipleConditions"> -->
+                            <select class="wz-select h-100" formControlName="multipleConditions" multiple>
+                                <option [ngValue]="null">Select Problem</option>
+                                @for (problem of problemList; track problem._id) {
+                                <option [value]="problem.name">
+                                    {{ problem.name }}
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group w-100">
+                            <label class="wz-label">Comments <span class="wz-req">*</span></label>
+                            <textarea class="wz-input" formControlName="comments" columns="1" rows="7"
+                                placeholder="e.g. Additional notes about the medical condition">
+                            </textarea>
+                        </div>
+                    </div>
+                    <div class="card-section-label">
+                        Appointment Details
+                        <button type="button" class="btn btn-primary btn-sm" (click)="addMedicalCondition()">
+                            <i class="bi bi-plus-lg"></i> Add Appointment
+                        </button>
+                    </div>
+                    <div formArrayName="medicalConditions">
+                        @for(condition of medicalConditions.controls; track $index; let i = $index) {
+                        <div class="wz-form-row m-0" [formGroupName]="i">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Medical Condition <span class="wz-req">*</span></label>
+                                <select class="wz-select" formControlName="medicalCondition">
+                                    <option [ngValue]="null">Select Problem</option>
+                                    @for (problem of problemList; track problem._id) {
+                                    <option [value]="problem.name">
+                                        {{ problem.name }}
+                                    </option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Age at Diagnosis <span class="wz-req">*</span></label>
+                                <input class="wz-input" type="text" placeholder="e.g. 50"
+                                    formControlName="ageAtDiagnosis">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Complications</label>
+                                <input class="wz-input" type="text" formControlName="complications"
+                                    placeholder="Complications">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Comments</label>
+                                <div class="input-group">
+                                    <textarea class="wz-input w-75" formControlName="comments" columns="1" rows="1"
+                                        placeholder="Comments">
+                                                </textarea>
+                                    <button type="button" class="btn btn-danger btn-sm">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (hideList) {
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="saveFamilyHistoryLineage()"> Save </button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+</div>
+}
+}

@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ClinicType } from './clinic-type';
+import { ClinicType } from '@features/clinic/page/clinic-type/clinic-type';
 
 describe('ClinicType', () => {
   let component: ClinicType;

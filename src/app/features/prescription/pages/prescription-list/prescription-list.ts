@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { IPrescriptionsDetails, IPrescriptions } from '../../../../core/interface/basic.interface';
+import { ModalService } from '../../../../core/services/modal-service';
 import { PrescriptionService } from '../../../../core/services/prescription-services';
 import { StorageOperation } from '../../../../core/services/storage-operation';
-import { IPrescriptions, IPrescriptionsDetails } from '../../../../core/interface/basic.interface';
-import { ModalService } from '../../../../core/services/modal-service';
-import { PrescriptionView } from '../prescription-view/prescription-view';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
+import { PrescriptionView } from '../prescription-view/prescription-view';
 
 @Component({
   selector: 'app-prescription-list',

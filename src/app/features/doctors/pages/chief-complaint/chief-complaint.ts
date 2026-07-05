@@ -1,10 +1,9 @@
-import { Data } from './../../../../../../node_modules/hono/dist/types/context.d';
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { IChiefComplaintList } from '../../../../core/interface/basic.interface';
 import { DoctorService } from '../../../../core/services/doctor';
 import { StorageOperation } from '../../../../core/services/storage-operation';
-import { IChiefComplaintList } from '../../../../core/interface/basic.interface';
 
 @Component({
   selector: 'app-chief-complaint',

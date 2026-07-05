@@ -1,0 +1,141 @@
+@if (!hideList) {
+<div class="file-viewer-toolbar">
+    <i class="bi bi-file-earmark-medical-fill" style="font-size:18px;color:var(--rose);"></i>
+    <span class="file-viewer-name">
+        Adverse Drug Reaction
+    </span>
+    <div class="file-viewer-actions">
+        @if(!showView){
+        <div class="fv-btn" title="Save" (click)="savePatientDrugReaction()"><i class="bi bi-floppy-fill"></i></div>
+        }
+        @if (showView) {
+        <div class="fv-btn" title="Form" (click)="toggleView()">
+            <i class="bi bi-code-square"></i>
+        </div>
+        } @else {
+        <div class="fv-btn" title="List" (click)="toggleView()">
+            <i class="bi bi-list"></i>
+        </div>
+        }
+        <div class="fv-btn" title="Refresh" (click)="refresh()"><i class="bi bi-arrow-clockwise"></i></div>
+        <!--<div class="fv-btn" title="Download"><i class="bi bi-download"></i></div>
+        <div class="fv-btn" title="Print"><i class="bi bi-printer"></i></div>
+        <div class="fv-btn" title="Share"><i class="bi bi-share"></i></div> -->
+    </div>
+</div>
+}
+
+@if (!hideList && showView) {
+<div class="wizard-wrap border-0 pt-3">
+    <table class="appt-table">
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Medicine</th>
+                <th>ADR Details</th>
+                <th>ADR Date</th>
+                <th>OVR Number</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(patientDrugReactionList.length>0){
+
+            @for (drugReaction of patientDrugReactionList; track drugReaction._id) {
+            <tr>
+                <td>
+                    <div class="patient-name">{{drugReaction?.subject}} </div>
+                </td>
+                <td>
+                    <div class="patient-name appt-notes">{{drugReaction?.medicineName}} </div>
+                </td>
+                <td>
+                    <div class="patient-name appt-notes">{{drugReaction?.adrDetails}} </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{drugReaction?.adrDate | date : 'dd/MM/yyyy'}} </div>
+                </td>
+                <td>
+                    <div class="patient-name">{{drugReaction?.ovrNumber }} </div>
+                </td>
+                <td>
+                    <button class="action-btn" [title]="'Edit'" (click)="editPatientDrugReaction(drugReaction)">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button class="action-btn" [title]="'Delete'" (click)="deletePatientDrugReaction(drugReaction)">
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </td>
+            </tr>
+            }
+            } @else {
+            <tr style="border:none;">
+                <td colspan="11" style="text-align:center;padding:24px;font-size:14px;color:var(--text-muted);">
+                    No Data Found!!
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+} @else {
+@if (hideList) {
+<div class="modal-header">
+    <h5 class="modal-title">Patient Allergies History </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()"></button>
+</div>
+}
+<div class="modal-body p-0">
+    <div class="wizard-wrap border-0">
+        <form [formGroup]="patientDrugReactionForm">
+            <div class="wizard-body">
+                <div class="wizard-panel">
+
+                    <div class="wz-form-row m-0">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Subject <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Enter Subject" formControlName="subject">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Medicine <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="medicineCode" (change)="onMedicineChange()">
+                                <option [ngValue]="null">Select Medicine</option>
+                                @for (med of medicineList; track med._id) {
+                                <option [ngValue]="med">
+                                    [{{ med.medicineCode }}] - {{ med.medicineName }} - [{{ med._id }}]
+                                </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Medicine Name <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Enter Medicine Name" readonly
+                                formControlName="medicineName">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">ADR Details <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Enter ADR Details"
+                                formControlName="adrDetails">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">ADR Date<span class="wz-req">*</span></label>
+                            <input class="wz-input" type="date" placeholder="Enter ADR Date" formControlName="adrDate">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">OVR Number<span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Enter OVR Number"
+                                formControlName="ovrNumber">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if (hideList) {
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary btn-sm" (click)="savePatientDrugReaction()"> Save </button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+</div>
+}
+}

@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { IClinicList, IClinics, ISupplierDetails } from '../../../../core/interface/basic.interface';
-import { Clinics } from '../../../../core/services/clinics';
+import { ISupplierDetails } from '../../../../core/interface/basic.interface';
 import { LocationService } from '../../../../core/services/location-service';
-import { SupplierService } from '../../../../core/services/supplier-service';
 import { ModalService } from '../../../../core/services/modal-service';
+import { SupplierService } from '../../../../core/services/supplier-service';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
-
 @Component({
   selector: 'app-supplier-list',
   standalone: false,

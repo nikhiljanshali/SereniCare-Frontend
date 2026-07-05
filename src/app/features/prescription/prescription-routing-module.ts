@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PrescriptionLayout } from './prescription-layout/prescription-layout';
-import { roleGuard } from '../../core/guards/role-guard-guard';
 import { Roles } from '../../core/enum/common.enum';
 import { CreatePrescription } from './pages/create-prescription/create-prescription';
 import { PrescriptionList } from './pages/prescription-list/prescription-list';
+import { PrescriptionLayout } from './prescription-layout/prescription-layout';
+import { roleGuard } from '../../core/guards/role.guard';
 
 const routes: Routes = [
   {

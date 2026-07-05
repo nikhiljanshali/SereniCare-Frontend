@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
+
+import { map, Observable, tap } from 'rxjs';
 import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
-import { map, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class PastSurgicalService {
 
   public getPastSurgicalById(id: string, showNotificaion: boolean = false): Observable<any> {
     return this._coreApiService.get<any>(`${this.baseUrl}getPastSurgicalById/${id}`).pipe(
-      map(res => res.data),
+      map((res: any) => res.data),
       tap((data) => {
         if (showNotificaion) {
           this._notificationServices.success(
