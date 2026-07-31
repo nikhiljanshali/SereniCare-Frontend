@@ -42,8 +42,6 @@ export class Sidebar implements OnInit {
     if (this._storageOperation.get<UserDetails>('user', 'local')?.role) {
       this.currentUserRole = this._storageOperation.get<UserDetails>('user', 'local')?.role ?? '';
       this.doctorId = this._storageOperation.get<UserDetails>('userDetails', 'local')?.id || '';
-      console.log('currentUserRole', this.currentUserRole);
-      console.log('doctorId', this.doctorId);
     }
   }
 

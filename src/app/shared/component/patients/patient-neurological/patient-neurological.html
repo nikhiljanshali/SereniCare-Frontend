@@ -1,0 +1,1000 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+<form [formGroup]="neurologicalForm">
+    @if (activeTab === 1) {
+    <div class="pe-field-card mb-3"
+        [ngClass]="{'normal-card': neurologicalForm.get('cnNormalAbnormal')?.value === true,'abnormal-card': neurologicalForm.get('cnNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Cranial Nerves (II - XII Evaluation)</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="neurologicalForm.get('cnNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'cnNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="neurologicalForm.get('cnNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'cnNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="cranialNervesFindingNotes" cols="1" rows="5"
+                    placeholder="">
+                </textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Pupils / Eye Movements</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PupilsEyeMovements; track level.id) {
+                    <label class="check-wrap" [for]="'pupilsEyeMovements_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'pupilsEyeMovements_' + level.id"
+                            [checked]="isCheckboxSelected('pupilsEyeMovements', level.value)"
+                            (change)="onCheckboxChange($event, 'pupilsEyeMovements', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Facial / Hearing</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of FacialHearing; track level.id) {
+                    <label class="check-wrap" [for]="'facialHearing_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'facialHearing_' + level.id"
+                            [checked]="isCheckboxSelected('facialHearing', level.value)"
+                            (change)="onCheckboxChange($event, 'facialHearing', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Palate / Speech / Neck</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PalateSpeechNeck; track level.id) {
+                    <label class="check-wrap" [for]="'palateSpeechNeck_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'palateSpeechNeck_' + level.id"
+                            [checked]="isCheckboxSelected('palateSpeechNeck', level.value)"
+                            (change)="onCheckboxChange($event, 'palateSpeechNeck', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group" formArrayName="lateralizedFindings">
+                <div class="pe-field-header">
+                    <label class="wz-label">
+                        Lateralized Findings — select side if present
+                    </label>
+                </div>
+                <div [formGroupName]="0">
+                    <!-- Facial Droop -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(lateralizedFindings.at(0).get('facialDroop')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Facial Droop (CN VII)
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="lateralizedFindings.at(0).get('facialDroop')?.value === option.value"
+                                [class.off]="lateralizedFindings.at(0).get('facialDroop')?.value !== option.value"
+                                (click)="lateralizedFindings.at(0).get('facialDroop')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    <!-- Uvula Deviation -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(lateralizedFindings.at(0).get('uvulaDeviation')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Uvula Deviation (CN X)
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="lateralizedFindings.at(0).get('uvulaDeviation')?.value === option.value"
+                                [class.off]="lateralizedFindings.at(0).get('uvulaDeviation')?.value !== option.value"
+                                (click)="lateralizedFindings.at(0).get('uvulaDeviation')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    <!-- Tongue Deviation -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(lateralizedFindings.at(0).get('tongueDeviation')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Tongue Deviation (CN XII)
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="lateralizedFindings.at(0).get('tongueDeviation')?.value === option.value"
+                                [class.off]="lateralizedFindings.at(0).get('tongueDeviation')?.value !== option.value"
+                                (click)="lateralizedFindings.at(0).get('tongueDeviation')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="cranialNerves" cols="0" rows="10"
+                    placeholder="Document abnormalities in cranial nerves II-XII (e.g., visual field defects, facial asymmetry, impaired eye movements, hearing loss, dysarthria, tongue deviation)..."></textarea>
+                <div class="pe-macros">
+                    @for (item of cranialNervesTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleCarnialNervers(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': neurologicalForm.get('msoNormalAbnormal')?.value === true,'abnormal-card': neurologicalForm.get('msoNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Mental Status & Orientation</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="neurologicalForm.get('msoNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'msoNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="neurologicalForm.get('msoNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'msoNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Level of Consciousness</label>
+                </div>
+                <div class="option-list">
+                    @for (side of LevelOfConsciousness; track side.id) {
+                    <label class="radio-wrap" [for]="'levelOfConsciousness_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'levelOfConsciousness_' + side.id"
+                            name="levelConsciousness" [value]="side.value" formControlName="levelConsciousness">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Orientation</label>
+                </div>
+                <div formArrayName="mentalOrientation">
+                    <div *ngFor="let item of mentalOrientation?.controls; let i = index" [formGroupName]="i"
+                        class="checkbox-list">
+                        <div class="d-flex align-items-center justify-content-between gap-3">
+
+                            <label class="check-wrap">
+                                <input type="checkbox" class="check-input" formControlName="person">
+                                <span class="check-box"></span>
+                                <span class="check-label">Person</span>
+                            </label>
+
+                            <label class="check-wrap">
+                                <input type="checkbox" class="check-input" formControlName="place">
+                                <span class="check-box"></span>
+                                <span class="check-label">Place</span>
+                            </label>
+
+                            <label class="check-wrap">
+                                <input type="checkbox" class="check-input" formControlName="time">
+                                <span class="check-box"></span>
+                                <span class="check-label">Time</span>
+                            </label>
+
+                            <label class="check-wrap">
+                                <input type="checkbox" class="check-input" formControlName="situation">
+                                <span class="check-box"></span>
+                                <span class="check-label">Situation</span>
+                            </label>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Mood / Behavior</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of MoodBehavior; track level.id) {
+                    <label class="check-wrap" [for]="'mentalMoodBehavior_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'mentalMoodBehavior_' + level.id"
+                            [checked]="isCheckboxSelected('mentalMoodBehavior', level.value)"
+                            (change)="onCheckboxChange($event, 'mentalMoodBehavior', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Speech</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of Speech; track level.id) {
+                    <label class="check-wrap" [for]="'mentalSpeech_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'mentalSpeech_' + level.id"
+                            [checked]="isCheckboxSelected('mentalSpeech', level.value)"
+                            (change)="onCheckboxChange($event, 'mentalSpeech', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="mentalFindingNote" cols="1" rows="2"
+                    placeholder="">
+                </textarea>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="mentalStatusOrientation" cols="0"
+                    rows="10" placeholder="findings..."></textarea>
+                <div class="pe-macros">
+                    @for (item of mentalStatusTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleMentalStatusOrientation(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 3) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': neurologicalForm.get('msmNormalAbnormal')?.value === true,'abnormal-card': neurologicalForm.get('msmNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Motor Strength Matrix</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="neurologicalForm.get('msmNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'msmNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="neurologicalForm.get('msmNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'msmNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group" formArrayName="glasgowComaScale">
+                @for (gcs of glasgowComaScale.controls; track $index; let i = $index) {
+                <div [formGroupName]="i">
+
+                    <div class="pe-field-header">
+                        <label class="wz-label">Glasgow Coma Scale</label>
+                        <div class="gcs-total">
+                            {{
+                            gcs.get('eyeResponse')?.value +
+                            gcs.get('verbalResponse')?.value +
+                            gcs.get('motorResponse')?.value
+                            }}
+                            <span>/ 15</span>
+                        </div>
+                    </div>
+
+                    <div class="gcs-wrap">
+
+                        <!-- Eye Response -->
+                        <div class="gcs-row">
+                            <span class="gcs-tag">E</span>
+                            <div class="gcs-scale">
+                                @for (score of [1, 2, 3, 4]; track score) {
+                                <div class="gcs-pt" [class.sel]="gcs.get('eyeResponse')?.value === score"
+                                    (click)="gcs.get('eyeResponse')?.setValue(score)">
+                                    {{ score }}
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Verbal Response -->
+                        <div class="gcs-row">
+                            <span class="gcs-tag">V</span>
+                            <div class="gcs-scale">
+                                @for (score of [1, 2, 3, 4, 5]; track score) {
+                                <div class="gcs-pt" [class.sel]="gcs.get('verbalResponse')?.value === score"
+                                    (click)="gcs.get('verbalResponse')?.setValue(score)">
+                                    {{ score }}
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Motor Response -->
+                        <div class="gcs-row">
+                            <span class="gcs-tag">M</span>
+                            <div class="gcs-scale">
+                                @for (score of [1, 2, 3, 4, 5, 6]; track score) {
+                                <div class="gcs-pt" [class.sel]="gcs.get('motorResponse')?.value === score"
+                                    (click)="gcs.get('motorResponse')?.setValue(score)">
+                                    {{ score }}
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                }
+            </div>
+            <div class="pe-field-group" formArrayName="muscleGroup">
+                @for (muscle of muscleGroup.controls; track $index; let i = $index) {
+                <div [formGroupName]="i">
+                    <table class="matrix">
+                        <tr>
+                            <th>Muscle Group</th>
+                            @for (grade of grades; track grade) {
+                            <th>{{ grade }}</th>
+                            }
+                        </tr>
+
+                        <!-- Upper Ext. (L) -->
+                        <tr>
+                            <td>Upper Ext. (L)</td>
+                            @for (grade of grades; track grade) {
+                            <td>
+                                <div class="mgrade" [class.sel]="muscle.get('UpperExtL')?.value === grade"
+                                    (click)="muscle.get('UpperExtL')?.setValue(grade)">
+                                    {{ grade }}
+                                </div>
+                            </td>
+                            }
+                        </tr>
+
+                        <!-- Upper Ext. (R) -->
+                        <tr>
+                            <td>Upper Ext. (R)</td>
+                            @for (grade of grades; track grade) {
+                            <td>
+                                <div class="mgrade" [class.sel]="muscle.get('UpperExtR')?.value === grade"
+                                    (click)="muscle.get('UpperExtR')?.setValue(grade)">
+                                    {{ grade }}
+                                </div>
+                            </td>
+                            }
+                        </tr>
+
+                        <!-- Lower Ext. (L) -->
+                        <tr>
+                            <td>Lower Ext. (L)</td>
+                            @for (grade of grades; track grade) {
+                            <td>
+                                <div class="mgrade" [class.sel]="muscle.get('LowerExtL')?.value === grade"
+                                    (click)="muscle.get('LowerExtL')?.setValue(grade)">
+                                    {{ grade }}
+                                </div>
+                            </td>
+                            }
+                        </tr>
+
+                        <!-- Lower Ext. (R) -->
+                        <tr>
+                            <td>Lower Ext. (R)</td>
+                            @for (grade of grades; track grade) {
+                            <td>
+                                <div class="mgrade" [class.sel]="muscle.get('LowerExtR')?.value === grade"
+                                    (click)="muscle.get('LowerExtR')?.setValue(grade)">
+                                    {{ grade }}
+                                </div>
+                            </td>
+                            }
+                        </tr>
+
+                    </table>
+
+                </div>
+                }
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" cols="1" rows="5" placeholder="Findings..."
+                    formControlName="msmFindingNotes">
+                </textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Tone / Drift</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of ToneAndDriftList; track level.id) {
+                    <label class="check-wrap" [for]="'toneDrift_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'toneDrift_' + level.id"
+                            [checked]="isCheckboxSelected('toneDrift', level.value)"
+                            (change)="onCheckboxChange($event, 'toneDrift', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Global Patterns</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of GlobalPatternsList; track level.id) {
+                    <label class="check-wrap" [for]="'globalPatterns_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'globalPatterns_' + level.id"
+                            [checked]="isCheckboxSelected('globalPatterns', level.value)"
+                            (change)="onCheckboxChange($event, 'globalPatterns', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="motorStrengthMatrix" cols="0"
+                    rows="10"
+                    placeholder="Document DTR findings (e.g., 2+ bilaterally, brisk, diminished, absent, asymmetrical, or pathological reflexes)...">
+                </textarea>
+                <div class="pe-macros">
+                    @for (item of motorStrengthTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleMotorStrengthMatrix(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 4) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': neurologicalForm.get('dtrNormalAbnormal')?.value === true,'abnormal-card': neurologicalForm.get('dtrNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title"> Deep Tendon Reflexes (DTR)</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="neurologicalForm.get('dtrNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'dtrNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="neurologicalForm.get('dtrNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'dtrNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-group" formArrayName="reflexes">
+                    @for (reflex of reflexes.controls; track $index; let i = $index) {
+                    <div [formGroupName]="i">
+
+                        <table class="matrix">
+                            <tr>
+                                <th>Reflex</th>
+                                @for (grade of grades; track grade) {
+                                <th>{{ grade }}</th>
+                                }
+                            </tr>
+
+                            <!-- Biceps -->
+                            <tr>
+                                <td>Biceps</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('biceps')?.value === grade"
+                                        (click)="reflex.get('biceps')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                            <!-- Triceps -->
+                            <tr>
+                                <td>Triceps</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('triceps')?.value === grade"
+                                        (click)="reflex.get('triceps')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                            <!-- Brachioradialis -->
+                            <tr>
+                                <td>Brachioradialis</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('brachioradialis')?.value === grade"
+                                        (click)="reflex.get('brachioradialis')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                            <!-- Patellar (Left) -->
+                            <tr>
+                                <td>Patellar (L)</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('patellarLeft')?.value === grade"
+                                        (click)="reflex.get('patellarLeft')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                            <!-- Patellar (Right) -->
+                            <tr>
+                                <td>Patellar (R)</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('patellarRight')?.value === grade"
+                                        (click)="reflex.get('patellarRight')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                            <!-- Achilles (Left) -->
+                            <tr>
+                                <td>Achilles (L)</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('achillesLeft')?.value === grade"
+                                        (click)="reflex.get('achillesLeft')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                            <!-- Achilles (Right) -->
+                            <tr>
+                                <td>Achilles (R)</td>
+                                @for (grade of grades; track grade) {
+                                <td>
+                                    <div class="mgrade" [class.sel]="reflex.get('achillesRight')?.value === grade"
+                                        (click)="reflex.get('achillesRight')?.setValue(grade)">
+                                        {{ grade }}
+                                    </div>
+                                </td>
+                                }
+                            </tr>
+
+                        </table>
+
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group" formArrayName="pathologicalReflexes">
+                <div class="pe-field-header">
+                    <label class="wz-label">Pathological Reflexes — select side if present</label>
+                </div>
+                <div [formGroupName]="0">
+                    <!-- Facial Droop -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(pathologicalReflexes.at(0).get('babinski')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Babinski (Positive / Upgoing)
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="pathologicalReflexes.at(0).get('babinski')?.value === option.value"
+                                [class.off]="pathologicalReflexes.at(0).get('babinski')?.value !== option.value"
+                                (click)="pathologicalReflexes.at(0).get('babinski')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    <!-- Uvula Deviation -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(pathologicalReflexes.at(0).get('sustainedClonus')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Sustained Clonus
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="pathologicalReflexes.at(0).get('sustainedClonus')?.value === option.value"
+                                [class.off]="pathologicalReflexes.at(0).get('sustainedClonus')?.value !== option.value"
+                                (click)="pathologicalReflexes.at(0).get('sustainedClonus')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    <!-- Tongue Deviation -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(pathologicalReflexes.at(0).get('hoffmansSign')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Hoffman's Sign
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="pathologicalReflexes.at(0).get('hoffmansSign')?.value === option.value"
+                                [class.off]="pathologicalReflexes.at(0).get('hoffmansSign')?.value !== option.value"
+                                (click)="pathologicalReflexes.at(0).get('hoffmansSign')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" cols="1" rows="5" placeholder="Findings..."
+                    formControlName="dtrFindingNotes">
+                </textarea>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="deepTendonReflexes" cols="0"
+                    rows="10"
+                    placeholder="Document deep tendon reflex findings (e.g., 2+ bilaterally, hypoactive, hyperactive, absent, asymmetrical, clonus, or other abnormalities)..."></textarea>
+                <div class="pe-macros">
+                    @for (item of deepTendonReflexesTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleDeepTendonReflexes(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 5) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': neurologicalForm.get('seNormalAbnormal')?.value === true,'abnormal-card': neurologicalForm.get('seNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title"> Sensory Exam</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="neurologicalForm.get('seNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'seNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="neurologicalForm.get('seNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'seNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <table class="matrix" formArrayName="sensoryExamination">
+                    <tr>
+                        <th>Extremity</th>
+                        @for (column of sensationTypes; track column.control) {
+                        <th>{{ column.label }}</th>
+                        }
+                    </tr>
+                    @for (row of sensoryExamination.controls; track $index; let i = $index) {
+                    <tr [formGroupName]="i">
+                        <td>{{ row.get('extremity')?.value }}</td>
+                        @for (column of sensationTypes; track column.control) {
+                        <td>
+                            <div class="status3">
+                                @for (status of sensationStatus; track status.value) {
+                                <div class="s3"
+                                    [class]="row.get(column.control)?.value === status.value ? status.class : 's3'"
+                                    (click)="row.get(column.control)?.setValue(status.value)">
+                                    {{ status.value }}
+                                </div>
+                                }
+                            </div>
+                        </td>
+                        }
+                    </tr>
+                    }
+                </table>
+                <div style="font-size:10.5px;color:var(--text-muted);margin:-10px 0 16px;">I = Intact · D = Decreased ·
+                    A = Absent</div>
+            </div>
+            <div class="pe-field-group" formArrayName="hemisensoryLoss">
+                <div class="pe-field-header">
+                    <label class="wz-label">Hemisensory Loss</label>
+                </div>
+                <div [formGroupName]="0">
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(hemisensoryLoss.at(0).get('hemisensoryLoss')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Hemisensory Loss
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="hemisensoryLoss.at(0).get('hemisensoryLoss')?.value === option.value"
+                                [class.off]="hemisensoryLoss.at(0).get('hemisensoryLoss')?.value !== option.value"
+                                (click)="hemisensoryLoss.at(0).get('hemisensoryLoss')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="sensoryFindingNote" cols="1" rows="5"
+                    placeholder="">
+                </textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of DistributionPatternList; track level.id) {
+                    <label class="check-wrap" [for]="'sensoryDistributionPattern_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'sensoryDistributionPattern_' + level.id"
+                            [checked]="isCheckboxSelected('sensoryDistributionPattern', level.value)"
+                            (change)="onCheckboxChange($event, 'sensoryDistributionPattern', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="sensoryExam" cols="0" rows="10"
+                    placeholder="Document sensory function including light touch, pinprick, temperature, vibration, proprioception, and any sensory loss or paresthesia..."></textarea>
+                <div class="pe-macros">
+                    @for (item of sensoryExamTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleSensoryExam(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 6) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': neurologicalForm.get('ccfNormalAbnormal')?.value === true, 'abnormal-card': neurologicalForm.get('ccfNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Coordination & Cerebellar Function (Gait) </div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="neurologicalForm.get('ccfNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'ccfNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="neurologicalForm.get('ccfNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(neurologicalForm, 'ccfNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Gait Pattern (select one)</label>
+                </div>
+                <div class="option-list">
+                    @for (side of GaitPatternList; track side.id) {
+                    <label class="radio-wrap" [for]="'gaitPattern_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'gaitPattern_' + side.id" name="gaitPattern"
+                            [value]="side.value" formControlName="gaitPattern">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group" formArrayName="gaitFindings">
+                <div [formGroupName]="0">
+                    <!-- Romberg Test -->
+                    <div class="lat-finding" style="margin-top:14px;"
+                        [class.active]="['Positive'].includes(gaitFindings.at(0).get('rombergTest')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Romberg Test
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of rombergTestOptions; track option.value) {
+                            <button type="button" class="lat-opt" [ngClass]="{
+                                    'sel-ok': gaitFindings.at(0).get('rombergTest')?.value === option.value && option.value === 'Positive',
+                                    'sel-bad': gaitFindings.at(0).get('rombergTest')?.value === option.value && option.value === 'Negative',
+                                    'off': gaitFindings.at(0).get('rombergTest')?.value !== option.value
+                                    }" (click)="gaitFindings.at(0).get('rombergTest')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    <!-- Tandem Gait -->
+                    <div class="lat-finding"
+                        [class.active]="['Abnormal'].includes(gaitFindings.at(0).get('tandemGait')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Tandem Gait
+                        </span>
+                        <div class="lat-opts">
+                            @for (option of tandemGaitOptions; track option.value) {
+                            <button type="button" class="lat-opt" [ngClass]="{
+                                    'sel-ok': gaitFindings.at(0).get('tandemGait')?.value === option.value && option.value === 'Normal',
+                                    'sel-bad': gaitFindings.at(0).get('tandemGait')?.value === option.value && option.value === 'Abnormal',
+                                    'off': gaitFindings.at(0).get('tandemGait')?.value !== option.value
+                                    }" (click)="gaitFindings.at(0).get('tandemGait')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Dysmetria -->
+                    <div class="lat-finding"
+                        [class.active]="['L', 'R'].includes(gaitFindings.at(0).get('dysmetria')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Dysmetria (Finger-to-Nose)
+                        </span>
+
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="gaitFindings.at(0).get('dysmetria')?.value === option.value"
+                                [class.off]="gaitFindings.at(0).get('dysmetria')?.value !== option.value"
+                                (click)="gaitFindings.at(0).get('dysmetria')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Abnormal Heel-to-Shin -->
+                    <div class="lat-finding" style="margin-bottom:18px;"
+                        [class.active]="['L', 'R'].includes(gaitFindings.at(0).get('abnormalHeelToShin')?.value)">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Abnormal Heel-to-Shin
+                        </span>
+
+                        <div class="lat-opts">
+                            @for (option of sideOptions; track option.value) {
+                            <button type="button" class="lat-opt"
+                                [class.sel]="gaitFindings.at(0).get('abnormalHeelToShin')?.value === option.value"
+                                [class.off]="gaitFindings.at(0).get('abnormalHeelToShin')?.value !== option.value"
+                                (click)="gaitFindings.at(0).get('abnormalHeelToShin')?.setValue(option.value)">
+                                {{ option.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="coordinationCerebellarFindingNotes" cols="1"
+                    rows="5" placeholder="">
+                </textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Rapid Movements / Tremor</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of RapidMovementTremorList; track level.id) {
+                    <label class="check-wrap" [for]="'rapidMovementsTremor_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'rapidMovementsTremor_' + level.id"
+                            [checked]="isCheckboxSelected('rapidMovementsTremor', level.value)"
+                            (change)="onCheckboxChange($event, 'rapidMovementsTremor', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="coordinationCerebellarFunction"
+                    cols="0" rows="10"
+                    placeholder="Document gait, coordination, balance, cerebellar signs, ataxia, dysmetria, tremor, Romberg test, and any abnormal findings..."></textarea>
+                <div class="pe-macros">
+                    @for (item of coordinationGaitTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleCoordinationCerebellarFunction(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>

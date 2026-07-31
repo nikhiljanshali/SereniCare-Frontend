@@ -1,6 +1,7 @@
 <div class="page-header">
     <div class="page-header-left">
-        <div class="ph-title"><i class="bi bi-heart-pulse text-teal"></i> Patient's Vitals</div>
+        <app-side-bar-patient-header [patientDetails]="patientDetails"></app-side-bar-patient-header>
+        <!-- <div class="ph-title"><i class="bi bi-heart-pulse text-teal"></i> Patient's Vitals</div>
         <div class="ph-sub">Patient Name:
             <strong>
                 {{ patientDetails?.patient?.firstName }}
@@ -9,12 +10,12 @@
             </strong>
         </div>
         <div class="ph-sub">Patient No: <strong>{{ patientDetails?.patient?.patientCode }} </strong></div>
-        <div class="ph-sub">Appoint No: <strong>{{ patientDetails?.appointment?.appointmentNumber }} </strong></div>
+        <div class="ph-sub">Appoint No: <strong>{{ patientDetails?.appointment?.appointmentNumber }} </strong></div> -->
     </div>
     <div class="page-header-right">
-        <button class="btn btn-outline-info btn-sm" title="Vital History" (click)="vitalHistory()">
+        <!-- <button class="btn btn-outline-info btn-sm" title="Vital History" (click)="vitalHistory()">
             <i class="bi bi-info-circle-fill"></i>
-        </button>
+        </button> -->
     </div>
 </div>
 

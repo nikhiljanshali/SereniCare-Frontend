@@ -30,7 +30,9 @@ export const environment = {
     patientDrugReaction: '/patientDrugReaction',
     patientAllergies: '/patientAllergies',
     familyHistory: '/familyHistory',
-    familyHistoryLineage: '/familyHistoryLineage'
+    familyHistoryLineage: '/familyHistoryLineage',
+    physicalExamination: '/physicalExamination',
+    historyofPresentIllness: '/historyofPresentIllness',
   },
   features: {
     enableNotifications: true,

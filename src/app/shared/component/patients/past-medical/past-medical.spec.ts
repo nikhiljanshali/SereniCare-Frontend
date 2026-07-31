@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PastMedical } from './past-medical';
 
-import '@shared/component/patients/past-medical/past-medical.ts';
 
 describe('PastMedical', () => {
   let component: PastMedical;

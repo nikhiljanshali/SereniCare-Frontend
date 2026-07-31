@@ -1,56 +1,6 @@
-<div id="page-emr-workspace" class="page-section active">
+<div id="page-emr-workspace" class="page-section">
     <!-- Glass Medical Profile Card Widget Header -->
-    <div class="emr-glass-header">
-        <div class="emr-gh-info">
-            <!-- <div class="emr-panel-avatar">
-                {{patientDetails?.firstName?.charAt(0)}}{{patientDetails?.lastName?.charAt(0)}}
-            </div> -->
-            <div class="emr-gh-block">
-                <div class="emr-gh-lbl">Patient Identity</div>
-                <div class="emr-gh-val" style="font-size:18px;">
-                    {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}
-                    <span class="emr-badge-vip">{{patientDetails?.patientCode}}</span>
-                </div>
-            </div>
-            <div class="emr-gh-block">
-                <div class="emr-gh-lbl">UHID Sequence</div>
-                <div class="emr-gh-val">{{patientDetails?.UHIDSequenceNo}}</div>
-            </div>
-            <div class="emr-gh-block">
-                <div class="emr-gh-lbl">Demographics / Age</div>
-                <div class="emr-gh-val">
-                    <span>{{ patientDetails?.age }} Yrs</span>
-                    <span class="dot">|</span>
-                    <span>{{ patientDetails?.gender }}</span>
-                    <span class="dot">|</span>
-                    <span>DOB: {{ patientDetails?.dateOfBirth | date:'dd/MM/yyyy' }}</span>
-                </div>
-            </div>
-            <div class="emr-gh-block">
-                <div class="emr-gh-lbl">Blood Configuration</div>
-                <div class="emr-gh-val" style="color:var(--mint);">
-                    <i class="bi bi-droplet-fill"></i>
-                    {{ patientDetails?.medicalHistories?.[0]?.bloodGroup }}
-                </div>
-            </div>
-            <div class="emr-gh-block">
-                <div class="emr-gh-lbl">
-                    Coverage Amount
-                </div>
-                <div class="emr-gh-val">
-                    <div class="emr-gh-val">
-                        <i class="bi bi-info-circle-fill" style="color:var(--amber);"></i> {{ totalCoverageAmount |
-                        number:'1.2-2' }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div>
-            <button class="btn btn-sm btn-outline-primary" style="color:#fff; border-color:rgba(255,255,255,0.4)"><i
-                    class="bi bi-qr-code"></i> Generate Code
-            </button>
-        </div>
-    </div>
+    <app-patient-detail-header [patientDetails]="patientDetails"></app-patient-detail-header>
     <div class="emr-widgets-row">
         <div class="emr-widget-box">
             <div class="emr-w-ico" style="background:var(--teal-light);color:var(--teal);"><i
@@ -189,19 +139,16 @@
         <div>
             <!-- Tab Navigation Context -->
             <div class="emr-tabs">
-                <button class="emr-tab-btn" [class.active]="activeTab === 'history'" (click)="changeTab('history')">
-                    Medical Histories
+                @for (tab of emrTabs; track tab.id) {
+                <button type="button" class="emr-tab-btn" [class.active]="activeTab === tab.id"
+                    (click)="changeTab(tab.id)">
+                    {{ tab.title }}
                 </button>
-                <!-- <button class="emr-tab-btn" [class.active]="activeTab === 'overview'" (click)="changeTab('overview')">
-                    Overview Dashboard
-                </button>
-                <button class="emr-tab-btn" [class.active]="activeTab === 'timeline'" (click)="changeTab('timeline')">
-                    Longitudinal Clinical Timeline
-                </button> -->
+                }
             </div>
-            @if (activeTab === 'history') {
+            @if (activeTab === 1) {
             <!-- TAB CONTENT BLOCK 1: CLINICAL COMPREHENSIVE HISTORIES PANEL -->
-            <div id="emr-tab-history" class="emr-sub-panel-view" style="display:block;">
+            <div id="emr-tab-history" class="emr-sub-panel-view">
                 <div class="medical-history-grid">
                     <!-- Past Medical History (PMH) Card Element -->
                     <div class="med-card">
@@ -591,36 +538,33 @@
                 </div>
             </div>
             }
-            @if (activeTab === 'overview') {
-            <!-- TAB CONTENT BLOCK 3: GENERAL CHART OVERVIEW -->
-            <div id="emr-tab-overview" class="emr-sub-panel-view">
-                <div class="med-card" style="padding:20px; text-align:center;">
-                    <p style="color:var(--text-muted); font-weight:600;"><i class="bi bi-clipboard-pulse"
-                            style="font-size:24px; color:var(--teal);"></i><br><br>Consolidated EMR Summary interface
-                        online. Select alternate tabs above to navigate specific records blocks.</p>
-                </div>
-            </div>
-            }
-            @if (activeTab === 'timeline') {
+            @if (activeTab === 2) {
             <div id="emr-tab-timeline" class="emr-sub-panel-view">
                 <div class="timeline-ctr">
-                    <div class="tl-year-hdr">2026 Grid Sequence</div>
-
+                    <div class="tl-year-hdr">Insurace Sequence</div>
+                    @for (insuranceDtl of patientDetails?.insuranceDetails; track insuranceDtl._id) {
                     <div class="tl-block">
-                        <div class="tl-dot" style="background:var(--teal);"></div>
+                        <div class="tl-dot" [ngStyle]="{'background': getStatusColor(insuranceDtl?.status)}"></div>
                         <div class="tl-card">
                             <div class="tl-hdr">
-                                <span class="tl-type">Outpatient Diagnostics Evaluation</span>
-                                <span class="tl-date">June 24, 2026</span>
+                                <span class="tl-type">
+                                    {{insuranceDtl.providerName}}
+
+                                </span>
+                                <span class="emr-badge-vip">
+                                    {{insuranceDtl?.coverageAmount}} /-
+                                </span>
                             </div>
-                            <div class="tl-body">Comprehensive Metabolic Panel & Complete Blood Count Screen</div>
-                            <div class="tl-details">Elevated Fasting Plasma Glucose recorded. HbA1c adjusted upward to
-                                $6.8\%$. Therapeutic modifications to lifestyle protocols
-                                suggested.</div>
+                            <div class="tl-body">{{insuranceDtl.coverageDetails}}</div>
+                            <div class="tl-details">
+                                Valid From {{insuranceDtl.validFrom | date: 'dd/MM/yyyy'}} - Valid To
+                                {{insuranceDtl.validTo | date : 'dd/MM/yyyy'}}
+                            </div>
                         </div>
                     </div>
+                    }
 
-                    <div class="tl-block">
+                    <!-- <div class="tl-block">
                         <div class="tl-dot" style="background:var(--indigo);"></div>
                         <div class="tl-card">
                             <div class="tl-hdr">
@@ -632,10 +576,14 @@
                                 indicators of secondary coronary ischemia seen during dynamic exercise
                                 stress sequences.</div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             }
+            <!-- @if(activeTab === 'physicalExamination'){
+            <app-patient-phycial-examiantion-details [patientId]="patientId"
+                [patientDetails]="patientDetails"></app-patient-phycial-examiantion-details>
+            } -->
         </div>
     </div>
 </div>

@@ -1,9 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { StorageOperation } from './core/services/storage-operation';
+import { LoaderComponent } from './core/component/loader/loader';
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, LoaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

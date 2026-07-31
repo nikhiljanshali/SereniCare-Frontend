@@ -1,0 +1,31 @@
+<div class="clinical-card">
+    <!-- <div class="card-top">
+        <div class="vitals-indicator">
+            <span class="pulse-dot"></span> Vitals: <strong>Stable</strong>
+        </div>
+        <span class="patient-id">PAT-0001</span>
+    </div> -->
+    <div class="card-main">
+        <div class="user-details">
+            <h2>
+                {{ patientDetails?.patient?.firstName }}
+                {{ patientDetails?.patient?.middleName }}
+                {{ patientDetails?.patient?.lastName }}
+            </h2>
+            <p class="uhid">UHID: {{patientDetails?.patient?.UHIDSequenceNo}}</p>
+        </div>
+        <div class="tag-group">
+            <span class="tag"><i class="fas fa-user"></i>Patient Code:
+                {{patientDetails?.patient?.patientCode}}</span>
+            @if (patientDetails?.appointment?.appointmentNumber) {
+            <span class="tag"><i class="fas fa-tint"></i>Appointment No.:
+                {{patientDetails?.appointment?.appointmentNumber}}</span>
+            <!-- <span class="tag"><i class="fas fa-shield-halved"></i>Gender: {{patientDetails?.patient?.gender}}</span> -->
+            }
+        </div>
+    </div>
+    <div class="card-footer">
+        <span class="dob">DOB: {{patientDetails?.patient?.dateOfBirth | date:'dd/MM/yyyy'}}</span>
+        <!-- <button class="btn-outline"><i class="fas fa-qrcode"></i> Generate QR</button> -->
+    </div>
+</div>

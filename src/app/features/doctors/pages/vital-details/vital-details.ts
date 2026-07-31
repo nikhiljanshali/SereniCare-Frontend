@@ -6,11 +6,12 @@ import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonMethod } from '../../../../core/services/common-method';
 import { StandardVitalInfo } from '../../../../shared/component/standard-vital-info/standard-vital-info';
+import { SideBarPatientHeader } from '../../../../shared/component/side-bar-patient-header/side-bar-patient-header';
 
 @Component({
   selector: 'app-vital-details',
   standalone: true,
-  imports: [FormsModule, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule, SideBarPatientHeader],
   templateUrl: './vital-details.html',
   styleUrl: './vital-details.css',
 })
@@ -73,11 +74,11 @@ export class VitalDetails {
     this.vitalForm = this.fb.group({
       doctorId: [{ value: this._storageOperation.get<any>('userDetails').id, disabled: false }, [Validators.required]],
       patientId: [{ value: this.patientDetails?.patient?._id, disabled: false }, [Validators.required]],
+      appointmentId: [{ value: this.patientDetails?.appointment?._id, disabled: false }, [Validators.required]],
       description: [{ value: '', disabled: false }, [Validators.required]],
       vitalDate: [{ value: '', disabled: false }, [Validators.required]],
       vitalTime: [{ value: '', disabled: false }, [Validators.required]],
       vitalDateTime: [{ value: '', disabled: false }],
-      appointmentId: [{ value: this.patientDetails?.appointment?._id, disabled: false }, [Validators.required]],
       bloodPressure: [{ value: '', disabled: false }, [Validators.required]],
       bloodPressureUnit: [{ value: '', disabled: false }, [Validators.required]],
       pulseRate: [{ value: '', disabled: false }, [Validators.required]],

@@ -1,0 +1,632 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+<form [formGroup]="gastrointestinalForm">
+    @if (activeTab === 1) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': gastrointestinalForm.get('paaNormalAbnormal')?.value === true,'abnormal-card': gastrointestinalForm.get('paaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Percussion & Ascites Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="gastrointestinalForm.get('paaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'paaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="gastrointestinalForm.get('paaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'paaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear"
+            [ngClass]="{'active': gastrointestinalForm.get('ppaNoFinding')?.value}"
+            (click)="toggleNoFinding('ppaNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark all normal — "Tympanic throughout, no shifting dullness"
+        </button>
+        @if (showAscitesBanner) {
+        <div class="ascites-banner">
+            <i class="bi bi-droplet-half"></i>
+            Ascites triad pattern — shifting dullness, fluid wave &amp; generalized
+            dullness co-selected
+        </div>
+        }
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Quadrant Percussion Map</label>
+                </div>
+                <div class="quad-wrap" formGroupName="quadrantPercussionMap">
+                    <div class="quad-map">
+                        <!-- RUQ -->
+                        <div class="quad-cell">
+                            <span class="qname">RUQ</span>
+                            <div class="qopts">
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.RUQ')?.value === 'Tympanic'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.RUQ')?.setValue('Tympanic')">
+                                    Tympanic
+                                </button>
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.RUQ')?.value === 'Dull'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.RUQ')?.setValue('Dull')">
+                                    Dull
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- LUQ -->
+                        <div class="quad-cell">
+                            <span class="qname">LUQ</span>
+                            <div class="qopts">
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.LUQ')?.value === 'Tympanic'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.LUQ')?.setValue('Tympanic')">
+                                    Tympanic
+                                </button>
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.LUQ')?.value === 'Dull'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.LUQ')?.setValue('Dull')">
+                                    Dull
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- RLQ -->
+                        <div class="quad-cell">
+                            <span class="qname">RLQ</span>
+                            <div class="qopts">
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.RLQ')?.value === 'Tympanic'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.RLQ')?.setValue('Tympanic')">
+                                    Tympanic
+                                </button>
+
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.RLQ')?.value === 'Dull'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.RLQ')?.setValue('Dull')">
+                                    Dull
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- LLQ -->
+                        <div class="quad-cell">
+                            <span class="qname">LLQ</span>
+
+                            <div class="qopts">
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.LLQ')?.value === 'Tympanic'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.LLQ')?.setValue('Tympanic')">
+                                    Tympanic
+                                </button>
+
+                                <button type="button" class="qopt"
+                                    [class.sel]="gastrointestinalForm.get('quadrantPercussionMap.LLQ')?.value === 'Dull'"
+                                    (click)="gastrointestinalForm.get('quadrantPercussionMap.LLQ')?.setValue('Dull')">
+                                    Dull
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="quad-legend">
+                        <span><b>RUQ</b> Right Upper</span>
+                        <span><b>LUQ</b> Left Upper</span>
+                        <span><b>RLQ</b> Right Lower</span>
+                        <span><b>LLQ</b> Left Lower</span>
+                    </div>
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="findingsNotes" cols="1" rows="16"
+                    placeholder="Findings...">
+                </textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Ascites Signs</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of AscitesSigns; track level.id) {
+                    <label class="check-wrap" [for]="'ascitesSigns_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'ascitesSigns_' + level.id"
+                            [checked]="isCheckboxSelected('ascitesSigns', level.value)"
+                            (change)="onCheckboxChange($event, 'ascitesSigns', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Other Findings</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of OtherFindings; track level.id) {
+                    <label class="check-wrap" [for]="'externalInspection_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'externalInspection_' + level.id"
+                            [checked]="isCheckboxSelected('otherFindings', level.value)"
+                            (change)="onCheckboxChange($event, 'otherFindings', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="percussionAscitesAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of percussionAscitesTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="togglePercussionAscitesAssessment(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @else if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': gastrointestinalForm.get('sasNormalAbnormal')?.value === true,'abnormal-card': gastrointestinalForm.get('sasNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Special Abdominal Signs (Localized Tests)</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="gastrointestinalForm.get('sasNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'sasNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="gastrointestinalForm.get('sasNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'sasNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear" [ngClass]="{'active': gastrointestinalForm.get('ssNoFinding')?.value}"
+            (click)="toggleNoFinding('ssNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark all normal — "All acute abdominal signs negative"
+        </button>
+        <div class="pe-field-group mb-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Finding Notes</label>
+            </div>
+            <textarea class="wz-input" id="pe-pulses" formControlName="ssFindingNotes" cols="1" rows="2"
+                placeholder="Finding Notes...."></textarea>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Localized Signs</label>
+                </div>
+                <div formGroupName="localizedSigns">
+                    @for (sign of localizedSignsList; track sign.control) {
+                    <div class="sign-row"
+                        [class.pos]="gastrointestinalForm.get('localizedSigns.' + sign.control)?.value === 'Positive'">
+                        <span class="name">
+                            <span class="sw"></span>
+                            {{ sign.label }}
+                        </span>
+                        <div class="sign-opts">
+                            @for (option of signOptions; track option) {
+                            <button type="button" class="sign-opt"
+                                [class.neg-sel]="gastrointestinalForm.get('localizedSigns.' + sign.control)?.value === option && option === 'Negative'"
+                                [class.pos-sel]="gastrointestinalForm.get('localizedSigns.' + sign.control)?.value === option && option === 'Positive'"
+                                [class.off]="gastrointestinalForm.get('localizedSigns.' + sign.control)?.value !== option"
+                                (click)="gastrointestinalForm.get('localizedSigns.' + sign.control)?.setValue(option)">
+                                {{ option }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Peritoneal Findings</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of OtherFindings; track level.id) {
+                    <label class="check-wrap" [for]="'peritonealFindings_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'peritonealFindings_' + level.id"
+                            [checked]="isCheckboxSelected('peritonealFindings', level.value)"
+                            (change)="onCheckboxChange($event, 'peritonealFindings', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="specialAbdominalSigns" cols="0"
+                    rows="10" placeholder="Note tracking fields or asymmetrical facial weakness defects..."></textarea>
+                <div class="pe-macros">
+                    @for (item of specialAbdominalSignsTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleSpecialAbdominalSigns(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @else if(activeTab == 3){
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': gastrointestinalForm.get('hssNormalAbnormal')?.value === true,'abnormal-card': gastrointestinalForm.get('hssNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Hernia Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="gastrointestinalForm.get('hssNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'hssNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="gastrointestinalForm.get('hssNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'hssNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear"
+            [ngClass]="{'active': gastrointestinalForm.get('hssNoFinding')?.value}"
+            (click)="toggleNoFinding('hssNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark all normal — "No hernias
+            identified"
+        </button>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div formGroupName="herniaTypes">
+                    @for (sign of herniaTypeList; track sign.control) {
+                    <div class="sign-row"
+                        [class.pos]="gastrointestinalForm.get('herniaTypes.' + sign.control)?.value === 'Positive'">
+                        <span class="name">
+                            <span class="sw"></span>
+                            {{ sign.label }}
+                        </span>
+                        <div class="sign-opts">
+                            @for (option of signOptions; track option) {
+                            <button type="button" class="sign-opt"
+                                [class.neg-sel]="gastrointestinalForm.get('herniaTypes.' + sign.control)?.value === option && option === 'Negative'"
+                                [class.pos-sel]="gastrointestinalForm.get('herniaTypes.' + sign.control)?.value === option && option === 'Positive'"
+                                [class.off]="gastrointestinalForm.get('herniaTypes.' + sign.control)?.value !== option"
+                                (click)="gastrointestinalForm.get('herniaTypes.' + sign.control)?.setValue(option)">
+                                {{ option }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="func-row">
+                    @for (item of herniaSpecificSigns; track item.control) {
+                    <div class="func-box">
+                        <div class="func-lbl">{{ item.label }}</div>
+
+                        <div class="func-opts">
+                            @for (option of item.options; track option) {
+                            <button type="button" class="func-opt"
+                                [class.sel-ok]="gastrointestinalForm.get(item.control)?.value === option && option === item.normalValue"
+                                [class.sel-bad]="gastrointestinalForm.get(item.control)?.value === option && option !== item.normalValue"
+                                [class.off]="gastrointestinalForm.get(item.control)?.value !== option"
+                                (click)="gastrointestinalForm.get(item.control)?.setValue(option)">
+                                {{ option }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="hssFindingNotes" cols="1" rows="2"
+                    placeholder="Finding Notes...."></textarea>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="herniaSurgicalScars" cols="0"
+                    rows="10" placeholder="Enter percussion findings..."></textarea>
+                <div class="pe-macros">
+                    @for (item of herniaSurgicalScarsTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleHerniaSurgicalScarsAssessment(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @else if(activeTab == 4){
+    <div class="pe-field-card">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Surgical Scars</div>
+        </div>
+        <button type="button" class="quick-clear"
+            [ngClass]="{'active': gastrointestinalForm.get('ppaNoFinding')?.value}"
+            (click)="toggleNoFinding('ppaNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark all normal — "No scars noted"
+        </button>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Scar Location</label>
+                </div>
+                <div class="quad-map" formGroupName="scarLocation">
+                    @for (location of scarLocations; track location.key) {
+                    <div class="quad-cell" [class.sel]="gastrointestinalForm.get('scarLocation.' + location.key)?.value"
+                        (click)="gastrointestinalForm.get('scarLocation.' + location.key)?.setValue(!gastrointestinalForm.get('scarLocation.' + location.key)?.value)">
+                        <span class="qname">{{ location.key }}</span>
+                        <span class="qtag">
+                            @if (gastrointestinalForm.get('scarLocation.' + location.key)?.value) {
+                            Scar Present
+                            } @else {
+                            Tap if scar present
+                            }
+                        </span>
+                    </div>
+                    }
+                </div>
+                <div class="quad-legend">
+                    @for (location of scarLocations; track location.key) {
+                    <span>
+                        <b>{{ location.key }}</b>
+                        {{ location.label }}
+                    </span>
+                    }
+                </div>
+
+            </div>
+            <div class="pe-field-group">
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Scar Character</label>
+                    </div>
+                    <div class="checkbox-list">
+                        @for (level of ScarCharacter; track level.id) {
+                        <label class="check-wrap" [for]="'scarCharacter_' + level.id">
+                            <input type="checkbox" class="check-input" [id]="'scarCharacter_' + level.id"
+                                [checked]="isCheckboxSelected('scarCharacter', level.value)"
+                                (change)="onCheckboxChange($event, 'scarCharacter', level.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">{{ level.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Wound Concerns</label>
+                    </div>
+                    <div class="checkbox-list">
+                        @for (level of WoundConcerns; track level.id) {
+                        <label class="check-wrap" [for]="'woundConcerns_' + level.id">
+                            <input type="checkbox" class="check-input" [id]="'woundConcerns_' + level.id"
+                                [checked]="isCheckboxSelected('woundConcerns', level.value)"
+                                (change)="onCheckboxChange($event, 'woundConcerns', level.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">{{ level.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                <div class="pt-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Findings Notes</label>
+                    </div>
+                    <textarea class="wz-input" id="pe-pulses" formControlName="scarFindingsNotes" cols="1" rows="8"
+                        placeholder="Findings...">
+                </textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @else if(activeTab == 5){
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': gastrointestinalForm.get('areNormalAbnormal')?.value === true,'abnormal-card': gastrointestinalForm.get('areNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Anorectal / Rectal Examination (Optional / Expandable Section)</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="gastrointestinalForm.get('areNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'areNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="gastrointestinalForm.get('areNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(gastrointestinalForm, 'areNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="quick-row">
+            <button type="button" class="quick-tag deferred" [class.sel]="selectedMode === 'deferred'"
+                (click)="setMode('deferred')">
+                <i class="bi bi-slash-circle"></i>
+                Deferred
+            </button>
+            <button type="button" class="quick-tag normal" [class.sel]="selectedMode === 'normal'"
+                (click)="setMode('normal')">
+                <i class="bi bi-check2-circle"></i>
+                Normal Sphincter Tone / Heme Negative
+            </button>
+        </div>
+        @if (selectedMode === 'normal') {
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Findings Notes</label>
+                    </div>
+                    <textarea class="wz-input" id="pe-pulses" formControlName="areFindingsNotes" cols="1" rows="5"
+                        placeholder=""></textarea>
+                </div>
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Sphincter Tone</label>
+                    </div>
+                    <div class="scale-wrap">
+                        <div class="scale-track">
+                            @for (tone of anorectalRectalExamination.sphincterTone; track tone.id) {
+                            <button type="button" class="scale-step"
+                                [class.sel]="gastrointestinalForm.get('sphincterTone')?.value === tone.value"
+                                [class.off]="gastrointestinalForm.get('sphincterTone')?.value !== tone.value"
+                                (click)="gastrointestinalForm.get('sphincterTone')?.setValue(tone.value)">
+                                {{ tone.label }}
+                            </button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Gross Blood</label>
+                    </div>
+                    <div class="blood-row">
+                        @for (section of bloodSections; track section.control) {
+                        <div class="blood-box">
+                            <div class="blood-lbl">
+                                {{ section.label }}
+                            </div>
+                            <div class="blood-opts">
+                                @for (option of section.options; track option) {
+                                <button type="button" class="blood-opt"
+                                    [class.sel-ok]="gastrointestinalForm.get(section.control)?.value === option && option === section.normalValue"
+                                    [class.sel-bad]="gastrointestinalForm.get(section.control)?.value === option && option !== section.normalValue"
+                                    [class.off]="gastrointestinalForm.get(section.control)?.value !== option"
+                                    (click)="gastrointestinalForm.get(section.control)?.setValue(option)">
+                                    {{ option }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">External Inspection</label>
+                    </div>
+                    <div class="checkbox-list">
+                        @for (level of ExternalInspection; track level.id) {
+                        <label class="check-wrap" [for]="'externalInspection_' + level.id">
+                            <input type="checkbox" class="check-input" [id]="'externalInspection_' + level.id"
+                                [checked]="isCheckboxSelected('externalInspection', level.value)"
+                                (change)="onCheckboxChange($event, 'externalInspection', level.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">{{ level.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">DRE Findings</label>
+                    </div>
+                    <div class="checkbox-list">
+                        @for (level of DreFindings; track level.id) {
+                        <label class="check-wrap" [for]="'dreFindings_' + level.id">
+                            <input type="checkbox" class="check-input" [id]="'dreFindings_' + level.id"
+                                [checked]="isCheckboxSelected('dreFindings', level.value)"
+                                (change)="onCheckboxChange($event, 'dreFindings', level.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">{{ level.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                <div class="pb-3">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Prostate (if applicable)</label>
+                    </div>
+                    <div class="checkbox-list">
+                        @for (level of ProstateFindings; track level.id) {
+                        <label class="check-wrap" [for]="'prostateFindings_' + level.id">
+                            <input type="checkbox" class="check-input" [id]="'prostateFindings_' + level.id"
+                                [checked]="isCheckboxSelected('prostateFindings', level.value)"
+                                (change)="onCheckboxChange($event, 'prostateFindings', level.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">{{ level.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+        @if (selectedMode === 'deferred') {
+        <div class="pe-field-group">
+            <div class="pe-field-header">
+                <label class="wz-label">Reason for Deferral (optional)</label>
+            </div>
+            <div class="deferred-panel">
+                <input type="text" placeholder="e.g., patient declined, not clinically indicated today..."
+                    formControlName="reasonforDeferral">
+            </div>
+        </div>
+        }
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="anorectalRectalExamination" cols="0"
+                    rows="10" placeholder="Enter percussion findings..."></textarea>
+                <div class="pe-macros">
+                    @for (item of anorectalRectalExaminationTagList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleAnorectalRectalExamination(item)">
+                        {{item.name}}
+                    </span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>

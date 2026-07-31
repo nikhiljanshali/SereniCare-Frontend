@@ -849,6 +849,7 @@ export interface InsuranceDetail {
   coverageAmount: number
   coverageDetails: string
   validFrom: string
+  validTo: string
   status: string
   __v: number
   createdAt: string
@@ -1502,4 +1503,418 @@ export interface CreatedBy {
 
 export interface UpdatedBy {
   _id: string
+}
+
+export interface IPhysicalExamination {
+  success: boolean
+  data: IPhysicalExaminationData[]
+  message: string
+}
+
+export interface IPhysicalExaminationData {
+  _id: string
+  patientId: IPatientDetails
+  generalSurvey: IGeneralSurvey[]
+  cardiovascular: ICardiovascular[]
+  respiratory: IRespiratory[]
+  neurological: INeurological[]
+  gastrointestinal: IGastrointestinal[]
+  heent: IHeent[]
+  genitourinary: IGenitourinary[]
+  musculoskeletal: IMusculoskeletal[]
+  skin: ISkin[]
+  psychiatric: IPsychiatric[]
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+export interface IPatientDetails {
+  emergencyContact: IEmergencyContact
+  _id: string
+  authUserId: string
+  firstName: string
+  middleName: string
+  lastName: string
+  dateOfBirth: string
+  gender: string
+  age: number
+  phone: string
+  email: string
+  address: string
+  country: string
+  state: string
+  city: string
+  pincode: string
+  patientCode: string
+  aadhaarNumber: string
+  status: string
+  primaryDoctorId: string
+  medicalHistories: string[]
+  insuranceDetails: string[]
+  isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+  UHIDSequenceNo: string
+}
+export interface IEmergencyContact {
+  name: string
+  relation: string
+  phone: string
+}
+export interface IGeneralSurvey {
+  painLevel: PainLevel
+  generalAppearance: IGeneralAppearance
+  patientId: string
+  constitutionalState: string
+  consciousness: string
+  orientation: string
+  nutritionalStatus: string
+  hydrationStatus: string
+  mobility: string
+  gait: string
+  distressLevel: string
+  hygiene: string
+  speech: string
+  moodBehavior: string
+  perfusion: string
+  notes: string
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface PainLevel {
+  score: number
+  location: string
+  character: string
+}
+export interface IGeneralAppearance {
+  NORMAL: boolean
+  ILL_LOOKING: boolean
+  TOXIC_LOOKING: boolean
+  DISTRESSED: boolean
+  UNCONSCIOUS: boolean
+  ALERT: boolean
+  ALERT_ORIENTED: boolean
+  DROWSY: boolean
+  LETHARGIC: boolean
+  RESTLESS: boolean
+  AGITATED: boolean
+  CONFUSED: boolean
+  DEHYDRATED: boolean
+  WELL_HYDRATED: boolean
+  PALE: boolean
+  CYANOSED: boolean
+  JAUNDICED: boolean
+  CACHECTIC: boolean
+  OBESE: boolean
+  UNDERWEIGHT: boolean
+  WELL_NOURISHED: boolean
+  MALNOURISHED: boolean
+  FEBRILE: boolean
+  DIAPHORETIC: boolean
+  COMFORTABLE: boolean
+  IN_PAIN: boolean
+}
+export interface ICardiovascular {
+  patientId: string
+  heartSoundAuscultation: string
+  hsaNormalAbnormal: boolean
+  heartSounds: string[]
+  heartRhythm: string[]
+  heartMurmurs: string[]
+  heartRate: number
+  peripheralPulsesPerfusion: string
+  pppNormalAbnormal: boolean
+  perfusionSide: string
+  pppNormalValue: string[]
+  pppAbNormalValue: string[]
+  perfusionfindingNotes: string
+  pulseQuality: string[]
+  otherFindding: string[]
+  radialPulse: number
+  dorsalisPedisPulse: number
+  postTibialPulse: number
+  extremitiesDependentEdemaTracking: string
+  edetNormalAbnormal: boolean
+  edemaSide: string
+  edemafindingNotes: string
+  edemafindingGrade: string[]
+  edemafindingLocation: string[]
+  riskFindings: string[]
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface IRespiratory {
+  patientId: string
+  effertsNChestExpansion: string
+  eceNormalAbnormal: boolean
+  respatoryRate: number
+  spo2: number
+  symmetry: string[]
+  effertsFindingNotes: string
+  effertsNormal: string[]
+  effertsIncreaseWorkOfBreathing: string[]
+  chestWallAbnormality: string[]
+  lungAuscultation: string
+  laNormalAbnormal: boolean
+  lungFindingsNotes: string
+  upperLR: number
+  midLR: number
+  baseLR: number
+  lungNormal: string[]
+  adventitiousSounds: string[]
+  airwayDiminished: string[]
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface INeurological {
+  pathologicalReflexes: PathologicalReflexes
+  patientId: string
+  cranialNerves: string
+  cnNormalAbnormal: boolean
+  cranialNervesFindingNotes: string
+  pupilsEyeMovements: string[]
+  facialHearing: string[]
+  palateSpeechNeck: string[]
+  lateralizedFindings: LateralizedFinding[]
+  mentalStatusOrientation: string
+  msoNormalAbnormal: boolean
+  levelConsciousness: string
+  mentalOrientation: MentalOrientation[]
+  mentalFindingNote: string
+  mentalMoodBehavior: string[]
+  mentalSpeech: string[]
+  coordinationCerebellarFunction: string
+  ccfNormalAbnormal: boolean
+  gaitPattern: string
+  gaitFindings: GaitFinding[]
+  coordinationCerebellarFindingNotes: string
+  rapidMovementsTremor: string[]
+  motorStrengthMatrix: string
+  msmNormalAbnormal: boolean
+  glasgowComaScale: GlasgowComaScale[]
+  muscleGroup: MuscleGroup[]
+  msmFindingNotes: string
+  toneDrift: string[]
+  globalPatterns: string[]
+  sensoryExam: string
+  seNormalAbnormal: boolean
+  sensoryExamination: SensoryExamination[]
+  hemisensoryLoss: HemisensoryLoss[]
+  sensoryFindingNote: string
+  sensoryDistributionPattern: string[]
+  deepTendonReflexes: string
+  dtrNormalAbnormal: boolean
+  reflexes: Reflex[]
+  dtrFindingNotes: string
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+
+
+
+export interface PathologicalReflexes {
+  babinski: string
+  sustainedClonus: string
+  hoffmansSign: string
+}
+
+export interface LateralizedFinding {
+  facialDroop: string
+  uvulaDeviation: string
+  tongueDeviation: string
+  _id: string
+}
+
+export interface MentalOrientation {
+  person: boolean
+  place: boolean
+  time: boolean
+  situation: boolean
+  _id: string
+}
+
+export interface GaitFinding {
+  rombergTest: string
+  tandemGait: string
+  dysmetria: string
+  abnormalHeelToShin: string
+  _id: string
+}
+
+export interface GlasgowComaScale {
+  eyeResponse: number
+  verbalResponse: number
+  motorResponse: number
+  _id: string
+}
+
+export interface MuscleGroup {
+  UpperExtL: number
+  UpperExtR: number
+  LowerExtL: number
+  LowerExtR: number
+  _id: string
+}
+
+export interface SensoryExamination {
+  extremity: string
+  lightTouch: string
+  pinprick: string
+  vibration: string
+  proprioception: string
+  _id: string
+}
+
+export interface HemisensoryLoss {
+  hemisensoryLoss: string
+  _id: string
+}
+
+export interface Reflex {
+  biceps: number
+  triceps: number
+  brachioradialis: number
+  patellarLeft: number
+  patellarRight: number
+  achillesLeft: number
+  achillesRight: number
+  _id: string
+}
+export interface IGastrointestinal {
+  patientId: string
+  percussionAscitesAssessment: string
+  paaNormalAbnormal: boolean
+  specialAbdominalSigns: string
+  sasNormalAbnormal: boolean
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface IHeent {
+  patientId: string
+  head: string
+  headAssessment: string
+  headNormalAbnormal: boolean
+  eyes: string
+  eyesAssessment: string
+  eyesNormalAbnormal: boolean
+  ears: string
+  earsAssessment: string
+  earsNormalAbnormal: boolean
+  nose: string
+  noseAssessment: string
+  noseNormalAbnormal: boolean
+  throat: string
+  throatAssessment: string
+  throatNormalAbnormal: boolean
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface IGenitourinary {
+  patientId: string
+  urinaryAssessment: string
+  uaNormalAbnormal: boolean
+  cvaAssessment: string
+  caNormalAbnormal: boolean
+  reproductiveAssessment: string
+  raNormalAbnormal: boolean
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface IMusculoskeletal {
+  patientId: string
+  spineAssessment: string
+  saNormalAbnormal: boolean
+  upperExtremityAssessment: string
+  ueaNormalAbnormal: boolean
+  lowerExtremityAssessment: string
+  leaNormalAbnormal: boolean
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface ISkin {
+  patientId: string
+  integrityAssessment: string
+  iaNormalAbnormal: boolean
+  vascularAssessment: string
+  vaNormalAbnormal: boolean
+  appendageAssessment: string
+  aaNormalAbnormal: boolean
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+
+export interface IPsychiatric {
+  patientId: string
+  behaviorAssessment: string
+  baNormalAbnormal: boolean
+  thoughtAssessment: string
+  taNormalAbnormal: boolean
+  cognitionAssessment: string
+  caNormalAbnormal: boolean
+  _id: string
+  createdAt: string
+  updatedAt: string
+}
+export interface GeneralAppearanceList {
+  id: number
+  code: string
+  name: string
+}
+
+export interface IChiefComplaint {
+  _id: string
+  doctorId: string
+  patientId: string
+  appointmentId: string
+  complaint: string
+  duration: string
+  onset: string
+  severity: string
+  associatedSymptoms: string[]
+  patientStatement: string
+  isActive: boolean
+  createdBy: string
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface IPresetIllness {
+  _id: string
+  doctorId: string
+  patientId: string
+  appointmentId: string
+  complaint: string
+  historyOfPresentIllness: string
+  onset: string
+  location: string
+  duration: string
+  character: string
+  severity: string
+  radiation: string
+  timing: string
+  aggravatingFactors: string[]
+  relievingFactors: string[]
+  associatedSymptoms: string[]
+  progression: string
+  previousEpisodes: string
+  treatmentsTried: string
+  responseToTreatment: string
+  additionalNotes: string
+  isActive: boolean
+  createdBy: string
+  createdAt: string
+  updatedAt: string
+  __v: number
 }

@@ -1,12 +1,10 @@
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { Injectable } from '@angular/core';
-
 @Injectable({
   providedIn: 'root',
 })
 export class CommonMethod {
-
-
+  
   getExperience(startDate: string | Date): string {
     const start = new Date(startDate);
     const today = new Date();
@@ -51,4 +49,14 @@ export class CommonMethod {
     });
   }
 
+
+  setHsaStatus(form: FormGroup, controlName: string, isNormal: boolean): void {
+    form.get(controlName)?.setValue(isNormal);
+  }
+
+  addControlIfNotExists(form: FormGroup, controlName: string, control: AbstractControl): void {
+    if (!form.contains(controlName)) {
+      form.addControl(controlName, control);
+    }
+  }
 }

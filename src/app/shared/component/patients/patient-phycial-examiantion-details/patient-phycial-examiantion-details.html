@@ -1,0 +1,696 @@
+<app-patient-detail-header [patientDetails]="patientDetails"></app-patient-detail-header>
+<div class="sheet">
+    <!-- ═══ Masthead ═══ -->
+    <!-- <div class="masthead">
+        <div class="masthead-top">
+            <div>
+                <div class="brand-line">
+                    <div class="brand-mark">
+                        <svg viewBox="0 0 24 24" fill="none">
+                            <path d="M12 3C7.58 3 4 6.58 4 11C4 15.42 7.58 19 12 19C16.42 19 20 15.42 20 11"
+                                stroke="white" stroke-width="1.8" stroke-linecap="round" />
+                            <path d="M12 7V11L14.5 13.5" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M17 3L20 6L17 9" stroke="white" stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <span class="brand-text">SereniCare · Clinical EMR</span>
+                </div>
+                <div class="doc-sub">Clinical Examination Report · Visit dated 27 June 2026</div>
+            </div>
+            <div class="status-chip"><i class="bi bi-check-circle-fill"></i> No Acute Distress</div>
+        </div>
+        <div class="pt-strip">
+            <div class="pt-block">
+                <div class="pt-lbl">Patient</div>
+                <div class="pt-val">{{patientDetails?.firstName}} {{patientDetails?.middleName}}
+                    {{patientDetails?.lastName}}<small>UHID
+                        #{{patientDetails?.UHIDSequenceNo}}</small></div>
+            </div>
+            <div class="pt-block">
+                <div class="pt-lbl">Age / Sex</div>
+                <div class="pt-val">{{patientDetails?.age}} Yrs<small>{{patientDetails?.gender}}</small></div>
+            </div>
+            <div class="pt-block">
+                <div class="pt-lbl">Examined By</div>
+                <div class="pt-val">Dr. {{patientDetails?.doctorDetails?.firstName}}
+                    {{patientDetails?.doctorDetails?.lastName}}<small>General Medicine</small></div>
+            </div>
+            <div class="pt-block">
+                <div class="pt-lbl">Date & Time</div>
+                <div class="pt-val">27 Jun 2026<small>09:14 AM</small></div>
+            </div>
+            <div class="pt-block">
+                <div class="pt-lbl">Encounter</div>
+                <div class="pt-val">Follow-up<small>OPD Visit</small></div>
+            </div>
+        </div>
+    </div> -->
+    <div class="file-tabs-header">
+        <div class="file-tabs">
+            @for (tab of tabs; track tab.id) {
+            <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+                {{ tab.title }}
+            </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="report-card">
+    @if (activeTab == 1) {
+    <ng-container>
+        <!-- Header -->
+        <div class="report-section">
+            <h2 class="section-title section-title-teal">Constitutional State / Distress</h2>
+            <div class="text-box">
+                {{ physicalExaminationReport?.generalSurvey?.[0]?.constitutionalState }}
+            </div>
+
+            <div class="findings-grid">
+                @for (generalAppearance of generalAppearanceList; track generalAppearance.id) {
+                <div class="finding-tag" [class.active]="isGeneralAppearanceActive(generalAppearance.code)">
+                    <span class="dot"></span>
+                    {{generalAppearance.name}}
+                </div>
+                }
+            </div>
+        </div>
+        <!-- 2. Clinical Findings -->
+        <div class="report-section">
+            <h2 class="section-title section-title-teal">Clinical Details</h2>
+            <div class="details-grid">
+                <!-- Group 1 -->
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Consciousness</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.consciousness}}</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Orientation</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.orientation}}</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Nutritional Status</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.nutritionalStatus}}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group 2 -->
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Hydration Status</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.hydrationStatus}}
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Mobility</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.mobility}}</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Gait</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.gait}}</div>
+                    </div>
+                </div>
+
+                <!-- Group 3 -->
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Distress Level</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.distressLevel}}</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Hygiene Level</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.hygiene}}</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Speech Level</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.speech}}</div>
+                    </div>
+                </div>
+
+                <!-- Group 4 -->
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Mood / Behavior</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.moodBehavior}}</div>
+                    </div>
+                </div>
+                <div class="detail-card">
+                    <div class="detail-item">
+                        <div class="detail-label">Skin Color / Perfusion</div>
+                        <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.perfusion}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 3. Pain Score -->
+        <div class="report-section">
+            <h2 class="section-title section-title-teal">Pain Assessment</h2>
+            <div class="pain-container">
+                <div class="detail-item">
+                    <div class="detail-label">Pain Score (1–10)</div>
+                    <div class="detail-value">{{ physicalExaminationReport?.generalSurvey?.[0]?.painLevel?.score }} / 10
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Pain Location</div>
+                    <div class="detail-value">{{physicalExaminationReport?.generalSurvey?.[0]?.painLevel?.location}}
+                    </div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Pain Character</div>
+                    <div class="detail-value">
+                        {{physicalExaminationReport?.generalSurvey?.[0]?.painLevel?.character}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 4. Notes -->
+        <div class="report-section">
+            <h2 class="section-title section-title-teal">Examination Notes</h2>
+            <div class="text-box">
+                {{ physicalExaminationReport?.generalSurvey?.[0]?.notes }}
+            </div>
+        </div>
+    </ng-container>
+    }
+    @else if(activeTab == 2){
+    <!-- Header -->
+    <div class="report-section">
+        <h2 class="section-title "
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.cardiovascular?.[0]?.hsaNormalAbnormal,'section-title-rose':physicalExaminationReport?.cardiovascular?.[0]?.hsaNormalAbnormal}">
+            Heart Sounds & Auscultation</h2>
+        <div class="details-grid">
+            <!-- Group 1 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Heart Sound</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.heartSounds}}</div>
+                </div>
+            </div>
+            <!-- Group 2 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Rhythm</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.heartRhythm}}</div>
+                </div>
+            </div>
+            <!-- Group 3 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Murmurs</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.heartMurmurs}}
+                    </div>
+                </div>
+            </div>
+            <!-- Group 4 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Rate</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.heartRate}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.heartSoundAuscultation}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="report-section">
+        <h2 class="section-title"
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.cardiovascular?.[0]?.pppNormalAbnormal,'section-title-rose':physicalExaminationReport?.cardiovascular?.[0]?.pppNormalAbnormal}">
+            Peripheral Pulses & Perfusion
+        </h2>
+        <div class="details-grid">
+            <!-- Group 1 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Perfusion Side</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.perfusionSide}}</div>
+                </div>
+            </div>
+            <!-- Group 2 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Pulse Quality</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.pulseQuality}}</div>
+                </div>
+            </div>
+            <!-- Group 3 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Findings Notes</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.perfusionfindingNotes}}
+                    </div>
+                </div>
+            </div>
+            <!-- Group 4 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Perfusion — Other Findings</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.otherFindding}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 class="section-title mt-3"
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.cardiovascular?.[0]?.pppNormalAbnormal,'section-title-rose':physicalExaminationReport?.cardiovascular?.[0]?.pppNormalAbnormal}">
+            QUICK PULSE GRADING (0-4+)
+        </h2>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="pulse-grading-container">
+                    <div class="pulse-table">
+                        <!-- Table Header Row -->
+                        <div class="pulse-row header-row">
+                            <div class="cell site-column">SITE</div>
+                            <div class="cell grade-column">0</div>
+                            <div class="cell grade-column">1+</div>
+                            <div class="cell grade-column">2+</div>
+                            <div class="cell grade-column">3+</div>
+                        </div>
+                        <div class="pulse-row">
+                            <div class="cell site-column site-name">Radial</div>
+                            @for (option of gradeOptions; track option.value) {
+                            <div class="cell grade-column">
+                                <button type="button" class="pulse-pill-btn"
+                                    [class.active]="physicalExaminationReport?.cardiovascular?.[0]?.radialPulse === option.value">
+                                    {{ option.display }}
+                                </button>
+                            </div>
+                            }
+                        </div>
+                        <div class="pulse-row">
+                            <div class="cell site-column site-name">Dorsalis Pedis</div>
+                            @for (option of gradeOptions; track option.value) {
+                            <div class="cell grade-column">
+                                <button type="button" class="pulse-pill-btn"
+                                    [class.active]="physicalExaminationReport?.cardiovascular?.[0]?.dorsalisPedisPulse === option.value">
+                                    {{ option.display }}
+                                </button>
+                            </div>
+                            }
+                        </div>
+                        <div class="pulse-row">
+                            <div class="cell site-column site-name">Post. Tibial</div>
+                            @for (option of gradeOptions; track option.value) {
+                            <div class="cell grade-column">
+                                <button type="button" class="pulse-pill-btn"
+                                    [class.active]="physicalExaminationReport?.cardiovascular?.[0]?.postTibialPulse === option.value">
+                                    {{ option.display }}
+                                </button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-value">
+                        {{physicalExaminationReport?.cardiovascular?.[0]?.peripheralPulsesPerfusion}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="report-section">
+        <h2 class="section-title "
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.cardiovascular?.[0]?.edetNormalAbnormal,'section-title-rose':physicalExaminationReport?.cardiovascular?.[0]?.edetNormalAbnormal}">
+            Extremities & Dependent Edema Tracking
+        </h2>
+        <div class="details-grid">
+            <!-- Group 1 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Side</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.edemaSide}}</div>
+                </div>
+            </div>
+            <!-- Group 2 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Findings Notes</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.edemafindingNotes}}
+                    </div>
+                </div>
+            </div>
+            <!-- Group 3 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Edema Grades</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.edemafindingGrade}}
+                    </div>
+                </div>
+            </div>
+            <!-- Group 4 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Edema Locations</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.edemafindingLocation}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Risk Findings</div>
+                    <div class="detail-value">{{physicalExaminationReport?.cardiovascular?.[0]?.riskFindings}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-value">
+                        {{physicalExaminationReport?.cardiovascular?.[0]?.extremitiesDependentEdemaTracking}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @else if(activeTab == 3){
+    <div class="report-section">
+        <h2 class="section-title "
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.respiratory?.[0]?.eceNormalAbnormal,'section-title-rose':physicalExaminationReport?.respiratory?.[0]?.eceNormalAbnormal}">
+            Effort & Chest Expansion
+        </h2>
+        <div class="details-grid">
+            <!-- Group 1 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Resp. Rate</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.respatoryRate}}</div>
+                </div>
+            </div>
+            <!-- Group 2 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">SpO₂</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.spo2}}</div>
+                </div>
+            </div>
+            <!-- Group 3 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Findings Notes</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.effertsFindingNotes}}
+                    </div>
+                </div>
+            </div>
+            <!-- Group 4 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Symmetry</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.symmetry}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Symmetry</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.effertsNormal}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Normal</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.effertsNormal}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Increased Work of Breathing</div>
+                    <div class="detail-value">
+                        {{physicalExaminationReport?.respiratory?.[0]?.effertsIncreaseWorkOfBreathing}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Chest Wall Abnormality</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.chestWallAbnormality}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.effertsNChestExpansion}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="report-section">
+        <h2 class="section-title "
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.respiratory?.[0]?.laNormalAbnormal,'section-title-rose':physicalExaminationReport?.respiratory?.[0]?.laNormalAbnormal}">
+            Auscultation by Zone
+        </h2>
+        <div class="details-grid">
+            <div class="detail-card">
+                <div class="pulse-grading-container">
+                    <div class="pulse-table">
+                        <div class="pulse-row header-row">
+                            <div class="cell site-column">Zone</div>
+                            <div class="cell grade-column">Clear</div>
+                            <div class="cell grade-column">Diminished</div>
+                            <div class="cell grade-column">Wheeze</div>
+                            <div class="cell grade-column">Crackles</div>
+                        </div>
+                        <div class="pulse-row">
+                            <div class="cell site-column site-name">Upper L / R</div>
+                            @for (option of gradeOptions; track option.value) {
+                            <div class="cell grade-column">
+                                <label class="checkbox-container">
+                                    <input type="radio" name="upperZoneGroup" [value]="option.value"
+                                        [checked]="physicalExaminationReport?.respiratory?.[0]?.upperLR === option.value" />
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            }
+                        </div>
+                        <div class="pulse-row">
+                            <div class="cell site-column site-name">Mid L / R</div>
+                            @for (option of gradeOptions; track option.value) {
+                            <div class="cell grade-column">
+                                <label class="checkbox-container">
+                                    <input type="radio" name="midZoneGroup" [value]="option.value"
+                                        [checked]="physicalExaminationReport?.respiratory?.[0]?.midLR === option.value">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            }
+                        </div>
+                        <div class="pulse-row">
+                            <div class="cell site-column site-name">Base L / R</div>
+                            @for (option of gradeOptions; track option.value) {
+                            <div class="cell grade-column">
+                                <label class="checkbox-container">
+                                    <input type="radio" name="baseZoneGroup" [value]="option.value"
+                                        [checked]="physicalExaminationReport?.respiratory?.[0]?.baseLR === option.value">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <!-- Group 3 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Findings Notes</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.lungFindingsNotes}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Normal</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.lungNormal}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Adventitious Sounds</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.adventitiousSounds}}
+                    </div>
+                </div>
+            </div>
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Adventitious Sounds</div>
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.airwayDiminished}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-value">{{physicalExaminationReport?.respiratory?.[0]?.lungAuscultation}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @else if(activeTab === 4){
+    <div class="report-section">
+        <h2 class="section-title "
+            [ngClass]="{'section-title-teal':!physicalExaminationReport?.neurological?.[0]?.cnNormalAbnormal,'section-title-rose':physicalExaminationReport?.neurological?.[0]?.cnNormalAbnormal}">
+            Cranial Nerves (II - XII Evaluation)
+        </h2>
+        <div class="details-grid">
+            <!-- Group 1 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Findings Notes</div>
+                    <div class="detail-value">
+                        {{physicalExaminationReport?.neurological?.[0]?.cranialNervesFindingNotes}}</div>
+                </div>
+            </div>
+            <!-- Group 2 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Pupils / Eye Movements</div>
+                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.pupilsEyeMovements}}</div>
+                </div>
+            </div>
+            <!-- Group 3 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Facial / Hearing</div>
+                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.facialHearing}}
+                    </div>
+                </div>
+            </div>
+            <!-- Group 4 -->
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Palate / Speech / Neck</div>
+                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.palateSpeechNeck}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-label">Lateralized Findings — select side if present</div>
+
+                    <div class="lat-finding">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Facial Droop (CN VII)
+                        </span>
+
+                        <div class="lat-opts">
+                            <button type="button" class="lat-opt"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'L'">
+                                L
+                            </button>
+
+                            <button type="button" class="lat-opt"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'R'">
+                                R
+                            </button>
+
+                            <button type="button" class="lat-opt none"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'None'">
+                                None
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lat-finding">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Uvula Deviation (CN X)
+                        </span>
+
+                        <div class="lat-opts">
+                            <button type="button" class="lat-opt"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'L'">
+                                L
+                            </button>
+
+                            <button type="button" class="lat-opt"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'R'">
+                                R
+                            </button>
+
+                            <button type="button" class="lat-opt none"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'None'">
+                                None
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="lat-finding">
+                        <span class="name">
+                            <span class="sw"></span>
+                            Tongue Deviation (CN XII)
+                        </span>
+
+                        <div class="lat-opts">
+                            <button type="button" class="lat-opt"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'L'">
+                                L
+                            </button>
+
+                            <button type="button" class="lat-opt"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'R'">
+                                R
+                            </button>
+
+                            <button type="button" class="lat-opt none"
+                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'None'">
+                                None
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="details-grid mt-3">
+            <div class="detail-card">
+                <div class="detail-item">
+                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.cranialNerves}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>

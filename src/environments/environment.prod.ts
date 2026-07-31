@@ -19,7 +19,20 @@ export const environment = {
     appointmentBooking: '/appointmentBookings',
     supplier: '/supplier',
     medicine: '/medicine',
-    prescription: '/prescription'
+    prescription: '/prescription',
+    chiefComplaint: '/chiefComplaint',
+    vitals: '/vitals',
+    diseases: '/diseases',
+    surgery: '/surgery',
+    pastMedical: '/pastMedical',
+    pastSurgical: '/pastSurgical',
+    riskMaster: '/riskMaster',
+    patientRisk: '/patientRisk',
+    patientDrugReaction: '/patientDrugReaction',
+    patientAllergies: '/patientAllergies',
+    familyHistory: '/familyHistory',
+    familyHistoryLineage: '/familyHistoryLineage',
+    physicalExamination: '/physicalExamination'
   },
   features: {
     enableNotifications: true,

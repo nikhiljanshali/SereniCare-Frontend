@@ -170,7 +170,10 @@ export class PatientList {
   }
 
   public openMedicalHistory(patient: IPatientsData) {
-    this.sidebar()?.openRightSidebar('Patient Medical History', 'patient', patient);
+    let patientDetails = {
+      patient: patient
+    }
+    this.sidebar()?.openRightSidebar('Patient Medical History', 'patient', patientDetails);
   }
 
   public openFilter(): void {
@@ -186,7 +189,6 @@ export class PatientList {
       });
 
     modalRef.content.returnResult.subscribe((data: any) => {
-      console.log(data.length);
       if (data.length) {
         this.patientsList = this.paginatedPatientList = [];
         this.patientsList = this.paginatedPatientList = data;
@@ -207,25 +209,20 @@ export class PatientList {
     this.sidebar()?.openRightSidebar('Patient Chief Complaint Details', 'patient-chief-complaint', json);
   }
 
-  public openVitalPopup(patient: IPatientsData, appointment: Appointment): void {
+  public recordVitalDetails(patient: IPatientsData, appointment: Appointment): void {
     var json = {
       patient: patient,
       appointment: appointment,
     }
     this.sidebar()?.openRightSidebar('Patient Vital Details', 'patient-vital-details', json);
-    // const modalRef = this._modalService.openComponentModal(VitalDetails, {
-    //   class: 'modal-dialog-centered modal-lg',
-    //   backdrop: 'static',
-    //   keyboard: false,
-    //   initialState: {
-    //     // filterDetails: this.appointmentList,
-    //     // filterColumns: ['appointmentNumber', 'createdAt', 'firstName', 'middleName', 'lastName', 'appointmentType', 'consultationMode', 'appointmentStatus', 'bookingSource', 'symptoms', 'paymentStatus']
-    //   }
-    // });
+  }
 
-    // modalRef.content.returnResult.subscribe((data: any) => {
-    //   console.log(data.length);
-    // });
+  public recordHIP(patient: IPatientsData, appointment: Appointment): void {
+    var json = {
+      patient: patient,
+      appointment: appointment,
+    }
+    this.sidebar()?.openRightSidebar('Patient History of Present Illness (HPI)', 'patient-hpi-details', json);
   }
 
   public openVitalHistoryPopup(patient: IPatientsData): void {

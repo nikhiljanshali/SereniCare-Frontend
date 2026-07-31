@@ -9,12 +9,12 @@ import { NotificationServices } from './notification-services';
   providedIn: 'root',
 })
 export class DiseasesService {
-  private baseUrl: string = '';
+  private baseUrl: string = environment.apiUrl + environment.middleware + (environment.endpoints as any).diseases + '/';
   constructor(
     private _coreApiService: CoreApiService,
     private _notificationServices: NotificationServices
   ) {
-    this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.diseases + '/';
+    // this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.diseases + '/';
   }
 
   public getAllDiseases(showNotificaion: boolean = false): Observable<any> {

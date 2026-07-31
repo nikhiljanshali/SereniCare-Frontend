@@ -8,6 +8,9 @@ import { PatientMedicalHistory } from './pages/patient-medical-history/patient-m
 import { PatientProfile } from './pages/patient-profile/patient-profile';
 import { PatientExamination } from './pages/patient-examination/patient-examination';
 import { roleGuard } from '../../core/guards/role.guard';
+import { PatientChiefOfComplaint } from './pages/patient-chief-of-complaint/patient-chief-of-complaint';
+import { PatientPresentIllness } from './pages/patient-present-illness/patient-present-illness';
+import { PatientPhycialExamiantionDetails } from '../../shared/component/patients/patient-phycial-examiantion-details/patient-phycial-examiantion-details';
 
 const routes: Routes = [
   {
@@ -39,6 +42,30 @@ const routes: Routes = [
         data: {
           roles: [Roles.SystemAdmin, Roles.Patient],
           animation: 'PatientProfile'
+        }
+      },
+      {
+        path: 'master/chiefofComplaint',
+        component: PatientChiefOfComplaint,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/presentillness',
+        component: PatientPresentIllness,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/physicalexamination',
+        component: PatientPhycialExamiantionDetails,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
         }
       },
       {

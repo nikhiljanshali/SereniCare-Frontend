@@ -8,12 +8,11 @@ import { NotificationServices } from './notification-services';
   providedIn: 'root',
 })
 export class FamilyHistoryService {
-  private baseUrl: string = '';
+  private baseUrl: string = environment.apiUrl + environment.middleware + environment.endpoints.familyHistory + '/';
   constructor(
     private _coreApiService: CoreApiService,
     private _notificationServices: NotificationServices
   ) {
-    this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.familyHistory + '/';
   }
 
   public getAllFamilyHistory(showNotificaion: boolean = false): Observable<any> {

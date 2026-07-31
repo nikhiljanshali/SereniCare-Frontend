@@ -9,9 +9,9 @@
                 <span
                     class="breadcrumb-sep">{{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}</span>
             </div>
-            <!-- <div class="ph-title">
-                {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}
-            </div> -->
+            <div class="ph-title">
+                Physical Examination
+            </div>
             <!-- <div class="ph-sub">
                 · Code : <strong>{{patientDetails?.patientCode}}</strong>
                 · DOB : <strong>{{patientDetails?.dateOfBirth | date : 'dd/MM/yyy' }}</strong>
@@ -22,13 +22,13 @@
         <div class="header-actions">
             <!-- <button class="btn btn-outline-primary btn-sm">
                 <i class="bi bi-arrow-clockwise"></i>
-            </button>
-            <button class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-pencil"></i> Edit Profile
-            </button>
-            <button class="btn btn-primary btn-sm">
-                <i class="bi bi-calendar2-plus"></i> Book Appointment
             </button> -->
+            <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                <i class="bi bi-patch-plus"></i> Patch Dummy Data
+            </button>
+            <button class="btn btn-primary btn-sm" (click)="savePhysicalExam();">
+                <i class="bi bi-calendar2-plus"></i> Save
+            </button>
         </div>
     </div>
     <div class="dpd-layout">
@@ -93,14 +93,16 @@
         <!-- ── RIGHT COLUMN ── -->
         <div class="dpd-right">
             <div class="appt-card">
-                <div class="file-tabs">
-                    @for (tab of horizontalTabs; track tab.id) {
-                    <div class="file-tab" (click)="changeHorizontalTab(tab.id)"
-                        [ngClass]="{ 'active': activeHorizontalTab === tab.id }">
-                        {{ tab.title }}
+                <!-- <div class="file-tabs-header">
+                    <div class="file-tabs">
+                        @for (tab of horizontalTabs; track tab.id) {
+                        <div class="file-tab" (click)="changeHorizontalTab(tab.id)"
+                            [ngClass]="{ 'active': activeHorizontalTab === tab.id }">
+                            {{ tab.title }}
+                        </div>
+                        }
                     </div>
-                    }
-                </div>
+                </div> -->
                 @if (activeHorizontalTab === 1) {
                 <!-- ═══════════════ MAIN PHYSICAL EXAMINATION MATRIX ═══════════════ -->
                 <div class="pe-container">
@@ -118,542 +120,158 @@
                         }
                     </nav>
                     <!-- Dynamic Body Examination Form Section Panels -->
-                    <div class="pe-body-content">
-                        @if (selectedTab === 1) {
-                        <!-- SYSTEM PANEL: GENERAL SURVEY -->
-                        <div id="sys-general" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 1 }">
-                            <header class="pe-panel-header"> General Survey & Appearance</header>
-                            <form [formGroup]="generalSurveyForm">
-                                <!-- Constitutional Field -->
-                                <div class="pe-grid-row">
-                                    <div class="pe-field-card">
-                                        <div class="pe-field-header">
-                                            <div class="pe-field-title">Constitutional State / Distress
-                                                <span class="wz-req">*</span>
-                                            </div>
-                                        </div>
-                                        <textarea class="wz-input" rows="5" formControlName="distress"
-                                            placeholder="Describe patient distress level, habitus, hygiene details..."></textarea>
-                                        <div class="pe-macros mt-3" formGroupName="generalAppearance">
-                                            <div class="row">
-                                                @for (generalAppearance of generalAppearanceList; track
-                                                generalAppearance.id) {
-                                                <div class="col-md-6 mb-2">
-                                                    <label class="check-wrap" [for]="'ga_' + generalAppearance.id">
-                                                        <input type="checkbox" class="check-input"
-                                                            [id]="'ga_' + generalAppearance.id"
-                                                            [formControlName]="generalAppearance.code"
-                                                            [value]="generalAppearance.code">
-                                                        <span class="check-box"></span>
-                                                        <span class="check-label">
-                                                            {{ generalAppearance.name }}
-                                                        </span>
-                                                    </label>
-                                                </div>
-                                                }
-                                            </div>
-                                        </div>
-                                        <div class="wz-form-group mt-3">
-                                            <label class="wz-label">Notes
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <textarea class="wz-input" rows="19" formControlName="notes"
-                                                placeholder="Enter any additional notes..."></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="pe-field-card">
-                                        <div class="pe-field-header">
-                                            <div class="pe-field-title">Other Details</div>
-                                            <!-- <div class="pe-toggle-group">
-                                                <button class="pe-toggle-btn normal active">Normal</button>
-                                                <button class="pe-toggle-btn abnormal">Abnormal</button>
-                                            </div> -->
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Consciousness
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="consciousness">
-                                                <option [ngValue]="null">Select Consciousness Level</option>
-                                                @for (level of Consciousness; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Orientation
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="orientation">
-                                                <option [ngValue]="null">Select Orientation Level</option>
-                                                @for (level of Orientation; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Nutritional Status
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="nutritionalStatus">
-                                                <option [ngValue]="null">Select Nutritional Status</option>
-                                                @for (level of NutritionalStatusOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Hydration Status
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="hydrationStatus">
-                                                <option [ngValue]="null">Select Hydration Status</option>
-                                                @for (level of HydrationStatusOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Mobility
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="mobility">
-                                                <option [ngValue]="null">Select Mobility</option>
-                                                @for (level of MobilityOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Gait
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="gait">
-                                                <option [ngValue]="null">Select Gait</option>
-                                                @for (level of GaitOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div formGroupName="painLevel" class="flex-container">
-                                            <!-- Pain Score Dropdown -->
-                                            <div class="wz-form-group">
-                                                <label class="wz-label">Pain Score
-                                                    <!-- <span class="wz-req">*</span> -->
-                                                </label>
-                                                <select class="wz-select w-100" formControlName="score">
-                                                    <option [ngValue]="null">Select Score</option>
-                                                    @for (level of painScoreOptions; track level.value) {
-                                                    <option [value]="level.value">
-                                                        {{ level.label }}
-                                                    </option>
-                                                    }
-                                                </select>
-                                            </div>
-                                            <!-- Pain Location Input/Dropdown -->
-                                            <div class="wz-form-group">
-                                                <label class="wz-label">Pain Location
-                                                    <!-- <span class="wz-req">*</span> -->
-                                                </label>
-                                                <input class="wz-input w-100" type="text" placeholder="e.g., Lower Back"
-                                                    formControlName="location">
-                                            </div>
-                                            <!-- Pain Character Dropdown -->
-                                            <div class="wz-form-group">
-                                                <label class="wz-label">Pain Character
-                                                    <!-- <span class="wz-req">*</span> -->
-                                                </label>
-                                                <select class="wz-select w-100" formControlName="character">
-                                                    <option [ngValue]="null">Select Character</option>
-                                                    @for (level of painCharacterOptions; track level.value) {
-                                                    <option [value]="level.value">
-                                                        {{ level.label }}
-                                                    </option>
-                                                    }
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Distress Level
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="distressLevel">
-                                                <option [ngValue]="null">Select Distress Level</option>
-                                                @for (level of DistressLevelOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Hygiene Level
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="hygiene">
-                                                <option [ngValue]="null">Select Hygiene Level</option>
-                                                @for (level of HygieneGroomingOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Speech Level
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="speech">
-                                                <option [ngValue]="null">Select Speech Level</option>
-                                                @for (level of SpeechOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Mood / Behavior
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="moodBehavior">
-                                                <option [ngValue]="null">Select Mood / Behavior</option>
-                                                @for (level of MoodBehaviorOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                        <div class="wz-form-group">
-                                            <label class="wz-label">Skin Color / Perfusion
-                                                <!-- <span class="wz-req">*</span> -->
-                                            </label>
-                                            <select class="wz-select" formControlName="skinColorPerfusion">
-                                                <option [ngValue]="null">Select Skin Color / Perfusion</option>
-                                                @for (level of SkinColorPerfusionOptions; track level.value) {
-                                                <option [value]="level.value">
-                                                    {{ level.label }}
-                                                </option>
-                                                }
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        }
-                        @if (selectedTab === 2) {
-                        <!-- SYSTEM PANEL: CARDIOVASCULAR -->
-                        <div id="sys-cardio" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 2 }">
-                            <header class="pe-panel-header"> Cardiovascular Assessment</header>
-                            <form [formGroup]="cardiovascularForm">
-                                <div class="pe-grid-row">
-                                    <!-- Auscultation Field -->
-                                    <div class="pe-field-card" [ngClass]="{
-                                            'normal-card': cardiovascularForm.get('hsaNormalAbnormal')?.value === true,
-                                            'abnormal-card': cardiovascularForm.get('hsaNormalAbnormal')?.value === false 
-                                            }">
-                                        <div class="pe-field-header">
-                                            <div class="pe-field-title">Heart Sounds & Auscultation</div>
-                                            <div class="pe-toggle-group">
-                                                <button type="button" class="pe-toggle-btn normal"
-                                                    [class.active]="cardiovascularForm.get('hsaNormalAbnormal')?.value === true"
-                                                    (click)="setHsaStatus(cardiovascularForm, 'hsaNormalAbnormal',true)">
-                                                    Normal
-                                                </button>
-                                                <button type="button" class="pe-toggle-btn abnormal"
-                                                    [class.active]="cardiovascularForm.get('hsaNormalAbnormal')?.value === false"
-                                                    (click)="setHsaStatus(cardiovascularForm, 'hsaNormalAbnormal',false)">
-                                                    Abnormal
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <textarea class="pe-textarea" id="pe-cardio-sounds"
-                                            formControlName="heartSoundAuscultation" cols="1" rows="10"
-                                            placeholder="Auscultate apex, rate rhythm and extra valve click anomalies..."></textarea>
-                                        <div class="pe-macros">
-                                            <!-- <span class="pe-macro-pill">RRR S1 S2</span> -->
-                                            @for (item of heartSoundsList; track $index) {
-                                            <span class="pe-macro-pill"
-                                                (click)="toggleHeartSound(item)">{{item.name}}</span>
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <!-- Peripheral Pulses Field -->
-                                    <div class="pe-field-card" [ngClass]="{
-                                            'normal-card': cardiovascularForm.get('pppNormalAbnormal')?.value === true,
-                                            'abnormal-card': cardiovascularForm.get('pppNormalAbnormal')?.value === false 
-                                            }">
-                                        <div class="pe-field-header">
-                                            <div class="pe-field-title">Peripheral Pulses & Perfusion</div>
-                                            <div class="pe-toggle-group">
-                                                <button type="button" class="pe-toggle-btn normal"
-                                                    [class.active]="cardiovascularForm.get('pppNormalAbnormal')?.value === true"
-                                                    (click)="setHsaStatus(cardiovascularForm, 'pppNormalAbnormal',true)">
-                                                    Normal
-                                                </button>
-                                                <button type="button" class="pe-toggle-btn abnormal"
-                                                    [class.active]="cardiovascularForm.get('pppNormalAbnormal')?.value === false"
-                                                    (click)="setHsaStatus(cardiovascularForm, 'pppNormalAbnormal',false)">
-                                                    Abnormal
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <textarea class="pe-textarea" id="pe-pulses"
-                                            formControlName="peripheralPulsesPerfusion" cols="1" rows="10"
-                                            placeholder="Grade radial, dorsalis pedis pulses (e.g. 2+)..."></textarea>
-                                        <div class="pe-macros">
-                                            @for (item of pulsesPerfusionList; track $index) {
-                                            <span class="pe-macro-pill"
-                                                (click)="togglePeripheralPulsesPerfusion(item)">{{item.name}}</span>
-                                            }
-                                            <!-- <span class="pe-macro-pill">Cap Refill < 2s</span> -->
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Edema Field -->
-                                <div class="pe-field-card" [ngClass]="{
-                                            'normal-card': cardiovascularForm.get('edetNormalAbnormal')?.value === true,
-                                            'abnormal-card': cardiovascularForm.get('edetNormalAbnormal')?.value === false 
-                                            }">
-                                    <div class="pe-field-header">
-                                        <div class="pe-field-title">Extremities & Dependent Edema Tracking</div>
-                                        <div class="pe-toggle-group">
-                                            <button type="button" class="pe-toggle-btn normal"
-                                                [class.active]="cardiovascularForm.get('edetNormalAbnormal')?.value === true"
-                                                (click)="setHsaStatus(cardiovascularForm, 'edetNormalAbnormal',true)">
-                                                Normal
-                                            </button>
-                                            <button type="button" class="pe-toggle-btn abnormal"
-                                                [class.active]="cardiovascularForm.get('edetNormalAbnormal')?.value === false"
-                                                (click)="setHsaStatus(cardiovascularForm, 'edetNormalAbnormal',false)">
-                                                Abnormal
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <textarea class="pe-textarea" id="pe-edema"
-                                        formControlName="extremitiesDependentEdemaTracking" cols="1" rows="5"
-                                        placeholder="Check for pitting edema over shins/ankles..."></textarea>
-                                    <div class="pe-macros">
-                                        @for (item of edemaExtremitiesList; track $index) {
-                                        <span class="pe-macro-pill"
-                                            (click)="toggleExtremitiesDependentEdema(item)">{{item.name}}</span>
-                                        }
-                                        <!-- <span class="pe-macro-pill">1+ Malleolar Edema</span> -->
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        }
-                        @if (selectedTab === 3) {
-                        <!-- SYSTEM PANEL: RESPIRATORY -->
-                        <div id="sys-resp" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 3 }">
-                            <header class="pe-panel-header">
-                                Respiratory / Pulmonary Matrix
-                            </header>
-                            <form [formGroup]="respiratoryForm">
-                                <div class="pe-grid-row">
-                                    <div class="pe-field-card" [ngClass]="{
-                                            'normal-card': respiratoryForm.get('eceNormalAbnormal')?.value === true,
-                                            'abnormal-card': respiratoryForm.get('eceNormalAbnormal')?.value === false 
-                                            }">
-                                        <div class="pe-field-header">
-                                            <div class="pe-field-title">Effort & Chest Expansion</div>
-                                            <div class="pe-toggle-group">
-                                                <button type="button" class="pe-toggle-btn normal"
-                                                    [class.active]="respiratoryForm.get('eceNormalAbnormal')?.value === true"
-                                                    (click)="setHsaStatus(respiratoryForm, 'eceNormalAbnormal',true)">
-                                                    Normal
-                                                </button>
-                                                <button type="button" class="pe-toggle-btn abnormal"
-                                                    [class.active]="respiratoryForm.get('eceNormalAbnormal')?.value === false"
-                                                    (click)="setHsaStatus(respiratoryForm, 'eceNormalAbnormal',false)">
-                                                    Abnormal
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <textarea class="pe-textarea" id="pe-resp-effort"
-                                            formControlName="effertsNChestExpansion" cols="0" rows="10"
-                                            placeholder="Assess breath accessory muscles utilization..."></textarea>
-                                        <div class="pe-macros">
-                                            @for (item of respiratoryEffortList; track $index) {
-                                            <span class="pe-macro-pill" (click)="toggleEffortChestExpansion(item)">
-                                                {{item.name}}
-                                            </span>
-                                            }
-                                            <!-- <span class="pe-macro-pill">Unlabored Symmetric</span> -->
-                                        </div>
-                                    </div>
-                                    <div class="pe-field-card" [ngClass]="{
-                                            'normal-card': respiratoryForm.get('laNormalAbnormal')?.value === true,
-                                            'abnormal-card': respiratoryForm.get('laNormalAbnormal')?.value === false 
-                                            }">
-                                        <div class="pe-field-header">
-                                            <div class="pe-field-title">Lung Auscultation / Breath Sounds</div>
-                                            <div class="pe-toggle-group">
-                                                <button type="button" class="pe-toggle-btn normal"
-                                                    [class.active]="respiratoryForm.get('laNormalAbnormal')?.value === true"
-                                                    (click)="setHsaStatus(respiratoryForm, 'laNormalAbnormal',true)">
-                                                    Normal
-                                                </button>
-                                                <button type="button" class="pe-toggle-btn abnormal"
-                                                    [class.active]="respiratoryForm.get('laNormalAbnormal')?.value === false"
-                                                    (click)="setHsaStatus(respiratoryForm, 'laNormalAbnormal',false)">
-                                                    Abnormal
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <textarea class="pe-textarea" id="pe-lung-sounds"
-                                            formControlName="lungAuscultation" cols="0" rows="10"
-                                            placeholder="Note clear air entry or adventitious sounds..."></textarea>
-                                        <div class="pe-macros">
-                                            @for (item of lungAuscultationList; track $index) {
-                                            <span class="pe-macro-pill" (click)="toggleLungAuscultation(item)">
-                                                {{item.name}}
-                                            </span>
-                                            }
-                                            <!-- <span class="pe-macro-pill">Clear / No Wheezing</span> -->
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        }
-                        @if (selectedTab === 4) {
-                        <!-- SYSTEM PANEL: NEUROLOGICAL -->
-                        <div id="sys-neuro" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 4 }">
-                            <header class="pe-panel-header">
-                                Neurological Status Check</header>
-                            <div class="pe-field-card" style="margin-bottom:14px;">
-                                <div class="pe-field-header">
-                                    <div class="pe-field-title">Cranial Nerves (II - XII Evaluation)</div>
-                                    <div class="pe-toggle-group">
-                                        <button class="pe-toggle-btn normal active"
-                                            onclick="toggleFieldStatus(this, 'normal')">Normal</button>
-                                        <button class="pe-toggle-btn abnormal"
-                                            onclick="toggleFieldStatus(this, 'abnormal')">Abnormal</button>
-                                    </div>
-                                </div>
-                                <textarea class="pe-textarea" id="pe-cranial-nerves"
-                                    placeholder="Note tracking fields or asymmetrical facial weakness defects..."></textarea>
-                                <div class="pe-macros">
-                                    <span class="pe-macro-pill"
-                                        onclick="injectMacro('pe-cranial-nerves', 'Cranial nerves II through XII intact without acute focal deficit.')">CN
-                                        II-XII Intact</span>
-                                </div>
+                    <form [formGroup]="physicalExamForm">
+                        <div class="pe-body-content">
+                            @if (selectedTab === 1) {
+                            <!-- SYSTEM PANEL: GENERAL SURVEY -->
+                            <div id="sys-general" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 1 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    General Survey & Appearance
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-general-survey #PatientGeneralSurvey [patientId]="patientId"
+                                    [generalSurveyForm]="generalSurveyForm"></app-patient-general-survey>
                             </div>
-                            <div class="pe-grid-row">
-                                <div class="pe-field-card">
-                                    <div class="pe-field-header">
-                                        <div class="pe-field-title">Motor Strength Matrix</div>
-                                        <div class="pe-toggle-group">
-                                            <button class="pe-toggle-btn normal active"
-                                                onclick="toggleFieldStatus(this, 'normal')">Normal</button>
-                                            <button class="pe-toggle-btn abnormal"
-                                                onclick="toggleFieldStatus(this, 'abnormal')">Abnormal</button>
-                                        </div>
-                                    </div>
-                                    <textarea class="pe-textarea" id="pe-motor"
-                                        placeholder="Grade upper/lower motor limb powers (e.g. 5/5)..."></textarea>
-                                    <div class="pe-macros">
-                                        <span class="pe-macro-pill"
-                                            onclick="injectMacro('pe-motor', 'Motor strength is 5/5 across all upper and lower major groups.')">5/5
-                                            Strength Symmetric</span>
-                                    </div>
-                                </div>
-                                <div class="pe-field-card">
-                                    <div class="pe-field-header">
-                                        <div class="pe-field-title">Deep Tendon Reflexes (DTR)</div>
-                                        <div class="pe-toggle-group">
-                                            <button class="pe-toggle-btn normal active"
-                                                onclick="toggleFieldStatus(this, 'normal')">Normal</button>
-                                            <button class="pe-toggle-btn abnormal"
-                                                onclick="toggleFieldStatus(this, 'abnormal')">Abnormal</button>
-                                        </div>
-                                    </div>
-                                    <textarea class="pe-textarea" id="pe-reflexes"
-                                        placeholder="Record patellar, biceps tendon reflex actions..."></textarea>
-                                    <div class="pe-macros">
-                                        <span class="pe-macro-pill"
-                                            onclick="injectMacro('pe-reflexes', 'Deep tendon reflexes are 2+ at patellar and biceps endpoints.')">2+
-                                            Bilaterally Normal</span>
-                                    </div>
-                                </div>
+                            }
+                            @if (selectedTab === 2) {
+                            <!-- SYSTEM PANEL: CARDIOVASCULAR -->
+                            <div id="sys-cardio" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 2 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Cardiovascular Assessment
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-cardio-vascular #PatientCardioVascular [patientId]="patientId"
+                                    [cardiovascularForm]="cardiovascularForm"></app-patient-cardio-vascular>
                             </div>
-                        </div>
-                        }
-                        @if (selectedTab === 5) {
-                        <!-- SYSTEM PANEL: GASTROINTESTINAL -->
-                        <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 5 }">
-                            <header class="pe-panel-header">
-                                Gastrointestinal / Abdominal Exam</header>
-                            <div class="pe-grid-row">
-                                <div class="pe-field-card">
-                                    <div class="pe-field-header">
-                                        <div class="pe-field-title">Inspection & Bowel Sounds</div>
-                                        <div class="pe-toggle-group">
-                                            <button class="pe-toggle-btn normal active"
-                                                onclick="toggleFieldStatus(this, 'normal')">Normal</button>
-                                            <button class="pe-toggle-btn abnormal"
-                                                onclick="toggleFieldStatus(this, 'abnormal')">Abnormal</button>
-                                        </div>
-                                    </div>
-                                    <textarea class="pe-textarea" id="pe-gi-sounds"
-                                        placeholder="Auscultate for bowel movements activity hyper/hypo status..."></textarea>
-                                    <div class="pe-macros">
-                                        <span class="pe-macro-pill"
-                                            onclick="injectMacro('pe-gi-sounds', 'Abdomen is flat. Normal active bowel sounds heard in all 4 quadrants.')">Normal
-                                            Active Bowel Sounds</span>
-                                    </div>
-                                </div>
-                                <div class="pe-field-card">
-                                    <div class="pe-field-header">
-                                        <div class="pe-field-title">Palpation & Organomegaly</div>
-                                        <div class="pe-toggle-group">
-                                            <button class="pe-toggle-btn normal active"
-                                                onclick="toggleFieldStatus(this, 'normal')">Normal</button>
-                                            <button class="pe-toggle-btn abnormal"
-                                                onclick="toggleFieldStatus(this, 'abnormal')">Abnormal</button>
-                                        </div>
-                                    </div>
-                                    <textarea class="pe-textarea" id="pe-gi-palpation"
-                                        placeholder="Assess tenderness, guarding rebound or liver margins extension..."></textarea>
-                                    <div class="pe-macros">
-                                        <span class="pe-macro-pill"
-                                            onclick="injectMacro('pe-gi-palpation', 'Soft, non-tender, non-distended. No rebound guarding or organomegaly.')">Soft
-                                            / Non-tender / No Guarding</span>
-                                    </div>
-                                </div>
+                            }
+                            @if (selectedTab === 3) {
+                            <!-- SYSTEM PANEL: RESPIRATORY -->
+                            <div id="sys-resp" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 3 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Respiratory / Pulmonary Matrix
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-respiratory #PatientRespiratory [patientId]="patientId"
+                                    [respiratoryForm]="respiratoryForm"></app-patient-respiratory>
                             </div>
-                        </div>
-                        }
-                        <!-- @if (selectedTab === 6) {
-                        <div class="pe-summary-box" [ngClass]="{ 'active': selectedTab === 6 }">
-                            <div
-                                style="font-weight:700; color:var(--text-head); font-size:12px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
-                                <i class="bi bi-info-circle-fill" style="color:var(--teal)"></i> Smart Charting
-                                Assistant
+                            }
+                            @if (selectedTab === 4) {
+                            <!-- SYSTEM PANEL: NEUROLOGICAL -->
+                            <div id="sys-neuro" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 4 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Neurological Status Check
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-neurological #PatientNeurological [patientId]="patientId"
+                                    [neurologicalForm]="neurologicalForm"></app-patient-neurological>
                             </div>
-                            <div style="font-size:12px; color:var(--text-body); line-height:1.4;">Unmodified fields
-                                default to standard **Normal Profiles**. Toggling an item to **Abnormal** auto-flags
-                                this section for high priority review on checkout charts.</div>
+                            }
+                            @if (selectedTab === 5) {
+                            <!-- SYSTEM PANEL: GASTROINTESTINAL -->
+                            <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 5 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Gastrointestinal / Abdominal Exam
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-gastrointestinal #PatientGastrointestinal [patientId]="patientId"
+                                    [gastrointestinalForm]="gastrointestinalForm"></app-patient-gastrointestinal>
+                            </div>
+                            }
+                            @if (selectedTab === 6) {
+                            <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 6 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Head, Eyes, Ears, Nose & Throat (HEENT)
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-heent #PatientHeent [patientId]="patientId"
+                                    [heentForm]="heentForm"></app-patient-heent>
+                            </div>
+                            }
+                            @if (selectedTab === 7) {
+                            <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 7 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Genitourinary (GU) System Exam
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-genitourinary #PatientGenitourinary [patientId]="patientId"
+                                    [genitourinaryForm]="genitourinaryForm"></app-patient-genitourinary>
+                            </div>
+                            }
+                            @if (selectedTab === 8) {
+                            <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 8 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Musculoskeletal Examination
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-musculoskeletal-examination #PatientMusculoskeletalExamination
+                                    [patientId]="patientId"
+                                    [musculoskeletalForm]="musculoskeletalForm"></app-patient-musculoskeletal-examination>
+                            </div>
+                            }
+                            @if (selectedTab === 9) {
+                            <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 9 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Skin & Integumentary Examination
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-skin-examination #PatientSkinExamination [patientId]="patientId"
+                                    [skinExaminationForm]="skinExaminationForm"></app-patient-skin-examination>
+                            </div>
+                            }
+                            @if (selectedTab === 10) {
+                            <div id="sys-abd" class="pe-system-panel" [ngClass]="{ 'active': selectedTab === 10 }">
+                                <header
+                                    class="pe-panel-header d-flex align-items-center justify-content-between gap-1 mb-3">
+                                    Psychiatric / Mental Status Examination
+                                    <button class="btn btn-outline-primary btn-sm" (click)="patchDummyData()">
+                                        <i class="bi bi-patch-plus"></i> Patch Dummy Data
+                                    </button>
+                                </header>
+                                <app-patient-psychiatric #PatientPsychiatric [patientId]="patientId"
+                                    [psychiatricForm]="psychiatricForm"></app-patient-psychiatric>
+                            </div>
+                            }
+                            <!-- @if (selectedTab === 11) {
+                            <div class="pe-summary-box" [ngClass]="{ 'active': selectedTab === 6 }">
+                                <div
+                                    style="font-weight:700; color:var(--text-head); font-size:12px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px;">
+                                    <i class="bi bi-info-circle-fill" style="color:var(--teal)"></i> Smart Charting
+                                    Assistant
+                                </div>
+                                <div style="font-size:12px; color:var(--text-body); line-height:1.4;">Unmodified fields
+                                    default to standard **Normal Profiles**. Toggling an item to **Abnormal** auto-flags
+                                    this section for high priority review on checkout charts.</div>
+                            </div>
+                            } -->
                         </div>
-                        } -->
-                    </div>
+                    </form>
                 </div>
                 }
             </div>

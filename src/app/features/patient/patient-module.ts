@@ -21,6 +21,18 @@ import { PatientAllergies } from '../../shared/component/patients/patient-allerg
 import { FamilyHistoryLineage } from '../../shared/component/patients/family-history-lineage/family-history-lineage';
 import { PastSurgical } from '../../shared/component/patients/past-surgical/past-surgical';
 import { PastMedical } from '../../shared/component/patients/past-medical/past-medical';
+import { PatientGeneralSurvey } from '../../shared/component/patients/patient-general-survey/patient-general-survey';
+import { PatientCardioVascular } from '../../shared/component/patients/patient-cardio-vascular/patient-cardio-vascular';
+import { PatientRespiratory } from '../../shared/component/patients/patient-respiratory/patient-respiratory';
+import { PatientNeurological } from '../../shared/component/patients/patient-neurological/patient-neurological';
+import { PatientGastrointestinal } from '../../shared/component/patients/patient-gastrointestinal/patient-gastrointestinal';
+import { PatientHeent } from '../../shared/component/patients/patient-heent/patient-heent';
+import { PatientGenitourinary } from '../../shared/component/patients/patient-genitourinary/patient-genitourinary';
+import { PatientMusculoskeletalExamination } from '../../shared/component/patients/patient-musculoskeletal-examination/patient-musculoskeletal-examination';
+import { PatientSkinExamination } from '../../shared/component/patients/patient-skin-examination/patient-skin-examination';
+import { PatientPsychiatric } from '../../shared/component/patients/patient-psychiatric/patient-psychiatric';
+import { PatientPhycialExamiantionDetails } from '../../shared/component/patients/patient-phycial-examiantion-details/patient-phycial-examiantion-details';
+import { PatientDetailHeader } from '../../shared/component/patient-detail-header/patient-detail-header';
 
 @NgModule({
   declarations: [
@@ -39,7 +51,7 @@ import { PastMedical } from '../../shared/component/patients/past-medical/past-m
     FamilyHistory,
     FamilyHistoryLineage,
     PatientDrugReaction,
-    PatientAllergies
+    PatientAllergies,
   ],
   imports: [
     CommonModule,
@@ -48,7 +60,19 @@ import { PastMedical } from '../../shared/component/patients/past-medical/past-m
     PatientRoutingModule,
     FocusTrapDirective,
     RightSidebar,
-    PopoverModule
+    PopoverModule,
+    PatientDetailHeader,
+    PatientGeneralSurvey,
+    PatientCardioVascular,
+    PatientRespiratory,
+    PatientNeurological,
+    PatientGastrointestinal,
+    PatientHeent,
+    PatientGenitourinary,
+    PatientMusculoskeletalExamination,
+    PatientSkinExamination,
+    PatientPsychiatric,
+    PatientPhycialExamiantionDetails
   ]
 })
 export class PatientModule { }

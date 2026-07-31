@@ -1,9 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject, Observable, map, tap, catchError, throwError } from 'rxjs';
+import { Subject, Observable, map, tap, catchError, throwError, finalize } from 'rxjs';
 import { StatusFlags, eMessageType, eMessageIcon } from '../enum/common.enum';
 import { Options, ApiResponse } from '../interface/coreapi.interface';
+import { LoaderService } from './loader';
 
 @Injectable({
   providedIn: 'root',
@@ -11,12 +12,24 @@ import { Options, ApiResponse } from '../interface/coreapi.interface';
 export class CoreApiService {
   notify$ = new Subject<Options>();
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private loaderService: LoaderService
+  ) { }
 
   // =======================
   // 🔹 GENERIC REQUEST HANDLER (Observable)
   // =======================
-  private request<T>(request$: Observable<ApiResponse<T>>, notify = true, requestData?: any, withMeta = false): Observable<any> {
+  private request<T>(
+    request$: Observable<ApiResponse<T>>,
+    notify = true,
+    requestData?: any,
+    withMeta = false,
+    showLoader = true,
+    loaderKey?: string
+  ): Observable<any> {
+    if (showLoader) this.loaderService.show(loaderKey);
+
     return request$.pipe(
       tap((resp) => {
         if (notify) this.handleResponse(resp);
@@ -33,6 +46,9 @@ export class CoreApiService {
       catchError((error) => {
         this.handleError(error);
         return throwError(() => error);
+      }),
+      finalize(() => {
+        if (showLoader) this.loaderService.hide(loaderKey);
       })
     );
   }
@@ -40,96 +56,138 @@ export class CoreApiService {
   // =======================
   // 🔹 GET
   // =======================
-  get<T>(url: string, param?: string, notify = true, withMeta = false): Observable<ApiResponse<T>> {
+  get<T>(
+    url: string,
+    param?: string,
+    notify = true,
+    withMeta = false,
+    showLoader = true,
+    loaderKey?: string
+  ): Observable<ApiResponse<T>> {
     const finalUrl = param ? `${url}/${param}` : url;
 
     return this.request<T>(
       this.http.get<ApiResponse<T>>(finalUrl),
       notify,
       param,
-      withMeta
+      withMeta,
+      showLoader,
+      loaderKey
     );
   }
 
-  getData<T>(url: string, param?: string): Observable<T> {
-    return this.get<T>(url, param).pipe(map((res) => res.data));
+  getData<T>(url: string, param?: string, showLoader = true, loaderKey?: string): Observable<T> {
+    return this.get<T>(url, param, true, false, showLoader, loaderKey).pipe(map((res) => res.data));
   }
 
   // =======================
   // 🔹 POST
   // =======================
-  post<T>(url: string, body: any, notify = true, withMeta = false): Observable<ApiResponse<T>> {
+  post<T>(
+    url: string,
+    body: any,
+    notify = true,
+    withMeta = false,
+    showLoader = true,
+    loaderKey?: string
+  ): Observable<ApiResponse<T>> {
     return this.request<T>(
       this.http.post<ApiResponse<T>>(url, body),
       notify,
       body,
-      withMeta
+      withMeta,
+      showLoader,
+      loaderKey
     );
   }
 
-  postData<T>(url: string, body?: any): Observable<T> {
-    return this.post<T>(url, body).pipe(map((res) => res.data));
+  postData<T>(url: string, body?: any, showLoader = true, loaderKey?: string): Observable<T> {
+    return this.post<T>(url, body, true, false, showLoader, loaderKey).pipe(map((res) => res.data));
   }
 
   // =======================
   // 🔹 PUT
   // =======================
-  put<T>(url: string, body: any, notify = true, withMeta = false): Observable<ApiResponse<T>> {
+  put<T>(
+    url: string,
+    body: any,
+    notify = true,
+    withMeta = false,
+    showLoader = true,
+    loaderKey?: string
+  ): Observable<ApiResponse<T>> {
     return this.request<T>(
       this.http.put<ApiResponse<T>>(url, body),
       notify,
       body,
-      withMeta
+      withMeta,
+      showLoader,
+      loaderKey
     );
   }
 
-  putData<T>(url: string, body?: any): Observable<T> {
-    return this.put<T>(url, body).pipe(map((res) => res.data));
+  putData<T>(url: string, body?: any, showLoader = true, loaderKey?: string): Observable<T> {
+    return this.put<T>(url, body, true, false, showLoader, loaderKey).pipe(map((res) => res.data));
   }
 
   // =======================
   // 🔹 DELETE (API style)
   // =======================
-  delete<T>(url: string, body?: any): Observable<ApiResponse<T>> {
+  delete<T>(url: string, body?: any, showLoader = true, loaderKey?: string): Observable<ApiResponse<T>> {
     return this.request<T>(
       this.http.delete<ApiResponse<T>>(url),
       true,
       body,
-      false
+      false,
+      showLoader,
+      loaderKey
     );
   }
-
 
   /* ======================= */
   /* 🔹 PATCH */
   /* ======================= */
-  patch<T>(url: string, body: any, notify = true, withMeta = false): Observable<ApiResponse<T>> {
+  patch<T>(
+    url: string,
+    body: any,
+    notify = true,
+    withMeta = false,
+    showLoader = true,
+    loaderKey?: string
+  ): Observable<ApiResponse<T>> {
     return this.request<T>(
       this.http.patch<ApiResponse<T>>(url, body),
       notify,
       body,
-      withMeta
+      withMeta,
+      showLoader,
+      loaderKey
     );
   }
 
-  patchData<T>(url: string, body?: any): Observable<T> {
-    return this.patch<T>(url, body).pipe(
+  patchData<T>(url: string, body?: any, showLoader = true, loaderKey?: string): Observable<T> {
+    return this.patch<T>(url, body, true, false, showLoader, loaderKey).pipe(
       map((res) => res.data)
     );
   }
 
-
   // =======================
   // 🔹 FILE UPLOAD
   // =======================
-  uploadFile<T>(url: string, file: File): Observable<ApiResponse<T>> {
+  uploadFile<T>(url: string, file: File, showLoader = true, loaderKey?: string): Observable<ApiResponse<T>> {
     const formData = new FormData();
     formData.append('file', file);
 
-    return this.post<T>(url, formData);
+    return this.post<T>(url, formData, true, false, showLoader, loaderKey);
   }
 
-  uploadMultiple<T>(url: string, files: File[], extraData?: any): Observable<ApiResponse<T>> {
+  uploadMultiple<T>(
+    url: string,
+    files: File[],
+    extraData?: any,
+    showLoader = true,
+    loaderKey?: string
+  ): Observable<ApiResponse<T>> {
     const formData = new FormData();
     files.forEach((file) => formData.append('files', file));
 
@@ -137,13 +195,15 @@ export class CoreApiService {
       formData.append('data', JSON.stringify(extraData));
     }
 
-    return this.post<T>(url, formData);
+    return this.post<T>(url, formData, true, false, showLoader, loaderKey);
   }
 
   // =======================
   // 🔹 DOWNLOAD (still async acceptable)
   // =======================
-  downloadFile(url: string, body: any, fileName = ''): void {
+  downloadFile(url: string, body: any, fileName = '', loaderKey = 'download'): void {
+    this.loaderService.show(loaderKey);
+
     this.http
       .post(url, body, {
         responseType: 'blob',
@@ -164,7 +224,8 @@ export class CoreApiService {
         catchError((error) => {
           this.handleError(error);
           return throwError(() => error);
-        })
+        }),
+        finalize(() => this.loaderService.hide(loaderKey))
       )
       .subscribe();
   }

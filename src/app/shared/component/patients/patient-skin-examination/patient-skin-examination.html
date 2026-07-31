@@ -1,0 +1,254 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+
+<form [formGroup]="skinExaminationForm">
+    @if (activeTab === 1) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': skinExaminationForm.get('iaNormalAbnormal')?.value === true,'abnormal-card': skinExaminationForm.get('iaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Integrity Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="skinExaminationForm.get('iaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(skinExaminationForm, 'iaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="skinExaminationForm.get('iaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(skinExaminationForm, 'iaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Primary Location / Site</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PrimaryLocationSiteOptions; track level.id) {
+                    <label class="check-wrap" [for]="'primaryLocationSite_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'primaryLocationSite_' + level.id"
+                            [checked]="isCheckboxSelected('primaryLocationSite  ', level.value)"
+                            (change)="onCheckboxChange($event, 'primaryLocationSite ', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Pressure Injury Staging</label>
+                </div>
+                <select class="wz-select" formControlName="pressureInjuryStaging">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of PressureInjuryStageOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="integrityAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of skinTagList; track item.id) {
+                    @if (item.type === 'integrity') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'integrity')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': skinExaminationForm.get('vaNormalAbnormal')?.value === true,'abnormal-card': skinExaminationForm.get('vaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Vascular Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="skinExaminationForm.get('vaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(skinExaminationForm, 'vaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="skinExaminationForm.get('vaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(skinExaminationForm, 'vaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Peripheral Edema Grade</label>
+                </div>
+                <select class="wz-select" formControlName="peripheralEdemaGrade">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of PeripheralEdemaGradeOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Capillary Refill Time</label>
+                </div>
+                <select class="wz-select" formControlName="capillaryRefillTime">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of CapillaryRefillTimeOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="vascularAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of skinTagList; track item.id) {
+                    @if (item.type === 'vascular') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'vascular')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @if (activeTab === 3) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': skinExaminationForm.get('aaNormalAbnormal')?.value === true,'abnormal-card': skinExaminationForm.get('aaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Appendage Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="skinExaminationForm.get('aaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(skinExaminationForm, 'aaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="skinExaminationForm.get('aaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(skinExaminationForm, 'aaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Nail Bed Angle (Clubbing)</label>
+                </div>
+                <select class="wz-select" formControlName="nailBedAngle">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of NailBedAngleOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Hair Distribution</label>
+                </div>
+                <select class="wz-select" formControlName="hairDistribution">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of HairDistributionOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="appendageAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of skinTagList; track item.id) {
+                    @if (item.type === 'appendage') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'appendage')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @if (activeTab === 4) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': skinExaminationForm.get('aaNormalAbnormal')?.value === true,'abnormal-card': skinExaminationForm.get('aaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Targeted Lesion Analysis (ABCDE Derm Tool)</div>
+        </div>
+        <div class="pe-field-group mb-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Quick screening parameters for suspicious pigmented lesions/moles:</label>
+            </div>
+            <div class="checkbox-list">
+                @for (level of ABCDEScreeningOptions; track level.id) {
+                <label class="check-wrap" [for]="'lesionsMoles_' + level.id">
+                    <input type="checkbox" class="check-input" [id]="'lesionsMoles_' + level.id"
+                        [checked]="isCheckboxSelected('lesionsMoles  ', level.value)"
+                        (change)="onCheckboxChange($event, 'lesionsMoles ', level.value)">
+                    <span class="check-box"></span>
+                    <span class="check-label">{{ level.value }}</span>
+                </label>
+                }
+            </div>
+
+        </div>
+        <div class="pe-field-group mb-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Dermatoscopy / Biopsy Recommended?</label>
+                <div class="option-list">
+                    @for (side of DermatoscopyBiopsyOptions; track side.id) {
+                    <label class="radio-wrap" [for]="'dermatoscopy_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'dermatoscopy_' + side.id"
+                            name="dermatoscopy" [value]="side.value"
+                            formControlName="dermatoscopy">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>

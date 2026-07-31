@@ -1,0 +1,149 @@
+<div id="page-emr-workspace" class="page-section">
+    <!-- Glass Medical Profile Card Widget Header -->
+    <app-patient-detail-header [patientDetails]="patientDetails"></app-patient-detail-header>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <td>#</td>
+                        <th>Complaint</th>
+                        <th>Onset</th>
+                        <th>Location</th>
+                        <th>Duration</th>
+                        <th>Character</th>
+                        <th>Severity</th>
+                        <th>Radiation</th>
+                        <th>Timing</th>
+                        <th>Progression</th>
+                        <th>Create At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (presentIllness of paresetIllness; track presentIllness._id; let i = $index) {
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <div class="patient-name">{{presentIllness.complaint}}</div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.onset}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.location}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.duration}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.character}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.severity}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.radiation}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.timing}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{presentIllness.progression}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">
+                                    {{presentIllness.createdAt | date : 'dd/MM/yyyy'}}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="action-btn" [title]="'Delete'"
+                                (click)="toggleRow(presentIllness._id);$event.stopPropagation()">
+                                <i class="bi bi-arrow-bar-down"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    @if (expanded === presentIllness._id) {
+                    <!-- First Sub-Row -->
+                    <tr class="sub-row">
+                        <td class="tree-connector"></td>
+                        <td colspan="6">
+                            <label style="font-size:14px;font-weight: 600;">Aggravating Factors:</label>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                {{presentIllness.aggravatingFactors}}
+                            </div>
+                        </td>
+                        <td colspan="6">
+                            <label style="font-size:14px;font-weight: 600;">Relieving Factors:</label>
+                            <div style="font-size:14px;color:var(--text-muted);"> {{presentIllness.relievingFactors}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Second Sub-Row -->
+                    <tr class="sub-row">
+                        <td class="tree-connector"></td>
+                        <td colspan="12">
+                            <label style="font-size:14px;font-weight: 600;">Associated Symptoms:</label>
+                            <div style="font-size:14px;color:var(--text-muted);" class="badge-container">
+                                <span class="badge" *ngFor="let item of presentIllness.associatedSymptoms">
+                                    {{ item.trim() }}
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Third Sub-Row -->
+                    <tr class="sub-row">
+                        <td class="tree-connector"></td>
+                        <td colspan="4">
+                            <label style="font-size:14px;font-weight: 600;">Previous Episodes:</label>
+                            <div style="font-size:14px;color:var(--text-muted);"> {{presentIllness.previousEpisodes}}
+                            </div>
+                        </td>
+                        <td colspan="4">
+                            <label style="font-size:14px;font-weight: 600;">Treatments Tried:</label>
+                            <div style="font-size:14px;color:var(--text-muted);"> {{presentIllness.treatmentsTried}}
+                            </div>
+                        </td>
+                        <td colspan="4">
+                            <label style="font-size:14px;font-weight: 600;">Response To Treatment:</label>
+                            <div style="font-size:14px;color:var(--text-muted);"> {{presentIllness.responseToTreatment}}
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Last Sub-Row (gets 'last-sub-row' class to curve/stop the line) -->
+                    <tr class="sub-row last-sub-row">
+                        <td class="tree-connector"></td>
+                        <td colspan="12">
+                            <label style="font-size:14px;font-weight: 600;">Additional Notes:</label>
+                            <div style="font-size:14px;color:var(--text-muted);"> {{presentIllness.additionalNotes}}
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

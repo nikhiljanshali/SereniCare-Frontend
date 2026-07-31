@@ -25,12 +25,26 @@
     padding: 0px;
 }
 
-.normal-card {
-    border          : 2px solid #198754;
-    background-color: #e8f5e9;
+
+.file-tabs-header {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+    gap            : 16px;
 }
 
-.abnormal-card {
-    border          : 2px solid #dc3545;
-    background-color: #fdeaea;
+.file-tabs {
+    display    : flex;
+    align-items: center;
+    gap        : 8px;
+    flex       : 1;
+}
+
+.file-tabs-header .btn {
+    white-space: nowrap;
+}
+
+.btn-position {
+    position: absolute;
+    right   : 40px;
 }
