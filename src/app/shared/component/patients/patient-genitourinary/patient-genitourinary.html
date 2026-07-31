@@ -1,0 +1,501 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+
+
+<form [formGroup]="genitourinaryForm">
+    @if (activeTab === 1) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': genitourinaryForm.get('uaNormalAbnormal')?.value === true,'abnormal-card': genitourinaryForm.get('uaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Urinary Dynamics & Bladder Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="genitourinaryForm.get('uaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(genitourinaryForm, 'uaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="genitourinaryForm.get('uaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(genitourinaryForm, 'uaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Symptoms Checklist</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of SymptomsChecklist; track level.id) {
+                    <label class="check-wrap" [for]="'symptomsChecklist_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'symptomsChecklist_' + level.id"
+                            [checked]="isCheckboxSelected('symptomsChecklist', level.value)"
+                            (change)="onCheckboxChange($event, 'symptomsChecklist', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Bladder Palpation / Suprapubic</label>
+                </div>
+                <div class="option-list">
+                    @for (side of BladderPalpationFindings; track side.id) {
+                    <label class="radio-wrap" [for]="'bladderPalpationSuprapubic_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'bladderPalpationSuprapubic_' + side.id"
+                            name="bladderPalpationSuprapubic" [value]="side.value"
+                            formControlName="bladderPalpationSuprapubic">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Urinary Clinical Notes...</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="urinaryFindingNotes" cols="1" rows="2"
+                    placeholder="Notes...."></textarea>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="urinaryAssessment" cols="0" rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of guTagList; track item.id) {
+                    @if (item.type === 'urinary') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'urinary')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': genitourinaryForm.get('caNormalAbnormal')?.value === true,'abnormal-card': genitourinaryForm.get('caNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">CVA Tenderness & Kidney Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="genitourinaryForm.get('caNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(genitourinaryForm, 'caNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="genitourinaryForm.get('caNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(genitourinaryForm, 'caNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Right CVA</label>
+                </div>
+                <div class="option-list">
+                    @for (side of CVAFindings; track side.id) {
+                    <label class="radio-wrap" [for]="'caRightCVA_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'caRightCVA_' + side.id" name="caRightCVA"
+                            [value]="side.value" formControlName="caRightCVA">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Left CVA</label>
+                </div>
+                <div class="option-list">
+                    @for (side of CVAFindings; track side.id) {
+                    <label class="radio-wrap" [for]="'caLeftCVA_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'caLeftCVA_' + side.id" name="caLeftCVA"
+                            [value]="side.value" formControlName="caLeftCVA">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Kidney Palpation Findings</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of KidneyPalpationFindings; track level.id) {
+                    <label class="check-wrap" [for]="'kidneyPalpationFindings_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'kidneyPalpationFindings_' + level.id"
+                            [checked]="isCheckboxSelected('kidneyPalpationFindings', level.value)"
+                            (change)="onCheckboxChange($event, 'kidneyPalpationFindings', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">CVA Clinical Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="caFindingNotes" cols="1" rows="2"
+                    placeholder="Notes...."></textarea>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="cvaAssessment" cols="0" rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of guTagList; track item.id) {
+                    @if (item.type === 'cva') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'cva')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else if (activeTab === 3) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': genitourinaryForm.get('raNormalAbnormal')?.value === true,'abnormal-card': genitourinaryForm.get('raNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Male Reproductive & Genital Assessment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="genitourinaryForm.get('raNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(genitourinaryForm, 'raNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="genitourinaryForm.get('raNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(genitourinaryForm, 'raNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="card-section-label">
+            Prostate (Digital Rectal Exam)
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Quick Select Findings</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of ProstateQuickSelectFindings; track level.id) {
+                    <label class="check-wrap" [for]="'raQuickSelectFindings_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'raQuickSelectFindings_' + level.id"
+                            [checked]="isCheckboxSelected('raQuickSelectFindings', level.value)"
+                            (change)="onCheckboxChange($event, 'raQuickSelectFindings', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="mb-2">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Estimated Size</label>
+                    </div>
+                    <div class="option-list">
+                        @for (side of EstimatedSizeOptions; track side.id) {
+                        <label class="radio-wrap" [for]="'raEstimatedSize_' + side.id">
+                            <input type="radio" class="radio-input" [id]="'raEstimatedSize_' + side.id"
+                                name="raEstimatedSize" [value]="side.value" formControlName="raEstimatedSize">
+                            <span class="radio-box"></span>
+                            <span class="radio-label">{{ side.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Consistency</label>
+                    </div>
+                    <div class="option-list">
+                        @for (side of ConsistencyOptions; track side.id) {
+                        <label class="radio-wrap" [for]="'raConsistency_' + side.id">
+                            <input type="radio" class="radio-input" [id]="'raConsistency_' + side.id"
+                                name="raConsistency" [value]="side.value" formControlName="raConsistency">
+                            <span class="radio-box"></span>
+                            <span class="radio-label">{{ side.value }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-section-label">
+            Genital & Scrotal Assessment
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Palpation & Inspection</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PalpationInspectionFindings; track level.id) {
+                    <label class="check-wrap" [for]="'raPalpationInspection_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'raPalpationInspection_' + level.id"
+                            [checked]="isCheckboxSelected('raPalpationInspection', level.value)"
+                            (change)="onCheckboxChange($event, 'raPalpationInspection', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Transillumination</label>
+                </div>
+                <div class="option-list">
+                    @for (side of TransilluminationOptions; track side.id) {
+                    <label class="radio-wrap" [for]="'raTransillumination_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'raTransillumination_' + side.id"
+                            name="raTransillumination" [value]="side.value" formControlName="raTransillumination">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="reproductiveAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of guTagList; track item.id) {
+                    @if (item.type === 'reproductive') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'reproductive')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else if (activeTab === 4) {
+    <div class="pe-field-card">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Point-of-Care Urinalysis (Dipstick)</div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Color</label>
+                </div>
+                <select class="wz-select" formControlName="pcuColor">
+                    <option [ngValue]="null" disabled>Select Color</option>
+                    @for (level of UrineColorOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+                <div class="pe-field-header mt-3">
+                    <label class="wz-label">Clarity</label>
+                </div>
+                <select class="wz-select" formControlName="pcuClarity">
+                    <option [ngValue]="null" disabled>Select Color</option>
+                    @for (level of UrineClarityOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+                <div class="pe-field-header mt-3">
+                    <label class="wz-label">Specific Gravity</label>
+                </div>
+                <input class="wz-input w-100" type="text" placeholder="e.g.: 1,015"
+                    formControlName="pcuSpecificGravity">
+            </div>
+            <div class="pe-field-group" formGroupName="dipstickParameters">
+                <div class="pe-field-header">
+                    <label class="wz-label">Dipstick Parameters</label>
+                </div>
+                <div class="row">
+                    <!-- Leukocytes -->
+                    <div class="col-md-6 mb-3">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Leukocytes</label>
+                            <select class="wz-select" formControlName="leukocytes">
+                                @for (item of LeukocytesOptions; track item.id) {
+                                <option [value]="item.label">{{ item.label }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Nitrites -->
+                    <div class="col-md-6 mb-3">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Nitrites</label>
+                            <select class="wz-select" formControlName="nitrites">
+                                @for (item of NitritesOptions; track item.id) {
+                                <option [value]="item.label">{{ item.label }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Protein -->
+                    <div class="col-md-6 mb-3">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Protein</label>
+                            <select class="wz-select" formControlName="protein">
+                                @for (item of ProteinOptions; track item.id) {
+                                <option [value]="item.label">{{ item.label }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Glucose -->
+                    <div class="col-md-6 mb-3">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Glucose</label>
+                            <select class="wz-select" formControlName="glucose">
+                                @for (item of GlucoseOptions; track item.id) {
+                                <option [value]="item.label">{{ item.label }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- RBC / Blood -->
+                    <div class="col-md-6 mb-3">
+                        <div class="wz-form-group">
+                            <label class="wz-label">RBC / Blood</label>
+                            <select class="wz-select" formControlName="rbcBlood">
+                                @for (item of RbcBloodOptions; track item.id) {
+                                <option [value]="item.label">{{ item.label }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Ketones -->
+                    <div class="col-md-6 mb-3">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Ketones</label>
+                            <select class="wz-select" formControlName="ketones">
+                                @for (item of KetonesOptions; track item.id) {
+                                <option [value]="item.label">{{ item.label }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="pe-field-group mt-3 d-flex align-items-center justify-content-between gap-2">
+            <label class="wz-label w-25">Urine Culture & Sensitivity Ordered?</label>
+            <div class="option-list">
+                @for (side of UrineCultureSensitivityOrderedOptions; track side.id) {
+                <label class="radio-wrap" [for]="'bladderPalpationSuprapubic_' + side.id">
+                    <input type="radio" class="radio-input" [id]="'bladderPalpationSuprapubic_' + side.id"
+                        name="bladderPalpationSuprapubic" [value]="side.value"
+                        formControlName="bladderPalpationSuprapubic">
+                    <span class="radio-box"></span>
+                    <span class="radio-label">{{ side.value }}</span>
+                </label>
+                }
+            </div>
+        </div>
+    </div>
+
+    } @else if (activeTab === 5) {
+    <div class="pe-field-card">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Imaging & Procedures</div>
+        </div>
+        <div class="pe-grid-row p-0 m-0" formGroupName="postVoidResidual">
+            <!-- Post Void Residual -->
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Post-Void Residual (PVR)</label>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <input class="wz-input w-75" type="number" placeholder="Volume" formControlName="volume">
+                    <span class="text-muted" class="w-25">mL (Bladder Scan)</span>
+                </div>
+            </div>
+            <!-- Bedside Ultrasound -->
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">
+                        Bedside Ultrasound Findings
+                    </label>
+                </div>
+                <textarea class="wz-input" rows="4" placeholder="Ultrasound notes (e.g. hydronephrosis, stones)..."
+                    formControlName="bedsideUltrasoundFindings">
+                </textarea>
+            </div>
+            <!-- Indwelling Catheter -->
+            <div class="pe-field-group">
+                <div class="checkbox-list d-flex align-items-center justify-content-between gap-2">
+                    <label class="wz-label">
+                        Indwelling Catheter Present / Placed?
+                    </label>
+                    <label class="check-wrap" [for]="'indwellingCatheterPresent'">
+                        <input type="checkbox" class="check-input" [id]="'indwellingCatheterPresent'"
+                            formControlName="indwellingCatheterPresent">
+                        <span class="check-box"></span>
+                        <span class="check-label"></span>
+                    </label>
+                </div>
+
+                @if (genitourinaryForm.get('postVoidResidual.indwellingCatheterPresent')?.value) {
+                <div class="pe-field-header">
+                    <label class="wz-label">Catheter Type & Size</label>
+                </div>
+                <input class="wz-input w-100" type="text" placeholder="e.g. Foley 16 Fr, 10 mL balloon"
+                    formControlName="catheterTypeAndSize">
+                <div class="pe-field-header mt-3">
+                    <label class="wz-label">Urine Output Character</label>
+                </div>
+                <input class="wz-input w-100" type="text" placeholder="e.g. Clear yellow, no sediment"
+                    formControlName="urineOutputCharacter">
+                }
+            </div>
+
+
+        </div>
+    </div>
+
+    }
+</form>

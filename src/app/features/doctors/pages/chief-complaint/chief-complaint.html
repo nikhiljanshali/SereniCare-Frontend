@@ -1,16 +1,6 @@
 <div class="page-header">
-    <div class="page-header-left">
-        <div class="ph-title"><i class="bi bi-heart-pulse text-teal"></i> Patient's Chief Complaint</div>
-        <div class="ph-sub-title">The primary reason for the visit.</div>
-        <div class="ph-sub">Patient Name:
-            <strong>
-                {{ patientDetails?.patient?.firstName }}
-                {{ patientDetails?.patient?.middleName }}
-                {{ patientDetails?.patient?.lastName }}
-            </strong>
-        </div>
-        <div class="ph-sub">Patient No: <strong>{{ patientDetails?.patient?.patientCode }} </strong></div>
-        <div class="ph-sub">Appoint No: <strong>{{ patientDetails?.appointment?.appointmentNumber }} </strong></div>
+    <div class="page-header-left w-100">
+        <app-side-bar-patient-header [patientDetails]="patientDetails"></app-side-bar-patient-header>
     </div>
     <div class="page-header-right">
         <!-- <button class="btn btn-outline-info btn-sm" title="Vital History" (click)="vitalHistory()">
@@ -25,18 +15,10 @@
                 <div class="wz-form-row">
                     <div class="wz-form-group">
                         <label class="wz-label">
-                            Complaint Note <span class="wz-req">*</span>
+                            Complaint <span class="wz-req">*</span>
                         </label>
-
-                        <div class="d-flex gap-2 align-items-start">
-                            <input class="wz-input flex-grow-1" type="text" placeholder="Chief Complaint Note"
-                                formControlName="complaint">
-
-                            <button type="button" class="btn btn-primary" (click)="AddComplaint()">
-                                <i class="bi bi-plus-lg"></i> Add
-                            </button>
-                        </div>
-
+                        <input class="wz-input flex-grow-1" type="text" placeholder="Chief Complaint Note"
+                            formControlName="complaint">
                         @if (chiefComplaintForm.get('complaint')?.invalid &&
                         chiefComplaintForm.get('complaint')?.touched) {
                         <small class="text-danger">
@@ -44,36 +26,107 @@
                         </small>
                         }
                     </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Duration <span class="wz-req">*</span>
+                        </label>
+                        <input class="wz-input flex-grow-1" type="number" placeholder="duration"
+                            formControlName="duration">
+                        @if (chiefComplaintForm.get('complaint')?.invalid &&
+                        chiefComplaintForm.get('complaint')?.touched) {
+                        <small class="text-danger">
+                            Duration is required.
+                        </small>
+                        }
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            OnSet <span class="wz-req">*</span>
+                        </label>
+                        <div class="radio-list">
+                            @for (side of Onset; track side.id) {
+                            <label class="radio-wrap" [for]="'onset_' + side.id">
+                                <input type="radio" class="radio-input" [id]="'onset_' + side.id" name="onset"
+                                    [value]="side.value" formControlName="onset">
+                                <span class="radio-box"></span>
+                                <span class="radio-label">{{ side.value }}</span>
+                            </label>
+                            }
+                        </div>
+                        @if (chiefComplaintForm.get('complaint')?.invalid &&
+                        chiefComplaintForm.get('complaint')?.touched) {
+                        <small class="text-danger">
+                            Onset is required.
+                        </small>
+                        }
+                    </div>
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Severity <span class="wz-req">*</span>
+                        </label>
+                        <div class="radio-list">
+                            @for (side of Severity; track side.id) {
+                            <label class="radio-wrap" [for]="'severity_' + side.id">
+                                <input type="radio" class="radio-input" [id]="'severity_' + side.id" name="severity"
+                                    [value]="side.value" formControlName="severity">
+                                <span class="radio-box"></span>
+                                <span class="radio-label">{{ side.value }}</span>
+                            </label>
+                            }
+                        </div>
+                        @if (chiefComplaintForm.get('severity')?.invalid &&
+                        chiefComplaintForm.get('severity')?.touched) {
+                        <small class="text-danger">
+                            Severity is required.
+                        </small>
+                        }
+                    </div>
+
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Associated Symptoms <span class="wz-req">*</span>
+                        </label>
+                        <div class="checkbox-list">
+                            @for (level of AssociatedSymptomsOptions; track level.id) {
+                            <label class="check-wrap" [for]="'associatedSymptoms_' + level.id">
+                                <input type="checkbox" class="check-input" [id]="'associatedSymptoms_' + level.id"
+                                    [checked]="isCheckboxSelected('associatedSymptoms', level.value)"
+                                    (change)="onCheckboxChange($event, 'associatedSymptoms', level.value)">
+                                <span class="check-box"></span>
+                                <span class="check-label">
+                                    {{ level.value }}
+                                </span>
+                            </label>
+                            }
+                        </div>
+                        @if (chiefComplaintForm.get('associatedSymptoms')?.invalid &&
+                        chiefComplaintForm.get('associatedSymptoms')?.touched) {
+                        <small class="text-danger">
+                            Associated Symptoms is required.
+                        </small>
+                        }
+                    </div>
+
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Patient Statement <span class="wz-req">*</span>
+                        </label>
+                        <textarea class="wz-input" id="pe-cranial-nerves" formControlName="patientStatement" cols="0"
+                            rows="10" placeholder="Enter Patient Statement..."></textarea>
+                        @if (chiefComplaintForm.get('complaint')?.invalid &&
+                        chiefComplaintForm.get('complaint')?.touched) {
+                        <small class="text-danger">
+                            Patient Statement is required.
+                        </small>
+                        }
+                    </div>
                 </div>
             </form>
         </div>
-        @if(chiefComplaintList.length>0){
-        <div class="wards-grid">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">Chief Complaint List</div>
-                </div>
-                <div class="card-body pt-0">
-                    @for (complaint of chiefComplaintList; track complaint; let i = $index) {
-                    <div class="room-row d-flex align-items-center justify-content-between p-2 mb-2">
-                        <!-- <div><strong>{{complaint.complaint}}</strong></div> -->
-                        <div>
-                            <strong>{{complaint.complaint}}</strong>
-                        </div>
-                        <span class="status-pill available">{{complaint.createdAt | date : 'dd/MM/yyy'}}</span>
-                        <button type="button" class="btn btn-sm btn-danger" (click)="removeComplaint(i, complaint)">
-                            <i class="bi bi-trash3"></i>
-                        </button>
-                    </div>
-                    }
-                </div>
-                <!-- <div class="card-footer">
-                    <button type="button" class="btn btn-primary w-100" (click)="SaveComplaint()">
-                        Save
-                    </button>
-                </div> -->
-            </div>
+        <div class="">
+            <button class="btn btn-success" type="button" (click)="saveChiefOfComplaints();">
+                <i class="bi bi-floppy-fill"></i> Save
+            </button>
         </div>
-        }
     </div>
 </div>

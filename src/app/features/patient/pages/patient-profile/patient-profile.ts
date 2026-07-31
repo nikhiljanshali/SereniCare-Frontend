@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect } from '@angular/core';
 import { IPatientsData, IPastMedicalHistoryDetails, IPastSurgicalHistoryDetails, IVitalsDetails } from '../../../../core/interface/basic.interface';
 import { DoctorService } from '../../../../core/services/doctor';
 import { FamilyHistoryService } from '../../../../core/services/family-history';
@@ -20,6 +20,7 @@ import { PatientDrugReaction } from '../../../../shared/component/patients/patie
 import { PatientRisk } from '../../../../shared/component/patients/patient-risk/patient-risk';
 import { PastSurgical } from '../../../../shared/component/patients/past-surgical/past-surgical';
 import { PastMedical } from '../../../../shared/component/patients/past-medical/past-medical';
+import { ApiStateService } from '../../../../core/services/api-state-service';
 
 @Component({
   selector: 'app-patient-profile',
@@ -30,7 +31,12 @@ import { PastMedical } from '../../../../shared/component/patients/past-medical/
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PatientProfile {
-  public activeTab: 'overview' | 'history' | 'timeline' = 'history';
+  // public activeTab: 'overview' | 'history' | 'timeline' = 'history';
+  public emrTabs = [
+    { id: 1, title: 'Medical Histories' },
+    { id: 2, title: 'Insurance Details' },
+  ];
+  public activeTab = 1;
 
   public patientDetails: IPatientsData | null = null;
   public pastMedicalList: IPastMedicalHistoryDetails[] = [];
@@ -41,9 +47,11 @@ export class PatientProfile {
   public patientDrugReactionList: any[] = [];
   public patientVitalDetails: IVitalsDetails | null = null;
   public familyHistoryLineageList: any[] = [];
+  public patientId: string | null = null;
 
 
   constructor(
+    private _apiStateService: ApiStateService,
     private _patientService: PatientService,
     private _storageOperation: StorageOperation,
     private _locationService: LocationService,
@@ -59,12 +67,17 @@ export class PatientProfile {
     private _modalService: ModalService,
     private cdr: ChangeDetectorRef
   ) {
-    const storedDoctorDetails = this._storageOperation.get<any>('userDetails');
-    const storedUserDetails = this._storageOperation.get<any>('user');
+    effect(() => {
+      const patient = this._apiStateService.apiData();
+      if (patient) {
+        this.patientDetails = patient;
+        this.patientId = patient._id;
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.getProfileDetails();
+    // this.getProfileDetails();
     this.getPatientVitalDetails();
     this.getPastMedicalHistory();
     this.getPastSurgicalHistory();
@@ -75,20 +88,39 @@ export class PatientProfile {
     this.getFamilyHistoryLineage();
   }
 
-  public changeTab(tab: 'overview' | 'history' | 'timeline'): void {
-    this.activeTab = tab;
+  // public changeTab(tab: 'overview' | 'history' | 'timeline'): void {
+  //   this.activeTab = tab;
+  // }
+
+  public changeTab(tabId: number): void {
+    this.activeTab = tabId;
   }
 
-  private getProfileDetails(): void {
-    this._patientService.getPatientById(this._storageOperation.get<any>('userDetails').id).subscribe((res: any) => {
-      const patientDeteils = res.data[0]
-      this._locationService.getLocationName(Number(patientDeteils.country), Number(patientDeteils.state), Number(patientDeteils.city)).subscribe((location) => {
-        patientDeteils.country = location.country;
-        patientDeteils.state = location.state;
-        patientDeteils.city = location.city;
-      });
-      this.patientDetails = patientDeteils;
-    })
+  // private getProfileDetails(): void {
+  //   this._patientService.getPatientById(this._storageOperation.get<any>('userDetails').id).subscribe((res: any) => {
+  //     const patientDeteils = res.data[0];
+  //     this.patientId = res.data[0]._id;
+  //     this._locationService.getLocationName(Number(patientDeteils.country), Number(patientDeteils.state), Number(patientDeteils.city)).subscribe((location) => {
+  //       patientDeteils.country = location.country;
+  //       patientDeteils.state = location.state;
+  //       patientDeteils.city = location.city;
+  //     });
+  //     this.patientDetails = patientDeteils;
+  //     console.log(this.patientDetails?.insuranceDetails);
+  //   });
+  // }
+
+  public getStatusColor(status: string | undefined): string {
+    switch (status) {
+      case 'active':
+        return 'var(--teal)';
+
+      case 'inactive':
+        return 'var(--rose)';
+
+      default:
+        return 'var(--amber)';
+    }
   }
 
   private getPatientVitalDetails(): void {
@@ -153,17 +185,7 @@ export class PatientProfile {
       });
   }
 
-  get totalCoverageAmount(): number {
-    if (!this.patientDetails?.insuranceDetails?.length) {
-      return 0;
-    }
 
-    return this.patientDetails.insuranceDetails.reduce(
-      (sum: number, insurance: any) =>
-        sum + Number(insurance.coverageAmount || 0),
-      0
-    );
-  }
   get insuranceCompany(): string {
     if (!this.patientDetails?.insuranceDetails?.length) {
       return '';

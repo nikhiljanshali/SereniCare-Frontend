@@ -1,0 +1,398 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+<form [formGroup]="cardiovascularForm">
+    @if (activeTab === 1) {
+    <!-- Auscultation Field -->
+    <div class="pe-field-card"
+        [ngClass]="{ 'normal-card': cardiovascularForm.get('hsaNormalAbnormal')?.value === true,'abnormal-card': cardiovascularForm.get('hsaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Heart Sounds & Auscultation</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="cardiovascularForm.get('hsaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(cardiovascularForm, 'hsaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="cardiovascularForm.get('hsaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(cardiovascularForm, 'hsaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Heart Sound</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of heartSoundOption; track level.id) {
+                    <label class="check-wrap" [for]="'pppNormal_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'pppNormal_' + level.id"
+                            [checked]="isCheckboxSelected('heartSounds', level.value)"
+                            (change)="onCheckboxChange($event, 'heartSounds', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Heart Rhythm</label>
+                </div>
+                <div class="radio-list">
+                    @for (side of heartRhythm; track side.id) {
+                    <label class="radio-wrap" [for]="'heartRhythm_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'heartRhythm_' + side.id" name="heartRhythm"
+                            [value]="side.value" formControlName="heartRhythm">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Heart Murmurs</label>
+                </div>
+                <div class="option-list">
+                    @for (side of heartMurmurs; track side.id) {
+                    <label class="radio-wrap" [for]="'hmurmurs_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'hmurmurs_' + side.id" name="heartMurmurs"
+                            [value]="side.value" formControlName="heartMurmurs">
+
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Heart Rate</label>
+                </div>
+                <div class="input-group">
+                    <input type="number" class="wz-select w-75" formControlName="heartRate"
+                        placeholder="Enter Heart Rate" min="20" max="250" step="1">
+                    <span class="input-group-text w-25">bpm</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cardio-sounds" formControlName="heartSoundAuscultation" cols="1"
+                    rows="10" placeholder="Auscultate apex, rate rhythm and extra valve click anomalies..."></textarea>
+                <div class="pe-macros">
+                    <!-- <span class="pe-macro-pill">RRR S1 S2</span> -->
+                    @for (item of heartSoundsList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleHeartSound(item)">{{item.name}}</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @else if (activeTab === 2) {
+    <!-- Peripheral Pulses Field -->
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': cardiovascularForm.get('pppNormalAbnormal')?.value === true,'abnormal-card': cardiovascularForm.get('pppNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Peripheral Pulses & Perfusion</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="cardiovascularForm.get('pppNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(cardiovascularForm, 'pppNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="cardiovascularForm.get('pppNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(cardiovascularForm, 'pppNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Side</label>
+                </div>
+                <div class="radio-list">
+                    @for (side of CardiovascularSide; track side.id) {
+                    <label class="radio-wrap" [for]="'perfusionSide_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'perfusionSide_' + side.id" name="perfusionSide"
+                            [value]="side.value" formControlName="perfusionSide">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Pulse Quality</label>
+                </div>
+                <div class="d-flex flex-wrap">
+                    @for (level of PulseQuality; track level.id) {
+                    <div style="width:50%; padding:4px;">
+                        <label class="check-wrap" [for]="'pq_' + level.id">
+                            <input type="checkbox" class="check-input" [id]="'pq_' + level.id"
+                                [checked]="isCheckboxSelected('pulseQuality',level.value)"
+                                (change)="onCheckboxChange($event, 'pulseQuality',level.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">{{ level.label }}</span>
+                        </label>
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="perfusionfindingNotes" cols="1" rows="2"
+                    placeholder=""></textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Perfusion — Other Findings</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PerfusionFindingsOther; track level.id) {
+                    <label class="check-wrap" [for]="'othrNormal_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'othrNormal_' + level.id"
+                            [checked]="isCheckboxSelected('otherFindding',level.name)"
+                            (change)="onCheckboxChange($event, 'otherFindding',level.name)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.name }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            @if (cardiovascularForm.get('pppNormalAbnormal')?.value == true) {
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Perfusion — Normal</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PerfusionFindingsNormal; track level.id) {
+                    <label class="check-wrap" [for]="'pppNormal_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'pppNormal_' + level.id"
+                            [checked]="isCheckboxSelected('pppNormalValue',level.name)"
+                            (change)="onCheckboxChange($event, 'pppNormalValue',level.name)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.name }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            } @else if(cardiovascularForm.get('pppNormalAbnormal')?.value == false) {
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-50">Perfusion — Abnormal</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of PerfusionFindingsAbnormal; track level.id) {
+                    <label class="check-wrap" [for]="'pppAbNormal_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'pppAbNormal_' + level.id"
+                            [checked]="isCheckboxSelected('pppAbNormalValue',level.name)"
+                            (change)="onCheckboxChange($event, 'pppAbNormalValue',level.name)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.name }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+        <div class="pulse-grading-container">
+            <div class="header-label">QUICK PULSE GRADING (0-4+)</div>
+            <div class="pulse-table">
+                <!-- Table Header Row -->
+                <div class="pulse-row header-row">
+                    <div class="cell site-column">SITE</div>
+                    <div class="cell grade-column">0</div>
+                    <div class="cell grade-column">1+</div>
+                    <div class="cell grade-column">2+</div>
+                    <div class="cell grade-column">3+</div>
+                    <div class="cell grade-column">4+</div>
+                </div>
+
+                <!-- Row 1: Radial -->
+                <div class="pulse-row">
+                    <div class="cell site-column site-name">Radial</div>
+                    @for (option of gradeOptions; track option.value) {
+                    <div class="cell grade-column">
+                        <button type="button" class="pulse-pill-btn"
+                            [class.active]="cardiovascularForm.get('radialPulse')?.value === option.value"
+                            (click)="setPulseGrade('radialPulse', option.value)">
+                            {{ option.display }}
+                        </button>
+                    </div>
+                    }
+                </div>
+
+                <!-- Row 2: Dorsalis Pedis -->
+                <div class="pulse-row">
+                    <div class="cell site-column site-name">Dorsalis Pedis</div>
+                    @for (option of gradeOptions; track option.value) {
+                    <div class="cell grade-column">
+                        <button type="button" class="pulse-pill-btn"
+                            [class.active]="cardiovascularForm.get('dorsalisPedisPulse')?.value === option.value"
+                            (click)="setPulseGrade('dorsalisPedisPulse', option.value)">
+                            {{ option.display }}
+                        </button>
+                    </div>
+                    }
+                </div>
+
+                <!-- Row 3: Post. Tibial -->
+                <div class="pulse-row">
+                    <div class="cell site-column site-name">Post. Tibial</div>
+                    @for (option of gradeOptions; track option.value) {
+                    <div class="cell grade-column">
+                        <button type="button" class="pulse-pill-btn"
+                            [class.active]="cardiovascularForm.get('postTibialPulse')?.value === option.value"
+                            (click)="setPulseGrade('postTibialPulse', option.value)">
+                            {{ option.display }}
+                        </button>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="pe-field-group">
+            <div class="pe-field-header">
+                <label class="wz-label w-25">Assesment</label>
+            </div>
+            <textarea class="wz-input" id="pe-pulses" formControlName="peripheralPulsesPerfusion" cols="1" rows="10"
+                placeholder="Grade radial, dorsalis pedis pulses (e.g. 2+)..."></textarea>
+            <div class="pe-macros">
+                @for (item of pulsesPerfusionList; track $index) {
+                <span class="pe-macro-pill" (click)="togglePeripheralPulsesPerfusion(item)">{{item.name}}</span>
+                }
+                <!-- <span class="pe-macro-pill">Cap Refill < 2s</span> -->
+            </div>
+        </div>
+    </div>
+    } @else if (activeTab === 3) {
+    <!-- Edema Field -->
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': cardiovascularForm.get('edetNormalAbnormal')?.value === true,'abnormal-card': cardiovascularForm.get('edetNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Extremities & Dependent Edema Tracking</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="cardiovascularForm.get('edetNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(cardiovascularForm, 'edetNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="cardiovascularForm.get('edetNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(cardiovascularForm, 'edetNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Side</label>
+                </div>
+                <div class="radio-list">
+                    @for (side of CardiovascularSide; track side.id) {
+                    <label class="radio-wrap" [for]="'edemaSide_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'edemaSide_' + side.id" name="edemaSide"
+                            [value]="side.value" formControlName="edemaSide">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Findings Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="edemafindingNotes" cols="1" rows="2"
+                    placeholder="">
+            </textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Edema Grades</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of EdemaGrades; track level.id) {
+                    <label class="check-wrap" [for]="'edemafindingGrade_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'edemafindingGrade_' + level.id"
+                            [checked]="isCheckboxSelected('edemafindingGrade',level.name)"
+                            (change)="onCheckboxChange($event, 'edemafindingGrade',level.name)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.name }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Edema Locations</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of EdemaLocations; track level.id) {
+                    <label class="check-wrap" [for]="'edemafindingLocation_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'edemafindingLocation_' + level.id"
+                            [checked]="isCheckboxSelected('edemafindingLocation',level.name)"
+                            (change)="onCheckboxChange($event, 'edemafindingLocation',level.name)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.name }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Risk Findings</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of EdemaRiskFindings; track level.id) {
+                    <label class="check-wrap" [for]="'riskFindings_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'riskFindings_' + level.id"
+                            [checked]="isCheckboxSelected('riskFindings',level.name)"
+                            (change)="onCheckboxChange($event, 'riskFindings',level.name)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.name }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label w-25">Assement</label>
+                </div>
+                <textarea class="wz-input" id="pe-edema" formControlName="extremitiesDependentEdemaTracking" cols="1"
+                    rows="5" placeholder="Check for pitting edema over shins/ankles..."></textarea>
+                <div class="pe-macros">
+                    @for (item of edemaExtremitiesList; track $index) {
+                    <span class="pe-macro-pill" (click)="toggleExtremitiesDependentEdema(item)">{{item.name}}</span>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>

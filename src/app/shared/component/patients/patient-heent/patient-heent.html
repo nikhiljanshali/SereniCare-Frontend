@@ -1,0 +1,405 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+
+<form [formGroup]="heentForm">
+    @if (activeTab === 1) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': heentForm.get('headNormalAbnormal')?.value === true,'abnormal-card': heentForm.get('headNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Head</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="heentForm.get('headNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'headNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="heentForm.get('headNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'headNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear" [ngClass]="{'active': heentForm.get('headNoFinding')?.value}"
+            (click)="toggleNoFinding('headNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark normal — "Atraumatic / Normocephalic"
+        </button>
+        <div class="p-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="headAssessment" cols="0" rows="10"
+                    placeholder="Enter..."></textarea>
+                <div class="pe-macros">
+                    <!-- Head Section Card -->
+                    @for (item of heentTagList; track item.id) {
+                    @if (item.type === 'Head') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'Head')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': heentForm.get('eyesNormalAbnormal')?.value === true,'abnormal-card': heentForm.get('eyesNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Eyes</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="heentForm.get('eyesNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'eyesNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="heentForm.get('eyesNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'eyesNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear" [ngClass]="{'active': heentForm.get('eyesNoFinding')?.value}"
+            (click)="toggleNoFinding('eyesNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark normal — "PERRLA, EOMI, no redness"
+        </button>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Pupil / Movement Checklist</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of EyeAssessmentData; track level.id) {
+                    <label class="check-wrap" [for]="'pupilMovementChecklist_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'pupilMovementChecklist_' + level.id"
+                            [checked]="isCheckboxSelected('pupilMovementChecklist', level.value)"
+                            (change)="onCheckboxChange($event, 'pupilMovementChecklist', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="checkbox-list">
+                    @for (level of EyeFindings; track level.id) {
+                    <label class="check-wrap" [for]="'eyesOtherFindings_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'eyesOtherFindings_' + level.id"
+                            [checked]="isCheckboxSelected('eyesOtherFindings', level.value)"
+                            (change)="onCheckboxChange($event, 'eyesOtherFindings', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Finding Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="eyesFindingsNotes" cols="1" rows="3"
+                    placeholder="Finding Notes...."></textarea>
+            </div>
+            <div class="pe-field-group">
+                <div formArrayName="conjunctival">
+                    <div class="pe-field-header">
+                        <label class="wz-label">Conjunctival Redness</label>
+                    </div>
+                    <div [formGroupName]="0">
+                        <div class="lat-finding" [class.active]="conjunctival.at(0).get('redness')?.value !== 'None'">
+                            <span class="name">
+                                <span class="sw"></span>
+                                Conjunctival Redness
+                            </span>
+                            <div class="lat-opts">
+                                @for (option of rednessOptions; track option.value) {
+                                <button type="button" class="lat-opt"
+                                    [class.sel]="conjunctival.at(0).get('redness')?.value === option.value"
+                                    [class.off]="conjunctival.at(0).get('redness')?.value !== option.value"
+                                    (click)="conjunctival.at(0).get('redness')?.setValue(option.value)">
+                                    {{ option.label }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="eyesAssessment" cols="0" rows="10"
+                    placeholder="Enter..."></textarea>
+                <div class="pe-macros">
+                    <!-- Eyes Section Card -->
+                    @for (item of heentTagList; track item.id) {
+                    @if (item.type === 'Eyes') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'Eyes')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @if (activeTab === 3) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': heentForm.get('earsNormalAbnormal')?.value === true,'abnormal-card': heentForm.get('earsNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Ears</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="heentForm.get('earsNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'earsNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="heentForm.get('earsNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'earsNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear" [ngClass]="{'active': heentForm.get('earsNoFinding')?.value}"
+            (click)="toggleNoFinding('earsNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark normal — "TMs intact bilaterally"
+        </button>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Finding Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="earsFindingNotes" cols="1" rows="2"
+                    placeholder="Finding Notes...."></textarea>
+            </div>
+            <div class="pe-field-group">
+                <div formArrayName="infection">
+                    <div [formGroupName]="0">
+                        <div class="lat-finding"
+                            [class.active]="infection.at(0).get('earCanalInfection')?.value !== 'None'">
+                            <span class="name">
+                                <span class="sw"></span>
+                                Ear Canal Infection
+                            </span>
+                            <div class="lat-opts">
+                                @for (option of rednessOptions; track option.value) {
+                                <button type="button" class="lat-opt"
+                                    [class.sel]="infection.at(0).get('earCanalInfection')?.value === option.value"
+                                    [class.off]="infection.at(0).get('earCanalInfection')?.value !== option.value"
+                                    (click)="infection.at(0).get('earCanalInfection')?.setValue(option.value)">
+                                    {{ option.label }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+                        <div class="lat-finding" [class.active]="infection.at(0).get('bulging')?.value !== 'None'">
+                            <span class="name">
+                                <span class="sw"></span>
+                                Bulging
+                            </span>
+                            <div class="lat-opts">
+                                @for (option of rednessOptions; track option.value) {
+                                <button type="button" class="lat-opt"
+                                    [class.sel]="infection.at(0).get('bulging')?.value === option.value"
+                                    [class.off]="infection.at(0).get('bulging')?.value !== option.value"
+                                    (click)="infection.at(0).get('bulging')?.setValue(option.value)">
+                                    {{ option.label }}
+                                </button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of EarsFindings; track level.id) {
+                    <label class="check-wrap" [for]="'earsOtherFindings_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'earsOtherFindings_' + level.id"
+                            [checked]="isCheckboxSelected('earsOtherFindings', level.value)"
+                            (change)="onCheckboxChange($event, 'earsOtherFindings', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="earsAssessment" cols="0" rows="10"
+                    placeholder="Enter..."></textarea>
+                <div class="pe-macros">
+                    @for (item of heentTagList; track item.id) {
+                    @if (item.type === 'Ears') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'Ears')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @if (activeTab === 4) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': heentForm.get('noseNormalAbnormal')?.value === true,'abnormal-card': heentForm.get('noseNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Nose</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="heentForm.get('noseNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'noseNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="heentForm.get('noseNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'noseNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear" [ngClass]="{'active': heentForm.get('noseNoFinding')?.value}"
+            (click)="toggleNoFinding('noseNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark normal — "Nose normal, no congestion"
+        </button>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Finding Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="noseFindingNote" cols="1" rows="2"
+                    placeholder="Finding Notes...."></textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Epistaxis</label>
+                </div>
+                <div class="option-list">
+                    @for (side of NoseEpistaxis; track side.id) {
+                    <label class="radio-wrap" [for]="'epistaxis_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'epistaxis_' + side.id" name="epistaxis"
+                            [value]="side.value" formControlName="epistaxis">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="noseAssessment" cols="0" rows="10"
+                    placeholder="Enter...">
+                </textarea>
+                <div class="pe-macros">
+                    @for (item of heentTagList; track item.id) {
+                    @if (item.type === 'Nose') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'Nose')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    @if (activeTab === 5) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': heentForm.get('throatNormalAbnormal')?.value === true,'abnormal-card': heentForm.get('throatNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Throat</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="heentForm.get('throatNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'throatNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="heentForm.get('throatNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(heentForm, 'throatNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <button type="button" class="quick-clear" [ngClass]="{'active': heentForm.get('throatNoFinding')?.value}"
+            (click)="toggleNoFinding('throatNoFinding')">
+            <i class="bi bi-check2-circle"></i>
+            Mark normal — "Throat normal, oral mucosa moist"
+        </button>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Finding Notes</label>
+                </div>
+                <textarea class="wz-input" id="pe-pulses" formControlName="throatFindingNotes" cols="1" rows="2"
+                    placeholder="Finding Notes...."></textarea>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Tonsil Size (Brodsky Grade)</label>
+                </div>
+                <div class="option-list">
+                    @for (side of tonsilSize; track side.value) {
+                    <label class="radio-wrap" [for]="'tonsilSize_' + side.value">
+                        <input type="radio" class="radio-input" [id]="'tonsilSize_' + side.value" name="tonsilSize"
+                            [value]="side.value" formControlName="tonsilSize">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.label }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="throatAssessment" cols="0" rows="10"
+                    placeholder="Enter..."></textarea>
+                <div class="pe-macros">
+                    @for (item of heentTagList; track item.id) {
+                    @if (item.type === 'Throat') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'Throat')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>

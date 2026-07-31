@@ -1,0 +1,72 @@
+<div id="page-emr-workspace" class="page-section">
+    <!-- Glass Medical Profile Card Widget Header -->
+    <app-patient-detail-header [patientDetails]="patientDetails"></app-patient-detail-header>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <td>#</td>  
+                        <th>Complaint</th>
+                        <th>Duration</th>
+                        <th>OnSet</th>
+                        <th>Servrity</th>
+                        <th>Patient Statment</th>
+                        <th>Associated Symptoms</th>
+                        <th>Create At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (ccl of chiefComplaintList; track ccl._id; let i = $index) {
+                    <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                            <div class="patient-name">{{ccl.complaint}}</div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">{{ccl.duration}}</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">
+                                    {{ccl.onset}}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">
+                                    {{ccl.severity}}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">
+                                    {{ccl.patientStatement}}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">
+                                    {{ccl.associatedSymptoms}}
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-name">
+                                    {{ccl.createdAt | date : 'dd/MM/yyyy'}}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -8,12 +8,11 @@ import { NotificationServices } from './notification-services';
   providedIn: 'root',
 })
 export class PastMedicalService {
-  private baseUrl: string = '';
+  private baseUrl: string = environment.apiUrl + environment.middleware + environment.endpoints.pastMedical + '/';
   constructor(
     private _coreApiService: CoreApiService,
     private _notificationServices: NotificationServices
   ) {
-    this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.pastMedical + '/';
   }
 
   public getAllPastMedical(showNotificaion: boolean = false): Observable<any> {

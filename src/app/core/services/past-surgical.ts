@@ -9,12 +9,11 @@ import { NotificationServices } from './notification-services';
   providedIn: 'root',
 })
 export class PastSurgicalService {
-  private baseUrl: string = '';
+  private baseUrl: string = environment.apiUrl + environment.middleware + environment.endpoints.pastSurgical + '/';
   constructor(
     private _coreApiService: CoreApiService,
     private _notificationServices: NotificationServices
   ) {
-    this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.pastSurgical + '/';
   }
 
   public getAllPastSurgical(showNotificaion: boolean = false): Observable<any> {

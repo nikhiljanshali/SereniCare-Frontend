@@ -1,0 +1,288 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+
+
+<form [formGroup]="musculoskeletalForm">
+    <!-- <div class="pe-grid-row"> -->
+    @if (activeTab === 1) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': musculoskeletalForm.get('saNormalAbnormal')?.value === true,'abnormal-card': musculoskeletalForm.get('saNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Spine & Axial Skeleton</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="musculoskeletalForm.get('saNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(musculoskeletalForm, 'saNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="musculoskeletalForm.get('saNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(musculoskeletalForm, 'saNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-field-group mb-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Regions Examined</label>
+            </div>
+            <div class="checkbox-list">
+                @for (level of SpineRegionOptions; track level.id) {
+                <label class="check-wrap" [for]="'regionsExamined_' + level.id">
+                    <input type="checkbox" class="check-input" [id]="'regionsExamined_' + level.id"
+                        [checked]="isCheckboxSelected('regionsExamined', level.value)"
+                        (change)="onCheckboxChange($event, 'regionsExamined', level.value)">
+                    <span class="check-box"></span>
+                    <span class="check-label">{{ level.value }}</span>
+                </label>
+                }
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Range of Motion (ROM)</label>
+                </div>
+                <div class="d-flex align-items-center justify-content-between gap-2">
+                    <select class="wz-select" formControlName="cervicalMotion">
+                        <option [ngValue]="null" disabled>Select ROM</option>
+                        @for (level of CervicalRomOptions; track level.value) {
+                        <option [value]="level.value">
+                            {{ level.label }}
+                        </option>
+                        }
+                    </select>
+
+                    <select class="wz-select" formControlName="lumbarMotion">
+                        <option [ngValue]="null" disabled>Select ROM</option>
+                        @for (level of LumbarRomOptions; track level.value) {
+                        <option [value]="level.value">
+                            {{ level.label }}
+                        </option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Special Tests (Spine)</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of SpineSpecialTestOptions; track level.id) {
+                    <label class="check-wrap" [for]="'specialTest_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'specialTest_' + level.id"
+                            [checked]="isCheckboxSelected('specialTest', level.value)"
+                            (change)="onCheckboxChange($event, 'specialTest', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="spineAssessment" cols="0" rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of mskTagList; track item.id) {
+                    @if (item.type === 'spine') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'spine')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': musculoskeletalForm.get('ueaNormalAbnormal')?.value === true,'abnormal-card': musculoskeletalForm.get('ueaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Upper Extremities</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="musculoskeletalForm.get('ueaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(musculoskeletalForm, 'ueaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="musculoskeletalForm.get('ueaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(musculoskeletalForm, 'ueaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-field-group mb-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Joints / Regions Examined</label>
+            </div>
+            <div class="checkbox-list">
+                @for (level of UpperExtremityRegionOptions; track level.id) {
+                <label class="check-wrap" [for]="'upperJointsRegionsExamined_' + level.id">
+                    <input type="checkbox" class="check-input" [id]="'upperJointsRegionsExamined_' + level.id"
+                        [checked]="isCheckboxSelected('upperJointsRegionsExamined', level.value)"
+                        (change)="onCheckboxChange($event, 'upperJointsRegionsExamined', level.value)">
+                    <span class="check-box"></span>
+                    <span class="check-label">{{ level.value }}</span>
+                </label>
+                }
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Rotator Cuff / Shoulder Provocative Tests</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of RotatorCuffTestOptions; track level.id) {
+                    <label class="check-wrap" [for]="'rotatorCuffShoulderProvocative_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'rotatorCuffShoulderProvocative_' + level.id"
+                            [checked]="isCheckboxSelected('rotatorCuffShoulderProvocative', level.value)"
+                            (change)="onCheckboxChange($event, 'rotatorCuffShoulderProvocative', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Elbow / Hand / Nerve Tests</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of ElbowHandNerveTestOptions; track level.id) {
+                    <label class="check-wrap" [for]="'elbowHandNerveTests_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'elbowHandNerveTests_' + level.id"
+                            [checked]="isCheckboxSelected('elbowHandNerveTests', level.value)"
+                            (change)="onCheckboxChange($event, 'elbowHandNerveTests', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="upperExtremityAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of mskTagList; track item.id) {
+                    @if (item.type === 'upper') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'upper')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    } @if (activeTab === 3) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': musculoskeletalForm.get('leaNormalAbnormal')?.value === true,'abnormal-card': musculoskeletalForm.get('leaNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Lower Extremities</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="musculoskeletalForm.get('leaNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(musculoskeletalForm, 'leaNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="musculoskeletalForm.get('leaNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(musculoskeletalForm, 'leaNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-field-group mb-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Joints / Regions Examined</label>
+            </div>
+            <div class="checkbox-list">
+                @for (level of LowerExtremityRegionOptions; track level.id) {
+                <label class="check-wrap" [for]="'lowerJointsRegionsExamined_' + level.id">
+                    <input type="checkbox" class="check-input" [id]="'lowerJointsRegionsExamined_' + level.id"
+                        [checked]="isCheckboxSelected('lowerJointsRegionsExamined', level.value)"
+                        (change)="onCheckboxChange($event, 'lowerJointsRegionsExamined', level.value)">
+                    <span class="check-box"></span>
+                    <span class="check-label">{{ level.value }}</span>
+                </label>
+                }
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Knee Instability / Meniscal Tests</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of KneeInstabilityTestOptions; track level.id) {
+                    <label class="check-wrap" [for]="'kneeInstabilityMeniscalTests_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'kneeInstabilityMeniscalTests_' + level.id"
+                            [checked]="isCheckboxSelected('kneeInstabilityMeniscalTests', level.value)"
+                            (change)="onCheckboxChange($event, 'kneeInstabilityMeniscalTests', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Hip, Foot & Vascular Tests</label>
+                </div>
+                <div class="checkbox-list">
+                    @for (level of HipFootVascularTestOptions; track level.id) {
+                    <label class="check-wrap" [for]="'hipFootVascularTests_' + level.id">
+                        <input type="checkbox" class="check-input" [id]="'hipFootVascularTests_' + level.id"
+                            [checked]="isCheckboxSelected('hipFootVascularTests', level.value)"
+                            (change)="onCheckboxChange($event, 'hipFootVascularTests', level.value)">
+                        <span class="check-box"></span>
+                        <span class="check-label">{{ level.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="lowerExtremityAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of mskTagList; track item.id) {
+                    @if (item.type === 'lower') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'lower')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+    <!-- </div> -->
+</form>

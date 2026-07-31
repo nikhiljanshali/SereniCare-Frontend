@@ -10,8 +10,8 @@
   </div>
   <div class="rs-content">
     @if(sidebarService.content() == 'patient'){
-    <app-patient-medical-history-details [patientDetails]="sidebarService.details()">
-    </app-patient-medical-history-details>
+    <app-patient-medical-history-details
+      [patientDetails]="sidebarService.details()"></app-patient-medical-history-details>
     }
     @else if(sidebarService.content() == 'doctor'){
     <app-edit-doctor-details [doctorDetails]="sidebarService.details()" (saveSuccess)="onsaveSuccess($event)">
@@ -29,6 +29,9 @@
     }
     @else if(sidebarService.content() == 'patient-vital-details'){
     <app-vital-details [patientDetails]="sidebarService.details()"></app-vital-details>
+    }
+    @else if(sidebarService.content() == 'patient-hpi-details'){
+    <app-patient-hip-details [patientDetails]="sidebarService.details()"></app-patient-hip-details>
     }
   </div>
   <div class="rs-footer">

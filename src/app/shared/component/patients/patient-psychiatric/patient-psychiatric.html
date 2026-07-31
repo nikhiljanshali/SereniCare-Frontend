@@ -1,0 +1,225 @@
+<div class="file-tabs-header">
+    <div class="file-tabs">
+        @for (tab of tabs; track tab.id) {
+        <div class="file-tab" (click)="changeTab(tab.id)" [ngClass]="{ 'active': activeTab === tab.id }">
+            {{ tab.title }}
+        </div>
+        }
+    </div>
+</div>
+<form [formGroup]="psychiatricForm">
+    @if (activeTab === 1) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': psychiatricForm.get('baNormalAbnormal')?.value === true,'abnormal-card': psychiatricForm.get('baNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Behavior, Appearance & Affect</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="psychiatricForm.get('baNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(psychiatricForm, 'baNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="psychiatricForm.get('baNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(psychiatricForm, 'baNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-grid-row p-0 m-0">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Stated Mood (Subjective)</label>
+                </div>
+                <select class="wz-select" formControlName="statedMood">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of StatedMoodOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Observed Affect (Objective)</label>
+                </div>
+                <select class="wz-select" formControlName="observedAffect">
+                    <option [ngValue]="null">Select</option>
+                    @for (level of ObservedAffectOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="behaviorAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of psychTagList; track item.id) {
+                    @if (item.type === 'behavior') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'behavior')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 2) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': psychiatricForm.get('taNormalAbnormal')?.value === true,'abnormal-card': psychiatricForm.get('taNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Thought Process & Perception</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="psychiatricForm.get('taNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(psychiatricForm, 'taNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="psychiatricForm.get('taNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(psychiatricForm, 'taNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-field-group">
+            <div class="pe-field-header">
+                <label class="wz-label">Safety & Risk Assessment (SI / HI / Self-Harm)</label>
+            </div>
+            <div class="checkbox-list">
+                @for (level of SafetyRiskAssessmentOptions; track level.id) {
+                <label class="check-wrap" [for]="'safetyRiskAssessment_' + level.id">
+                    <input type="checkbox" class="check-input" [id]="'safetyRiskAssessment_' + level.id"
+                        [checked]="isCheckboxSelected('safetyRiskAssessment  ', level.value)"
+                        (change)="onCheckboxChange($event, 'safetyRiskAssessment ', level.value)">
+                    <span class="check-box"></span>
+                    <span class="check-label">{{ level.value }}</span>
+                </label>
+                }
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="thoughtAssessment" cols="0" rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of psychTagList; track item.id) {
+                    @if (item.type === 'thought') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'thought')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 3) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': psychiatricForm.get('caNormalAbnormal')?.value === true,'abnormal-card': psychiatricForm.get('caNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Cognition, Orientation & Judgment</div>
+            <div class="pe-toggle-group">
+                <button type="button" class="pe-toggle-btn normal"
+                    [class.active]="psychiatricForm.get('caNormalAbnormal')?.value === true"
+                    (click)="_commonMethod.setHsaStatus(psychiatricForm, 'caNormalAbnormal',true)">
+                    Normal
+                </button>
+                <button type="button" class="pe-toggle-btn abnormal"
+                    [class.active]="psychiatricForm.get('caNormalAbnormal')?.value === false"
+                    (click)="_commonMethod.setHsaStatus(psychiatricForm, 'caNormalAbnormal',false)">
+                    Abnormal
+                </button>
+            </div>
+        </div>
+        <div class="pe-field-group">
+            <div class="pe-field-header">
+                <label class="wz-label">Orientation Domains (A&O x4)</label>
+            </div>
+            <div class="checkbox-list">
+                @for (level of OrientationDomainOptions; track level.id) {
+                <label class="check-wrap" [for]="'orientationDomains_' + level.id">
+                    <input type="checkbox" class="check-input" [id]="'orientationDomains_' + level.id"
+                        [checked]="isCheckboxSelected('orientationDomains  ', level.value)"
+                        (change)="onCheckboxChange($event, 'orientationDomains ', level.value)">
+                    <span class="check-box"></span>
+                    <span class="check-label">{{ level.value }}</span>
+                </label>
+                }
+            </div>
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Assesment</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="cognitionAssessment" cols="0"
+                    rows="10"
+                    placeholder="Enter percussion findings, ascites assessment, shifting dullness, fluid thrill, or other abnormalities..."></textarea>
+                <div class="pe-macros">
+                    @for (item of psychTagList; track item.id) {
+                    @if (item.type === 'cognition') {
+                    <span class="pe-macro-pill" (click)="toggleTags(item, 'cognition')">
+                        {{ item.name }}
+                    </span>
+                    }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }@else if (activeTab === 4) {
+    <div class="pe-field-card"
+        [ngClass]="{'normal-card': psychiatricForm.get('caNormalAbnormal')?.value === true,'abnormal-card': psychiatricForm.get('caNormalAbnormal')?.value === false }">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Psychiatric Formulation & Plan</div>
+        </div>
+        <div class="pe-field-group">
+            <div class="pe-field-header">
+                <label class="wz-label">Diagnostic Impression / Provisional Diagnosis</label>
+            </div>
+            <input type="text" class="wz-input"
+                placeholder="e.g., Major Depressive Disorder, Generalized Anxiety Disorder..."
+                formControlName="diagnosticImpression">
+        </div>
+        <div class="p-0 mt-3">
+            <div class="pe-field-group">
+                <div class="pe-field-header">
+                    <label class="wz-label">Immediate Disposition / Management Plan</label>
+                </div>
+                <textarea class="wz-input" id="pe-cranial-nerves" formControlName="immediateDisposition" cols="0"
+                    rows="10"
+                    placeholder="Enter plan (e.g., Outpatient therapy, psychopharmacology consultation, voluntary admission, safety plan finalized)..."></textarea>
+            </div>
+        </div>
+        <div class="pe-field-group mt-3">
+            <div class="pe-field-header">
+                <label class="wz-label">Safety Plan Established & Signed?</label>
+                <div class="option-list">
+                    @for (side of SafetyPlanOptions; track side.id) {
+                    <label class="radio-wrap" [for]="'safetyPlan_' + side.id">
+                        <input type="radio" class="radio-input" [id]="'safetyPlan_' + side.id" name="safetyPlan"
+                            [value]="side.value" formControlName="safetyPlan">
+                        <span class="radio-box"></span>
+                        <span class="radio-label">{{ side.value }}</span>
+                    </label>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</form>

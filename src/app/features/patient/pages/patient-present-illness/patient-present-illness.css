@@ -1,0 +1,66 @@
+/* Container layout */
+.badge-container {
+    display    : flex;
+    flex-wrap  : wrap;
+    gap        : 8px;
+    align-items: center;
+}
+
+/* Badge styling */
+.badge {
+    display         : inline-flex;
+    align-items     : center;
+    background-color: var(--teal);
+    /* Light blue background */
+    color           : var(--white);
+    /* Dark blue text */
+    font-size       : 0.875rem;
+    font-weight     : 500;
+    padding         : 4px 12px;
+    border-radius   : 9999px;
+    /* Pill shape */
+    border          : 1px solid #bae6fd;
+    font-family     : system-ui, -apple-system, sans-serif;
+}
+
+
+/* Ensure the parent row can act as a baseline */
+tbody tr:not(.sub-row) {
+    position: relative;
+}
+
+/* Base style for the connector cell in child rows */
+td.tree-connector {
+    position: relative;
+    width   : 40px;
+    /* Adjust width as needed */
+    padding : 0 !important;
+}
+
+/* Continuous vertical line running through the connector cell */
+td.tree-connector::before {
+    content         : '';
+    position        : absolute;
+    left            : 50%;
+    top             : 0;
+    bottom          : 0;
+    width           : 2px;
+    background-color: #cbd5e1;
+    /* Slate line color */
+}
+
+/* Horizontal branch pointing into the sub-row content on the last sub-row */
+tr.last-sub-row td.tree-connector::after {
+    content         : '';
+    position        : absolute;
+    left            : 50%;
+    top             : 50%;
+    width           : 12px;
+    height          : 2px;
+    background-color: #cbd5e1;
+}
+
+/* Stops the vertical line halfway down on the last child row so it doesn't bleed past */
+tr.last-sub-row td.tree-connector::before {
+    bottom: 50%;
+}

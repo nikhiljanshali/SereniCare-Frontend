@@ -14,31 +14,6 @@
       <button class="btn btn-primary btn-sm" (click)="createPatient()">
         <i class="bi bi-plus-lg"></i> Create Patient
       </button>
-      <!-- <div class="header-dropdown">
-        <button class="btn btn-sm btn-more-actions" type="button" (click)="isMoreMenuOpen = !isMoreMenuOpen">
-          <i class="bi bi-three-dots-vertical"></i>
-        </button>
-        @if(isMoreMenuOpen){
-        <div class="header-dropdown-menu">
-          <button class="header-dropdown-item default">
-            <i class="bi bi-prescription"></i>
-            Write Prescription
-          </button>
-          <button class="header-dropdown-item">
-            <i class="bi bi-file-earmark-arrow-down"></i>
-            Download CV
-          </button>
-          <button class="header-dropdown-item">
-            <i class="bi bi-printer"></i>
-            Print Profile
-          </button>
-          <button class="header-dropdown-item">
-            <i class="bi bi-share"></i>
-            Share Profile
-          </button>
-        </div>
-        }
-      </div> -->
     </div>
   </div>
   <div class="appt-row">
@@ -55,7 +30,7 @@
             <th>Contact</th>
             <th>Status</th>
             <th>Created On</th>
-            <th>Vital History</th>
+            <!-- <th>Vital History</th> -->
             <th class="text-center">Actions</th>
           </tr>
         </thead>
@@ -116,12 +91,6 @@
               <div style="font-size:11px;color:var(--text-muted);">{{patient.createdAt | date : 'dd/MM/yyyy'}}</div>
             </td>
             <td>
-              <button class="action-btn" style="cursor:pointer;" [title]="'Vital History'"
-                (click)="openVitalHistoryPopup(patient)">
-                <i class="bi bi-clipboard2-pulse-fill"></i>
-              </button>
-            </td>
-            <td>
               <button class="action-btn" [popover]="'Medical History'" placement="top" triggers="mouseenter:mouseleave"
                 (click)="openMedicalHistory(patient)">
                 <i class="bi bi-info-circle-fill"></i>
@@ -141,6 +110,10 @@
               <button class="action-btn" [popover]="'Examination Details'" placement="top"
                 triggers="mouseenter:mouseleave" (click)="redirectToExaminationDetails(patient)">
                 <i class="bi bi-clipboard2-pulse-fill"></i>
+              </button>
+              <button class="action-btn" [popover]="'Vital History'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="openVitalHistoryPopup(patient)">
+                <i class="bi bi-heart-pulse-fill"></i>
               </button>
               @if(userDetails?.role !== 'Doctor'){
               <button class="action-btn" title="Edit" placement="top" (click)="editPatient(patient)">
@@ -171,8 +144,7 @@
                           <th>Type</th>
                           <th>Consulation Mode</th>
                           <th>Notes</th>
-                          <th>Vital</th>
-                          <th>Chief Complaint</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -213,18 +185,19 @@
                             </div>
                           </td>
                           <td>
-                            <button class="action-btn" style="cursor:pointer;" [title]="'Vital Details'"
-                              (click)="openVitalPopup(patient,appointment)">
+                            <button class="action-btn" [popover]="'Add Chief of Complaint'" placement="top"
+                              triggers="mouseenter:mouseleave" (click)="recordChiefComplaint(patient,appointment);"
+                              style="cursor:pointer;">
+                              <i class="bi bi-chat-left-quote-fill"></i>
+                            </button>
+                            <button class="action-btn" [popover]="'Add Vital Details'" placement="top"
+                              triggers="mouseenter:mouseleave" (click)="recordVitalDetails(patient,appointment)">
                               <i class="bi bi-heart-pulse-fill"></i>
                             </button>
-                          </td>
-                          <td>
-                            @if(userDetails?.role == 'Doctor'){
-                            <button class="action-btn" (click)="recordChiefComplaint(patient,appointment);"
-                              style="cursor:pointer;" [title]="'Chief Complaint'">
-                              <i class="bi bi-clipboard2-pulse"></i>
+                            <button class="action-btn" [popover]="'Add History of Present Illness (HPI)'"
+                              placement="top" triggers="mouseenter:mouseleave" (click)="recordHIP(patient,appointment)">
+                              <i class="bi bi-clock-history"></i>
                             </button>
-                            }
                           </td>
                         </tr>
                         }

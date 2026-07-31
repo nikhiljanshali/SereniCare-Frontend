@@ -1,0 +1,51 @@
+<div class="emr-glass-header">
+    <div class="emr-gh-info">
+        <!-- <div class="emr-panel-avatar">
+                {{patientDetails?.firstName?.charAt(0)}}{{patientDetails?.lastName?.charAt(0)}}
+            </div> -->
+        <div class="emr-gh-block">
+            <div class="emr-gh-lbl">Patient Identity</div>
+            <div class="emr-gh-val" style="font-size:18px;">
+                {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}
+                <span class="emr-badge-vip">{{patientDetails?.patientCode}}</span>
+            </div>
+        </div>
+        <div class="emr-gh-block">
+            <div class="emr-gh-lbl">UHID Sequence</div>
+            <div class="emr-gh-val">{{patientDetails?.UHIDSequenceNo}}</div>
+        </div>
+        <div class="emr-gh-block">
+            <div class="emr-gh-lbl">Demographics / Age</div>
+            <div class="emr-gh-val">
+                <span>{{ patientDetails?.age }} Yrs</span>
+                <span class="dot">|</span>
+                <span>{{ patientDetails?.gender }}</span>
+                <span class="dot">|</span>
+                <span>DOB: {{ patientDetails?.dateOfBirth | date:'dd/MM/yyyy' }}</span>
+            </div>
+        </div>
+        <div class="emr-gh-block">
+            <div class="emr-gh-lbl">Blood Configuration</div>
+            <div class="emr-gh-val" style="color:var(--mint);">
+                <i class="bi bi-droplet-fill"></i>
+                {{ patientDetails?.medicalHistories?.[0]?.bloodGroup }}
+            </div>
+        </div>
+        <div class="emr-gh-block">
+            <div class="emr-gh-lbl">
+                Coverage Amount
+            </div>
+            <div class="emr-gh-val">
+                <div class="emr-gh-val">
+                    <i class="bi bi-info-circle-fill" style="color:var(--amber);"></i> {{ totalCoverageAmount |
+                    number:'1.2-2' }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-sm btn-outline-primary" style="color:#fff; border-color:rgba(255,255,255,0.4)"><i
+                class="bi bi-qr-code"></i> Generate Code
+        </button>
+    </div>
+</div>

@@ -23,7 +23,7 @@ import { Unauthorized } from './component/unauthorized/unauthorized';
     Breadcrumb,
     Unauthorized,
     CommonModule,
-    RouterModule
+    RouterModule,
   ]
 })
 export class SharedModule { }

@@ -190,12 +190,32 @@ export const MENU_CONFIG: MenuItem[] = [
     badgeColor: 'var(--teal)',
     roles: [Roles.Patient],
     children: [
-      { id: 'chief-complaint', label: 'Chief Complaint', icon: 'bi-chat-left-pulse', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'present-illness', label: 'Present Illness (HPI)', icon: 'bi-journal-medical', route: '', roles: [Roles.Patient] },
-      { id: 'physicial-examination', label: 'Physicial Examination', icon: 'bi-hospital-fill', route: '', roles: [Roles.Patient] },
+      { id: 'chief-complaint', label: 'Chief Complaint', icon: 'bi-chat-left-heart-fill', route: 'patients/master/chiefofComplaint', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'present-illness', label: 'Present Illness (HPI)', icon: 'bi-journal-medical', route: 'patients/master/presentillness', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'physicial-examination', label: 'Physicial Examination', icon: 'bi-hospital-fill', route: 'patients/master/physicalexamination', appendParam: 'patientId', roles: [Roles.Patient] },
       { id: 'diagnosis-matrix', label: 'Dianogis Matrix', icon: 'bi-activity', route: '', roles: [Roles.Patient] },
       { id: 'treatment-plan', label: 'Treatment Plan', icon: 'bi-shield-exclamation', route: '', roles: [Roles.Patient] },
       { id: 'prescription', label: 'Prescription', icon: 'bi-capsule', route: '', roles: [Roles.Patient] },
+    ]
+  },
+  {
+    id: 'patient-history',
+    label: 'Patient History',
+    icon: 'bi-people',
+    // badgeKey: 'patientCount',
+    // badgeColor: 'var(--teal)',
+    roles: [Roles.Patient],
+    children: [
+      { id: 'past-medical-history', label: 'Past Medical History', icon: 'bi-file-medical', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'surgical-history', label: 'Surgical History', icon: 'bi-scissors', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'medication-history', label: 'Medication History', icon: 'bi-capsule', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'allergy-history', label: 'Allergy History', icon: 'bi-exclamation-triangle-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'family-history', label: 'Family History', icon: 'bi-people-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'social-history', label: 'Social History', icon: 'bi-person-lines-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'immunization-history', label: 'Immunization History', icon: 'bi-droplet', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'obstetric-gynae', label: 'Obstetric & Gynae', icon: 'bi-gender-female', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'psychiatric-history', label: 'Psychiatric History', icon: 'bi-brain', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'hospitalization', label: 'Hospitalization', icon: 'bi-building', route: '', appendParam: 'patientId', roles: [Roles.Patient] }
     ]
   },
 ];

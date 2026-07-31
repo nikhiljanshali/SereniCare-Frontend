@@ -1,1 +1,216 @@
-<p>patient-general-survey works!</p>
+<form [formGroup]="generalSurveyForm">
+    <!-- Constitutional Field -->
+    <div class="pe-field-card">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Constitutional State / Distress
+                <span class="wz-req">*</span>
+            </div>
+        </div>
+        <textarea class="wz-input" rows="5" formControlName="constitutionalState"
+            placeholder="Describe patient distress level, habitus, hygiene details..."></textarea>
+        <div class="pe-macros mt-3" formGroupName="generalAppearance">
+            <div class="row">
+                @for (generalAppearance of generalAppearanceList; track
+                generalAppearance.id) {
+                <div class="col-md-3 mb-2">
+                    <label class="check-wrap" [for]="'ga_' + generalAppearance.id">
+                        <input type="checkbox" class="check-input" [id]="'ga_' + generalAppearance.id"
+                            [formControlName]="generalAppearance.code" [value]="generalAppearance.code">
+                        <span class="check-box"></span>
+                        <span class="check-label">
+                            {{ generalAppearance.name }}
+                        </span>
+                    </label>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="pe-grid-row mt-3">
+        <div class="pe-field-card">
+            <div class="pe-field-header">
+                <div class="pe-field-title">Other Details</div>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Consciousness
+                </label>
+                <select class="wz-select" formControlName="consciousness">
+                    <option [ngValue]="null" disabled>Select Consciousness Level</option>
+                    @for (level of Consciousness; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Orientation
+                </label>
+                <select class="wz-select" formControlName="orientation">
+                    <option [ngValue]="null" disabled>Select Orientation Level</option>
+                    @for (level of Orientation; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Nutritional Status
+                </label>
+                <select class="wz-select" formControlName="nutritionalStatus">
+                    <option [ngValue]="null" disabled>Select Nutritional Status</option>
+                    @for (level of NutritionalStatusOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="pe-field-card">
+            <div class="pe-field-header">
+                <div class="pe-field-title">Other Details</div>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Hydration Status
+                </label>
+                <select class="wz-select" formControlName="hydrationStatus">
+                    <option [ngValue]="null" disabled>Select Hydration Status</option>
+                    @for (level of HydrationStatusOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Mobility
+                </label>
+                <select class="wz-select" formControlName="mobility">
+                    <option [ngValue]="null" disabled>Select Mobility</option>
+                    @for (level of MobilityOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Gait
+                </label>
+                <select class="wz-select" formControlName="gait">
+                    <option [ngValue]="null" disabled>Select Gait</option>
+                    @for (level of GaitOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="pe-field-card">
+            <div class="wz-form-group">
+                <label class="wz-label">Distress Level
+                </label>
+                <select class="wz-select" formControlName="distressLevel">
+                    <option [ngValue]="null" disabled>Select Distress Level</option>
+                    @for (level of DistressLevelOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Hygiene Level
+                </label>
+                <select class="wz-select" formControlName="hygiene">
+                    <option [ngValue]="null" disabled>Select Hygiene Level</option>
+                    @for (level of HygieneGroomingOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Speech Level
+                </label>
+                <select class="wz-select" formControlName="speech">
+                    <option [ngValue]="null" disabled>Select Speech Level</option>
+                    @for (level of SpeechOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="pe-field-card">
+            <div formGroupName="painLevel" class="flex-container">
+                <div class="wz-form-group">
+                    <label class="wz-label">Pain Score
+                    </label>
+                    <select class="wz-select w-100" formControlName="score">
+                        <option [ngValue]="null" disabled disabled>Select Score (1–10)</option>
+                        @for (level of painScoreOptions; track level.value) {
+                        <option [value]="level.value">
+                            {{ level.label }}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div class="wz-form-group">
+                    <label class="wz-label">Pain Location
+                    </label>
+                    <input class="wz-input w-100" type="text" placeholder="e.g., Lower Back" formControlName="location">
+                </div>
+                <div class="wz-form-group">
+                    <label class="wz-label">Pain Character
+                    </label>
+                    <select class="wz-select w-100" formControlName="character">
+                        <option value="" disabled selected>Select Pain Char.</option>
+
+                        @for (level of painCharacterOptions; track level.value) {
+                        <option [value]="level.value">
+                            {{ level.label }}
+                        </option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Mood / Behavior
+                </label>
+                <select class="wz-select" formControlName="moodBehavior">
+                    <option [ngValue]="null" disabled>Select Mood / Behavior</option>
+                    @for (level of MoodBehaviorOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="wz-form-group">
+                <label class="wz-label">Skin Color / Perfusion
+                </label>
+                <select class="wz-select" formControlName="perfusion">
+                    <option [ngValue]="null" disabled>Select Skin Color / Perfusion</option>
+                    @for (level of SkinColorPerfusionOptions; track level.value) {
+                    <option [value]="level.value">
+                        {{ level.label }}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="pe-field-card">
+        <div class="pe-field-header">
+            <div class="pe-field-title">Notes </div>
+        </div>
+        <textarea class="wz-input" rows="8" formControlName="notes"
+            placeholder="Enter any additional notes..."></textarea>
+    </div>
+</form>

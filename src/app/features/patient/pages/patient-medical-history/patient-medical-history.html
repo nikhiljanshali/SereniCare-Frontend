@@ -9,9 +9,9 @@
                 <span
                     class="breadcrumb-sep">{{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}</span>
             </div>
-            <!-- <div class="ph-title">
-                {{patientDetails?.firstName}}.{{patientDetails?.middleName}}.{{patientDetails?.lastName}}
-            </div> -->
+            <div class="ph-title">
+                Paitnet Medical History
+            </div>
             <!-- <div class="ph-sub">
                 · Code : <strong>{{patientDetails?.patientCode}}</strong>
                 · DOB : <strong>{{patientDetails?.dateOfBirth | date : 'dd/MM/yyy' }}</strong>
@@ -93,8 +93,8 @@
         <!-- /left col -->
         <!-- ── RIGHT COLUMN ── -->
         <div class="dpd-right">
-            <div class="appt-card">
-                <div class="file-viewer">
+            <div class="appt-card p-0">
+                <div class="file-tabs-header">
                     <div class="file-tabs">
                         @for (tab of tabs; track tab.id) {
                         <div class="file-tab" (click)="changeTab(tab.id)"
@@ -103,28 +103,29 @@
                         </div>
                         }
                     </div>
-                    @if (activeTab === 1) {
-                    <app-past-medical></app-past-medical>
-                    }
-                    @else if (activeTab === 2) {
-                    <app-past-surgical></app-past-surgical>
-                    }
-                    @else if (activeTab === 3) {
-                    <app-family-history></app-family-history>
-                    }
-                    @else if(activeTab === 4){
-                    <app-patient-allergies></app-patient-allergies>
-                    }
-                    @else if(activeTab === 5){
-                    <app-patient-risk></app-patient-risk>
-                    }
-                    @else if(activeTab === 6){
-                    <app-patient-drug-reaction></app-patient-drug-reaction>
-                    }
-                    @else if(activeTab === 7){
-                    <app-family-history-lineage></app-family-history-lineage>
-                    }
                 </div>
+                @if (activeTab === 1) {
+                <app-past-medical></app-past-medical>
+                }
+                @else if (activeTab === 2) {
+                <app-past-surgical></app-past-surgical>
+                }
+                @else if (activeTab === 3) {
+                <app-family-history></app-family-history>
+                }
+                @else if(activeTab === 4){
+                <app-patient-allergies></app-patient-allergies>
+                }
+                @else if(activeTab === 5){
+                <app-patient-risk></app-patient-risk>
+                }
+                @else if(activeTab === 6){
+                <app-patient-drug-reaction></app-patient-drug-reaction>
+                }
+                @else if(activeTab === 7){
+                <app-family-history-lineage></app-family-history-lineage>
+                }
+
             </div>
         </div>
     </div>

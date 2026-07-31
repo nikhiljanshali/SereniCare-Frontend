@@ -9,16 +9,15 @@ import { NotificationServices } from './notification-services';
 })
 export class DoctorService {
 
-  private baseUrl: string = '';
-  private baseUrlExt: string = '';
-  private baseUrlVital: string = '';
+  private baseUrl: string = environment.apiUrl + environment.middleware + environment.endpoints.doctors + '/';
+  private baseUrlExt: string = environment.apiUrl + environment.middleware + environment.endpoints.chiefComplaint + '/';
+  private baseUrlVital: string = environment.apiUrl + environment.middleware + environment.endpoints.vitals + '/';
+  private baseUrlHopi: string = environment.apiUrl + environment.middleware + environment.endpoints.historyofPresentIllness + '/';
+
   constructor(
     private _coreApiService: CoreApiService,
     private _notificationServices: NotificationServices
   ) {
-    this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.doctors + '/';
-    this.baseUrlExt = environment.apiUrl + environment.middleware + environment.endpoints.chiefComplaint + '/';
-    this.baseUrlVital = environment.apiUrl + environment.middleware + environment.endpoints.vitals + '/';
   }
 
   /* -------------------------------------------------------------------------- */
@@ -1216,5 +1215,89 @@ export class DoctorService {
     })
     );
   }
+  /* -------------------------------------------------------------------------- */
+  /*              History Of Present Illness                                    */
+  /* -------------------------------------------------------------------------- */
+
+  public getAllHistoryOfPresentIllness(showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlHopi}getAllHistoryOfPresentIllness`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'History of Present Illness fetched successfully'
+        );
+      }
+    }));
+  }
+
+  public getHistoryOfPresentIllnessById(
+    id: string,
+    showNotification: boolean = false
+  ): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlHopi}getHistoryOfPresentIllnessById/${id}`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'History of Present Illness details fetched successfully'
+        );
+      }
+    })
+    );
+  }
+
+  public getHistoryOfPresentIllnessByPatientId(
+    patientId: string,
+    showNotification: boolean = false
+  ): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrlHopi}getHistoryOfPresentIllnessByPatientId/${patientId}`).pipe(map(res => res), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Patient History of Present Illness fetched successfully'
+        );
+      }
+    })
+    );
+  }
+
+  public createHistoryOfPresentIllness(value: object): Observable<any> {
+    console.log(value);
+    return this._coreApiService.post<any>(`${this.baseUrlHopi}createHistoryOfPresentIllness`, value, true).pipe(map(res => res), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'History of Present Illness created successfully'
+      );
+    }));
+  }
+
+  public updateHistoryOfPresentIllness(
+    id: string,
+    value: object
+  ): Observable<any> {
+    return this._coreApiService.put<any>(`${this.baseUrlHopi}updateHistoryOfPresentIllnesss/${id}`, value, true).pipe(map(res => res), tap(() => {
+      this._notificationServices.success(
+        'Success',
+        'History of Present Illness updated successfully'
+      );
+    })
+    );
+  }
+
+  public deleteHistoryOfPresentIllness(id: string): Observable<any> {
+    return this._coreApiService.delete<any>(`${this.baseUrlHopi}deleteHistoryOfPresentIllness/${id}`).pipe(map((res: any) => {
+      if (!res?.success) {
+        throw new Error(res?.message || 'Delete failed');
+      }
+      return res.data;
+    }),
+      tap(() => {
+        this._notificationServices.success(
+          'Success',
+          'History of Present Illness deleted successfully'
+        );
+      })
+    );
+  }
+
 }
 

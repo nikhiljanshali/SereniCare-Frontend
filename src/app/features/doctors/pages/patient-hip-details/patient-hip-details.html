@@ -1,0 +1,222 @@
+<div class="page-header">
+    <div class="page-header-left">
+        <app-side-bar-patient-header [patientDetails]="patientDetails"></app-side-bar-patient-header>
+        <!-- <div class="ph-title"><i class="bi bi-heart-pulse text-teal"></i> Patient's History of Present Illness (HPI)
+        </div>
+        <div class="ph-sub-title">The primary reason for the visit.</div>
+        <div class="ph-sub">Patient Name:
+            <strong>
+                {{ patientDetails?.patient?.firstName }}
+                {{ patientDetails?.patient?.middleName }}
+                {{ patientDetails?.patient?.lastName }}
+            </strong>
+        </div>
+        <div class="ph-sub">Patient No: <strong>{{ patientDetails?.patient?.patientCode }} </strong></div>
+        <div class="ph-sub">Appoint No: <strong>{{ patientDetails?.appointment?.appointmentNumber }} </strong></div> -->
+    </div>
+    <div class="page-header-right">
+        <!-- <button class="btn btn-outline-info btn-sm" title="Vital History" (click)="vitalHistory()">
+            <i class="bi bi-info-circle-fill"></i>
+        </button> -->
+    </div>
+</div>
+<div class="clinic-grid">
+    <div class="clinic-card refined-card">
+        <div class="card-body-segmented">
+            <form [formGroup]="historyofPresentIllnessForm">
+                <div class="wz-form-row">
+                    <!-- History Narrative -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Complaint <span class="wz-req">*</span>
+                        </label>
+                        <input class="wz-input flex-grow-1" type="text" placeholder="Chief Complaint Note"
+                            formControlName="complaint">
+                        @if (historyofPresentIllnessForm.get('complaint')?.invalid &&
+                        historyofPresentIllnessForm.get('complaint')?.touched) {
+                        <small class="text-danger">
+                            Complaint Note is required.
+                        </small>
+                        }
+                    </div>
+                    <!-- History Narrative -->
+                    <div class="wz-form-group w-100">
+                        <label class="wz-label">
+                            History of Present Illness <span class="wz-req">*</span>
+                        </label>
+                        <textarea class="wz-input" rows="4" placeholder="Enter detailed chronological history..."
+                            formControlName="historyOfPresentIllness">
+                        </textarea>
+                        @if (historyofPresentIllnessForm.get('historyOfPresentIllness')?.invalid &&
+                        historyofPresentIllnessForm.get('historyOfPresentIllness')?.touched) {
+                        <small class="text-danger">
+                            History of Present Illness is required.
+                        </small>
+                        }
+                    </div>
+                    <!-- Onset -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Onset <span class="wz-req">*</span>
+                        </label>
+                        <select class="wz-select" formControlName="onset">
+                            <option [ngValue]="null">Select Onset</option>
+                            @for(item of OnsetOptions; track item.id){
+                            <option [value]="item.value">{{item.label}}</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Location -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Location <span class="wz-req">*</span>
+                        </label>
+                        <input class="wz-input" type="text" placeholder="Location" formControlName="location">
+                    </div>
+                    <!-- Duration -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Duration <span class="wz-req">*</span>
+                        </label>
+                        <input class="wz-input" type="text" placeholder="e.g. 2 hours" formControlName="duration">
+                    </div>
+                    <!-- Character -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Character
+                        </label>
+                        <select class="wz-select" formControlName="character">
+                            <option [ngValue]="null">Select</option>
+                            @for(item of CharacterOptions; track item.id){
+                            <option [value]="item.value">{{item.label}}</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Severity -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Severity
+                        </label>
+                        <select class="wz-select" formControlName="severity">
+                            <option [ngValue]="null">Select</option>
+                            @for(item of SeverityOptions; track item.id){
+                            <option [value]="item.value">{{item.label}}</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Radiation -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Radiation
+                        </label>
+                        <input class="wz-input" type="text" placeholder="Radiates to..." formControlName="radiation">
+                    </div>
+                    <!-- Timing -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Timing
+                        </label>
+                        <select class="wz-select" formControlName="timing">
+                            <option [ngValue]="null">Select</option>
+                            @for(item of TimingOptions; track item.id){
+                            <option [value]="item.value">{{item.label}}</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Progression -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Progression
+                        </label>
+                        <select class="wz-select" formControlName="progression">
+                            <option [ngValue]="null">Select</option>
+                            @for(item of ProgressionOptions; track item.id){
+                            <option [value]="item.value">{{item.label}}</option>
+                            }
+                        </select>
+                    </div>
+                    <!-- Previous Episodes -->
+                    <div class="wz-form-group">
+                        <label class="wz-label">
+                            Previous Episodes
+                        </label>
+                        <select class="wz-select" formControlName="previousEpisodes">
+                            <option [ngValue]="null">Select</option>
+                            @for(item of PreviousEpisodeOptions; track item.id){
+                            <option [value]="item.value">{{item.label}}</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <!-- Associated Symptoms -->
+                <div class="wz-form-group">
+                    <label class="wz-label">
+                        Associated Symptoms
+                    </label>
+                    <div class="checkbox-list">
+                        @for(symptom of AssociatedSymptomsOptions; track symptom.id){
+                        <label class="check-wrap">
+                            <input type="checkbox" class="check-input"
+                                [checked]="isCheckboxSelected('associatedSymptoms', symptom.value)"
+                                (change)="onCheckboxChange($event,'associatedSymptoms',symptom.value)">
+                            <span class="check-box"></span>
+                            <span class="check-label">
+                                {{symptom.label}}
+                            </span>
+                        </label>
+                        }
+                    </div>
+                </div>
+                <!-- Aggravating Factors -->
+                <div class="wz-form-group">
+                    <label class="wz-label">
+                        Aggravating Factors
+                    </label>
+                    <textarea class="wz-input" rows="2" formControlName="aggravatingFactors"></textarea>
+                </div>
+                <!-- Relieving Factors -->
+                <div class="wz-form-group">
+                    <label class="wz-label">
+                        Relieving Factors
+                    </label>
+                    <textarea class="wz-input" rows="2" formControlName="relievingFactors"></textarea>
+                </div>
+                <!-- Treatments Tried -->
+                <div class="wz-form-group">
+                    <label class="wz-label">
+                        Treatments Tried
+                    </label>
+                    <textarea class="wz-input" rows="2" formControlName="treatmentsTried"></textarea>
+                </div>
+                <!-- Response -->
+                <div class="wz-form-group">
+                    <label class="wz-label">
+                        Response to Treatment
+                    </label>
+                    <select class="wz-select" formControlName="responseToTreatment">
+                        <option [ngValue]="null">
+                            Select
+                        </option>
+                        @for(item of ResponseToTreatmentOptions; track item.id){
+                        <option [value]="item.value">
+                            {{item.label}}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <!-- Additional Notes -->
+                <div class="wz-form-group w-100">
+                    <label class="wz-label">
+                        Additional Notes
+                    </label>
+                    <textarea class="wz-input" rows="4" formControlName="additionalNotes"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="">
+            <button class="btn btn-success" type="button" (click)="saveChiefOfComplaints();">
+                <i class="bi bi-floppy-fill"></i> Save
+            </button>
+        </div>
+    </div>
+</div>
