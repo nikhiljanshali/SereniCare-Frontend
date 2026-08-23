@@ -72,7 +72,7 @@ import { PatientDetailHeader } from '../../shared/component/patient-detail-heade
     PatientMusculoskeletalExamination,
     PatientSkinExamination,
     PatientPsychiatric,
-    PatientPhycialExamiantionDetails
+    PatientPhycialExamiantionDetails,
   ]
 })
 export class PatientModule { }

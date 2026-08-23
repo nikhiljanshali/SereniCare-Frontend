@@ -756,7 +756,7 @@ export interface IPatientsData {
   doctorDetails: any
   medicalHistories: MedicalHistory[]
   insuranceDetails: InsuranceDetail[]
-  appointments: Appointment[]
+  appointmentBookings: Appointment[]
   isDeleted: boolean
   createdAt: string
   updatedAt: string
@@ -767,8 +767,9 @@ export interface IPatientsData {
 export interface Appointment {
   _id: string
   appointmentNumber: string
-  doctorId: string
+  doctorId: DoctorId
   patientId: string
+  clinicId: ClinicId
   appointmentDate: string
   dayOfWeek: string
   startTime: string
@@ -776,16 +777,30 @@ export interface Appointment {
   appointmentType: string
   consultationMode: string
   appointmentStatus: string
-  bookingSource: string
+  bookingSource?: string
   symptoms: string
   notes: string
   consultationFee: number
   paymentStatus: string
-  cancelledReason?: string
+  cancelledReason: string
   createdAt: string
   updatedAt: string
   __v: number
 }
+
+export interface DoctorId {
+  _id: string
+  firstName: string
+  lastName: string
+  email: string
+}
+
+export interface ClinicId {
+  _id: string
+  address: string
+  phone: number
+}
+
 
 export interface EmergencyContact {
   name: string
@@ -1786,56 +1801,184 @@ export interface Reflex {
   _id: string
 }
 export interface IGastrointestinal {
+  quadrantPercussionMap: QuadrantPercussionMap
+  localizedSigns: LocalizedSigns
+  herniaTypes: HerniaTypes
+  scarLocation: ScarLocation
   patientId: string
+  areDifferedNormal: string
+  ppaNoFinding: boolean
   percussionAscitesAssessment: string
   paaNormalAbnormal: boolean
+  findingsNotes: string
+  ascitesSigns: string[]
+  otherFindings: string[]
+  ssNoFinding: boolean
   specialAbdominalSigns: string
   sasNormalAbnormal: boolean
+  ssFindingNotes: string
+  peritonealFindings: string[]
+  hssNoFinding: boolean
+  herniaSurgicalScars: string
+  hssNormalAbnormal: boolean
+  coughImpulse: string
+  bowelSoundsatSite: string
+  tenderness: string
+  hssFindingNotes: string
+  scarNoFinding: boolean
+  scarCharacter: string[]
+  woundConcerns: any[]
+  scarFindingsNotes: string
+  anorectalRectalExamination: string
+  areNormalAbnormal: boolean
+  sphincterTone: string
+  grossBlood: string
+  occultBloodTest: string
+  externalInspection: string[]
+  dreFindings: string[]
+  prostateFindings: string[]
+  areFindingsNotes: string
+  reasonforDeferral: string
   _id: string
   createdAt: string
   updatedAt: string
 }
+export interface QuadrantPercussionMap {
+  RUQ: string
+  LUQ: string
+  RLQ: string
+  LLQ: string
+}
+
+export interface LocalizedSigns {
+  reboundTenderness: string
+  mcBurneyPointTenderness: string
+  murphySign: string
+  rovsingSign: string
+  psoasSign: string
+  obturatorSign: string
+}
+
+export interface HerniaTypes {
+  inguinalHernia: string
+  femoralHernia: string
+  umbilicalHernia: string
+  incisionalVentralHernia: string
+}
+
+export interface ScarLocation {
+  RUQ: boolean
+  LUQ: boolean
+  RLQ: boolean
+  LLQ: boolean
+}
+
 export interface IHeent {
+  conjunctival: Conjunctival
+  infection: Infection
   patientId: string
-  head: string
+  headNoFinding: boolean
   headAssessment: string
   headNormalAbnormal: boolean
-  eyes: string
+  eyesNoFinding: boolean
   eyesAssessment: string
   eyesNormalAbnormal: boolean
-  ears: string
+  eyesFindingsNotes: string
+  pupilMovementChecklist: string[]
+  eyesOtherFindings: string[]
+  earsNoFinding: boolean
   earsAssessment: string
   earsNormalAbnormal: boolean
-  nose: string
+  earsFindingNotes: string
+  earsOtherFindings: string[]
+  noseNoFinding: boolean
   noseAssessment: string
   noseNormalAbnormal: boolean
-  throat: string
+  noseFindingNote: string
+  epistaxis: string
+  throatNoFinding: boolean
   throatAssessment: string
   throatNormalAbnormal: boolean
+  throatFindingNotes: string
+  tonsilSize: string
   _id: string
   createdAt: string
   updatedAt: string
 }
+
+export interface Conjunctival {
+  redness: string
+}
+
+export interface Infection {
+  earCanalInfection: string
+  bulging: string
+}
 export interface IGenitourinary {
+  dipstickParameters: DipstickParameters
+  postVoidResidual: PostVoidResidual
   patientId: string
   urinaryAssessment: string
   uaNormalAbnormal: boolean
+  symptomsChecklist: string[]
+  bladderPalpationSuprapubic: string
+  urinaryFindingNotes: string
   cvaAssessment: string
   caNormalAbnormal: boolean
+  caRightCVA: string
+  caLeftCVA: string
+  kidneyPalpationFindings: string[]
+  caFindingNotes: string
   reproductiveAssessment: string
   raNormalAbnormal: boolean
+  raQuickSelectFindings: string[]
+  raEstimatedSize: string
+  raConsistency: string
+  raPalpationInspection: string[]
+  raTransillumination: string
+  pcuColor: string
+  pcuClarity: string
+  pcuSpecificGravity: string
+  urineCultureSensitivityOrdered: string
   _id: string
   createdAt: string
   updatedAt: string
+}
+
+export interface DipstickParameters {
+  leukocytes: string
+  nitrites: string
+  protein: string
+  glucose: string
+  rbcBlood: string
+  ketones: string
+}
+
+export interface PostVoidResidual {
+  volume: number
+  indwellingCatheterPresent: boolean
+  catheterTypeAndSize: string
+  urineOutputCharacter: string
+  bedsideUltrasoundFindings: string
 }
 export interface IMusculoskeletal {
   patientId: string
   spineAssessment: string
   saNormalAbnormal: boolean
+  regionsExamined: string[]
+  cervicalMotion: string
+  lumbarMotion: string
+  specialTest: string[]
   upperExtremityAssessment: string
   ueaNormalAbnormal: boolean
+  upperJointsRegionsExamined: string[]
+  rotatorCuffShoulderProvocative: string[]
+  elbowHandNerveTests: string[]
   lowerExtremityAssessment: string
   leaNormalAbnormal: boolean
+  lowerJointsRegionsExamined: string[]
+  kneeInstabilityMeniscalTests: string[]
+  hipFootVascularTests: string[]
   _id: string
   createdAt: string
   updatedAt: string
@@ -1845,10 +1988,18 @@ export interface ISkin {
   patientId: string
   integrityAssessment: string
   iaNormalAbnormal: boolean
+  primaryLocationSite: any[]
+  pressureInjuryStaging: string
   vascularAssessment: string
   vaNormalAbnormal: boolean
+  peripheralEdemaGrade: string
+  capillaryRefillTime: string
   appendageAssessment: string
   aaNormalAbnormal: boolean
+  nailBedAngle: string
+  hairDistribution: string
+  lesionsMoles: any[]
+  dermatoscopy: string
   _id: string
   createdAt: string
   updatedAt: string
@@ -1858,10 +2009,17 @@ export interface IPsychiatric {
   patientId: string
   behaviorAssessment: string
   baNormalAbnormal: boolean
+  statedMood: string
+  observedAffect: string
   thoughtAssessment: string
   taNormalAbnormal: boolean
+  safetyRiskAssessment: any[]
   cognitionAssessment: string
   caNormalAbnormal: boolean
+  orientationDomains: any[]
+  diagnosticImpression: string
+  immediateDisposition: string
+  safetyPlan: string
   _id: string
   createdAt: string
   updatedAt: string

@@ -62,33 +62,33 @@
               </div>
             </td>
             <td>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.aadhaarNumber}}</div>
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.aadhaarNumber}}</div>
             </td>
             <td>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.dateOfBirth | date : 'dd/MM/yyyy'}}</div>
-              <!-- <div style="font-size:11px;color:var(--text-muted);">Cardiologist</div> -->
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.dateOfBirth | date : 'dd/MM/yyyy'}}</div>
+              <!-- <div style="font-size:13px;color:var(--text-muted);">Cardiologist</div> -->
             </td>
             <td>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.age }}</div>
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.age }}</div>
             </td>
             <td>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.city}}</div>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.state}}</div>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.country}}</div>
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.city}}</div>
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.state}}</div>
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.country}}</div>
             </td>
             <td>
-              <div style="font-size:11px;color:var(--text-muted);">
+              <div style="font-size:13px;color:var(--text-muted);">
                 <i class="bi bi-envelope-at-fill"></i>
                 <span class="px-2">{{patient.email}}</span>
               </div>
-              <div style="font-size:11px;color:var(--text-muted);">
+              <div style="font-size:13px;color:var(--text-muted);">
                 <i class="bi bi-telephone-fill"></i>
                 <span class="px-2">{{patient.phone}}</span>
               </div>
             </td>
             <td><span class="status-badge confirmed">{{patient.status}}</span></td>
             <td>
-              <div style="font-size:11px;color:var(--text-muted);">{{patient.createdAt | date : 'dd/MM/yyyy'}}</div>
+              <div style="font-size:13px;color:var(--text-muted);">{{patient.createdAt | date : 'dd/MM/yyyy'}}</div>
             </td>
             <td>
               <button class="action-btn" [popover]="'Medical History'" placement="top" triggers="mouseenter:mouseleave"
@@ -127,7 +127,7 @@
           @if (expandedAppointment === patient._id) {
           <tr class="sub-row">
             <td colspan="12">
-              @if (patient.appointments.length) {
+              @if (patient.appointmentBookings.length) {
               <div class="appointment-wrapper">
                 <div class="vertical-sub-title">
                   Appointment List
@@ -137,18 +137,20 @@
                     <table class="appointment-sub-table w-100">
                       <thead>
                         <tr>
-                          <th>Appointment No</th>
-                          <th>Date</th>
-                          <th>Time</th>
+                          <th>Apt.No</th>
+                          <th>Apt.Date</th>
+                          <th>Apt.Time</th>
                           <th>Day</th>
                           <th>Type</th>
-                          <th>Consulation Mode</th>
+                          <th>Con.Mode</th>
+                          <th>Doctor</th>
+                          <th>Symptoms</th>
                           <th>Notes</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        @for (appointment of patient.appointments; track appointment._id) {
+                        @for (appointment of patient.appointmentBookings; track appointment._id) {
                         <tr>
                           <td>
                             <div style="font-size:13px;color:var(--text-muted);">
@@ -180,6 +182,16 @@
                             </div>
                           </td>
                           <td>
+                            <div style="font-size:13px;color:var(--text-muted);">
+                              {{appointment.doctorId.firstName}} {{appointment.doctorId.lastName}}
+                            </div>
+                          </td>
+                          <td>
+                            <div style="font-size:13px;color:var(--text-muted);" class="appt-notes">
+                              {{ appointment.symptoms }}
+                            </div>
+                          </td>
+                          <td>
                             <div style="font-size:13px;color:var(--text-muted);" class="appt-notes">
                               {{ appointment.notes }}
                             </div>
@@ -198,6 +210,51 @@
                               placement="top" triggers="mouseenter:mouseleave" (click)="recordHIP(patient,appointment)">
                               <i class="bi bi-clock-history"></i>
                             </button>
+                            <button class="action-btn" [popover]="doctorDetails" placement="top"
+                              triggers="click:mouseleave" container="body">
+                              <i class="bi bi-info-circle-fill"></i>
+                            </button>
+                            <ng-template #doctorDetails>
+                              <div class="appointment-popover">
+                                <div class="popover-title">
+                                  <i class="bi bi-calendar-check me-2"></i>
+                                  Doctor Details
+                                </div>
+                                <div class="appointment-info">
+                                  <div class="info-row">
+                                    <span>Doctor</span>
+                                    <strong>
+                                      Dr. {{ appointment.doctorId.firstName }}
+                                      {{ appointment.doctorId.lastName }}
+                                    </strong>
+                                  </div>
+                                  <div class="info-row">
+                                    <span>Clinic</span>
+                                    <strong>{{ appointment.clinicId.address }}</strong>
+                                  </div>
+                                  <div class="info-row">
+                                    <span>Phone</span>
+                                    <strong>{{ appointment.clinicId.phone }}</strong>
+                                  </div>
+                                  <div class="info-row">
+                                    <span>Consultation Fee</span>
+                                    <strong>{{ appointment.consultationFee }} /-</strong>
+                                  </div>
+                                  <div class="info-row">
+                                    <span>Payment Status</span>
+                                    <strong>{{ appointment.paymentStatus }}</strong>
+                                  </div>
+                                  <div class="info-row">
+                                    <span>Create Date</span>
+                                    <strong>{{ appointment.createdAt | date:'dd/MM/yyyy' }}</strong>
+                                  </div>
+                                  <div class="info-row">
+                                    <span>Updated Date</span>
+                                    <strong>{{ appointment.updatedAt | date:'dd/MM/yyyy' }}</strong>
+                                  </div>
+                                </div>
+                              </div>
+                            </ng-template>
                           </td>
                         </tr>
                         }

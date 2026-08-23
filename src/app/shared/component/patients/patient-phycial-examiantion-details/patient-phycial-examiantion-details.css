@@ -1,3 +1,295 @@
 .file-tabs {
     border-bottom: unset !important;
 }
+
+
+/* Quick Inject Macros / Snippets */
+.ms-macros {
+    display   : flex;
+    flex-wrap : wrap;
+    gap       : 4px;
+    margin-top: 6px;
+}
+
+/* Base Pill Layout */
+.ms-macro-pill {
+    font-size    : 11px;
+    padding      : 2px 8px;
+    border-radius: 4px;
+    cursor       : pointer;
+    transition   : all var(--transition);
+    display      : inline-flex;
+    align-items  : center;
+    gap          : 4px;
+}
+
+/* TRUE STATE: Green / Teal */
+.ms-macro-pill.is-true,
+.ms-macro-pill.active {
+    color     : var(--teal);
+    background: var(--teal-xlight);
+    border    : 1px solid rgba(13, 148, 136, 0.2);
+}
+
+.ms-macro-pill.is-true:hover,
+.ms-macro-pill.active:hover {
+    background: var(--teal);
+    color     : #fff;
+}
+
+/* FALSE STATE: Grey */
+.ms-macro-pill.is-false,
+.ms-macro-pill:not(.is-true):not(.active) {
+    color     : #64748B;
+    background: #F1F5F9;
+    border    : 1px solid #CBD5E1;
+}
+
+.ms-macro-pill.is-false:hover,
+.ms-macro-pill:not(.is-true):not(.active):hover {
+    background: #E2E8F0;
+    color     : #334155;
+}
+
+.score-badge {
+    font-size: 13px;
+    color    : #64748B;
+}
+
+.current-score {
+    font-size: 16px;
+    color    : var(--teal, #0D9488);
+}
+
+/* GCS Rows */
+.gcs-body {
+    display       : flex;
+    flex-direction: column;
+    gap           : 10px;
+}
+
+.gcs-row {
+    display    : flex;
+    align-items: center;
+    gap        : 12px;
+}
+
+.gcs-label {
+    font-weight: 700;
+    font-size  : 13px;
+    color      : #64748B;
+    width      : 16px;
+}
+
+/* Muscle Group Scale Header */
+.muscle-header-row {
+    display         : flex;
+    justify-content : space-between;
+    align-items     : center;
+    background-color: #F0FDF4;
+    /* light teal tint */
+    padding         : 6px 12px;
+    border-radius   : 6px;
+    margin-bottom   : 12px;
+}
+
+.muscle-title {
+    font-size     : 11px;
+    font-weight   : 700;
+    color         : var(--teal, #0D9488);
+    letter-spacing: 0.5px;
+}
+
+.scale-header-labels {
+    display    : flex;
+    gap        : 12px;
+    font-size  : 12px;
+    font-weight: 600;
+    color      : var(--teal, #0D9488);
+}
+
+.scale-header-labels span {
+    width     : 24px;
+    text-align: center;
+}
+
+/* Muscle Rows */
+.muscle-body {
+    display       : flex;
+    flex-direction: column;
+    gap           : 10px;
+}
+
+.muscle-row {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
+}
+
+.limb-label {
+    font-size  : 12px;
+    font-weight: 600;
+    color      : #334155;
+}
+
+/* Pill Group & Individual Score Pills */
+.pill-group {
+    display  : flex;
+    gap      : 6px;
+    flex-wrap: wrap;
+}
+
+.score-pill {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    min-width      : 32px;
+    height         : 28px;
+    padding        : 0 8px;
+    font-size      : 12px;
+    font-weight    : 500;
+    border-radius  : 6px;
+
+    /* DEFAULT (Unselected/Gray State) */
+    background-color: #FAFAFA;
+    color           : #94A3B8;
+    border          : 1px solid #E2E8F0;
+    transition      : all var(--transition, 0.2s ease);
+}
+
+.score-pill.circular {
+    width        : 24px;
+    min-width    : 24px;
+    height       : 24px;
+    border-radius: 50%;
+    padding      : 0;
+}
+
+/* SELECTED STATE (SereniCare Teal/Green) */
+.score-pill.selected {
+    background-color: var(--teal, #0D9488) !important;
+    color           : #ffffff !important;
+    border-color    : var(--teal, #0D9488) !important;
+    font-weight     : 700;
+    box-shadow      : 0 2px 4px rgba(13, 148, 136, 0.25);
+}
+
+
+
+/* Table Base */
+.sensory-matrix {
+    width          : 100%;
+    border-collapse: separate;
+    border-spacing : 0;
+    font-family    : 'Plus Jakarta Sans', sans-serif;
+    font-size      : 12px;
+}
+
+.sensory-matrix th {
+    background-color: #F8FAFC;
+    color           : #475569;
+    font-weight     : 700;
+    padding         : 8px 12px;
+    text-align      : center;
+    border-bottom   : 1px solid #E2E8F0;
+}
+
+.sensory-matrix td {
+    padding       : 8px 12px;
+    border-bottom : 1px solid #F1F5F9;
+    vertical-align: middle;
+}
+
+.extremity-cell {
+    font-weight: 700;
+    color      : #0F172A;
+    text-align : left;
+}
+
+/* Status Pills Container */
+.sensory-status-wrap {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+    gap            : 4px;
+}
+
+/* Default Pill (Inactive/Grey) */
+.sensory-pill {
+    display         : inline-flex;
+    align-items     : center;
+    justify-content : center;
+    width           : 24px;
+    height          : 24px;
+    border-radius   : 4px;
+    font-size       : 11px;
+    font-weight     : 600;
+    color           : #94A3B8;
+    background-color: #F1F5F9;
+    border          : 1px solid #E2E8F0;
+    transition      : all var(--transition, 0.2s ease);
+}
+
+/* Intact ('I') -> SereniCare Teal/Green */
+.sensory-pill.active.status-intact {
+    color           : var(--teal, #0D9488);
+    background-color: var(--teal-xlight, #CCFBF1);
+    border-color    : rgba(13, 148, 136, 0.3);
+    font-weight     : 700;
+}
+
+/* Decreased ('D') -> Warning Amber/Orange */
+.sensory-pill.active.status-decreased {
+    color           : #D97706;
+    background-color: #FEF3C7;
+    border-color    : rgba(217, 119, 6, 0.3);
+    font-weight     : 700;
+}
+
+/* Absent ('A') -> Rose/Red Alert */
+.sensory-pill.active.status-absent {
+    color           : #E11D48;
+    background-color: #FFE4E6;
+    border-color    : rgba(225, 29, 72, 0.3);
+    font-weight     : 700;
+}
+
+
+.option-list-report {
+    display    : flex;
+    flex-wrap  : wrap;
+    gap        : 6px;
+    align-items: center;
+}
+
+/* Base Pill (Inactive / Gray) */
+.report-pill {
+    display         : inline-flex;
+    align-items     : center;
+    gap             : 6px;
+    padding         : 4px 10px;
+    border-radius   : 20px;
+    font-size       : 12px;
+    font-weight     : 500;
+    color           : #64748B;
+    background-color: #F1F5F9;
+    border          : 1px solid #CBD5E1;
+    transition      : all var(--transition, 0.2s ease);
+}
+
+.report-pill i {
+    font-size: 11px;
+    color    : #94A3B8;
+}
+
+/* Selected Pill (SereniCare Teal / Green) */
+.report-pill.is-selected {
+    color           : var(--teal, #0D9488);
+    background-color: var(--teal-xlight, #CCFBF1);
+    border-color    : rgba(13, 148, 136, 0.3);
+    font-weight     : 700;
+}
+
+.report-pill.is-selected i {
+    color: var(--teal, #0D9488);
+}

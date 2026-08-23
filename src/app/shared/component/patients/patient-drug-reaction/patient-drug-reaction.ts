@@ -8,6 +8,7 @@ import { MedicineService } from '../../../../core/services/medicine-services';
 import { PatientDrugReactionService } from '../../../../core/services/patient-drug-reaction';
 import { IAdverseDrugReactionDetails } from '../../../../core/interface/basic.interface';
 import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-patient-drug-reaction',
@@ -35,10 +36,16 @@ export class PatientDrugReaction {
     private _notificationServices: NotificationServices,
     private _patientDrugReaction: PatientDrugReactionService,
     private _commonMethod: CommonMethod,
-    public _modalService: ModalService
+    public _modalService: ModalService,
+    private _storageOperation: StorageOperation,
   ) {
     this.route.paramMap.subscribe(params => {
-      this.patientId = params.get('patientId');
+      const routePatientId = params.get('patientId');
+      this.patientId =
+        this.patientId ||
+        routePatientId ||
+        this._storageOperation.get<any>('userDetails').id;
+      console.log('Patient ID:', this.patientId);
     });
   }
 

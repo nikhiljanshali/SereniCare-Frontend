@@ -8,6 +8,7 @@ import { CommonMethod } from '../../../../core/services/common-method';
 import { AllergiesServices } from '../../../../core/services/allergies';
 import { PatientAllergiesService } from '../../../../core/services/patient-allergies';
 import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-patient-allergies',
@@ -60,10 +61,16 @@ export class PatientAllergies {
     private _notificationServices: NotificationServices,
     private _allergies: AllergiesServices,
     private _commonMethod: CommonMethod,
-    public _modalService: ModalService
+    public _modalService: ModalService,
+    private _storageOperation: StorageOperation,
   ) {
     this.route.paramMap.subscribe(params => {
-      this.patientId = params.get('patientId');
+      const routePatientId = params.get('patientId');
+      this.patientId =
+        this.patientId ||
+        routePatientId ||
+        this._storageOperation.get<any>('userDetails').id;
+      console.log('Patient ID:', this.patientId);
     });
   }
 

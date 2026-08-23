@@ -24,10 +24,9 @@
   </div>
 
   <div class="nav-group">
-
     @for (item of menuItems; track item.id) {
     <!-- Parent -->
-    <div class="nav-item" (click)="item.children?.length && toggleNav(item.id)" [class.open]="openMenus[item.id]">
+    <div class="nav-item" [class.open]="openMenus[item.id]" [class.active]=" activeMenuId === item.id || activeParentId === item.id" (click)="onMenuClick(item)">
       <i class="bi nav-icon" [ngClass]="item.icon"></i>
       <span>{{ item.label }}</span>
       @if (item.badge) {
@@ -36,15 +35,15 @@
       </span>
       }
       @if (item.children?.length) {
-      <i class="bi bi-chevron-right nav-chevron" [class.rotate]="openMenus[item.id]">
-      </i>
+      <i class="bi bi-chevron-right nav-chevron" [class.rotate]="openMenus[item.id]"></i>
       }
     </div>
     <!-- Children -->
     @if (item.children?.length) {
     <div class="nav-sub" [class.open]="openMenus[item.id]">
       @for (child of item.children; track child.id) {
-      <div class="nav-item" [routerLink]="getRoute(child)">
+      <div class="nav-item" [routerLink]="getRoute(child)" [class.active]="activeMenuId === child.id"
+        (click)="onChildMenuClick(child, item.id)">
         <i class="bi" [ngClass]="child.icon"></i>
         <span>{{ child.label }}</span>
       </div>
