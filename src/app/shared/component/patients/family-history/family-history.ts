@@ -11,6 +11,7 @@ import { CommonMethod } from '../../../../core/services/common-method';
 import { DiseasesService } from '../../../../core/services/diseases';
 import { FamilyHistoryService } from '../../../../core/services/family-history';
 import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-family-history',
@@ -34,20 +35,23 @@ export class FamilyHistory {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private route: ActivatedRoute,
     private _surgeryService: SurgeryService,
     private _dDoctorService: DoctorService,
     private _diseasesService: DiseasesService,
-    private _pastSurgicalService: PastSurgicalService,
     private _familyHistoryService: FamilyHistoryService,
     private _notificationServices: NotificationServices,
     private _commonMethod: CommonMethod,
-    public _modalService: ModalService
+    public _modalService: ModalService,
+    private _storageOperation: StorageOperation,
   ) {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('patientId');
-      this.patientId = params.get('patientId');
+      const routePatientId = params.get('patientId');
+      this.patientId =
+        this.patientId ||
+        routePatientId ||
+        this._storageOperation.get<any>('userDetails').id;
+      console.log('Patient ID:', this.patientId);
     });
   }
 
@@ -127,7 +131,7 @@ export class FamilyHistory {
       const payload = this.familyHistoryForm.value;
       console.log(payload);
       // return;
-      this._familyHistoryService.createFamilyHistory(payload).subscribe((res: any) => {
+      this._familyHistoryService.createFamilyHistory(payload).subscribe(() => {
         this.showView = true;
         this.loadMasterData();
         if (this.hideList) {
@@ -150,7 +154,7 @@ export class FamilyHistory {
           comments: ''
         });
       }
-      this._familyHistoryService.updateFamilyHistory(this.selectedfamilyhistory._id, payload).subscribe((res: any) => {
+      this._familyHistoryService.updateFamilyHistory(this.selectedfamilyhistory._id, payload).subscribe(() => {
         this.showView = true;
         this.isEdit = false;
         this.loadMasterData();

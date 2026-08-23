@@ -190,11 +190,12 @@ export class PatientGastrointestinal {
     this.gastrointestinalForm.addControl('woundConcerns', this.fb.control([]));
     this.gastrointestinalForm.addControl('scarFindingsNotes', this.fb.control(''));
 
-    this.gastrointestinalForm.addControl('anorectalRectalExamination', this.fb.control('', Validators.required));
-    this.gastrointestinalForm.addControl('areNormalAbnormal', this.fb.control(null));
+    // this.gastrointestinalForm.addControl('anorectalRectalExamination', this.fb.control('', Validators.required));
+    // this.gastrointestinalForm.addControl('areNormalAbnormal', this.fb.control(null));
     // Anorectal / Rectal Examination
     this.gastrointestinalForm.addControl('anorectalRectalExamination', this.fb.control('', Validators.required));
     this.gastrointestinalForm.addControl('areNormalAbnormal', this.fb.control(null));
+    this.gastrointestinalForm.addControl('areDifferedNormal', this.fb.control(null));
     this.gastrointestinalForm.addControl('sphincterTone', this.fb.control('Normal'));
     this.gastrointestinalForm.addControl('grossBlood', this.fb.control('Absent'));
     this.gastrointestinalForm.addControl('occultBloodTest', this.fb.control('Negative'));
@@ -339,6 +340,8 @@ export class PatientGastrointestinal {
 
   public setMode(mode: 'deferred' | 'normal'): void {
     this.selectedMode = mode;
+    // Patch the specific control directly
+    this.gastrointestinalForm.get('areDifferedNormal')?.patchValue(mode);
   }
 
 

@@ -27,6 +27,8 @@ export class Sidebar implements OnInit {
   public doctorId: string = '';
   public currentUserRole: string = '';
   public menuItems: MenuItem[] = [];
+  public activeMenuId: number | string | null = null;
+  public activeParentId: number | string | null = null;
 
 
   constructor(
@@ -94,6 +96,23 @@ export class Sidebar implements OnInit {
       this.medicineCount = res.data.medicineCount
       this.appointmentCount = res.data.appointmentCount
     });
+  }
+
+  public onMenuClick(item: any): void {
+    this.activeMenuId = item.id;
+    this.activeParentId = null;
+
+    if (item.children?.length) {
+      this.toggleNav(item.id);
+    }
+  }
+
+  public onChildMenuClick(child: any, parentId: number | string): void {
+    this.activeMenuId = child.id;
+    this.activeParentId = parentId;
+
+    // Keep parent menu open
+    this.openMenus[parentId] = true;
   }
 
   // private loadDoctorCount(): void {

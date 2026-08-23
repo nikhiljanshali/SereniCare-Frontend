@@ -177,17 +177,15 @@ export class PatientList {
   }
 
   public openFilter(): void {
-    const modalRef = this._modalService.openComponentModal(GlobalFilter,
-      {
-        class: 'modal-dialog-top modal-lg',
-        backdrop: 'static',
-        keyboard: false,
-        initialState: {
-          filterDetails: this.patientsList,
-          filterColumns: ['patientCode', 'firstName', 'lastName', 'patientCode', 'email', 'phone', 'age', 'aadhaarNumber', 'gender', 'status']
-        }
-      });
-
+    const modalRef = this._modalService.openComponentModal(GlobalFilter, {
+      class: 'modal-dialog-center modal-lg',
+      backdrop: 'static',
+      keyboard: false,
+      initialState: {
+        filterDetails: this.patientsList,
+        filterColumns: ['patientCode', 'firstName', 'lastName', 'patientCode', 'email', 'phone', 'age', 'aadhaarNumber', 'gender', 'status']
+      }
+    });
     modalRef.content.returnResult.subscribe((data: any) => {
       if (data.length) {
         this.patientsList = this.paginatedPatientList = [];

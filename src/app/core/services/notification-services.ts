@@ -66,10 +66,10 @@ export class NotificationServices {
 
       showCancelButton: true,
       confirmButtonText: options?.confirmText || 'Yes',
-      cancelButtonText: options?.cancelText || 'Cancel',
+      cancelButtonText: options?.cancelText || 'No',
 
       reverseButtons: options?.reverseButtons ?? true,
-      background: '#fffbeb',
+      background: '#f0fdf9',
       confirmButtonColor: '#f59e0b'
     });
   }

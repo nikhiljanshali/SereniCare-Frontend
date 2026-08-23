@@ -567,129 +567,2771 @@
     }
     @else if(activeTab === 4){
     <div class="report-section">
-        <h2 class="section-title "
-            [ngClass]="{'section-title-teal':!physicalExaminationReport?.neurological?.[0]?.cnNormalAbnormal,'section-title-rose':physicalExaminationReport?.neurological?.[0]?.cnNormalAbnormal}">
-            Cranial Nerves (II - XII Evaluation)
-        </h2>
-        <div class="details-grid">
-            <!-- Group 1 -->
-            <div class="detail-card">
-                <div class="detail-item">
-                    <div class="detail-label">Findings Notes</div>
-                    <div class="detail-value">
-                        {{physicalExaminationReport?.neurological?.[0]?.cranialNervesFindingNotes}}</div>
-                </div>
-            </div>
-            <!-- Group 2 -->
-            <div class="detail-card">
-                <div class="detail-item">
-                    <div class="detail-label">Pupils / Eye Movements</div>
-                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.pupilsEyeMovements}}</div>
-                </div>
-            </div>
-            <!-- Group 3 -->
-            <div class="detail-card">
-                <div class="detail-item">
-                    <div class="detail-label">Facial / Hearing</div>
-                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.facialHearing}}
+        <div class="accordion">
+            @for (faq of NeurologicalOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                    'accordion-title-teal': (
+                        (faq.id === 1 && !physicalExaminationReport?.neurological?.[0]?.cnNormalAbnormal) ||
+                        (faq.id === 2 && !physicalExaminationReport?.neurological?.[0]?.msoNormalAbnormal) ||
+                        (faq.id === 3 && !physicalExaminationReport?.neurological?.[0]?.msmNormalAbnormal) ||
+                        (faq.id === 4 && !physicalExaminationReport?.neurological?.[0]?.dtrNormalAbnormal) ||
+                        (faq.id === 5 && !physicalExaminationReport?.neurological?.[0]?.seNormalAbnormal) ||
+                        (faq.id === 6 && !physicalExaminationReport?.neurological?.[0]?.ccfNormalAbnormal)
+                    ),
+                    'accordion-title-rose': (
+                        (faq.id === 1 && physicalExaminationReport?.neurological?.[0]?.cnNormalAbnormal) ||
+                        (faq.id === 2 && physicalExaminationReport?.neurological?.[0]?.msoNormalAbnormal) ||
+                        (faq.id === 3 && physicalExaminationReport?.neurological?.[0]?.msmNormalAbnormal) ||
+                        (faq.id === 4 && physicalExaminationReport?.neurological?.[0]?.dtrNormalAbnormal) ||
+                        (faq.id === 5 && physicalExaminationReport?.neurological?.[0]?.seNormalAbnormal) ||
+                        (faq.id === 6 && physicalExaminationReport?.neurological?.[0]?.ccfNormalAbnormal)
+                    )
+                    }">
+                        <span class="accordion-icon">
+                            @if(faq.id === 1){
+                            <i class="bi bi-circle-fill"></i>
+                            }@if(faq.id === 2){
+                            <i class="bi bi-lightbulb"></i>
+                            }@if(faq.id === 3){
+                            <i class="bi bi-activity"></i>
+                            }@if(faq.id === 4){
+                            <i class="bi bi-hammer"></i>
+                            }@if(faq.id === 5){
+                            <i class="bi bi-hand-index-thumb"></i>
+                            }@if(faq.id === 6){
+                            <i class="bi bi-diagram-3"></i>
+                            }
+                        </span>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                @if (activeIndex() === 0) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.cranialNervesFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pupils / Eye Movements</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.pupilsEyeMovements}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.pupilsEyeMovements; as
+                                        pupilsEyeMovementsList) {
+                                        @for (item of pupilsEyeMovementsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Facial / Hearing</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.facialHearing}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.facialHearing; as
+                                        facialHearingList) {
+                                        @for (item of facialHearingList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Palate / Speech / Neck</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.palateSpeechNeck}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.palateSpeechNeck; as
+                                        palateSpeechNeckList) {
+                                        @for (item of palateSpeechNeckList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Lateralized Findings — select side if present</div>
+
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'L' || physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Facial Droop (CN VII)
+                                    </span>
+
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'L' || physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Uvula Deviation (CN X)
+                                    </span>
+
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'L' || physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Tongue Deviation (CN XII)
+                                    </span>
+
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.cranialNerves}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Group 4 -->
-            <div class="detail-card">
-                <div class="detail-item">
-                    <div class="detail-label">Palate / Speech / Neck</div>
-                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.palateSpeechNeck}}
+                }
+                @else if(activeIndex() === 1) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Level of Consciousness</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.levelConsciousness}}</div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Orientation</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.pupilsEyeMovements}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.mentalOrientation?.[0]; as
+                                        orientation) {
+                                        @for (item of orientation | keyvalue; track item.key) {
+                                        <!-- Exclude mongo internal keys like _id -->
+                                        @if (item.key !== '_id') {
+                                        <span class="ms-macro-pill" [class.active]="item.value">
+                                            <i class="bi" [class.bi-check-lg]="item.value"
+                                                [class.bi-x-lg]="!item.value"></i>
+                                            {{ item.key | titlecase }}
+                                        </span>
+                                        }
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Mood / Behavior</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.facialHearing}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.mentalMoodBehavior; as
+                                        moodList) {
+                                        @for (item of moodList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Speech</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.palateSpeechNeck}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.mentalSpeech; as
+                                        moodList) {
+                                        @for (item of moodList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.mentalFindingNote}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.mentalStatusOrientation}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                }
+                @else if(activeIndex() === 2) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label d-flex align-items-center justify-content-between gap-0">
+                                    Glasgow Coma Scale
+                                    <span class="score-badge">
+                                        <strong class="current-score">{{ totalGcsScore }}</strong> / 15
+                                    </span>
+                                </div>
+                                <div class="detail-value">
+                                    @if (physicalExaminationReport?.neurological?.[0]?.glasgowComaScale?.[0]; as gcs) {
+                                    <div class="details-grid">
+                                        <div class="gcs-body">
+                                            <!-- Eye Response (E) -->
+                                            <div class="gcs-row">
+                                                <span class="gcs-label">E</span>
+                                                <div class="pill-group">
+                                                    @for (score of eyeOptions; track score) {
+                                                    <span class="score-pill"
+                                                        [class.selected]="gcs.eyeResponse === score">
+                                                        {{ score }}
+                                                    </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                            <!-- Verbal Response (V) -->
+                                            <div class="gcs-row">
+                                                <span class="gcs-label">V</span>
+                                                <div class="pill-group">
+                                                    @for (score of verbalOptions; track score) {
+                                                    <span class="score-pill"
+                                                        [class.selected]="gcs.verbalResponse === score">
+                                                        {{ score }}
+                                                    </span>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                            <!-- Motor Response (M) -->
+                                            <div class="gcs-row">
+                                                <span class="gcs-label">M</span>
+                                                <div class="pill-group">
+                                                    @for (score of motorOptions; track score) {
+                                                    <span class="score-pill"
+                                                        [class.selected]="gcs.motorResponse === score">
+                                                        {{ score }}
+                                                    </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item p-0">
+                                <div class="detail-value">
+                                    @if (physicalExaminationReport?.neurological?.[0]?.muscleGroup?.[0]; as muscle) {
+                                    <div class="muscle-header-row">
+                                        <span class="muscle-title">MUSCLE GROUP</span>
+                                        <div class="scale-header-labels">
+                                            @for (num of strengthOptions; track num) {
+                                            <span>{{ num }}</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="muscle-body">
+                                        <!-- Upper Ext. (L) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Upper Ext. (L)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.UpperExtL === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Upper Ext. (R) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Upper Ext. (R)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.UpperExtR === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Lower Ext. (L) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Lower Ext. (L)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.LowerExtL === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Lower Ext. (R) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Lower Ext. (R)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.LowerExtR === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.msmFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Tone / Drift</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.toneDrift; as
+                                        toneDriftList) {
+                                        @for (item of toneDriftList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Global Patterns</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.globalPatterns}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.globalPatterns; as
+                                        globalPatternsList) {
+                                        @for (item of globalPatternsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.motorStrengthMatrix }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @else if(activeIndex() === 3) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item p-0">
+                                <div class="detail-value">
+                                    @if (physicalExaminationReport?.neurological?.[0]?.reflexes?.[0]; as muscle) {
+                                    <div class="muscle-header-row">
+                                        <span class="muscle-title">Reflex</span>
+                                        <div class="scale-header-labels">
+                                            @for (num of strengthOptions; track num) {
+                                            <span>{{ num }}</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="muscle-body">
+                                        <!-- Upper Ext. (L) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Biceps</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.biceps === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Upper Ext. (R) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Triceps</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.triceps === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Lower Ext. (L) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Brachioradialis</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.brachioradialis === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+
+                                        <!-- Lower Ext. (R) -->
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Patellar (L)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.patellarLeft === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Patellar (R)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.patellarRight === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Achilles (L)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.achillesLeft === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="muscle-row">
+                                            <span class="limb-label">Achilles (R)</span>
+                                            <div class="pill-group">
+                                                @for (score of strengthOptions; track score) {
+                                                <span class="score-pill circular"
+                                                    [class.selected]="muscle.achillesRight === score">
+                                                    {{ score }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pathological Reflexes — select side if present</div>
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.babinski === 'L' || physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.babinski === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Babinski (Positive / Upgoing)
+                                    </span>
+
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.babinski === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.babinski === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.babinski === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.sustainedClonus === 'L' || physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.sustainedClonus === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Uvula Deviation (CN X)
+                                    </span>
+
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.sustainedClonus === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.sustainedClonus === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.sustainedClonus === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.hoffmansSign === 'L' || physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.hoffmansSign === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Tongue Deviation (CN XII)
+                                    </span>
+
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.hoffmansSign === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.hoffmansSign === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.pathologicalReflexes?.hoffmansSign === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.dtrFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.deepTendonReflexes}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                }
+                @else if(activeIndex() === 4) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <table class="matrix sensory-matrix">
+                                <thead>
+                                    <tr>
+                                        <th>Extremity</th>
+                                        @for (column of sensationTypes; track column.control) {
+                                        <th>{{ column.label }}</th>
+                                        }
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @for (row of physicalExaminationReport?.neurological?.[0]?.sensoryExamination; track
+                                    row._id || $index) {
+                                    <tr>
+                                        <!-- Extremity Label (RUE, LUE, RLE, LLE) -->
+                                        <td class="extremity-cell">{{ row.extremity }}</td>
+
+                                        <!-- Sensation Type Columns -->
+                                        @for (column of sensationTypes; track column.control) {
+                                        <td>
+                                            <div class="sensory-status-wrap">
+                                                @for (status of sensationStatus; track status.value) {
+                                                <span class="sensory-pill"
+                                                    [class.active]="row[column.control] === status.value"
+                                                    [ngClass]="status.class">
+                                                    {{ status.value }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </td>
+                                        }
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Hemisensory Loss</div>
+                                <div class="lat-finding"
+                                    [class.active]="physicalExaminationReport?.neurological?.[0]?.hemisensoryLoss?.[0]?.hemisensoryLoss === 'L' || physicalExaminationReport?.neurological?.[0]?.hemisensoryLoss?.[0]?.hemisensoryLoss === 'R'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        Hemisensory Loss
+                                    </span>
+                                    <div class="lat-opts">
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.hemisensoryLoss?.[0]?.hemisensoryLoss === 'L'">
+                                            L
+                                        </button>
+
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.hemisensoryLoss?.[0]?.hemisensoryLoss === 'R'">
+                                            R
+                                        </button>
+
+                                        <button type="button" class="lat-opt none"
+                                            [class.sel]="physicalExaminationReport?.neurological?.[0]?.hemisensoryLoss?.[0]?.hemisensoryLoss === 'None'">
+                                            None
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.sensoryFindingNote}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    <!-- {{physicalExaminationReport?.neurological?.[0]?.sensoryDistributionPattern}} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.sensoryDistributionPattern;
+                                        as
+                                        sensoryDistributionPatternList) {
+                                        @for (item of sensoryDistributionPatternList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.sensoryExam }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @else if(activeIndex() === 5) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Gait Pattern</div>
+                                <div class="detail-value">
+                                    <div class="option-list-report">
+                                        @for (side of GaitPatternList; track side.id) {
+                                        <span class="report-pill"
+                                            [class.is-selected]="physicalExaminationReport?.neurological?.[0]?.gaitPattern === side.value">
+                                            <i class="bi"
+                                                [class.bi-check-circle-fill]="physicalExaminationReport?.neurological?.[0]?.gaitPattern === side.value"
+                                                [class.bi-circle]="physicalExaminationReport?.neurological?.[0]?.gaitPattern !== side.value"></i>
+                                            {{ side.value }}
+                                        </span>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-item mt-5">
+                                <div class="detail-label">Rapid Movements / Tremor</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.neurological?.[0]?.rapidMovementsTremor; as
+                                        rapidMovementsTremorList) {
+                                        @for (item of rapidMovementsTremorList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-item mt-5">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.coordinationCerebellarFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label"></div>
+                                <div class="pe-field-group">
+                                    @let gait = physicalExaminationReport?.neurological?.[0]?.gaitFindings?.[0];
+                                    <!-- Romberg Test -->
+                                    <div class="lat-finding" style="margin-top:14px;"
+                                        [class.active]="gait?.rombergTest === 'Positive'">
+                                        <span class="name">
+                                            <span class="sw"></span>
+                                            Romberg Test
+                                        </span>
+                                        <div class="lat-opts">
+                                            @for (option of rombergTestOptions; track option.value) {
+                                            <span class="lat-opt" [ngClass]="{
+                                                'sel-ok': gait?.rombergTest === option.value && option.value === 'Negative',
+                                                'sel-bad': gait?.rombergTest === option.value && option.value === 'Positive',
+                                                'off': gait?.rombergTest !== option.value
+                                                }">
+                                                {{ option.label }}
+                                            </span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <!-- Tandem Gait -->
+                                    <div class="lat-finding" [class.active]="gait?.tandemGait === 'Abnormal'">
+                                        <span class="name">
+                                            <span class="sw"></span>
+                                            Tandem Gait
+                                        </span>
+                                        <div class="lat-opts">
+                                            @for (option of tandemGaitOptions; track option.value) {
+                                            <span class="lat-opt" [ngClass]="{
+                                                'sel-ok': gait?.tandemGait === option.value && option.value === 'Normal',
+                                                'sel-bad': gait?.tandemGait === option.value && option.value === 'Abnormal',
+                                                'off': gait?.tandemGait !== option.value
+                                                }">
+                                                {{ option.label }}
+                                            </span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <!-- Dysmetria -->
+                                    <div class="lat-finding"
+                                        [class.active]="['L', 'R', 'B'].includes(gait?.dysmetria ?? '')">
+                                        <span class="name">
+                                            <span class="sw"></span>
+                                            Dysmetria (Finger-to-Nose)
+                                        </span>
+                                        <div class="lat-opts">
+                                            @for (option of sideOptions; track option.value) {
+                                            <span class="lat-opt" [class.sel]="gait?.dysmetria === option.value"
+                                                [class.off]="gait?.dysmetria !== option.value">
+                                                {{ option.label }}
+                                            </span>
+                                            }
+                                        </div>
+                                    </div>
+
+                                    <!-- Abnormal Heel-to-Shin -->
+                                    <div class="lat-finding" style="margin-bottom:18px;"
+                                        [class.active]="['L', 'R', 'B'].includes(gait?.abnormalHeelToShin ?? '')">
+                                        <span class="name">
+                                            <span class="sw"></span>
+                                            Abnormal Heel-to-Shin
+                                        </span>
+                                        <div class="lat-opts">
+                                            @for (option of sideOptions; track option.value) {
+                                            <span class="lat-opt"
+                                                [class.sel]="gait?.abnormalHeelToShin === option.value"
+                                                [class.off]="gait?.abnormalHeelToShin !== option.value">
+                                                {{ option.label }}
+                                            </span>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.neurological?.[0]?.coordinationCerebellarFunction }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
             </div>
+            }
         </div>
-        <div class="details-grid mt-3">
-            <div class="detail-card">
-                <div class="detail-item">
-                    <div class="detail-label">Lateralized Findings — select side if present</div>
-
-                    <div class="lat-finding">
-                        <span class="name">
-                            <span class="sw"></span>
-                            Facial Droop (CN VII)
+    </div>
+    }
+    @else if(activeTab === 5){
+    <div class="report-section">
+        <div class="accordion">
+            @for (faq of GastrointestinalAbdominalExamOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                    'accordion-title-teal': (
+                        (faq.id === 1 && !physicalExaminationReport?.gastrointestinal?.[0]?.paaNormalAbnormal) ||
+                        (faq.id === 2 && !physicalExaminationReport?.gastrointestinal?.[0]?.sasNormalAbnormal) ||
+                        (faq.id === 3 && !physicalExaminationReport?.gastrointestinal?.[0]?.hssNormalAbnormal) ||
+                        (faq.id === 4 && !physicalExaminationReport?.gastrointestinal?.[0]?.ppaNoFinding) ||
+                        (faq.id === 5 && !physicalExaminationReport?.gastrointestinal?.[0]?.areNormalAbnormal)
+                        
+                    ),
+                    'accordion-title-rose': (
+                        (faq.id === 1 && physicalExaminationReport?.gastrointestinal?.[0]?.paaNormalAbnormal) ||
+                        (faq.id === 2 && physicalExaminationReport?.gastrointestinal?.[0]?.sasNormalAbnormal) ||
+                        (faq.id === 3 && physicalExaminationReport?.gastrointestinal?.[0]?.hssNormalAbnormal) ||
+                        (faq.id === 4 && physicalExaminationReport?.gastrointestinal?.[0]?.ppaNoFinding) ||
+                        (faq.id === 5 && physicalExaminationReport?.gastrointestinal?.[0]?.areNormalAbnormal)                        
+                    )
+                    }">
+                        <span class="accordion-icon">
+                            @if(faq.id === 1){
+                            <i class="bi bi-soundwave"></i>
+                            }@if(faq.id === 2){
+                            <i class="bi bi-lightbulb"></i>
+                            }@if(faq.id === 3){
+                            <i class="bi bi-activity"></i>
+                            }@if(faq.id === 4){
+                            <i class="bi bi-scissors"></i>
+                            }@if(faq.id === 5){
+                            <i class="bi bi-hand-index"></i> }
                         </span>
-
-                        <div class="lat-opts">
-                            <button type="button" class="lat-opt"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'L'">
-                                L
-                            </button>
-
-                            <button type="button" class="lat-opt"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'R'">
-                                R
-                            </button>
-
-                            <button type="button" class="lat-opt none"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.facialDroop === 'None'">
-                                None
-                            </button>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                @if (activeIndex() === 0) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Quadrant Percussion Map</div>
+                                <div class="detail-value">
+                                    <div class="quad-wrap">
+                                        <div class="quad-map readonly-mode">
+                                            <!-- {{physicalExaminationReport?.gastrointestinal?.[0]?.quadrantPercussionMap}} -->
+                                            @let map =
+                                            physicalExaminationReport?.gastrointestinal?.[0]?.quadrantPercussionMap;
+                                            @for (quad of quadrantList; track quad.key) {
+                                            <div class="quad-cell">
+                                                <span class="qname">{{ quad.key }}</span>
+                                                <div class="qopts">
+                                                    <span class="qopt" [class.sel]="map?.[quad.key] === 'Tympanic'">
+                                                        Tympanic
+                                                    </span>
+                                                    <span class="qopt" [class.sel]="map?.[quad.key] === 'Dull'">
+                                                        Dull
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="lat-finding">
-                        <span class="name">
-                            <span class="sw"></span>
-                            Uvula Deviation (CN X)
-                        </span>
-
-                        <div class="lat-opts">
-                            <button type="button" class="lat-opt"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'L'">
-                                L
-                            </button>
-
-                            <button type="button" class="lat-opt"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'R'">
-                                R
-                            </button>
-
-                            <button type="button" class="lat-opt none"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.uvulaDeviation === 'None'">
-                                None
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="lat-finding">
-                        <span class="name">
-                            <span class="sw"></span>
-                            Tongue Deviation (CN XII)
-                        </span>
-
-                        <div class="lat-opts">
-                            <button type="button" class="lat-opt"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'L'">
-                                L
-                            </button>
-
-                            <button type="button" class="lat-opt"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'R'">
-                                R
-                            </button>
-
-                            <button type="button" class="lat-opt none"
-                                [class.sel]="physicalExaminationReport?.neurological?.[0]?.lateralizedFindings?.[0]?.tongueDeviation === 'None'">
-                                None
-                            </button>
+                        <div class="detail-card">
+                            <div class="d-flex align-items-center justify-content-between flex-column gap-3">
+                                <div class="detail-card w-100">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Findings Notes</div>
+                                        <div class="detail-value">
+                                            {{physicalExaminationReport?.gastrointestinal?.[0]?.findingsNotes}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-card w-100">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Ascites Signs</div>
+                                        <div class="detail-value">
+                                            <!-- {{physicalExaminationReport?.gastrointestinal?.[0]?.findingsNotes}} -->
+                                            <div class="ms-macros">
+                                                @if (physicalExaminationReport?.gastrointestinal?.[0]?.ascitesSigns; as
+                                                ascitesSignsList) {
+                                                @for (item of ascitesSignsList; track $index) {
+                                                <span class="ms-macro-pill is-true">
+                                                    <i class="bi bi-check-lg"></i>
+                                                    {{ item }}
+                                                </span>
+                                                }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-card w-100">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Other Findings</div>
+                                        <div class="detail-value">
+                                            <div class="ms-macros">
+                                                @if (physicalExaminationReport?.gastrointestinal?.[0]?.otherFindings; as
+                                                otherFindingsList) {
+                                                @for (item of otherFindingsList; track $index) {
+                                                <span class="ms-macro-pill is-true">
+                                                    <i class="bi bi-check-lg"></i>
+                                                    {{ item }}
+                                                </span>
+                                                }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="detail-card w-100">
+                                    <div class="detail-item">
+                                        <div class="detail-label">Assesment</div>
+                                        <div class="detail-value">
+                                            {{physicalExaminationReport?.gastrointestinal?.[0]?.percussionAscitesAssessment}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                }@else if(activeIndex() === 1) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.ssFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Localized Signs</div>
+                                <div class="detail-value">
+                                    <div>
+                                        @for (sign of localizedSignsList; track sign.control) {
+                                        @let val = getSignValue(sign.control);
+                                        <div class="sign-row" [class.pos]="val === 'Positive'">
+                                            <span class="name">
+                                                <span class="sw"></span>
+                                                {{ sign.label }}
+                                            </span>
+                                            <div class="sign-opts">
+                                                @for (option of signOptions; track option) {
+                                                <span class="sign-opt"
+                                                    [class.neg-sel]="val === option && option === 'Negative'"
+                                                    [class.pos-sel]="val === option && option === 'Positive'"
+                                                    [class.off]="val !== option">
+                                                    {{ option }}
+                                                </span>
+                                                }
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-car">
+                            <div class="detail-item">
+                                <div class="detail-label">Other Findings</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.gastrointestinal?.[0]?.peritonealFindings; as
+                                        peritonealFindingsList) {
+                                        @for (item of peritonealFindingsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-card mt-3">
+                        <div class="detail-item">
+                            <div class="detail-label">Assesment</div>
+                            <div class="detail-value">
+                                {{physicalExaminationReport?.gastrointestinal?.[0]?.percussionAscitesAssessment}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }@else if(activeIndex() === 2) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div>
+                                @for (sign of herniaTypeList; track sign.control) {
+                                @let val = getHerniaValue(sign.control);
+                                <div class="sign-row" [class.pos]="val === 'Positive'">
+                                    <span class="name">
+                                        <span class="sw"></span>
+                                        {{ sign.label }}
+                                    </span>
+                                    <div class="sign-opts">
+                                        @for (option of signOptions; track option) {
+                                        <span class="sign-opt" [class.neg-sel]="val === option && option === 'Negative'"
+                                            [class.pos-sel]="val === option && option === 'Positive'"
+                                            [class.off]="val !== option">
+                                            {{ option }}
+                                        </span>
+                                        }
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="func-row">
+                                @for (item of herniaSpecificSigns; track item.control) {
+                                @let val = getHerniaSignValue(item.control);
+                                <div class="func-box">
+                                    <div class="func-lbl">{{ item.label }}</div>
+
+                                    <div class="func-opts">
+                                        @for (option of item.options; track option) {
+                                        <span class="func-opt"
+                                            [class.sel-ok]="val === option && option === item.normalValue"
+                                            [class.sel-bad]="val === option && option !== item.normalValue"
+                                            [class.off]="val !== option">
+                                            {{ option }}
+                                        </span>
+                                        }
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.hssFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.herniaSurgicalScars}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }@else if(activeIndex() === 3) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Scar Location</div>
+                                <div class="detail-value">
+                                    <div class="quad-map">
+                                        @for (location of scarLocations; track location.key) {
+                                        @let isPresent = getScarLocationValue(location.key);
+                                        <div class="quad-cell" [class.sel]="isPresent">
+                                            <span class="qname">{{ location.key }}</span>
+                                            <span class="qtag">
+                                                @if (isPresent) {
+                                                Scar Present
+                                                } @else {
+                                                No Scar
+                                                }
+                                            </span>
+                                        </div>
+                                        }
+                                    </div>
+                                    <div class="quad-legend">
+                                        <span><b>RUQ</b> Right Upper</span>
+                                        <span><b>LUQ</b> Left Upper</span>
+                                        <span><b>RLQ</b> Right Lower</span>
+                                        <span><b>LLQ</b> Left Lower</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Scar Character</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.gastrointestinal?.[0]?.scarCharacter; as
+                                        scarCharacterList) {
+                                        @for (item of scarCharacterList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Wound Concerns</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.gastrointestinal?.[0]?.woundConcerns; as
+                                        woundConcernsList) {
+                                        @for (item of woundConcernsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Findings Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.scarFindingsNotes}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }@else if(activeIndex() === 4) {
+                <div class="accordion-body">
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Anorectal / Rectal Examination (Optional / Expandable Section)
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.areDifferedNormal}}
+                                </div>
+                                <div class="detail-label">Sphincter Tone
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.sphincterTone}}
+                                </div>
+                                <div class="detail-label">Gross Blood
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.grossBlood}}
+                                </div>
+                                <div class="detail-label">Occult Blood Test
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.occultBloodTest}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Finding Notes
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.areFindingsNotes}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">External Inspection
+                                </div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.gastrointestinal?.[0]?.externalInspection; as
+                                        externalInspectionList) {
+                                        @for (item of externalInspectionList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">DRE Findings
+                                </div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.gastrointestinal?.[0]?.dreFindings; as
+                                        dreFindingsList) {
+                                        @for (item of dreFindingsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Prostate
+                                </div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.gastrointestinal?.[0]?.prostateFindings; as
+                                        prostateFindingsList) {
+                                        @for (item of prostateFindingsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @if(physicalExaminationReport?.gastrointestinal?.[0]?.areDifferedNormal !='normal'){
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Reason for Deferral (optional)
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.reasonforDeferral}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.gastrointestinal?.[0]?.anorectalRectalExamination}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
             </div>
+            }
         </div>
-        <div class="details-grid mt-3">
-            <div class="detail-card">
-                <div class="detail-item">
-                    <div class="detail-value">{{physicalExaminationReport?.neurological?.[0]?.cranialNerves}}
+    </div>
+    }
+    @else if(activeTab === 6){
+    <div class="report-section">
+        <div class="accordion">
+            @for (faq of HEENTOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                    'accordion-title-teal': (
+                        (faq.id === 1 && !physicalExaminationReport?.heent?.[0]?.headNormalAbnormal) ||
+                        (faq.id === 2 && !physicalExaminationReport?.heent?.[0]?.eyesNormalAbnormal) ||
+                        (faq.id === 3 && !physicalExaminationReport?.heent?.[0]?.earsNormalAbnormal) ||
+                        (faq.id === 4 && !physicalExaminationReport?.heent?.[0]?.noseNormalAbnormal) ||
+                        (faq.id === 5 && !physicalExaminationReport?.heent?.[0]?.throatNormalAbnormal)
+                        
+                    ),
+                    'accordion-title-rose': (
+                        (faq.id === 1 && physicalExaminationReport?.heent?.[0]?.headNormalAbnormal) ||
+                        (faq.id === 2 && physicalExaminationReport?.heent?.[0]?.eyesNormalAbnormal) ||
+                        (faq.id === 3 && physicalExaminationReport?.heent?.[0]?.earsNormalAbnormal) ||
+                        (faq.id === 4 && physicalExaminationReport?.heent?.[0]?.noseNormalAbnormal) ||
+                        (faq.id === 5 && physicalExaminationReport?.heent?.[0]?.throatNormalAbnormal)                        
+                    )
+                    }">
+                        <span class="accordion-icon">
+                            @if(faq.id === 1){
+                            <i class="bi bi-soundwave"></i>
+                            }@if(faq.id === 2){
+                            <i class="bi bi-lightbulb"></i>
+                            }@if(faq.id === 3){
+                            <i class="bi bi-activity"></i>
+                            }@if(faq.id === 4){
+                            <i class="bi bi-scissors"></i>
+                            }@if(faq.id === 5){
+                            <i class="bi bi-hand-index"></i> }
+                        </span>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                @if (activeIndex() === 0) {
+                <div class="accordion-body">
+                    <button type="button" class="quick-clear"
+                        [ngClass]="{'active': physicalExaminationReport?.heent?.[0]?.headNoFinding}">
+                        <i class="bi bi-check2-circle"></i>
+                        Mark normal — "Atraumatic / Normocephalic"
+                    </button>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.headAssessment}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                }
+                @if (activeIndex() === 1) {
+                <div class="accordion-body">
+                    <button type="button" class="quick-clear"
+                        [ngClass]="{'active': physicalExaminationReport?.heent?.[0]?.eyesNoFinding}">
+                        <i class="bi bi-check2-circle"></i>
+                        Mark normal — "PERRLA, EOMI, no redness"
+                    </button>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pupil / Movement Checklist</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.heent?.[0]?.pupilMovementChecklist; as
+                                        pupilMovementCheckList) {
+                                        @for (item of pupilMovementCheckList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Other Findings</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.heent?.[0]?.eyesOtherFindings; as
+                                        eyesOtherFindingsList) {
+                                        @for (item of eyesOtherFindingsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Conjunctival Redness</div>
+                                <div class="detail-value">
+                                    <div class="lat-opts">
+                                        @for (option of rednessOptions; track option.value) {
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.heent?.[0]?.conjunctival?.redness === option.value"
+                                            [class.off]="physicalExaminationReport?.heent?.[0]?.conjunctival?.redness !== option.value">
+                                            {{ option.label }}
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.eyesAssessment}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @if (activeIndex() === 2) {
+                <div class="accordion-body">
+                    <button type="button" class="quick-clear"
+                        [ngClass]="{'active': physicalExaminationReport?.heent?.[0]?.earsNoFinding}">
+                        <i class="bi bi-check2-circle"></i>
+                        Mark normal — "TMs intact bilaterally"
+                    </button>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Finding Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.earsFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Ear Canal Infection</div>
+                                <div class="detail-value">
+                                    <div class="lat-opts">
+                                        @for (option of rednessOptions; track option.value) {
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.heent?.[0]?.infection?.earCanalInfection === option.value"
+                                            [class.off]="physicalExaminationReport?.heent?.[0]?.infection?.earCanalInfection !== option.value">
+                                            {{ option.label }}
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Bulging</div>
+                                <div class="detail-value">
+                                    <div class="lat-opts">
+                                        @for (option of rednessOptions; track option.value) {
+                                        <button type="button" class="lat-opt"
+                                            [class.sel]="physicalExaminationReport?.heent?.[0]?.infection?.bulging === option.value"
+                                            [class.off]="physicalExaminationReport?.heent?.[0]?.infection?.bulging !== option.value">
+                                            {{ option.label }}
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Other Findings</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.heent?.[0]?.earsOtherFindings; as
+                                        earsOtherFindingsList) {
+                                        @for (item of earsOtherFindingsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.earsAssessment}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @if (activeIndex() === 3) {
+                <div class="accordion-body">
+                    <button type="button" class="quick-clear"
+                        [ngClass]="{'active': physicalExaminationReport?.heent?.[0]?.noseNoFinding}">
+                        <i class="bi bi-check2-circle"></i>
+                        Mark normal — "Nose normal, no congestion"
+                    </button>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Finding Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.noseFindingNote}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Epistaxis</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.epistaxis}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.noseAssessment}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
+                @if (activeIndex() === 4) {
+                <div class="accordion-body">
+                    <button type="button" class="quick-clear"
+                        [ngClass]="{'active': physicalExaminationReport?.heent?.[0]?.throatNoFinding}">
+                        <i class="bi bi-check2-circle"></i>
+                        Mark normal — "Throat normal, oral mucosa moist"
+                    </button>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Finding Notes</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.throatFindingNotes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Tonsil Size (Brodsky Grade)</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.tonsilSize}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assesment</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.heent?.[0]?.throatAssessment}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                }
             </div>
+            }
+        </div>
+    </div>
+    }
+    @else if (activeTab === 7) {
+    <div class="report-section">
+        <div class="accordion">
+            @for (faq of GenitourinarySystemExamOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                            'accordion-title-teal': (
+                                (faq.id === 1 && !physicalExaminationReport?.genitourinary?.[0]?.uaNormalAbnormal) ||
+                                (faq.id === 2 && !physicalExaminationReport?.genitourinary?.[0]?.caNormalAbnormal) ||
+                                (faq.id === 3 && !physicalExaminationReport?.genitourinary?.[0]?.raNormalAbnormal)
+                            ),
+                            'accordion-title-rose': (
+                                (faq.id === 1 && physicalExaminationReport?.genitourinary?.[0]?.uaNormalAbnormal) ||
+                                (faq.id === 2 && physicalExaminationReport?.genitourinary?.[0]?.caNormalAbnormal) ||
+                                (faq.id === 3 && physicalExaminationReport?.genitourinary?.[0]?.raNormalAbnormal)
+                            )
+                          }">
+                        <span class="accordion-icon">
+                            @switch (faq.id) {
+                            @case (1) { <i class="bi bi-soundwave"></i> }
+                            @case (2) { <i class="bi bi-lightbulb"></i> }
+                            @case (3) { <i class="bi bi-activity"></i> }
+                            @case (4) { <i class="bi bi-scissors"></i> }
+                            @case (5) { <i class="bi bi-hand-index"></i> }
+                            }
+                        </span>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div class="accordion-body">
+                    @if (activeIndex() === 0) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Symptoms Checklist</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.genitourinary?.[0]?.symptomsChecklist; as
+                                        symptomsCheckList) {
+                                        @for (item of symptomsCheckList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Bladder Palpation / Suprapubic
+                                </div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.bladderPalpationSuprapubic ||
+                                    'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Urinary Clinical Notes
+                                </div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.urinaryFindingNotes || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.urinaryAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 1) {
+                    <div class="details-grid">
+                        <div class="d-flex align-items-center justify-content-between flex-column gap-2">
+                            <div class="detail-card w-100">
+                                <div class="detail-item">
+                                    <div class="detail-label">Right CVA</div>
+                                    <div class="detail-value">
+                                        {{ physicalExaminationReport?.genitourinary?.[0]?.caRightCVA || 'N/A' }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card w-100">
+                                <div class="detail-item">
+                                    <div class="detail-label">Left CVA</div>
+                                    <div class="detail-value">
+                                        {{ physicalExaminationReport?.genitourinary?.[0]?.caLeftCVA || 'N/A' }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card w-100">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        Kidney Palpation Findings
+                                    </div>
+                                    <div class="detail-value">
+                                        <div class="ms-macros">
+                                            @if (physicalExaminationReport?.genitourinary?.[0]?.kidneyPalpationFindings;
+                                            as kidneyPalpationFindingsList) {
+                                            @for (item of kidneyPalpationFindingsList; track $index) {
+                                            <span class="ms-macro-pill is-true">
+                                                <i class="bi bi-check-lg"></i>
+                                                {{ item }}
+                                            </span>
+                                            } @empty {
+                                            <span class="text-muted">
+                                                No symptoms reported
+                                            </span>
+                                            }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    CVA Clinical Notes
+                                </div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.caFindingNotes || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.cvaAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 2) {
+                    <div class="card-section-label">
+                        Prostate (Digital Rectal Exam)
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Quick Select Findings
+                                </div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.genitourinary?.[0]?.raQuickSelectFindings; as
+                                        raQuickSelectFindingsList) {
+                                        @for (item of raQuickSelectFindingsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Estimated Size</div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.raEstimatedSize || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Consistency</div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.raConsistency || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-section-label">
+                        Genital &amp; Scrotal Assessment
+                    </div>
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Palpation &amp; Inspection
+                                </div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.genitourinary?.[0]?.raPalpationInspection; as
+                                        raPalpationInspectionList) {
+                                        @for (item of raPalpationInspectionList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Transillumination
+                                </div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.raTransillumination || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.genitourinary?.[0]?.reproductiveAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 3) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Color
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.pcuColor}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Clarity
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.pcuClarity}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Specific Gravity
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.pcuSpecificGravity}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Leukocytes
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.dipstickParameters?.leukocytes}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Nitrites
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.dipstickParameters?.nitrites}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Protein
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.dipstickParameters?.glucose}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    RBC / Blood
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.dipstickParameters?.rbcBlood}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Ketones
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.dipstickParameters?.ketones}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Urine Culture & Sensitivity Ordered?
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.bladderPalpationSuprapubic}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 4) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Post-Void Residual (PVR)
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.volume}} >mL
+                                    (Bladder Scan)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Bedside Ultrasound Findings
+                                </div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.bedsideUltrasoundFindings}}
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details-grid">
+                            <div class="detail-card">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        Indwelling Catheter Present / Placed?
+                                    </div>
+                                    <div class="detail-value">
+                                        {{
+                                        physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.indwellingCatheterPresent
+                                        === true
+                                        ? 'Yes'
+                                        :
+                                        (physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.indwellingCatheterPresent
+                                        === false ? 'No' : 'N/A')
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                            @if(physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.indwellingCatheterPresent){
+                            <div class="detail-card">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        Catheter Type & Size
+                                    </div>
+                                    <div class="detail-value">
+                                        {{physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.catheterTypeAndSize}}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="detail-card">
+                                <div class="detail-item">
+                                    <div class="detail-label">
+                                        Urine Output Character
+                                    </div>
+                                    <div class="detail-value">
+                                        {{physicalExaminationReport?.genitourinary?.[0]?.postVoidResidual?.urineOutputCharacter}}
+                                    </div>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+    @else if (activeTab === 8) {
+    <div class="report-section">
+        <div class="accordion">
+            @for (faq of MusculoskeletalExaminationOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                            'accordion-title-teal': (
+                                (faq.id === 1 && !physicalExaminationReport?.musculoskeletal?.[0]?.saNormalAbnormal) ||
+                                (faq.id === 2 && !physicalExaminationReport?.musculoskeletal?.[0]?.ueaNormalAbnormal) ||
+                                (faq.id === 3 && !physicalExaminationReport?.musculoskeletal?.[0]?.leaNormalAbnormal)
+                            ),
+                            'accordion-title-rose': (
+                                (faq.id === 1 && physicalExaminationReport?.musculoskeletal?.[0]?.saNormalAbnormal) ||
+                                (faq.id === 2 && physicalExaminationReport?.musculoskeletal?.[0]?.ueaNormalAbnormal) ||
+                                (faq.id === 3 && physicalExaminationReport?.musculoskeletal?.[0]?.leaNormalAbnormal)
+                            )
+                          }">
+                        <span class="accordion-icon">
+                            @switch (faq.id) {
+                            @case (1) { <i class="bi bi-soundwave"></i> }
+                            @case (2) { <i class="bi bi-lightbulb"></i> }
+                            @case (3) { <i class="bi bi-activity"></i> }
+                            }
+                        </span>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div class="accordion-body">
+                    @if (activeIndex() === 0) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Regions Examined</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.musculoskeletal?.[0]?.regionsExamined; as
+                                        regionsExaminedList) {
+                                        @for (item of regionsExaminedList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Range of Motion (ROM)
+                                </div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.musculoskeletal?.[0]?.cervicalMotion || 'N/A' }}
+                                </div>
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.musculoskeletal?.[0]?.lumbarMotion || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">
+                                    Special Tests (Spine)
+                                </div>
+                                <div class="detail-value">
+                                    <!-- {{ physicalExaminationReport?.musculoskeletal?.[0]?.specialTest || 'N/A' }} -->
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.musculoskeletal?.[0]?.specialTest; as
+                                        specialTestList) {
+                                        @for (item of specialTestList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.musculoskeletal?.[0]?.spineAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 1) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Joints / Regions Examined</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if
+                                        (physicalExaminationReport?.musculoskeletal?.[0]?.upperJointsRegionsExamined; as
+                                        upperJointsRegionsExaminedList) {
+                                        @for (item of upperJointsRegionsExaminedList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Rotator Cuff / Shoulder Provocative Tests</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if
+                                        (physicalExaminationReport?.musculoskeletal?.[0]?.rotatorCuffShoulderProvocative;
+                                        as
+                                        rotatorCuffShoulderProvocativeList) {
+                                        @for (item of rotatorCuffShoulderProvocativeList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Elbow / Hand / Nerve Tests</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if
+                                        (physicalExaminationReport?.musculoskeletal?.[0]?.elbowHandNerveTests;
+                                        as
+                                        elbowHandNerveTestsList) {
+                                        @for (item of elbowHandNerveTestsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.musculoskeletal?.[0]?.spineAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 2) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Joints / Regions Examined</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if
+                                        (physicalExaminationReport?.musculoskeletal?.[0]?.lowerJointsRegionsExamined; as
+                                        lowerJointsRegionsExaminedList) {
+                                        @for (item of lowerJointsRegionsExaminedList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Knee Instability / Meniscal Tests</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if
+                                        (physicalExaminationReport?.musculoskeletal?.[0]?.kneeInstabilityMeniscalTests;
+                                        as
+                                        kneeInstabilityMeniscalTestsList) {
+                                        @for (item of kneeInstabilityMeniscalTestsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Hip, Foot & Vascular Tests</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if
+                                        (physicalExaminationReport?.musculoskeletal?.[0]?.hipFootVascularTests;
+                                        as
+                                        hipFootVascularTestsList) {
+                                        @for (item of hipFootVascularTestsList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.musculoskeletal?.[0]?.lowerExtremityAssessment ||
+                                    'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+    @else if (activeTab === 9) {
+    <div class="report-section">
+        <div class="accordion">
+            @for (faq of SkinIntegumentaryExaminationOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                            'accordion-title-teal': (
+                                (faq.id === 1 && !physicalExaminationReport?.skin?.[0]?.iaNormalAbnormal) ||
+                                (faq.id === 2 && !physicalExaminationReport?.skin?.[0]?.vaNormalAbnormal) ||
+                                (faq.id === 3 && !physicalExaminationReport?.skin?.[0]?.aaNormalAbnormal) ||
+                                (faq.id === 4 && !physicalExaminationReport?.skin?.[0]?.aaNormalAbnormal)
+                            ),
+                            'accordion-title-rose': (
+                                (faq.id === 1 && physicalExaminationReport?.skin?.[0]?.iaNormalAbnormal) ||
+                                (faq.id === 2 && physicalExaminationReport?.skin?.[0]?.vaNormalAbnormal) ||
+                                (faq.id === 3 && physicalExaminationReport?.skin?.[0]?.aaNormalAbnormal) ||
+                                (faq.id === 4 && !physicalExaminationReport?.skin?.[0]?.aaNormalAbnormal)
+                            )
+                          }">
+                        <span class="accordion-icon">
+                            @switch (faq.id) {
+                            @case (1) { <i class="bi bi-soundwave"></i> }
+                            @case (2) { <i class="bi bi-lightbulb"></i> }
+                            @case (3) { <i class="bi bi-activity"></i> }
+                            @case (4) { <i class="bi bi-activity"></i> }
+                            }
+                        </span>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div class="accordion-body">
+                    @if (activeIndex() === 0) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Primary Location / Site</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.skin?.[0]?.primaryLocationSite; as
+                                        primaryLocationSiteList) {
+                                        @for (item of primaryLocationSiteList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pressure Injury Staging</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.skin?.[0]?.pressureInjuryStaging}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.skin?.[0]?.integrityAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 1) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Peripheral Edema Grade</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        {{physicalExaminationReport?.skin?.[0]?.peripheralEdemaGrade}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Capillary Refill Time</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.skin?.[0]?.capillaryRefillTime}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.skin?.[0]?.vascularAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 2) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Nail Bed Angle (Clubbing)</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        {{physicalExaminationReport?.skin?.[0]?.nailBedAngle}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Hair Distribution</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.skin?.[0]?.hairDistribution}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.skin?.[0]?.appendageAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 3) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Quick screening parameters for suspicious pigmented
+                                    lesions/moles:</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.skin?.[0]?.lesionsMoles; as
+                                        lesionsMolesList) {
+                                        @for (item of lesionsMolesList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Dermatoscopy / Biopsy Recommended?</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.skin?.[0]?.dermatoscopy}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    }
+    @else if (activeTab === 10) {
+    <div class="report-section">
+        <div class="accordion">
+            @for (faq of SkinIntegumentaryExaminationOptions; track faq.id; let i = $index) {
+            <div class="accordion-item" [class.active]="activeIndex() === i">
+                <button type="button" class="accordion-header" (click)="toggle(i)"
+                    [attr.aria-expanded]="activeIndex() === i">
+                    <span [ngClass]="{
+                            'accordion-title-teal': (
+                                (faq.id === 1 && !physicalExaminationReport?.psychiatric?.[0]?.baNormalAbnormal) ||
+                                (faq.id === 2 && !physicalExaminationReport?.psychiatric?.[0]?.taNormalAbnormal) ||
+                                (faq.id === 3 && !physicalExaminationReport?.psychiatric?.[0]?.caNormalAbnormal) ||
+                                (faq.id === 4 && !physicalExaminationReport?.psychiatric?.[0]?.caNormalAbnormal)
+                            ),
+                            'accordion-title-rose': (
+                                (faq.id === 1 && physicalExaminationReport?.psychiatric?.[0]?.baNormalAbnormal) ||
+                                (faq.id === 2 && physicalExaminationReport?.psychiatric?.[0]?.taNormalAbnormal) ||
+                                (faq.id === 3 && physicalExaminationReport?.psychiatric?.[0]?.caNormalAbnormal) ||
+                                (faq.id === 4 && !physicalExaminationReport?.psychiatric?.[0]?.caNormalAbnormal)
+                            )
+                          }">
+                        <span class="accordion-icon">
+                            @switch (faq.id) {
+                            @case (1) { <i class="bi bi-soundwave"></i> }
+                            @case (2) { <i class="bi bi-lightbulb"></i> }
+                            @case (3) { <i class="bi bi-activity"></i> }
+                            @case (4) { <i class="bi bi-activity"></i> }
+                            }
+                        </span>
+                        {{ faq.title }}
+                    </span>
+                    <i class="bi bi-chevron-down"></i>
+                </button>
+                <div class="accordion-body">
+                    @if (activeIndex() === 0) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Stated Mood (Subjective)</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        {{physicalExaminationReport?.psychiatric?.[0]?.statedMood}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pressure Injury Staging</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.psychiatric?.[0]?.observedAffect}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.psychiatric?.[0]?.behaviorAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 1) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Safety & Risk Assessment (SI / HI / Self-Harm)</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        @if (physicalExaminationReport?.psychiatric?.[0]?.safetyRiskAssessment; as
+                                        safetyRiskAssessmentList) {
+                                        @for (item of safetyRiskAssessmentList; track $index) {
+                                        <span class="ms-macro-pill is-true">
+                                            <i class="bi bi-check-lg"></i>
+                                            {{ item }}
+                                        </span>
+                                        } @empty {
+                                        <span class="text-muted">
+                                            No symptoms reported
+                                        </span>
+                                        }
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.psychiatric?.[0]?.thoughtAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 2) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Orientation Domains (A&O x4)</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        {{physicalExaminationReport?.psychiatric?.[0]?.statedMood}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pressure Injury Staging</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.psychiatric?.[0]?.observedAffect}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Assessment</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.psychiatric?.[0]?.behaviorAssessment || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                    @if (activeIndex() === 3) {
+                    <div class="details-grid">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Immediate Disposition / Management Plan</div>
+                                <div class="detail-value">
+                                    <div class="ms-macros">
+                                        {{physicalExaminationReport?.psychiatric?.[0]?.immediateDisposition}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Pressure Injury Staging</div>
+                                <div class="detail-value">
+                                    {{physicalExaminationReport?.psychiatric?.[0]?.observedAffect}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-grid mt-3">
+                        <div class="detail-card">
+                            <div class="detail-item">
+                                <div class="detail-label">Safety Plan Established & Signed?</div>
+
+                                <div class="detail-value">
+                                    {{ physicalExaminationReport?.psychiatric?.[0]?.safetyPlan || 'N/A' }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+            }
         </div>
     </div>
     }

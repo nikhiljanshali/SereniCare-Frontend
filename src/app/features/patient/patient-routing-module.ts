@@ -11,6 +11,13 @@ import { roleGuard } from '../../core/guards/role.guard';
 import { PatientChiefOfComplaint } from './pages/patient-chief-of-complaint/patient-chief-of-complaint';
 import { PatientPresentIllness } from './pages/patient-present-illness/patient-present-illness';
 import { PatientPhycialExamiantionDetails } from '../../shared/component/patients/patient-phycial-examiantion-details/patient-phycial-examiantion-details';
+import { PastMedical } from '../../shared/component/patients/past-medical/past-medical';
+import { PastSurgical } from '../../shared/component/patients/past-surgical/past-surgical';
+import { FamilyHistory } from '../../shared/component/patients/family-history/family-history';
+import { PatientAllergies } from '../../shared/component/patients/patient-allergies/patient-allergies';
+import { PatientRisk } from '../../shared/component/patients/patient-risk/patient-risk';
+import { FamilyHistoryLineage } from '../../shared/component/patients/family-history-lineage/family-history-lineage';
+import { PatientDrugReaction } from '../../shared/component/patients/patient-drug-reaction/patient-drug-reaction';
 
 const routes: Routes = [
   {
@@ -63,6 +70,62 @@ const routes: Routes = [
       {
         path: 'master/physicalexamination',
         component: PatientPhycialExamiantionDetails,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/pastmedicalhistory',
+        component: PastMedical,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/pastsurgicalhistory',
+        component: PastSurgical,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/familyhistory',
+        component: FamilyHistory,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/riskfactor',
+        component: PatientRisk,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/allergieshistory',
+        component: PatientAllergies,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/adversedrugreaction',
+        component: PatientDrugReaction,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+        }
+      },
+      {
+        path: 'master/familyhistorylineage',
+        component: FamilyHistoryLineage,
         canActivate: [roleGuard],
         data: {
           roles: [Roles.SystemAdmin, Roles.Patient],

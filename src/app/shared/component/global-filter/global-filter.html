@@ -1,4 +1,4 @@
-<form [formGroup]="searchForm" class="wizard-form"  (ngSubmit)="search()">
+<form [formGroup]="searchForm" class="wizard-form" (ngSubmit)="search()">
     <div class="modal-header">
         <h5 class="modal-title">Filter : </h5>
         <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
@@ -22,8 +22,8 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary btn-sm"  (click)="closeModePopup()"> Close </button>
+        <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
         <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
-        <button type="button" class="btn btn-primary"> Search </button>
+        <button type="button" class="btn btn-primary btn-sm"> Search </button>
     </div>
 </form>

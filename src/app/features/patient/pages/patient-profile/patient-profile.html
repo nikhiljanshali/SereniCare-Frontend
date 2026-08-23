@@ -152,10 +152,14 @@
                 <div class="medical-history-grid">
                     <!-- Past Medical History (PMH) Card Element -->
                     <div class="med-card">
-                        <div class="med-card-hdr">
+                        <div class="med-card-hdr d-flex align-items-center justify-content-between">
                             <span class="med-card-title">
-                                <i class="bi bi-heart-pulse-fill"></i> Medical History
+                                <i class="bi bi-heart-pulse-fill"></i>
+                                Medical History
                             </span>
+                            <!-- <button type="button" class="btn btn-sm btn-primary">
+                                <i class="bi bi-list-task"></i>
+                            </button> -->
                         </div>
                         <div class="med-card-body">
                             @for (pastMedicalHistory of pastMedicalList; track pastMedicalHistory._id){
@@ -372,7 +376,7 @@
                     <div class="med-card">
                         <div class="med-card-hdr">
                             <span class="med-card-title">
-                                <i class="bi bi-virus"></i> Risk History
+                                <i class="bi bi-asterisk"></i> Risk History
                             </span>
                         </div>
                         <div class="med-card-body">
@@ -413,7 +417,7 @@
                     <div class="med-card">
                         <div class="med-card-hdr">
                             <span class="med-card-title">
-                                <i class="bi bi-virus"></i> Adverse Drug Reaction
+                                <i class="bi bi-capsule-pill"></i> Adverse Drug Reaction
                             </span>
                         </div>
                         <div class="med-card-body">

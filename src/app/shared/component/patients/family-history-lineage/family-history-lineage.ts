@@ -10,6 +10,7 @@ import { CommonMethod } from '../../../../core/services/common-method';
 import { DiseasesService } from '../../../../core/services/diseases';
 import { ModalService } from '../../../../core/services/modal-service';
 import { FamilyHistoryLineageService } from '../../../../core/services/family-history-lineage';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 
 @Component({
@@ -171,10 +172,16 @@ export class FamilyHistoryLineage {
     private _familyHistoryLineageService: FamilyHistoryLineageService,
     private _notificationServices: NotificationServices,
     private _commonMethod: CommonMethod,
-    public _modalService: ModalService
+    public _modalService: ModalService,
+    private _storageOperation: StorageOperation,
   ) {
     this.route.paramMap.subscribe(params => {
-      this.patientId = params.get('patientId');
+      const routePatientId = params.get('patientId');
+      this.patientId =
+        this.patientId ||
+        routePatientId ||
+        this._storageOperation.get<any>('userDetails').id;
+      console.log('Patient ID:', this.patientId);
     });
   }
 

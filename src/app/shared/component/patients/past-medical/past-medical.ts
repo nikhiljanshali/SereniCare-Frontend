@@ -11,6 +11,7 @@ import { PastMedicalService } from '../../../../core/services/past-medical';
 import { CommonMethod } from '../../../../core/services/common-method';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-past-medical',
@@ -49,7 +50,6 @@ export class PastMedical {
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
     private route: ActivatedRoute,
     private _medicineService: MedicineService,
     private _diseasesService: DiseasesService,
@@ -57,11 +57,16 @@ export class PastMedical {
     private _pastMedicalService: PastMedicalService,
     private _notificationServices: NotificationServices,
     private _commonMethod: CommonMethod,
-    public _modalService: ModalService
+    public _modalService: ModalService,
+    private _storageOperation: StorageOperation,
   ) {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('patientId');
-      this.patientId = params.get('patientId');
+      const routePatientId = params.get('patientId');
+      this.patientId =
+        this.patientId ||
+        routePatientId ||
+        this._storageOperation.get<any>('userDetails').id;
+      console.log('Patient ID:', this.patientId);
     });
   }
 

@@ -206,16 +206,18 @@ export const MENU_CONFIG: MenuItem[] = [
     // badgeColor: 'var(--teal)',
     roles: [Roles.Patient],
     children: [
-      { id: 'past-medical-history', label: 'Past Medical History', icon: 'bi-file-medical', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'surgical-history', label: 'Surgical History', icon: 'bi-scissors', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'medication-history', label: 'Medication History', icon: 'bi-capsule', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'allergy-history', label: 'Allergy History', icon: 'bi-exclamation-triangle-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'family-history', label: 'Family History', icon: 'bi-people-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'social-history', label: 'Social History', icon: 'bi-person-lines-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'immunization-history', label: 'Immunization History', icon: 'bi-droplet', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'obstetric-gynae', label: 'Obstetric & Gynae', icon: 'bi-gender-female', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'psychiatric-history', label: 'Psychiatric History', icon: 'bi-brain', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
-      { id: 'hospitalization', label: 'Hospitalization', icon: 'bi-building', route: '', appendParam: 'patientId', roles: [Roles.Patient] }
+      { id: 'past-medical-history', label: 'Past Medical History', icon: 'bi-heart-pulse-fill', route: 'patients/master/pastmedicalhistory', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'past-surgical-history', label: 'Past Surgical History', icon: 'bi-scissors', route: 'patients/master/pastsurgicalhistory', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'family-history', label: 'Family History', icon: 'bi-virus', route: 'patients/master/familyhistory', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'allergy-history', label: 'Allergy History', icon: 'bi-virus', route: 'patients/master/allergieshistory', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'risk-factors', label: 'Risk Factors', icon: 'bi-asterisk', route: 'patients/master/riskfactor', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'adverse-drug-reaction', label: 'Adverse Drug Reaction', icon: 'bi-capsule-pill', route: 'patients/master/adversedrugreaction', appendParam: 'patientId', roles: [Roles.Patient] },
+      { id: 'family-hisoty-lineage', label: 'Family Hisoty Lineage', icon: 'bi-diagram-3', route: 'patients/master/familyhistorylineage', appendParam: 'patientId', roles: [Roles.Patient] },
+      // { id: 'social-history', label: 'Social History', icon: 'bi-person-lines-fill', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      // { id: 'immunization-history', label: 'Immunization History', icon: 'bi-droplet', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      // { id: 'obstetric-gynae', label: 'Obstetric & Gynae', icon: 'bi-gender-female', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      // { id: 'psychiatric-history', label: 'Psychiatric History', icon: 'bi-brain', route: '', appendParam: 'patientId', roles: [Roles.Patient] },
+      // { id: 'hospitalization', label: 'Hospitalization', icon: 'bi-building', route: '', appendParam: 'patientId', roles: [Roles.Patient] }
     ]
   },
 ];

@@ -8,6 +8,7 @@ import { AllergiesServices } from '../../../../core/services/allergies';
 import { RiskMasterService } from '../../../../core/services/risk-master';
 import { PatientRiskService } from '../../../../core/services/patient-risk';
 import { ModalService } from '../../../../core/services/modal-service';
+import { StorageOperation } from '../../../../core/services/storage-operation';
 
 @Component({
   selector: 'app-patient-risk',
@@ -35,10 +36,16 @@ export class PatientRisk {
     private _allergies: AllergiesServices,
     private _riskMasterService: RiskMasterService,
     private _commonMethod: CommonMethod,
-    public _modalService: ModalService
+    public _modalService: ModalService,
+    private _storageOperation: StorageOperation,
   ) {
     this.route.paramMap.subscribe(params => {
-      this.patientId = params.get('patientId');
+      const routePatientId = params.get('patientId');
+      this.patientId =
+        this.patientId ||
+        routePatientId ||
+        this._storageOperation.get<any>('userDetails').id;
+      console.log('Patient ID:', this.patientId);
     });
   }
 

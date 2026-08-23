@@ -32,7 +32,8 @@ export const environment = {
     patientAllergies: '/patientAllergies',
     familyHistory: '/familyHistory',
     familyHistoryLineage: '/familyHistoryLineage',
-    physicalExamination: '/physicalExamination'
+    physicalExamination: '/physicalExamination',
+    historyofPresentIllness: '/historyofPresentIllness',
   },
   features: {
     enableNotifications: true,
