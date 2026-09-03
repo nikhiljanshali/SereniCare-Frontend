@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { ISurgeryData, ISurgery } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { SurgeryService } from '../../../../core/services/surgery';
+import { SurgeryGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-surgery',
@@ -17,9 +18,10 @@ import { SurgeryService } from '../../../../core/services/surgery';
 export class Surgery {
 
   surgeryForm!: FormGroup;
-  SurgeryList: ISurgeryData[] = [];
+  // SurgeryList: ISurgeryData[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
+  public SurgeryList: SurgeryGroup[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -103,10 +105,16 @@ export class Surgery {
     this._surgeryService.getAllSurgery().subscribe({
       next: (res: ISurgery) => {
         this.isEdit = false;
-        this.SurgeryList = res.data ?? [];
+        const surgeries = res.data ?? [];
+        this.SurgeryList = [{
+          groupname: 'Surgeries',
+          items: surgeries,
+          expanded: true
+        }];
+        console.log('Surgeries:', this.SurgeryList);
       },
       error: (err) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching surgeries:', err);
         this.SurgeryList = [];
       }
     });

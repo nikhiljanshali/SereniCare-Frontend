@@ -6,6 +6,7 @@ import { DataCommunication } from '../../../core/services/data-communication';
 import { MeshTable } from '../../../core/services/mesh-table';
 import { StorageOperation } from '../../../core/services/storage-operation';
 import { filterMenuByRole, MENU_CONFIG, MenuGroupItem, MenuItem } from '../../methods/menu.config';
+import { CountData, CountMaster } from '../../../core/interface/basic.interface';
 
 
 @Component({
@@ -19,16 +20,12 @@ export class Sidebar implements OnInit {
   public isEnabled: boolean = true;
   public userRole: Roles | null = null;
   public openMenus: { [key: string]: boolean } = {};
-  public doctorCount: number = 0;
-  public patientCount: number = 0;
-  public supplierCount: number = 0;
-  public medicineCount: number = 0;
-  public appointmentCount: number = 0;
   public doctorId: string = '';
   public currentUserRole: string = '';
   public menuItems: MenuItem[] = [];
   public activeMenuId: number | string | null = null;
   public activeParentId: number | string | null = null;
+  public countMaster: CountData | null = null;
 
 
   constructor(
@@ -55,10 +52,7 @@ export class Sidebar implements OnInit {
 
   private initMenu(): void {
     const user = this.storageOperation.get<{ role: Roles; }>('user', 'local');
-    this.menuItems = filterMenuByRole(
-      MENU_CONFIG,
-      user?.role
-    );
+    this.menuItems = filterMenuByRole(MENU_CONFIG, user?.role);
     this.resolveBadges(this.menuItems);
   }
 
@@ -89,12 +83,9 @@ export class Sidebar implements OnInit {
 
   private loadCount(): void {
     const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-    this.meshTable.getCountsByUserId(user?.id!).subscribe(res => {
-      this.doctorCount = res.data.doctorCount
-      this.patientCount = res.data.patientCount
-      this.supplierCount = res.data.supplierCount
-      this.medicineCount = res.data.medicineCount
-      this.appointmentCount = res.data.appointmentCount
+    this.meshTable.getCountsByUserId(user?.id!).subscribe((res) => {
+      this.countMaster = res.data;
+      // console.log(this.countMaster);
     });
   }
 
@@ -110,33 +101,8 @@ export class Sidebar implements OnInit {
   public onChildMenuClick(child: any, parentId: number | string): void {
     this.activeMenuId = child.id;
     this.activeParentId = parentId;
-
-    // Keep parent menu open
     this.openMenus[parentId] = true;
   }
-
-  // private loadDoctorCount(): void {
-  //   const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-  //   this.meshTable.getDoctorCountByUserId(user?.id!).subscribe(res => {
-  //     this.doctorCount = res.data.doctorCount;
-
-  //   });
-  // }
-
-  // private loadPatientCount(): void {
-  //   const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-  //   this.meshTable.getPatientCountByUserId(user?.id!).subscribe(res => {
-  //     this.patientCount = res.data.patientCount;
-  //   });
-  // }
-
-  // private loadSupplierCount(): void {
-  //   const user: { id: string; name: string; email: string } | null = this.storageOperation.get('user', 'local');
-  //   this.meshTable.getSupplierCountByUserId(user?.id!).subscribe(res => {
-  //     this.supplierCount = res.data.supplierCount;
-  //   });
-  // }
-
 
   // 🔐 Load user role from localStorage
   private loadUserRole(): void {

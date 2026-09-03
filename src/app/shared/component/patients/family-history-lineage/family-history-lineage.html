@@ -236,16 +236,22 @@
                     <div class="wz-form-row m-0">
                         <div class="wz-form-group w-100">
                             <label class="wz-label">Multiple Conditions <span class="wz-req">*</span></label>
+                            <ng-select [items]="problemList" bindLabel="name" bindValue="_id"
+                                formControlName="multipleConditions" [multiple]="true" [searchable]="true"
+                                [clearable]="true" placeholder="Select conditions">
+                            </ng-select>
                             <!-- <input class="wz-input" type="text" placeholder="e.g. Diabetes, Hypertension" formControlName="multipleConditions"> -->
-                            <select class="wz-select h-100" formControlName="multipleConditions" multiple>
+                            <!-- <select class="wz-select h-100" formControlName="multipleConditions" multiple>
                                 <option [ngValue]="null">Select Problem</option>
                                 @for (problem of problemList; track problem._id) {
                                 <option [value]="problem.name">
                                     {{ problem.name }}
                                 </option>
                                 }
-                            </select>
+                            </select> -->
                         </div>
+                    </div>
+                    <div class="wz-form-row m-0">
                         <div class="wz-form-group w-100">
                             <label class="wz-label">Comments <span class="wz-req">*</span></label>
                             <textarea class="wz-input" formControlName="comments" columns="1" rows="7"

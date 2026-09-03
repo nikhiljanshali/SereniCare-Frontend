@@ -57,14 +57,14 @@
             <!-- Patient Information -->
             <div class="section">
                 <h4>Patient Information</h4>
-
                 <div class="info-grid">
                     <div>
                         <label>Patient Name</label>
-                        <span>{{prescriptionDetails.patientDetails.firstName}}
-                            {{prescriptionDetails.patientDetails.lastName}}</span>
+                        <span>
+                            {{prescriptionDetails.patientDetails.firstName}}
+                            {{prescriptionDetails.patientDetails.lastName}}
+                        </span>
                     </div>
-
                     <div>
                         <label>Doctor</label>
                         <span>Dr. {{prescriptionDetails.doctorDetails.firstName}}
@@ -83,8 +83,8 @@
                 <h4>Diagnosis</h4>
 
                 <div class="tag-list">
-                    @for (item of prescriptionDetails.diagnosis; track $index) {
-                    <span class="tag">{{item}}</span>
+                    @for (item of getDiagnosisTags(prescriptionDetails.diagnosis); track $index) {
+                    <span class="tag tag-light">{{ item }}</span>
                     }
                 </div>
             </div>
@@ -178,6 +178,12 @@
                 </div>
                 <div class="footer-signature-section">
                     <div class="signature-box">
+                        <!-- Doctor Signature Image -->
+                        @if (signImageUrl) {
+                        <div class="signature-image">
+                            <img [src]="signImageUrl" alt="Doctor Signature" width="200" height="100" />
+                        </div>
+                        }
                         <div class="signature-line"></div>
                         <h6>Doctor Signature</h6>
                         <p>Dr. {{prescriptionDetails.doctorDetails.firstName}}
@@ -186,9 +192,14 @@
                     </div>
 
                     <div class="stamp-box">
+                        @if (stampImageUrl) {
                         <div class="stamp-placeholder">
-                            Clinic Stamp
+                            <img [src]="stampImageUrl" alt="Clinic Stamp" width="300" height="100" />
                         </div>
+                        }
+                        <!-- <div class="stamp-placeholder">
+                            Clinic Stamp
+                        </div> -->
                     </div>
 
                 </div>
@@ -224,6 +235,6 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" class="btn btn-primary"> Print </button>
-    <button type="button" class="btn btn-secondary btn-sm"  (click)="closeModePopup()"> Close </button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="generatePDF()"> Print </button>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
 </div>

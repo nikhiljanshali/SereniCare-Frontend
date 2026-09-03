@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IPrimarySpecialityData, IPrimarySpeciality } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
+import { PrimarySpecialityGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-primary-speciality',
@@ -15,10 +16,12 @@ import { PrimarySpecialityService } from '../../../../core/services/primary-spec
 })
 export class PrimarySpeciality {
 
-  primarySpecialityForm!: FormGroup;
-  primarySpecialityList: IPrimarySpecialityData[] = [];
-  isEdit: boolean = false;
-  selectedId: string = '';
+  public primarySpecialityForm!: FormGroup;
+  // primarySpecialityList: IPrimarySpecialityData[] = [];
+  public primarySpecialityList: PrimarySpecialityGroup[] = [];
+  public isEdit: boolean = false;
+  public selectedId: string = '';
+  public primarySpecilityCount: number = 0;
 
 
   constructor(
@@ -113,10 +116,28 @@ export class PrimarySpeciality {
   private getAllPrimarySpeciality(): void {
     this._primarySpecialityService.getAllPrimarySpeciality().subscribe({
       next: (res: IPrimarySpeciality) => {
-        this.primarySpecialityList = res.data ?? [];
+        const specialities = res.data ?? [];
+        this.primarySpecilityCount = specialities.length;
+        const grouped = specialities.reduce((acc: any, speciality: any) => {
+          const group = speciality.ClinicType || 'Primary Speciality';
+          if (!acc[group]) {
+            acc[group] = [];
+          }
+          acc[group].push(speciality);
+          return acc;
+        }, {});
+        this.primarySpecialityList = Object.keys(grouped).map(clinicType => ({
+          clinicType,
+          items: grouped[clinicType],
+          expanded: clinicType === 'Primary Speciality'
+        }));
+        console.log(
+          'Grouped Primary Specialities:',
+          this.primarySpecialityList
+        );
       },
       error: (err: any) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching primary specialities:', err);
         this.primarySpecialityList = [];
       }
     });

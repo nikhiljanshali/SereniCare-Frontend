@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IClinicTypeData, IClinicType } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { PrimaryConditionService } from '../../../../core/services/primary-condition';
+import { PrimaryConditionGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-primary-condition',
@@ -15,9 +16,11 @@ import { PrimaryConditionService } from '../../../../core/services/primary-condi
 })
 export class PrimaryCondition {
   primaryConditionForm!: FormGroup;
-  primaryConditionList: IClinicTypeData[] = [];
+  // primaryConditionList: IClinicTypeData[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
+  public primaryConditionList: PrimaryConditionGroup[] = [];
+  public primaryConditionCount: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -30,7 +33,7 @@ export class PrimaryCondition {
 
   ngOnInit() {
     this.initForm();
-    this.getAllClinicTypes();
+    this.getAllPrimaryCondition();
   }
 
 
@@ -76,7 +79,7 @@ export class PrimaryCondition {
         .subscribe({
           next: (data) => {
             this.primaryConditionForm.reset();
-            this.getAllClinicTypes();
+            this.getAllPrimaryCondition();
           },
           error: (err) => {
             console.error('Signup failed:', err);
@@ -88,7 +91,7 @@ export class PrimaryCondition {
         .subscribe({
           next: (data) => {
             this.primaryConditionForm.reset();
-            this.getAllClinicTypes();
+            this.getAllPrimaryCondition();
           },
           error: (err) => {
             console.error('Signup failed:', err);
@@ -97,14 +100,21 @@ export class PrimaryCondition {
     }
   }
 
-  private getAllClinicTypes(): void {
+  private getAllPrimaryCondition(): void {
     this._primaryCondition.getAllPrimaryCondition().subscribe({
       next: (res: IClinicType) => {
         this.isEdit = false;
-        this.primaryConditionList = res.data ?? [];
+        const conditions = res.data ?? [];
+        this.primaryConditionCount = conditions.length;
+        this.primaryConditionList = [{
+          groupname: 'Primary Conditions',
+          items: conditions,
+          expanded: true
+        }];
+        console.log('Primary Conditions:', this.primaryConditionList);
       },
       error: (err) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching primary conditions:', err);
         this.primaryConditionList = [];
       }
     });
@@ -124,7 +134,7 @@ export class PrimaryCondition {
           .pipe(take(1))
           .subscribe({
             next: (data) => {
-              this.getAllClinicTypes();
+              this.getAllPrimaryCondition();
             },
             error: (err) => {
               console.error('Delete failed:', err);

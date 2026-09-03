@@ -30,6 +30,7 @@
             <th>City</th>
             <th>Pincode</th>
             <th>Create At</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -73,6 +74,18 @@
             </td>
             <td>
               <div style="font-size:11px;color:var(--text-muted);">{{clinic.createdAt | date : 'dd/MM/yyyy'}}</div>
+            </td>
+            <td>
+              <button class="action-btn" [popover]="'Info'" placement="top" triggers="mouseenter:mouseleave">
+                <i class="bi bi-info-circle-fill"></i>
+              </button>
+              <button class="action-btn" [popover]="'Edit'" placement="top" triggers="mouseenter:mouseleave">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="action-btn" [popover]="'Upload Stamp'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="uploadClinicStamp(clinic)">
+                <i class="bi bi-postage-heart-fill"></i>
+              </button>
             </td>
           </tr>
           }

@@ -1095,3 +1095,29 @@ textarea.form-control {
     color        : var(--text-muted);
     margin-bottom: 20px;
 }
+
+.medicine-header .form-group,
+.medicine-row .form-group {
+    flex     : 1;
+    min-width: 0;
+}
+
+.medicine-header .form-group:first-child,
+.medicine-row .form-group:first-child {
+    flex: 1.4;
+}
+
+.medicine-header .form-group:nth-child(2),
+.medicine-row .form-group:nth-child(2) {
+    flex: 1;
+}
+
+.medicine-header .form-group:nth-child(3),
+.medicine-row .form-group:nth-child(3) {
+    flex: 1;
+}
+
+.medicine-header .form-group:nth-child(4),
+.medicine-row .form-group:nth-child(4) {
+    flex: 1;
+}

@@ -1025,3 +1025,13 @@ textarea.form-control {
 .dpd-edit-btn:hover {
   transform: scale(1.05);
 }
+
+.appt-notes {
+  font-size    : 11.5px;
+  color        : var(--text-muted);
+  max-width    : 140px;
+  white-space  : nowrap;
+  overflow     : hidden;
+  text-overflow: ellipsis;
+  cursor       : help;
+}

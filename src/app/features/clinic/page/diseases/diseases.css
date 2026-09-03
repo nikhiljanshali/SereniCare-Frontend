@@ -1,0 +1,273 @@
+.flex-container {
+    width: 1200px;
+}
+
+.allergy-tree {
+    width  : 100%;
+    padding: 8px 4px;
+}
+
+.tree-group {
+    margin-bottom: 8px;
+}
+
+/* ==========================
+   FOLDER HEADER
+========================== */
+
+.tree-group-header {
+    display    : flex;
+    align-items: center;
+
+    min-height: 42px;
+    padding   : 8px 12px;
+
+    background   : #f8fafc;
+    border       : 1px solid #e2e8f0;
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+.tree-group-header:hover {
+    background: #f1f5f9;
+}
+
+.tree-group-header.expanded {
+    border-bottom-left-radius : 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.tree-group-title {
+    display    : flex;
+    align-items: center;
+    gap        : 9px;
+
+    font-size  : 14px;
+    font-weight: 600;
+
+    color: #334155;
+}
+
+.tree-group-title>i:first-child {
+    width    : 12px;
+    font-size: 11px;
+    color    : #64748b;
+}
+
+.tree-group-title .bi-folder,
+.tree-group-title .bi-folder2-open {
+    font-size: 18px;
+    color    : #3b82f6;
+}
+
+
+/* ==========================
+   COUNT
+========================== */
+
+.tree-count {
+    min-width: 24px;
+    height   : 22px;
+
+    padding: 2px 7px;
+
+    display        : inline-flex;
+    align-items    : center;
+    justify-content: center;
+
+    font-size  : 11px;
+    font-weight: 600;
+
+    background: #e0f2fe;
+    color     : #0369a1;
+
+    border-radius: 12px;
+}
+
+
+/* ==========================
+   CHILDREN
+========================== */
+
+.tree-children {
+    position: relative;
+
+    margin-left : 22px;
+    padding-left: 20px;
+
+    animation: treeExpand 0.2s ease;
+}
+
+/* Vertical line */
+
+.tree-children::before {
+    content: "";
+
+    position: absolute;
+
+    left  : 7px;
+    top   : 0;
+    bottom: 20px;
+
+    width: 1px;
+
+    background: #d1d5db;
+}
+
+
+/* ==========================
+   TREE ITEM
+========================== */
+
+.tree-item {
+    position: relative;
+
+    display    : flex;
+    align-items: center;
+
+    min-height: 52px;
+
+    padding: 6px 10px 6px 0;
+
+    border-bottom: 1px solid #f1f5f9;
+
+    transition: background 0.2s ease;
+}
+
+.tree-item:hover {
+    background   : #f8fafc;
+    border-radius: 6px;
+}
+
+
+/* Connector */
+
+.tree-line {
+    width      : 35px;
+    flex-shrink: 0;
+}
+
+.tree-branch {
+    color    : #94a3b8;
+    font-size: 16px;
+}
+
+
+/* ==========================
+   CONTENT
+========================== */
+
+.tree-item-content {
+    display    : flex;
+    align-items: center;
+    gap        : 10px;
+
+    flex     : 1;
+    min-width: 0;
+}
+
+.tree-item-icon {
+    width : 32px;
+    height: 32px;
+
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: #fef2f2;
+    color     : #ef4444;
+
+    border-radius: 6px;
+}
+
+.tree-item-icon i {
+    font-size: 15px;
+}
+
+.tree-item-info {
+    min-width: 0;
+}
+
+.tree-item-name {
+    font-size  : 13px;
+    font-weight: 500;
+    color      : #334155;
+}
+
+.tree-item-description {
+    margin-top: 2px;
+
+    font-size: 11px;
+    color    : #94a3b8;
+
+    white-space  : nowrap;
+    overflow     : hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* ==========================
+   ACTIONS
+========================== */
+
+.tree-item-actions {
+    display    : flex;
+    gap        : 4px;
+    margin-left: 10px;
+}
+
+.tree-action {
+    width : 30px;
+    height: 30px;
+
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    border       : none;
+    border-radius: 5px;
+
+    background: transparent;
+
+    cursor: pointer;
+}
+
+.tree-action.edit {
+    color: #64748b;
+}
+
+.tree-action.edit:hover {
+    background: #eff6ff;
+    color     : #2563eb;
+}
+
+.tree-action.delete {
+    color: #94a3b8;
+}
+
+.tree-action.delete:hover {
+    background: #fef2f2;
+    color     : #dc2626;
+}
+
+
+/* ==========================
+   ANIMATION
+========================== */
+
+@keyframes treeExpand {
+    from {
+        opacity  : 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity  : 1;
+        transform: translateY(0);
+    }
+}

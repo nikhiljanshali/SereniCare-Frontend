@@ -115,19 +115,19 @@
                 (click)="openVitalHistoryPopup(patient)">
                 <i class="bi bi-heart-pulse-fill"></i>
               </button>
-              @if(userDetails?.role !== 'Doctor'){
-              <button class="action-btn" title="Edit" placement="top" (click)="editPatient(patient)">
+              <button class="action-btn" [popover]="'Edit'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="editPatient(patient)">
                 <i class="bi bi-pencil"></i>
               </button>
-              <button class="action-btn danger" title="Delete" placement="top"><i class="bi bi-trash3"></i></button>
-              }
+              <button class="action-btn danger" [popover]="'Delete'" placement="top" triggers="mouseenter:mouseleave"><i
+                  class="bi bi-trash3"></i></button>
             </td>
           </tr>
           <!-- 🔹 SUB Appontments -->
           @if (expandedAppointment === patient._id) {
           <tr class="sub-row">
             <td colspan="12">
-              @if (patient.appointmentBookings.length) {
+              @if (patient.appointments.length) {
               <div class="appointment-wrapper">
                 <div class="vertical-sub-title">
                   Appointment List
@@ -150,7 +150,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @for (appointment of patient.appointmentBookings; track appointment._id) {
+                        @for (appointment of patient.appointments; track appointment._id) {
                         <tr>
                           <td>
                             <div style="font-size:13px;color:var(--text-muted);">
@@ -187,12 +187,14 @@
                             </div>
                           </td>
                           <td>
-                            <div style="font-size:13px;color:var(--text-muted);" class="appt-notes">
+                            <div style="font-size:13px;color:var(--text-muted);" class="appt-notes"
+                              [popover]="appointment.symptoms" placement="top" triggers="mouseenter:mouseleave">
                               {{ appointment.symptoms }}
                             </div>
                           </td>
                           <td>
-                            <div style="font-size:13px;color:var(--text-muted);" class="appt-notes">
+                            <div style="font-size:13px;color:var(--text-muted);" class="appt-notes"
+                              [popover]="appointment.notes" placement="top" triggers="mouseenter:mouseleave">
                               {{ appointment.notes }}
                             </div>
                           </td>

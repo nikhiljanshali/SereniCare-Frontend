@@ -39,6 +39,8 @@
     "@sweetalert2/ngx-sweetalert2": "^14.1.4",
     "bootstrap": "^5.3.8",
     "express": "^5.1.0",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
     "ngx-bootstrap": "^20.0.2",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.26.24",

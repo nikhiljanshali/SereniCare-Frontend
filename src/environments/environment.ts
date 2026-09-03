@@ -8,6 +8,7 @@ export const environment = {
     patients: '/patients',
     clinicType: '/clinictype',
     clinics: '/clinics',
+    clinicstamp: '/clinicstamp',
     primarySpeciality: '/speciality',
     role: '/role',
     meshTable: '/meshTable',

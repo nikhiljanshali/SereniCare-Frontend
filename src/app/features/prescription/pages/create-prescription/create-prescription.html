@@ -10,22 +10,19 @@
                 <span class="breadcrumb-sep">Patient Name : {{patientsDetails?.firstName}}
                     {{patientsDetails?.middleName}} {{patientsDetails?.lastName}}</span>
             </div>
-            <div class="ph-title">Dr. Doctor Name</div>
-            <!-- <div class="ph-sub">
-                {{doctorProfile?.specializations?.[0]?.name}} ·
-                Joined {{doctorProfile?.dateOfJoin | date : 'MMM, yyyy' }} ·
-                #{{doctorProfile?.doctorCode}}
-            </div> -->
+            <div class="ph-title">Dr. {{doctorName}}</div>
         </div>
         <div class="header-actions">
-            <!-- <button class="btn btn-outline-primary btn-sm">
-                <i class="bi bi-pencil"></i> Edit Profile
-            </button> -->
             <button type="button" class="btn btn-outline-primary btn-sm" (click)="generateDummyPrescription()">
                 <i class="bi bi-magic"></i> Generate Dummy Prescription
             </button>
             <button class="btn btn-primary btn-sm" (click)="submitPrescription();">
-                <i class="bi bi-prescription2"></i>Create Prescription
+                <i class="bi bi-prescription2"></i>
+                @if (isEdit) {
+                Update Prescription
+                } @else {
+                Create Prescription
+                }
             </button>
             <!-- More Dropdown -->
             <!-- <div class="header-dropdown">
@@ -146,21 +143,53 @@
                                         </label>
                                         <textarea class="wz-input" rows="4" formControlName="diagnosis"
                                             placeholder="Enter Diagnosis"></textarea>
-                                        <small class="text-muted">
+                                        <small class="text-muted d-block mb-2">
                                             Enter comma separated symptoms
                                         </small>
+
+                                        <!-- Suggestion Tags -->
+                                        <div class="pe-macros">
+                                            <!-- <span class="pe-macro-pill">RRR S1 S2</span> -->
+                                            @for (item of suggestions; track $index) {
+                                            <span class="pe-macro-pill" (click)="addSuggestion(item)">+ {{ item.trim()
+                                                }}</span>
+                                            }
+                                        </div>
+                                        <!-- <div class="diagnosis-suggestions d-flex flex-wrap gap-1 mt-2">
+                                            <span *ngFor="let item of suggestions"
+                                                class="badge bg-light text-dark border suggestion-tag"
+                                                (click)="addSuggestion(item)">
+                                                + {{ item }}
+                                            </span>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div class="wz-form-row">
                                     <div class="wz-form-group m-0">
-                                        <label class="wz-label">Symptoms
-                                            <span class="wz-req">*</span>
-                                        </label>
+                                        <div class="d-flex align-items-center justify-content-between p-2">
+                                            <label class="wz-label">Symptoms
+                                                <span class="wz-req">*</span>
+                                            </label>
+                                            <button type="button" class="btn btn-sm btn-primary" (click)="addSymptom()">
+                                                Add Symptom
+                                            </button>
+                                        </div>
                                         <div formArrayName="symptoms">
                                             @for(symptom of symptoms.controls; track $index){
                                             <div class="d-flex align-items-center mb-2">
-                                                <input class="wz-input flex-fill" type="text" [formControlName]="$index"
-                                                    placeholder="Enter symptom">
+                                                <div class="input-wrap w-100">
+                                                    <i class="bi bi-virus input-icon"></i>
+                                                    <select class="form-select w-100" [formControlName]="$index">
+                                                        <option value="" disabled selected>Select a symptom</option>
+                                                        @for(group of symptomCategories; track group.category){
+                                                        <optgroup [label]="group.category">
+                                                            @for(item of group.symptoms; track item){
+                                                            <option [value]="item">{{ item }}</option>
+                                                            }
+                                                        </optgroup>
+                                                        }
+                                                    </select>
+                                                </div>
                                                 <button type="button" class="btn btn-sm btn-danger ms-2"
                                                     (click)="removeSymptom($index)">
                                                     <i class="bi bi-trash"></i>
@@ -168,11 +197,9 @@
                                             </div>
                                             }
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary" (click)="addSymptom()">
-                                            Add Symptom
-                                        </button>
-                                        <small class="text-muted">
-                                            Add symptoms one by one.
+
+                                        <small class="text-muted d-block mt-1">
+                                            Add symptoms one by one from the dropdown list.
                                         </small>
                                     </div>
                                 </div>
@@ -202,11 +229,33 @@
                             <div class="wizard-panel">
                                 <div class="wz-form-row">
                                     <div class="wz-form-group m-0">
+                                        <label class="wz-label">Follow Up Date
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <input class="wz-input" type="date" placeholder="Write Notes"
+                                            formControlName="followUpDate">
+                                    </div>
+                                    <div class="wz-form-group m-0">
+                                        <label class="wz-label">Status
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <div class="input-wrap">
+                                            <i class="bi bi-hand-thumbs-up-fill input-icon"></i>
+                                            <select class="form-select" formControlName="status">
+                                                <option value="Draft">Draft</option>
+                                                <option value="Completed">Completed</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="wz-form-row">
+                                    <div class="wz-form-group m-0">
                                         <label class="wz-label">Advice
                                             <span class="wz-req">*</span>
                                         </label>
-                                        <input class="wz-input" type="text" placeholder="Write Advice"
-                                            formControlName="advice">
+                                        <textarea class="wz-input" placeholder="Write Advice" formControlName="advice"
+                                            rows="5"></textarea>
                                     </div>
                                 </div>
                                 <div class="wz-form-row">
@@ -214,31 +263,11 @@
                                         <label class="wz-label">Notes
                                             <span class="wz-req">*</span>
                                         </label>
-                                        <input class="wz-input" type="text" placeholder="Write Notes"
-                                            formControlName="notes">
+                                        <textarea class="wz-input" placeholder="Write Notes" formControlName="notes"
+                                            rows="5"></textarea>
                                     </div>
                                 </div>
-                                <div class="wz-form-row">
-                                    <div class="wz-form-group m-0">
-                                        <label class="wz-label">Follow Up Date
-                                            <span class="wz-req">*</span>
-                                        </label>
-                                        <input class="wz-input" type="date" placeholder="Write Notes"
-                                            formControlName="followUpDate">
-                                    </div>
-                                </div>
-                                <div class="wz-form-row">
-                                    <div class="wz-form-group m-0">
-                                        <label class="wz-label">Status
-                                            <span class="wz-req">*</span>
-                                        </label>
-                                        <select class="form-select" formControlName="status">
-                                            <option value="Draft">Draft</option>
-                                            <option value="Completed">Completed</option>
-                                            <option value="Cancelled">Cancelled</option>
-                                        </select>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -268,25 +297,61 @@
                     <div class="wizard-body pt-2">
                         <div class="wizard-panel">
                             <div formArrayName="medicines">
-                                @for(medicine of medicines.controls; track $index){
-                                <div class="wz-form-row p-0 m-0 d-flex" [formGroupName]="$index">
+
+                                <!-- ========================= -->
+                                <!-- Medicines Header -->
+                                <!-- ========================= -->
+                                <div class="wz-form-row medicine-header p-0 m-0 d-flex">
+
                                     <div class="form-group">
                                         <label class="form-label">
                                             Medicine Name <span class="req">*</span>
                                         </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Dosage <span class="req">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Frequency <span class="req">*</span>
+                                        </label>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Duration <span class="req">*</span>
+                                        </label>
+                                    </div>
+                                    <!-- Delete column header -->
+                                    <div class="medicine-action-header">
+                                        <label class="form-label">
+                                            Action
+                                        </label>
+                                    </div>
+                                </div>
+                                <!-- ========================= -->
+                                <!-- Medicines Rows -->
+                                <!-- ========================= -->
+                                @for(medicine of medicines.controls; track $index) {
+                                <div class="wz-form-row medicine-row p-0 m-0 d-flex" [formGroupName]="$index">
+                                    <!-- Medicine Name -->
+                                    <div class="form-group">
                                         <div class="prescription-wrapper">
                                             <span class="prescription-icon">
                                                 <i class="bi bi-capsule-pill"></i>
                                             </span>
                                             <select class="form-select prescription-input"
-                                                formControlName="medicineName" (change)="onMedicineChange($event)">
-                                                <option [ngValue]="null">Select Medicine</option>
-
-                                                @for (medicine of medicineList; track medicine._id) {
-                                                <option [value]="medicine.medicineName">
-                                                    {{ medicine.medicineName }} -
-                                                    {{ medicine.genericName }} -
-                                                    {{ medicine.strength }} {{ medicine.unit }}
+                                                formControlName="medicineName" (change)="onMedicineChange($event)"
+                                                [class.is-invalid]="medicine.get('medicineName')?.invalid && medicine.get('medicineName')?.touched">
+                                                <option [ngValue]="null">
+                                                    Select Medicine
+                                                </option>
+                                                @for (med of medicineList; track med._id) {
+                                                <option [value]="med.medicineName">
+                                                    {{ med.medicineName }} -
+                                                    {{ med.genericName }} -
+                                                    {{ med.strength }} {{ med.unit }}
                                                 </option>
                                                 }
                                             </select>
@@ -294,20 +359,27 @@
                                                 <i class="bi bi-arrow-clockwise"></i>
                                             </span>
                                         </div>
+                                        <!-- @if ( medicine.get('medicineName')?.invalid &&
+                                        medicine.get('medicineName')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Medicine name is required.
+                                        </div>
+                                        } -->
                                     </div>
+                                    <!-- Dosage -->
                                     <div class="form-group">
-                                        <label class="form-label">
-                                            Dosage <span class="req">*</span>
-                                        </label>
                                         <div class="prescription-wrapper">
                                             <span class="prescription-icon">
                                                 <i class="bi bi-capsule-pill"></i>
                                             </span>
                                             <input type="number" class="form-input prescription-input"
-                                                formControlName="dosage" placeholder="dosage">
-                                            <select class="form-select prescription-select"
-                                                formControlName="dosageUnit">
-                                                <option value="">Unit</option>
+                                                formControlName="dosage" placeholder="Dosage" min="0.01" max="9999"
+                                                step="0.01"
+                                                [class.is-invalid]="medicine.get('dosage')?.invalid && medicine.get('dosage')?.touched">
+                                            <select class="form-select prescription-select" formControlName="dosageUnit"
+                                                [class.is-invalid]="medicine.get('dosageUnit')?.invalid &&medicine.get('dosageUnit')?.touched">
+                                                <option value=""> Unit </option>
                                                 <option value="Tablet">Tablet</option>
                                                 <option value="Capsule">Capsule</option>
                                                 <option value="Drop">Drop</option>
@@ -319,46 +391,118 @@
                                                 <option value="Puff">Puff</option>
                                             </select>
                                         </div>
+                                        <!-- @if (medicine.get('dosage')?.hasError('required')
+                                        && medicine.get('dosage')?.touched ) {
+                                        <div class="text-danger small mt-1">
+                                            Dosage is required.
+                                        </div>
+                                        } -->
+                                        <!-- @if (
+                                        medicine.get('dosage')?.hasError('min') &&
+                                        medicine.get('dosage')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Dosage must be greater than 0.
+                                        </div>
+                                        } -->
+                                        <!-- @if (
+                                        medicine.get('dosageUnit')?.invalid &&
+                                        medicine.get('dosageUnit')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Dosage unit is required.
+                                        </div>
+                                        } -->
                                     </div>
+                                    <!-- Frequency -->
                                     <div class="form-group">
-                                        <label class="form-label">
-                                            Frequency <span class="req">*</span>
-                                        </label>
                                         <div class="prescription-wrapper">
                                             <span class="prescription-icon">
                                                 <i class="bi bi-clock"></i>
                                             </span>
                                             <input type="number" class="form-input prescription-input"
-                                                formControlName="frequency" placeholder="Frequency">
+                                                formControlName="frequency" placeholder="Frequency" min="1" max="24"
+                                                [class.is-invalid]="medicine.get('frequency')?.invalid && medicine.get('frequency')?.touched">
                                             <select class="form-select prescription-select"
-                                                formControlName="frequencyUnit">
-                                                <option value="">Unit</option>
+                                                formControlName="frequencyUnit"
+                                                [class.is-invalid]="medicine.get('frequencyUnit')?.invalid && medicine.get('frequencyUnit')?.touched">
+                                                <option value=""> Unit </option>
                                                 <option value="Hours">Hours</option>
                                                 <option value="Daily">Daily</option>
                                                 <option value="Weekly">Weekly</option>
                                             </select>
                                         </div>
+                                        <!-- @if (
+                                        medicine.get('frequency')?.hasError('required') &&
+                                        medicine.get('frequency')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Frequency is required.
+                                        </div>
+                                        }
+                                        @if (
+                                        medicine.get('frequency')?.hasError('min') &&
+                                        medicine.get('frequency')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Frequency must be at least 1.
+                                        </div>
+                                        }
+                                        @if (
+                                        medicine.get('frequencyUnit')?.invalid &&
+                                        medicine.get('frequencyUnit')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Frequency unit is required.
+                                        </div>
+                                        } -->
                                     </div>
+                                    <!-- Duration -->
                                     <div class="form-group">
-                                        <label class="form-label">
-                                            Duration <span class="req">*</span>
-                                        </label>
                                         <div class="prescription-wrapper">
                                             <span class="prescription-icon">
                                                 <i class="bi bi-clock"></i>
                                             </span>
                                             <input type="number" class="form-input prescription-input"
-                                                formControlName="duration" placeholder="Duration">
+                                                formControlName="duration" placeholder="Duration" min="1" max="999"
+                                                [class.is-invalid]="medicine.get('duration')?.invalid && medicine.get('duration')?.touched">
                                             <select class="form-select prescription-select"
-                                                formControlName="durationType">
-                                                <option value="">Unit</option>
+                                                formControlName="durationType"
+                                                [class.is-invalid]="medicine.get('durationType')?.invalid && medicine.get('durationType')?.touched                        ">
+                                                <option value=""> Unit </option>
                                                 <option value="Days">Days</option>
                                                 <option value="Weekly">Weekly</option>
                                             </select>
                                         </div>
+                                        <!-- @if (
+                                        medicine.get('duration')?.hasError('required') &&
+                                        medicine.get('duration')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Duration is required.
+                                        </div>
+                                        }
+                                        @if (
+                                        medicine.get('duration')?.hasError('min') &&
+                                        medicine.get('duration')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Duration must be at least 1.
+                                        </div>
+                                        }
+                                        @if (
+                                        medicine.get('durationType')?.invalid &&
+                                        medicine.get('durationType')?.touched
+                                        ) {
+                                        <div class="text-danger small mt-1">
+                                            Duration unit is required.
+                                        </div>
+                                        } -->
                                     </div>
-                                    <div style="margin:40px 0px;">
-                                        <button class="btn btn-danger btn-sm" (click)="removeMedicine($index)">
+                                    <!-- Delete -->
+                                    <div class="medicine-action mb-3">
+                                        <button type="button" class="btn btn-danger btn-sm"
+                                            (click)="removeMedicine($index)">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </div>

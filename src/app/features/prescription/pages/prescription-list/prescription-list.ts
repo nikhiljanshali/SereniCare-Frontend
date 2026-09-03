@@ -5,6 +5,8 @@ import { PrescriptionService } from '../../../../core/services/prescription-serv
 import { StorageOperation } from '../../../../core/services/storage-operation';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
 import { PrescriptionView } from '../prescription-view/prescription-view';
+import { Router } from '@angular/router';
+import { NotificationServices } from '../../../../core/services/notification-services';
 
 @Component({
   selector: 'app-prescription-list',
@@ -26,28 +28,80 @@ export class PrescriptionList {
   public pages: number[] = [];
   public Math = Math;
 
+  public userRole: string = '';
+  public doctorId: string = '';
+  public patientId: string = '';
+  public systemId: string = '';
+
   constructor(
+    private router: Router,
     private _prescriptionService: PrescriptionService,
     public _storageOperation: StorageOperation,
     public _modalService: ModalService,
+    private _notificationServices: NotificationServices
   ) {
 
   }
 
   ngOnInit(): void {
-    this.getAppointmentList();
+    this.setUserDetails();
+    this.getAllPrescriptionList();
   }
 
-  private getAppointmentList(): void {
-    this._prescriptionService.getAllPrescriptions().subscribe((res: IPrescriptions) => {
-      // this.prescriptionList = this.prescriptionCopyList = res.data;
-      this.prescriptionList = this.prescriptionCopyList = res.data.sort((a: any, b: any) => {
-        const numA = Number(a.prescriptionNumber.replace('PRESCRIP-', ''));
-        const numB = Number(b.prescriptionNumber.replace('PRESCRIP-', ''));
-        return numA - numB; // Ascending
-      });
-      this.setupPagination();
-    })
+  private setUserDetails(): void {
+    const storedUser = this._storageOperation.get<any>('user');
+    const storedUserDetails = this._storageOperation.get<any>('userDetails');
+    this.userRole = storedUser?.role || '';
+    if (storedUser) {
+      const userId = storedUserDetails.id || '';
+      switch (this.userRole) {
+        case 'Patient':
+          this.patientId = userId;
+          break;
+        case 'Doctor':
+          this.doctorId = userId;
+          break;
+        case 'System Admin':
+          this.systemId = storedUser.id;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  private getAllPrescriptionList(): void {
+    if (this.userRole === 'Doctor') {
+      this._prescriptionService.getPrescriptionsByDoctor(this.doctorId).subscribe((res: IPrescriptions) => {
+        // this.prescriptionList = this.prescriptionCopyList = res.data;
+        this.prescriptionList = this.prescriptionCopyList = res.data.sort((a: any, b: any) => {
+          const numA = Number(a.prescriptionNumber.replace('PRESCRIP-', ''));
+          const numB = Number(b.prescriptionNumber.replace('PRESCRIP-', ''));
+          return numA - numB; // Ascending
+        });
+        this.setupPagination();
+      })
+    } else if (this.userRole == 'Patient') {
+      this._prescriptionService.getPrescriptionsByPatient(this.patientId).subscribe((res: IPrescriptions) => {
+        // this.prescriptionList = this.prescriptionCopyList = res.data;
+        this.prescriptionList = this.prescriptionCopyList = res.data.sort((a: any, b: any) => {
+          const numA = Number(a.prescriptionNumber.replace('PRESCRIP-', ''));
+          const numB = Number(b.prescriptionNumber.replace('PRESCRIP-', ''));
+          return numA - numB; // Ascending
+        });
+        this.setupPagination();
+      })
+    } else if (this.userRole === 'System Admin') {
+      this._prescriptionService.getAllPrescriptions().subscribe((res: IPrescriptions) => {
+        // this.prescriptionList = this.prescriptionCopyList = res.data;
+        this.prescriptionList = this.prescriptionCopyList = res.data.sort((a: any, b: any) => {
+          const numA = Number(a.prescriptionNumber.replace('PRESCRIP-', ''));
+          const numB = Number(b.prescriptionNumber.replace('PRESCRIP-', ''));
+          return numA - numB; // Ascending
+        });
+        this.setupPagination();
+      })
+    }
   }
 
   setupPagination(): void {
@@ -89,14 +143,41 @@ export class PrescriptionList {
   }
 
   public viewPrescription(pres: IPrescriptionsDetails): void {
-    console.log(pres);
-    this._modalService.openComponentModal(PrescriptionView,
+    this._modalService.openComponentModal(PrescriptionView, {
+      class: 'modal-dialog-centered modal-xl',
+      backdrop: 'static',
+      keyboard: false,
+      initialState: {
+        prescriptionDetails: pres,
+      }
+    });
+  }
+
+  public deletePrescription(pres: IPrescriptionsDetails): void {
+    this._notificationServices.confirm('Delete', 'Are you sure you want to delete this record?').then((result) => {
+      if (result.isConfirmed) {
+        this._prescriptionService.deletePrescription(pres._id).subscribe((res: any) => {
+          console.log(res);
+          if (res.status) {
+            this.getAllPrescriptionList();
+          }
+        })
+      }
+    });
+  }
+
+  public editPrescription(pres: any): void {
+    // Extract IDs safely
+    const patientId = pres.patientId?._id || pres.patientId;
+    const appointmentId = pres.appointmentId?._id || pres.appointmentId;
+    const clinicId = pres.clinicId?._id || pres.clinicId;
+
+    this.router.navigate(
+      ['/layout/prescription/master/create', patientId, appointmentId, clinicId],
       {
-        class: 'modal-dialog-centered modal-lg',
-        backdrop: 'static',
-        keyboard: false,
-        initialState: {
-          prescriptionDetails: pres,
+        state: {
+          prescriptionId: pres._id,
+          isEdit: true,
         }
       }
     );
@@ -123,6 +204,7 @@ export class PrescriptionList {
   }
 
   public refresh(): void {
+    this.getAllPrescriptionList();  
     this.prescriptionList = this.paginatedPrescriptionList = this.prescriptionCopyList;
   }
 

@@ -37,7 +37,7 @@ export class ClinicLayout {
     { id: 6, label: 'Diseases', action: 'diseases' },
     { id: 7, label: 'Allergies', action: 'allergies' },
     { id: 8, label: 'Surgery', action: 'surgery' },
-    { id: 8, label: 'Risk', action: 'risk' },
+    // { id: 8, label: 'Risk', action: 'risk' },
   ];
   activeAction = ''; // default active
 

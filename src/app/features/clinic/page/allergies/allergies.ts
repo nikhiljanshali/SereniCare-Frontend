@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IAllergiesData, IClinicType } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { AllergiesServices } from '../../../../core/services/allergies';
+import { AllergyGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-allergies',
@@ -18,7 +19,7 @@ export class Allergies {
 
   allergiesForm!: FormGroup;
   // AllergiesList: IAllergiesData[] = [];
-  AllergiesList: any[] = [];
+
   isEdit: boolean = false;
   selectedId: string = '';
 
@@ -96,28 +97,51 @@ export class Allergies {
       });
     }
   }
+  public AllergiesList: AllergyGroup[] = [];
   public allergiesCount: number = 0;
   private getAllAllergies(): void {
     this._allergies.getAllAllergies().subscribe({
       next: (res: IClinicType) => {
         this.isEdit = false;
-        // this.AllergiesList = res.data ?? [];
-        this.AllergiesList = res.data ?? [];
-        this.allergiesCount = res.data.length;
-        const groupedAllergies = this.AllergiesList.reduce((acc: any, allergy: any) => {
-          const group = allergy.groupname;
+        const allergies = res.data ?? [];
+        this.allergiesCount = allergies.length;
+        const grouped = allergies.reduce((acc: any, allergy: any) => {
+          const group = allergy.groupname || 'Other';
           if (!acc[group]) {
             acc[group] = [];
           }
           acc[group].push(allergy);
           return acc;
         }, {});
-        this.AllergiesList = groupedAllergies;
+        // Convert object into array
+        this.AllergiesList = Object.keys(grouped).map(groupname => ({
+          groupname,
+          items: grouped[groupname],
+          expanded: false
+        }));
+        console.log('Grouped Allergies:', this.AllergiesList);
       },
       error: (err) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching allergies:', err);
         this.AllergiesList = [];
+        this.allergiesCount = 0;
       }
+    });
+  }
+
+  public toggleAllergyGroup(group: AllergyGroup): void {
+    group.expanded = !group.expanded;
+  }
+
+  public expandAllGroups(): void {
+    this.AllergiesList.forEach(group => {
+      group.expanded = true;
+    });
+  }
+
+  public collapseAllGroups(): void {
+    this.AllergiesList.forEach(group => {
+      group.expanded = false;
     });
   }
 

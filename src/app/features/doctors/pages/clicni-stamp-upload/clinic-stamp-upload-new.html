@@ -1,0 +1,124 @@
+<!-- ══════════════════════════════════════════════
+  PAGE: FILE UPLOAD
+══════════════════════════════════════════════ -->
+<div id="page-uploads" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Clinic Stamp File Upload</div>
+            <div class="ph-sub">Upload clinic stamp file to database</div>
+        </div>
+    </div>
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Upload Clinic Stamp</div>
+            </div>
+            <div class="card-body">
+                <!-- File Drop Zone -->
+                <div class="file-drop" id="file-drop-zone"
+                    (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)" 
+                    (drop)="onFileDrop($event)">
+                    <input #fileInput type="file" 
+                        accept=".pdf,.jpg,.jpeg,.png,.dcm,.doc,.docx" 
+                        (change)="onFileSelect($event)"
+                        style="display:none;">
+                    <div class="file-drop-icon" (click)="fileInput.click()" style="cursor:pointer;"><i class="bi bi-cloud-upload"></i></div>
+                    <div class="file-drop-title" (click)="fileInput.click()" style="cursor:pointer;">Drag & drop file here</div>
+                    <div class="file-drop-sub" (click)="fileInput.click()" style="cursor:pointer;">or <span>browse to upload</span> · PDF, JPG, PNG, DOC supported</div>
+                    <div style="margin-top:12px;font-size:11.5px;color:var(--text-muted);">Max file size: 50 MB</div>
+                    
+                    <!-- Selected File Preview -->
+                    <div *ngIf="selectedFile" style="margin-top:16px;padding:12px;background:#F0FDF4;border:1px solid #BBFB7C;border-radius:var(--radius-sm);">
+                        <div style="display:flex;gap:12px;align-items:center;">
+                            <div class="file-item-icon" [style.background]="getFileIconBg(selectedFile.name)" [style.color]="getFileIconColor(selectedFile.name)">
+                                <i [class]="'bi ' + getFileIcon(selectedFile.name)"></i>
+                            </div>
+                            <div style="flex:1;">
+                                <div class="file-item-name">{{ selectedFile.name }}</div>
+                                <div class="file-item-size">{{ formatFileSize(selectedFile.size) }} · Ready to upload</div>
+                            </div>
+                            <button class="file-remove-btn" (click)="selectedFile = null" type="button"><i class="bi bi-x"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Uploaded Files List -->
+                <div class="file-list" *ngIf="uploadedFiles.length > 0">
+                    <div class="file-item" *ngFor="let file of uploadedFiles; let i = index;">
+                        <div class="file-item-icon" style="background:#CCFBF1;color:#0D9488;"><i class="bi bi-check-circle"></i></div>
+                        <div style="flex:1;">
+                            <div class="file-item-name">{{ file.name }}</div>
+                            <div class="file-item-size">{{ file.size }} · {{ file.status }}</div>
+                        </div>
+                        <button class="file-remove-btn" (click)="removeFile(i)" type="button"><i class="bi bi-x"></i></button>
+                    </div>
+                </div>
+
+                <!-- Upload Progress -->
+                <div *ngIf="isUploading" style="margin-top:16px;">
+                    <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+                        <span style="font-size:12px;font-weight:600;">Uploading...</span>
+                        <span style="font-size:12px;color:var(--text-muted);">{{ uploadProgress }}%</span>
+                    </div>
+                    <div class="file-item-progress">
+                        <div class="file-item-progress-fill" [style.width.%]="uploadProgress" style="background:var(--sky);"></div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div style="display:flex;gap:8px;margin-top:16px;">
+                    <button class="btn btn-primary" 
+                        (click)="uploadClinicStamp()" 
+                        [disabled]="!selectedFile || isUploading"
+                        type="button">
+                        <i class="bi bi-upload"></i> Upload File
+                    </button>
+                    <button class="btn btn-outline-default" 
+                        (click)="clearAll()"
+                        [disabled]="!selectedFile && uploadedFiles.length === 0"
+                        type="button">
+                        <i class="bi bi-x-circle"></i> Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Upload Guidelines</div>
+            </div>
+            <div class="card-body">
+                <div style="display:flex;flex-direction:column;gap:12px;">
+                    <div
+                        style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--teal-xlight);border-radius:var(--radius-sm);border:1px solid var(--teal-light);">
+                        <i class="bi bi-file-earmark-pdf" style="font-size:20px;color:var(--rose);flex-shrink:0;"></i>
+                        <div>
+                            <div style="font-size:13px;font-weight:600;color:var(--text-head);">PDF Documents</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Clinic stamps, certifications, official documents</div>
+                        </div>
+                    </div>
+                    <div
+                        style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--sky-light);border-radius:var(--radius-sm);border:1px solid #BAE6FD;">
+                        <i class="bi bi-image" style="font-size:20px;color:var(--sky);flex-shrink:0;"></i>
+                        <div>
+                            <div style="font-size:13px;font-weight:600;color:var(--text-head);">Image Files</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Clinic stamp images · JPG, PNG formats</div>
+                        </div>
+                    </div>
+                    <div
+                        style="display:flex;gap:12px;align-items:flex-start;padding:12px;background:var(--indigo-light);border-radius:var(--radius-sm);border:1px solid #C7D2FE;">
+                        <i class="bi bi-file-earmark-word"
+                            style="font-size:20px;color:var(--indigo);flex-shrink:0;"></i>
+                        <div>
+                            <div style="font-size:13px;font-weight:600;color:var(--text-head);">Documents</div>
+                            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Official certificates · DOC, DOCX formats</div>
+                        </div>
+                    </div>
+                    <div
+                        style="background:var(--amber-light);border:1px solid #FDE68A;border-radius:var(--radius-sm);padding:12px;font-size:12px;color:#92400E;">
+                        <i class="bi bi-exclamation-triangle-fill" style="margin-right:6px;"></i> Only one file can be uploaded at a time. File size limit: 50 MB.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
