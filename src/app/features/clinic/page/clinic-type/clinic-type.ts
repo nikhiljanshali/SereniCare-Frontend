@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IClinicTypeData, IClinicType } from '../../../../core/interface/basic.interface';
 import { ClinicTypeService } from '../../../../core/services/clinic-type';
 import { NotificationServices } from '../../../../core/services/notification-services';
+import { ClinicTypeGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-clinic-type',
@@ -15,10 +16,12 @@ import { NotificationServices } from '../../../../core/services/notification-ser
 })
 export class ClinicType {
 
-  clinicTypeForm!: FormGroup;
-  ClinicTypeList: IClinicTypeData[] = [];
-  isEdit: boolean = false;
-  selectedId: string = '';
+  public clinicTypeForm!: FormGroup;
+  // public ClinicTypeList: IClinicTypeData[] = [];
+  public isEdit: boolean = false;
+  public selectedId: string = '';
+  public ClinicTypeList: ClinicTypeGroup[] = [];
+  public clinicTypeCount: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -102,7 +105,22 @@ export class ClinicType {
     this._clinicType.getCliniAllType().subscribe({
       next: (res: IClinicType) => {
         this.isEdit = false;
-        this.ClinicTypeList = res.data ?? [];
+        const clinicTypes = res.data ?? [];
+        this.clinicTypeCount = clinicTypes.length;
+        const grouped = clinicTypes.reduce((acc: any, clinic: any) => {
+          const group = clinic.ClinicType || 'Clinic Type(s)';
+          if (!acc[group]) {
+            acc[group] = [];
+          }
+          acc[group].push(clinic);
+          return acc;
+        }, {});
+        this.ClinicTypeList = Object.keys(grouped).map(clinicType => ({
+          clinicType,
+          items: grouped[clinicType],
+          expanded: clinicType === 'General Clinic'
+        }));
+        console.log('Grouped Clinic Types:', this.ClinicTypeList);
       },
       error: (err) => {
         console.error('Error fetching clinic types:', err);

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { IPatientsData, IMedicineDetails, IMedicine } from '../../../../core/interface/basic.interface';
+import { IPatientsData, IMedicineDetails, IMedicine, SymptomCategory } from '../../../../core/interface/basic.interface';
 import { MedicineService } from '../../../../core/services/medicine-services';
 import { PatientService } from '../../../../core/services/patients';
 import { PrescriptionService } from '../../../../core/services/prescription-services';
 import { StorageOperation } from '../../../../core/services/storage-operation';
+import { CommonMethod } from '../../../../core/services/common-method';
 
 @Component({
   selector: 'app-create-prescription',
@@ -18,11 +19,52 @@ export class CreatePrescription {
 
   public prescriptionForm!: FormGroup;
   public isMoreMenuOpen = false;
-  public patientId: string | null = '';
   public appointmentId: string | null = '';
   public clinicId: string | null = '';
   public patientsDetails: IPatientsData | null = null;
   public medicineList: IMedicineDetails[] = [];
+
+  public doctorId: string | null = null;
+  public patientId: string | null = null;
+  public systemId: string | null = null;
+  public userRole: string = '';
+  public doctorName: string = '';
+  public isEdit: boolean = false;
+  public prescriptionId: string = '';
+
+  public suggestions: string[] = [
+    'Fever', 'Cough', 'Shortness of Breath', 'Fatigue',
+    'Headache', 'Sore Throat', 'Runny Nose', 'Body Ache',
+    'Chest Pain', 'Nausea', 'Vomiting', 'Abdominal Pain',
+    'Diarrhea', 'Dizziness', 'Chills', 'Loss of Taste/Smell'
+  ];
+
+  public symptomCategories: SymptomCategory[] = [
+    {
+      category: 'General & Systemic',
+      symptoms: ['Fever', 'Fatigue', 'Chills', 'Night Sweats', 'Unexplained Weight Loss', 'Dizziness', 'Malaise']
+    },
+    {
+      category: 'Respiratory',
+      symptoms: ['Cough (Dry)', 'Cough (Productive)', 'Shortness of Breath', 'Sore Throat', 'Runny Nose', 'Nasal Congestion', 'Wheezing']
+    },
+    {
+      category: 'Cardiovascular',
+      symptoms: ['Chest Pain', 'Chest Tightness', 'Palpitations', 'Leg Swelling']
+    },
+    {
+      category: 'Gastrointestinal',
+      symptoms: ['Nausea', 'Vomiting', 'Abdominal Pain', 'Diarrhea', 'Constipation', 'Heartburn', 'Loss of Appetite', 'Bloating']
+    },
+    {
+      category: 'Musculoskeletal & Neurological',
+      symptoms: ['Headache', 'Body Ache', 'Joint Pain', 'Back Pain', 'Neck Stiffness', 'Numbness / Tingling', 'Confusion']
+    },
+    {
+      category: 'Skin & Allergy',
+      symptoms: ['Skin Rash', 'Itching', 'Hives', 'Redness / Inflammation']
+    }
+  ];
 
 
   constructor(
@@ -31,7 +73,9 @@ export class CreatePrescription {
     private _patientService: PatientService,
     private _medicineService: MedicineService,
     private _prescriptionService: PrescriptionService,
-    public _storageOperation: StorageOperation
+    public _storageOperation: StorageOperation,
+    private router: Router,
+    private _commonMethod: CommonMethod
   ) {
     this.route.paramMap.subscribe(params => {
       const patientId = params.get('patientId');
@@ -41,21 +85,137 @@ export class CreatePrescription {
       this.appointmentId = appointmentId;
       this.clinicId = clinicId;
     });
+
+    // 1. Get URL Path Parameters
+    this.patientId = this.route.snapshot.paramMap.get('patientId') || '';
+    this.appointmentId = this.route.snapshot.paramMap.get('appointmentId') || '';
+    this.clinicId = this.route.snapshot.paramMap.get('clinicId') || '';
+
+    // 2. Get Dynamic State Data passed during navigation
+    this.isEdit = history.state?.['isEdit'];
+    this.prescriptionId = history.state?.['prescriptionId'];
   }
 
   ngOnInit(): void {
+    this.setUserDetails();
     this.getPatientDetails();
     this.getMedicines();
     this.initializePrescriptionForm();
-    this.addMedicine();
-    this.addInvestigation();
+    // this.addInvestigation();
     this.addSymptom();
+    if (this.isEdit) {
+      this.getExistingPrescriptionDetails();
+    }
+  }
+
+  private setUserDetails(): void {
+    const storedUser = this._storageOperation.get<any>('user');
+    const storedUserDetails = this._storageOperation.get<any>('userDetails');
+    this.userRole = storedUser?.role || '';
+    if (storedUser) {
+      const userId = storedUserDetails.id || '';
+      switch (this.userRole) {
+        case 'Patient':
+          this.patientId = userId;
+          break;
+        case 'Doctor':
+          this.doctorId = userId;
+          this.doctorName = storedUser.firstName + '' + storedUser.lastName;
+          break;
+        case 'System Admin':
+          this.systemId = storedUser.id;
+          break;
+        default:
+          break;
+      }
+    }
+  }
+
+  private getExistingPrescriptionDetails(): void {
+    this._prescriptionService.getPrescriptionById(this.prescriptionId).subscribe((res: any) => {
+      console.log(res.data);
+      this.patchPrescriptionData(res.data);
+    })
+  }
+
+  private patchPrescriptionData(prescription: any): void {
+    // Simple fields
+    this.prescriptionForm.patchValue({
+      clinicId: prescription.clinicId,
+      prescriptionNumber: prescription.prescriptionNumber,
+      appointmentId: prescription.appointmentId?._id,
+      patientId: prescription.patientId?._id,
+      doctorId: prescription.doctorId?._id,
+      // Your API has diagnosis as an array
+      diagnosis: prescription.diagnosis?.[0] ?? '',
+      advice: prescription.advice ?? '',
+      followUpDate: prescription.followUpDate
+        ? new Date(prescription.followUpDate).toISOString().split('T')[0]
+        : null,
+      notes: prescription.notes ?? '',
+      status: prescription.status ?? 'Completed',
+      prescribedDate: prescription.prescribedDate ? new Date(prescription.prescribedDate) : new Date()
+    });
+    // ============================
+    // Symptoms
+    // ============================
+    const symptomsArray = this.prescriptionForm.get('symptoms') as FormArray;
+    symptomsArray.clear();
+    (prescription.symptoms ?? []).forEach((symptom: string) => {
+      symptomsArray.push(
+        this.fb.control(symptom, Validators.required)
+      );
+    });
+    // ============================
+    // Medicines
+    // ============================
+    const medicinesArray = this.prescriptionForm.get('medicines') as FormArray;
+    medicinesArray.clear();
+    (prescription.medicines ?? []).forEach((medicine: any) => {
+      medicinesArray.push(this.fb.group({
+        medicineName: [medicine.medicineName ?? '', Validators.required],
+        dosage: [medicine.dosage ?? ''], dosageUnit: [medicine.dosageUnit ?? ''],
+        frequency: [medicine.frequency ?? ''],
+        frequencyUnit: [medicine.frequencyUnit ?? ''],
+        duration: [medicine.duration ?? ''],
+        durationType: [medicine.durationType ?? ''],
+        instructions: [medicine.instructions ?? '']
+      }));
+    });
+    // ============================
+    // Patch Investigations
+    // ============================
+
+    // Clear existing investigation rows
+    this.investigations.clear();
+
+    // Add and patch each investigation
+    (prescription.investigations ?? []).forEach((investigation: any) => {
+
+      // Add a new investigation form using your existing method
+      this.addInvestigation();
+
+      // Get the newly added FormGroup
+      const index = this.investigations.length - 1;
+
+      const investigationForm =
+        this.investigations.at(index) as FormGroup;
+
+      // Patch API data
+      investigationForm.patchValue({
+        testName: investigation.testName ?? '',
+        remarks: investigation.remarks ?? ''
+      });
+
+    });
+
+    console.log('Investigations:', this.investigations.value);
   }
 
   private initializePrescriptionForm(): void {
     this.prescriptionForm = this.fb.group({
       clinicId: [this.clinicId, Validators.required],
-      prescriptionNumber: ['', Validators.required],
+      prescriptionNumber: [`PRESCRIP-${this.randomNumber(1000, 9999)}`, Validators.required],
       appointmentId: [this.appointmentId, Validators.required],
       patientId: [this.patientId, Validators.required],
       doctorId: [this._storageOperation.get<any>('userDetails', 'local').id, Validators.required],
@@ -83,28 +243,59 @@ export class CreatePrescription {
     return this.prescriptionForm.get('investigations') as FormArray;
   }
 
-  private createMedicineForm(): FormGroup {
-    return this.fb.group({
-      medicineName: ['', Validators.required],
-      dosage: ['', Validators.required],
-      dosageUnit: ['', Validators.required],
-      frequency: ['', Validators.required],
-      frequencyUnit: ['', Validators.required],
-      duration: ['', Validators.required],
-      durationType: ['', Validators.required],
-      instructions: ['']
-    });
+  public addSuggestion(tag: string) {
+    const currentVal = this.prescriptionForm.get('diagnosis')?.value || '';
+    if (!currentVal) {
+      this.prescriptionForm.get('diagnosis')?.setValue(tag);
+    } else if (!currentVal.includes(tag)) {
+      // Append tag with a comma if text already exists
+      this.prescriptionForm.get('diagnosis')?.setValue(`${currentVal.trim().replace(/,$/, '')}, ${tag}`);
+    }
   }
 
-  private createInvestigationForm(): FormGroup {
-    return this.fb.group({
-      testName: ['', Validators.required],
-      remarks: ['']
-    });
+  // Helper method to append clicked tag to textarea
+  public addSymptoms(tag: string) {
+    const control = this.prescriptionForm.get('diagnosis');
+    const currentVal = control?.value || '';
+
+    if (!currentVal.trim()) {
+      control?.setValue(tag);
+    } else {
+      const existingTags = currentVal.split(',').map((item: string) => item.trim());
+      if (!existingTags.includes(tag)) {
+        control?.setValue(`${currentVal.trim().replace(/,$/, '')}, ${tag}`);
+      }
+    }
   }
+
+  // private createMedicineForm(): FormGroup {
+  //   return this.fb.group({
+  //     medicineName: ['', Validators.required],
+  //     dosage: ['', Validators.required],
+  //     dosageUnit: ['', Validators.required],
+  //     frequency: ['', Validators.required],
+  //     frequencyUnit: ['', Validators.required],
+  //     duration: ['', Validators.required],
+  //     durationType: ['', Validators.required],
+  //     instructions: ['']
+  //   });
+  // }
 
   public addMedicine(): void {
     this.medicines.push(this.createMedicineForm());
+  }
+
+  private createMedicineForm(): FormGroup {
+    return this.fb.group({
+      medicineName: ['', Validators.required],
+      dosage: ['', [Validators.required, Validators.min(0.01), Validators.max(9999)]],
+      dosageUnit: ['', Validators.required],
+      frequency: ['', [Validators.required, Validators.min(1), Validators.max(24)]],
+      frequencyUnit: ['', Validators.required],
+      duration: ['', [Validators.required, Validators.min(1), Validators.max(999)]],
+      durationType: ['', Validators.required],
+      instructions: ['']
+    });
   }
 
   public removeMedicine(index: number): void {
@@ -114,6 +305,14 @@ export class CreatePrescription {
   public addInvestigation(): void {
     this.investigations.push(this.createInvestigationForm());
   }
+
+  private createInvestigationForm(): FormGroup {
+    return this.fb.group({
+      testName: ['', Validators.required],
+      remarks: ['']
+    });
+  }
+
 
   public removeInvestigation(index: number): void {
     this.investigations.removeAt(index);
@@ -139,7 +338,7 @@ export class CreatePrescription {
     }
     this._patientService.getPatientById(this.patientId).subscribe((res: any) => {
       if (res.status) {
-        this.patientsDetails = res.data;
+        this.patientsDetails = res.data[0];
       }
     });
   }
@@ -175,17 +374,17 @@ export class CreatePrescription {
       'Bronchitis'
     ];
 
-    const symptomsList = [
-      'Fever',
-      'Headache',
-      'Cough',
-      'Cold',
-      'Body Pain',
-      'Vomiting',
-      'Nausea',
-      'Dizziness',
-      'Fatigue'
-    ];
+    // const symptomsList = [
+    //   'Fever',
+    //   'Headache',
+    //   'Cough',
+    //   'Cold',
+    //   'Body Pain',
+    //   'Vomiting',
+    //   'Nausea',
+    //   'Dizziness',
+    //   'Fatigue'
+    // ];
 
     const advices = [
       'Drink plenty of fluids',
@@ -220,9 +419,16 @@ export class CreatePrescription {
     this.medicines.clear();
     this.investigations.clear();
 
-    const selectedSymptoms = symptomsList
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
+    const allSymptoms = this.symptomCategories.flatMap(cat => cat.symptoms);
+
+    // Pick 3 unique random symptoms without sorting the entire array
+    const selectedSymptoms: string[] = [];
+    const symptomsCopy = [...allSymptoms];
+
+    for (let i = 0; i < 3 && symptomsCopy.length > 0; i++) {
+      const randomIndex = Math.floor(Math.random() * symptomsCopy.length);
+      selectedSymptoms.push(symptomsCopy.splice(randomIndex, 1)[0]);
+    }
 
     selectedSymptoms.forEach(symptom => {
       this.symptoms.push(this.fb.control(symptom, Validators.required));
@@ -314,12 +520,20 @@ export class CreatePrescription {
     }
     const payload = this.prescriptionForm.getRawValue();
     // TODO: Replace with actual prescription service call
-    this._prescriptionService.createPrescription(payload).subscribe((res) => {
-      console.log(res);
-      if (res.status) {
-        this.prescriptionForm.reset();
-      }
-    })
+    if (this.isEdit) {
+      this._prescriptionService.updatePrescription(this.prescriptionId, payload).subscribe((res) => {
+        if (res.status) {
+          this.prescriptionForm.reset();
+          this.router.navigate(['/layout/prescription/master/list']);
+        }
+      })
+    } else {
+      this._prescriptionService.createPrescription(payload).subscribe((res) => {
+        if (res.status) {
+          this.prescriptionForm.reset();
+        }
+      })
+    }
   }
 
 }

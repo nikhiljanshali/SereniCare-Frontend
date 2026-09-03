@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import '@ng-select/ng-select/themes/default.theme.css';
+
 /* ═══════════════════════════════════════════
    TOKENS
 ═══════════════════════════════════════════ */
@@ -3375,29 +3377,6 @@ body {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Sidebar promo */
-.sidebar-promo {
-  margin       : 14px 10px;
-  background   : linear-gradient(135deg, #0f766e 0%, #134e4a 100%);
-  border-radius: var(--radius-md);
-  padding      : 14px;
-  border       : 1px solid rgba(94, 234, 212, 0.15);
-}
-
-.sidebar-promo .promo-title {
-  color        : #fff;
-  font-size    : 12px;
-  font-weight  : 700;
-  margin-bottom: 3px;
-}
-
-.sidebar-promo .promo-sub {
-  color        : rgba(255, 255, 255, 0.55);
-  font-size    : 10.5px;
-  margin-bottom: 10px;
-  line-height  : 1.4;
-}
-
 .btn-promo {
   display      : block;
   text-align   : center;
@@ -3430,6 +3409,9 @@ body {
   border-radius: var(--radius-md);
   padding      : 16px;
   border       : 1px solid rgba(94, 234, 212, 0.15);
+  position     : absolute;
+  bottom       : 0;
+  width        : 225px;
 }
 
 .sidebar-promo .promo-title {
@@ -3469,6 +3451,9 @@ body {
   color     : rgba(255, 255, 255, 0.2);
   font-size : 10px;
   padding   : 4px 0 16px;
+  position  : absolute;
+  bottom    : 0;
+  width     : 12%;
 }
 
 /* ═══════════════════════════════════════════

@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class CommonMethod {
-  
   getExperience(startDate: string | Date): string {
     const start = new Date(startDate);
     const today = new Date();
@@ -33,7 +32,6 @@ export class CommonMethod {
     return d.toISOString().split('T')[0];
   }
 
-
   logInvalidControls(form: FormGroup | FormArray, parent = '') {
     Object.keys(form.controls).forEach(key => {
       const control = form.get(key);
@@ -48,7 +46,6 @@ export class CommonMethod {
       }
     });
   }
-
 
   setHsaStatus(form: FormGroup, controlName: string, isNormal: boolean): void {
     form.get(controlName)?.setValue(isNormal);

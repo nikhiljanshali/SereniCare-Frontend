@@ -5,6 +5,7 @@ import { CreatePrescription } from './pages/create-prescription/create-prescript
 import { PrescriptionList } from './pages/prescription-list/prescription-list';
 import { PrescriptionLayout } from './prescription-layout/prescription-layout';
 import { roleGuard } from '../../core/guards/role.guard';
+import { PrescriptionView } from './pages/prescription-view/prescription-view';
 
 const routes: Routes = [
   {
@@ -20,6 +21,12 @@ const routes: Routes = [
       {
         path: 'master/list',
         component: PrescriptionList,
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor, Roles.Patient] }
+      },
+      {
+        path: 'master/view',
+        component: PrescriptionView,
         canActivate: [roleGuard],
         data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },

@@ -33,6 +33,8 @@ import { PatientSkinExamination } from '../../shared/component/patients/patient-
 import { PatientPsychiatric } from '../../shared/component/patients/patient-psychiatric/patient-psychiatric';
 import { PatientPhycialExamiantionDetails } from '../../shared/component/patients/patient-phycial-examiantion-details/patient-phycial-examiantion-details';
 import { PatientDetailHeader } from '../../shared/component/patient-detail-header/patient-detail-header';
+import { NgLabelTemplateDirective, NgOptionTemplateDirective, NgSelectComponent, NgSelectModule } from '@ng-select/ng-select';
+import { DayPilotModule } from '@daypilot/daypilot-lite-angular';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,11 @@ import { PatientDetailHeader } from '../../shared/component/patient-detail-heade
     ReactiveFormsModule,
     PatientRoutingModule,
     FocusTrapDirective,
+    DayPilotModule,
+    NgSelectModule,
+    NgLabelTemplateDirective,
+    NgOptionTemplateDirective,
+    NgSelectComponent,
     RightSidebar,
     PopoverModule,
     PatientDetailHeader,

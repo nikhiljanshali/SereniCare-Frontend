@@ -756,7 +756,7 @@ export interface IPatientsData {
   doctorDetails: any
   medicalHistories: MedicalHistory[]
   insuranceDetails: InsuranceDetail[]
-  appointmentBookings: Appointment[]
+  appointments: Appointment[]
   isDeleted: boolean
   createdAt: string
   updatedAt: string
@@ -1004,6 +1004,7 @@ export interface IPrescriptionsDetails {
   appointmentId: Appointment
   patientId: string
   doctorId: string
+  clinicId: string
   diagnosis: string[]
   symptoms: string[]
   medicines: IMedicine[]
@@ -2075,4 +2076,53 @@ export interface IPresetIllness {
   createdAt: string
   updatedAt: string
   __v: number
+}
+
+
+
+export interface CountMaster {
+  success: boolean
+  message: string
+  data: CountData
+}
+
+export interface CountData {
+  doctorCount: number
+  patientCount: number
+  supplierCount: number
+  medicineCount: number
+  appointmentCount: number
+  ChiefofcomplaintsCount: number
+  PresentIllnessCount: number
+  PastMedicalHistoryCount: number
+  PastSurgicalHistoryCount: number
+  FamilyHistoryCount: number
+  AllergyHistoryCount: number
+  RiskFactorCount: number
+  AdverseDrugReactionCount: number
+  FamilyHistoryLineageCount: number
+}
+
+
+export interface SymptomCategory {
+  category: string;
+  symptoms: string[];
+}
+
+export interface IClinicStamp {
+  _id?: string;
+  clinicId: string;
+  doctorId: string;
+  fileName: string;
+  fileType: string;
+  fileSize: number;
+  fileData: string; // Base64 encoded file data
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface IClinicStampResponse {
+  message: string;
+  status: boolean;
+  data?: IClinicStamp | IClinicStamp[];
 }

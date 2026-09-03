@@ -90,13 +90,47 @@ export class AppointmentBookService {
    * Get Appointments By Doctor Id
    */
   public getAppointmentBookingByDoctorId(doctorId: string, showNotification: boolean = false): Observable<any> {
-    return this._coreApiService.get<any>(`${this.baseUrl}getAppointmentBookingById/${doctorId}`).pipe(
+    return this._coreApiService.get<any>(`${this.baseUrl}getAppointmentBookingByDoctorId/${doctorId}`).pipe(
       map((res) => res),
       tap(() => {
         if (showNotification) {
           this._notificationServices.success(
             'Success',
             'Doctor appointments fetched successfully'
+          );
+        }
+      })
+    );
+  }
+
+  /**
+   * Get Appointments By Patient Id
+   */
+  public getAppointmentBookingByPatientId(patientId: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrl}getAppointmentBookingByPatientId/${patientId}`).pipe(
+      map((res) => res),
+      tap(() => {
+        if (showNotification) {
+          this._notificationServices.success(
+            'Success',
+            'Patient appointments fetched successfully'
+          );
+        }
+      })
+    );
+  }
+
+  /**
+  * Get Appointments By Doctor Id & Patient Id
+  */
+  public getAppointmentBookingByDoctorIdPatientId(doctorId: string, patientId: string, showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrl}getAppointmentBookingById/${doctorId}/${patientId}`).pipe(
+      map((res) => res),
+      tap(() => {
+        if (showNotification) {
+          this._notificationServices.success(
+            'Success',
+            'Appointments fetched successfully'
           );
         }
       })

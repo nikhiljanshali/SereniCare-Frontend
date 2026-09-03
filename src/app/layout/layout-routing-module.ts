@@ -59,7 +59,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('../features/prescription/prescription-module').then(m => m.PrescriptionModule),
         canActivate: [roleGuard],
-        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor] }
+        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor, Roles.Patient] }
       },
       // 🔄 Default route
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }

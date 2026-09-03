@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IDiseasesData, IDiseases, IAllergiesData } from '../../../../core/interface/basic.interface';
 import { DiseasesService } from '../../../../core/services/diseases';
 import { NotificationServices } from '../../../../core/services/notification-services';
+import { DiseaseGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-diseases',
@@ -16,9 +17,11 @@ import { NotificationServices } from '../../../../core/services/notification-ser
 })
 export class Diseases {
   diseasesForm!: FormGroup;
-  DiseasesList: IDiseasesData[] = [];
+  // DiseasesList: IDiseasesData[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
+  public DiseasesList: DiseaseGroup[] = [];
+  public diseasesCount: Number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -109,13 +112,19 @@ export class Diseases {
 
   private getAllDiseases(): void {
     this._diseasesService.getAllDiseases().subscribe({
-
       next: (res: IDiseases) => {
         this.isEdit = false;
-        this.DiseasesList = res.data ?? [];
+        const diseases = res.data ?? [];
+        this.diseasesCount = diseases.length;
+        this.DiseasesList = [{
+          groupname: 'Diseases',
+          items: diseases,
+          expanded: true
+        }];
+        console.log('Diseases:', this.DiseasesList);
       },
       error: (err) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching diseases:', err);
         this.DiseasesList = [];
       }
     });

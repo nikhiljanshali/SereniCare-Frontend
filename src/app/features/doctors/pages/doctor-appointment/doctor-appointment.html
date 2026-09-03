@@ -13,6 +13,14 @@
                 </option>
                 }
             </select>
+            <select class="wz-select-green p-1 w-50" (change)="selectPatient($event)" [(ngModel)]="patientId">
+                <option [ngValue]="null">Select Patient</option>
+                @for (patient of patientList; track patient._id) {
+                <option [value]="patient._id">
+                    {{ patient.firstName }} {{ patient.lastName }}
+                </option>
+                }
+            </select>
             <button class="btn btn-outline-primary btn-sm date-identifier">
                 {{ displayRange }}
             </button>

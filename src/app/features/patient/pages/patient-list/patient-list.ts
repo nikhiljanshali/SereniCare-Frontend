@@ -12,6 +12,7 @@ import { Roles } from '../../../../core/enum/common.enum';
 import { ModalService } from '../../../../core/services/modal-service';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
 import { PatientVitalHistory } from '../../../../shared/component/patients/patient-vital-history/patient-vital-history';
+import { CreatePrescription } from '../../../prescription/pages/create-prescription/create-prescription';
 
 @Component({
   selector: 'app-patient-list',

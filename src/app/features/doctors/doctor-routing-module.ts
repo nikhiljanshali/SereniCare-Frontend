@@ -11,6 +11,7 @@ import { DoctorList } from './pages/doctor-list/doctor-list';
 import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
 import { DoctorRegistration } from './pages/doctor-registration/doctor-registration';
 import { roleGuard } from '../../core/guards/role.guard';
+import { ClinicStampUpload } from './pages/clicni-stamp-upload/clinic-stamp-upload';
 
 const routes: Routes = [
   {
@@ -68,6 +69,12 @@ const routes: Routes = [
       {
         path: 'master/add-Clinic',
         component: AddClinic,
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
+      },
+      {
+        path: 'master/upload-clinic-stamp/:doctorId/:clinicId',
+        component: ClinicStampUpload,
         canActivate: [roleGuard],
         data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },

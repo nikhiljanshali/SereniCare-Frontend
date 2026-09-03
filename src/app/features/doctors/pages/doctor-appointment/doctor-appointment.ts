@@ -3,7 +3,7 @@ import { Component, viewChild, ViewChild } from '@angular/core';
 import { DayPilot, DayPilotCalendarComponent, DayPilotModule } from '@daypilot/daypilot-lite-angular';
 import { Router } from '@angular/router';
 import { Roles } from '../../../../core/enum/common.enum';
-import { IClinicList, IDoctorsData, IDoctorByIdData, IAppointmentDetails, StorageUserDetails, IDoctorById, IClinics, IAppointment } from '../../../../core/interface/basic.interface';
+import { IClinicList, IDoctorsData, IDoctorByIdData, IAppointmentDetails, StorageUserDetails, IDoctorById, IClinics, IAppointment, IPatientsData } from '../../../../core/interface/basic.interface';
 import { AppointmentBookService } from '../../../../core/services/appointment-book';
 import { Clinics } from '../../../../core/services/clinics';
 import { DoctorService } from '../../../../core/services/doctor';
@@ -13,6 +13,7 @@ import { Sidebar } from '../../../../core/services/sidebar';
 import { StorageOperation } from '../../../../core/services/storage-operation';
 import { RightSidebar } from '../../../../shared/component/right-sidebar/right-sidebar';
 import { AppointmentBooking } from '../appointment-booking/appointment-booking';
+import { PatientService } from '../../../../core/services/patients';
 
 @Component({
   selector: 'app-doctor-appointment',
@@ -27,6 +28,7 @@ export class DoctorAppointment {
   public clinicList: IClinicList[] = [];
   public pendingMovedEvent: any;
   public doctorsList: IDoctorsData[] = [];
+  public patientList: IPatientsData[] = [];
   public sidebar = viewChild<RightSidebar>('medicalSidebar');
   public currentView: 'Day' | 'Week' | 'Month' = 'Week';
   public currentDate = DayPilot.Date.today();
@@ -363,6 +365,10 @@ export class DoctorAppointment {
   public events: DayPilot.EventData[] = [];
   public userDetails!: StorageUserDetails;
   public doctorId: string | null = null;
+  public patientId: string | null = null;
+  public systemId: string | null = null;
+  public userRole: string = '';
+
   public bookedAppointments: IAppointmentDetails[] = [];
 
   constructor(
@@ -371,6 +377,7 @@ export class DoctorAppointment {
     private _appointmentBookService: AppointmentBookService,
     private _storageOperation: StorageOperation,
     private _doctorService: DoctorService,
+    private _patientService: PatientService,
     private _modalService: ModalService,
     private _sidebar: Sidebar,
     private _notificationServices: NotificationServices,
@@ -380,26 +387,52 @@ export class DoctorAppointment {
   }
 
   ngOnInit(): void {
+    this.setUserDetails();
     this._sidebar.close$.subscribe((result: any) => {
-      console.log('Right sidebar closed', result);
       this.getBookedAppointment();
     });
 
-    const storedDoctorDetails = this._storageOperation.get<any>('userDetails');
-    if (storedDoctorDetails) {
-      this.doctorId = storedDoctorDetails.id || '';
-    }
-    const storedUserDetails = this._storageOperation.get<any>('user');
-    if (storedUserDetails) {
-      this.userDetails = storedDoctorDetails || '';
-    }
+
+    // const storedDoctorDetails = this._storageOperation.get<any>('userDetails');
+    // if (storedDoctorDetails) {
+    //   console.log(storedDoctorDetails);
+    //   this.doctorId = storedDoctorDetails.id || '';
+    // }
+    // const storedUserDetails = this._storageOperation.get<any>('user');
+    // if (storedUserDetails) {
+    //   this.userDetails = storedDoctorDetails || '';
+    // }
   }
 
   ngAfterViewInit(): void {
+
     this.getClinicsByDoctorId();
     this.getDoctorProfile();
     this.getBookedAppointment();
     this.getDoctors();
+    this.getPatients();
+  }
+
+  private setUserDetails(): void {
+    const storedUser = this._storageOperation.get<any>('user');
+    const storedUserDetails = this._storageOperation.get<any>('userDetails');
+    this.userRole = storedUser?.role || '';
+    if (storedUser) {
+      const userId = storedUserDetails.id || '';
+      switch (this.userRole) {
+        case 'Patient':
+          this.patientId = userId;
+          break;
+        case 'Doctor':
+          this.doctorId = userId;
+          break;
+        case 'System Admin':
+          this.systemId = storedUser.id;
+          break;
+        default:
+          break;
+      }
+    }
   }
 
   get displayRange(): string {
@@ -497,7 +530,7 @@ export class DoctorAppointment {
   }
 
   private getDoctors(): void {
-    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin) {
+    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin || this._storageOperation.get<any>('user').role == Roles.Patient) {
       this._doctorService.getAllDoctors().subscribe((res: any) => {
         this.doctorsList = res.data;
       });
@@ -508,9 +541,26 @@ export class DoctorAppointment {
     }
   }
 
+  private getPatients(): void {
+    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin || this._storageOperation.get<any>('user').role == Roles.Admin  || this._storageOperation.get<any>('user').role == Roles.Doctor) {
+      this._patientService.getPatients().subscribe((res: any) => {
+        this.patientList = res.data;
+      });
+    } else if (this._storageOperation.get<any>('user').role == Roles.Patient) {
+      this._patientService.getPatientById(this._storageOperation.get<any>('userDetails').id).subscribe((res: any) => {
+        this.patientList = res.data;
+      });
+    }
+  }
+
   public selectDoctor(event: Event): void {
     const doctorId = (event.target as HTMLSelectElement).value;
     this.doctorId = doctorId;
+    this.getBookedAppointment();
+  }
+  public selectPatient(event: Event): void {
+    const patientId = (event.target as HTMLSelectElement).value;
+    this.patientId = patientId;
     this.getBookedAppointment();
   }
 
@@ -531,7 +581,7 @@ export class DoctorAppointment {
   }
 
   private getBookedAppointment(): void {
-    if (this.doctorId) {
+    if (this.userRole == 'Doctor' && this.doctorId) {
       this._appointmentBookService.getAppointmentBookingByDoctorId(this.doctorId).subscribe((res: IAppointment) => {
         if (res.success && res.data.length > 0) {
           this.bookedAppointments = res.data.sort((a: any, b: any) => {
@@ -542,6 +592,31 @@ export class DoctorAppointment {
           this.loadAppointments(res.data);
         }
       });
+    } else if (this.userRole == 'Patient' && this.patientId) {
+      this._appointmentBookService.getAppointmentBookingByPatientId(this.patientId).subscribe((res: IAppointment) => {
+        if (res.success && res.data.length > 0) {
+          this.bookedAppointments = res.data.sort((a: any, b: any) => {
+            const numA = Number(a.appointmentNumber.replace('APT-', ''));
+            const numB = Number(b.appointmentNumber.replace('APT-', ''));
+            return numA - numB; // Ascending
+          });
+          this.loadAppointments(res.data);
+        }
+      });
+    } else if (this.userRole == 'System Admin' && this.systemId) {
+      debugger;
+      if (this.doctorId != null && this.patientId != null) {
+        this._appointmentBookService.getAppointmentBookingByDoctorIdPatientId(this.doctorId!, this.patientId!).subscribe((res: IAppointment) => {
+          if (res.success && res.data.length > 0) {
+            this.bookedAppointments = res.data.sort((a: any, b: any) => {
+              const numA = Number(a.appointmentNumber.replace('APT-', ''));
+              const numB = Number(b.appointmentNumber.replace('APT-', ''));
+              return numA - numB; // Ascending
+            });
+            this.loadAppointments(res.data);
+          }
+        });
+      }
     }
   }
 

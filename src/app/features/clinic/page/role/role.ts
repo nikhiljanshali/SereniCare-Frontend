@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IRoleData, IRole } from '../../../../core/interface/basic.interface';
 import { NotificationServices } from '../../../../core/services/notification-services';
 import { RoleService } from '../../../../core/services/role-service';
+import { RoleGroup } from '../../../../core/interface/common.interface';
 
 @Component({
   selector: 'app-role',
@@ -16,9 +17,11 @@ import { RoleService } from '../../../../core/services/role-service';
 export class Role {
 
   roleForm!: FormGroup;
-  rolesList: IRoleData[] = [];
+  // rolesList: IRoleData[] = [];
+  public rolesList: RoleGroup[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
+  rolesCount: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -111,10 +114,25 @@ export class Role {
   private getAllRoles(): void {
     this._roleService.getAllRoles().subscribe({
       next: (res: IRole) => {
-        this.rolesList = res.data ?? [];
+        const roles = res.data ?? [];
+        this.rolesCount = roles.length;
+        const grouped = roles.reduce((acc: any, role: any) => {
+          const group = role.groupname || 'Roles';
+          if (!acc[group]) {
+            acc[group] = [];
+          }
+          acc[group].push(role);
+          return acc;
+        }, {});
+        this.rolesList = Object.keys(grouped).map(groupname => ({
+          groupname,
+          items: grouped[groupname],
+          expanded: groupname === 'Roles'
+        }));
+        console.log('Grouped Roles:', this.rolesList);
       },
       error: (err: any) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching roles:', err);
         this.rolesList = [];
       }
     });

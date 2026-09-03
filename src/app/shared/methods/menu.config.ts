@@ -169,7 +169,7 @@ export const MENU_CONFIG: MenuItem[] = [
   // ---------------------------------------------------------------------
   {
     id: 'patients-management',
-    label: 'Patient Management',
+    label: 'Patient Mgt.',
     icon: 'bi-people',
     badgeKey: 'patientCount',
     badgeColor: 'var(--teal)',
@@ -177,7 +177,8 @@ export const MENU_CONFIG: MenuItem[] = [
     children: [
       { id: 'patient-profile', label: 'Patient Profile', icon: 'bi-person', route: 'patients/master/profile', roles: [Roles.Patient] },
       // FIXED: this was roles: [Roles.SystemAdmin] in the original, which meant doctors never saw it
-      { id: 'book-appointment', label: 'Book Appointment', icon: 'bi-plus-circle', route: '', roles: [Roles.Patient] },
+      { id: 'book-appointment', label: 'Book Appointment', icon: 'bi-plus-circle', route: 'patients/master/bookappointment', roles: [Roles.Patient] },
+      { id: 'patient-calender-view', label: 'Appointment Calender', icon: 'bi-plus-circle', route: 'patients/master/calender-view', roles: [Roles.Patient] },
       { id: 'visit-history', label: 'Visit History', icon: 'bi-clock-history', route: '', roles: [Roles.Patient] },
       { id: 'documents-vault', label: 'Dodcument Vault', icon: 'bi-folder-symlink', route: '', roles: [Roles.Patient] }
     ]
@@ -195,7 +196,7 @@ export const MENU_CONFIG: MenuItem[] = [
       { id: 'physicial-examination', label: 'Physicial Examination', icon: 'bi-hospital-fill', route: 'patients/master/physicalexamination', appendParam: 'patientId', roles: [Roles.Patient] },
       { id: 'diagnosis-matrix', label: 'Dianogis Matrix', icon: 'bi-activity', route: '', roles: [Roles.Patient] },
       { id: 'treatment-plan', label: 'Treatment Plan', icon: 'bi-shield-exclamation', route: '', roles: [Roles.Patient] },
-      { id: 'prescription', label: 'Prescription', icon: 'bi-capsule', route: '', roles: [Roles.Patient] },
+      { id: 'prescription', label: 'Prescription', icon: 'bi-capsule', route: 'prescription/master/list', roles: [Roles.Patient] },
     ]
   },
   {

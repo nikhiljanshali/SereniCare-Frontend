@@ -12,6 +12,8 @@ import { DoctorProfile } from './pages/doctor-profile/doctor-profile';
 import { RightSidebar } from '../../shared/component/right-sidebar/right-sidebar';
 import { DayPilotModule } from '@daypilot/daypilot-lite-angular';
 import { AddClinic } from './pages/add-clinic/add-clinic';
+import { PopoverModule } from 'ngx-bootstrap/popover';
+import { ClinicStampUpload } from './pages/clicni-stamp-upload/clinic-stamp-upload';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { AddClinic } from './pages/add-clinic/add-clinic';
     DoctorAppointment,
     AdminDoctorView,
     DoctorProfile,
-    AddClinic
+    AddClinic,
+    ClinicStampUpload
   ],
   imports: [
     CommonModule,
@@ -29,7 +32,8 @@ import { AddClinic } from './pages/add-clinic/add-clinic';
     FocusTrapDirective,
     DoctorRoutingModule,
     RightSidebar,
-    DayPilotModule
+    DayPilotModule,
+    PopoverModule
   ]
 })
 export class DoctorModule { }

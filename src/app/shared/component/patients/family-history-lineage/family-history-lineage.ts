@@ -208,6 +208,7 @@ export class FamilyHistoryLineage {
         this.doctorsList = doctors.data;
         this.problemList = diseases.data;
         this.surgeryList = surgeries.data;
+        // console.log(this.problemList);
       },
       error: (err) => console.error(err)
     });

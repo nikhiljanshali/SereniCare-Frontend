@@ -18,6 +18,8 @@ import { PatientAllergies } from '../../shared/component/patients/patient-allerg
 import { PatientRisk } from '../../shared/component/patients/patient-risk/patient-risk';
 import { FamilyHistoryLineage } from '../../shared/component/patients/family-history-lineage/family-history-lineage';
 import { PatientDrugReaction } from '../../shared/component/patients/patient-drug-reaction/patient-drug-reaction';
+import { AppointmentBooking } from '../doctors/pages/appointment-booking/appointment-booking';
+import { DoctorAppointment } from '../doctors/pages/doctor-appointment/doctor-appointment';
 
 const routes: Routes = [
   {
@@ -45,6 +47,15 @@ const routes: Routes = [
       {
         path: 'master/profile',
         component: PatientProfile,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient],
+          animation: 'PatientProfile'
+        }
+      },
+      {
+        path: 'master/bookappointment',
+        component: AppointmentBooking,
         canActivate: [roleGuard],
         data: {
           roles: [Roles.SystemAdmin, Roles.Patient],
@@ -143,6 +154,15 @@ const routes: Routes = [
       {
         path: 'master/examination/:patientId',
         component: PatientExamination,
+        canActivate: [roleGuard],
+        data: {
+          roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],
+          animation: 'PatientDetails'
+        }
+      },
+      {
+        path: 'master/calender-view',
+        component: DoctorAppointment,
         canActivate: [roleGuard],
         data: {
           roles: [Roles.SystemAdmin, Roles.Patient, Roles.Doctor],

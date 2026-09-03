@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { IClinicTypeData, IClinicType } from '../../../../core/interface/basic.interface';
 import { BloodGroupService } from '../../../../core/services/blood-group';
 import { NotificationServices } from '../../../../core/services/notification-services';
+import { BloodGroupListGroup } from '../../../../core/interface/common.interface';
 @Component({
   selector: 'app-blood-group',
   imports: [CommonModule, ReactiveFormsModule],
@@ -14,9 +15,11 @@ import { NotificationServices } from '../../../../core/services/notification-ser
 })
 export class BloodGroup {
   bloodGroupForm!: FormGroup;
-  bloodGroupList: IClinicTypeData[] = [];
+  // bloodGroupList: IClinicTypeData[] = [];
   isEdit: boolean = false;
   selectedId: string = '';
+  public bloodGroupList: BloodGroupListGroup[] = [];
+  public bloodGroupCount: number = 0;
 
   constructor(
     private fb: FormBuilder,
@@ -100,10 +103,18 @@ export class BloodGroup {
     this._bloodGroup.getAllBloodGroup().subscribe({
       next: (res: IClinicType) => {
         this.isEdit = false;
-        this.bloodGroupList = res.data ?? [];
+        const bloodGroups = res.data ?? [];
+        this.bloodGroupCount = bloodGroups.length;
+        this.bloodGroupList = [{
+          groupname: 'Blood Groups',
+          items: bloodGroups,
+          expanded: true
+        }
+        ];
+        console.log('Blood Groups:', this.bloodGroupList);
       },
       error: (err) => {
-        console.error('Error fetching clinic types:', err);
+        console.error('Error fetching blood groups:', err);
         this.bloodGroupList = [];
       }
     });

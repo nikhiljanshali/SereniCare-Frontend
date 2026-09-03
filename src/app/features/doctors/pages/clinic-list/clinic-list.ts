@@ -9,10 +9,11 @@ import { LocationService } from '../../../../core/services/location-service';
 import { ModalService } from '../../../../core/services/modal-service';
 import { StorageOperation } from '../../../../core/services/storage-operation';
 import { GlobalFilter } from '../../../../shared/component/global-filter/global-filter';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @Component({
   selector: 'app-clinic-list',
-  imports: [DatePipe],
+  imports: [DatePipe, PopoverModule],
   templateUrl: './clinic-list.html',
   styleUrl: './clinic-list.css',
 })
@@ -118,7 +119,6 @@ export class ClinicList {
       });
 
     modalRef.content.returnResult.subscribe((data: any) => {
-      // console.log(data.length);
       if (data.length) {
         this.clinicList = this.paginatedClinicList = [];
         this.clinicList = this.paginatedClinicList = data;
@@ -129,6 +129,10 @@ export class ClinicList {
   public refresh(): void {
     this.clinicList = this.paginatedClinicList = this.clinicCopyList;
     this.setupPagination();
+  }
+
+  public uploadClinicStamp(clinic: IClinicList): void {
+    this.router.navigate(['/layout/doctors/master/upload-clinic-stamp', clinic.doctorId, clinic._id]);
   }
 
 }

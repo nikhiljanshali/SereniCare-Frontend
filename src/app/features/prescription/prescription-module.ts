@@ -10,13 +10,13 @@ import { RightSidebar } from '../../shared/component/right-sidebar/right-sidebar
 import { PrescriptionLayout } from './prescription-layout/prescription-layout';
 import { CreatePrescription } from './pages/create-prescription/create-prescription';
 import { PrescriptionList } from './pages/prescription-list/prescription-list';
-
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   declarations: [
     PrescriptionLayout,
     CreatePrescription,
-    PrescriptionList
+    PrescriptionList,
   ],
   imports: [
     CommonModule,
@@ -27,6 +27,7 @@ import { PrescriptionList } from './pages/prescription-list/prescription-list';
     RightSidebar,
     DayPilotModule,
     PrescriptionRoutingModule,
+    PopoverModule
   ]
 })
 export class PrescriptionModule { }
