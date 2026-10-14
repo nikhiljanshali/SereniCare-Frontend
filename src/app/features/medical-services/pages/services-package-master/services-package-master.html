@@ -1,0 +1,157 @@
+<div class="mini-stats">
+    <div class="mini-stat">
+        <div class="mini-stat-icon" style="background:#CCFBF1;color:#0D9488;">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div>
+            <div class="mini-stat-label">Total Packages</div>
+            <div class="mini-stat-value">{{servicePackageStatisticsData.totalpackagesSrvices}}</div>
+            <div class="mini-stat-change change-up">↑ 8.2% this month</div>
+        </div>
+    </div>
+    <!-- <div class="mini-stat">
+        <div class="mini-stat-icon" style="background:#DBEAFE;color:#1D4ED8;"><i class="bi bi-calendar2-check-fill"></i>
+        </div>
+        <div>
+            <div class="mini-stat-label">Pre-Auth Required</div>
+            <div class="mini-stat-value">47</div>
+            <div class="mini-stat-change change-up">↑ 5 more than avg</div>
+        </div>
+    </div>
+    <div class="mini-stat">
+        <div class="mini-stat-icon" style="background:#FEF9C3;color:#B45309;"><i class="bi bi-hospital-fill"></i></div>
+        <div>
+            <div class="mini-stat-label">Lab & Radiology</div>
+            <div class="mini-stat-value">28/40</div>
+            <div class="mini-stat-change change-down">↓ 70% occupancy</div>
+        </div>
+    </div>
+    <div class="mini-stat">
+        <div class="mini-stat-icon" style="background:#F5F3FF;color:#6D28D9;"><i class="bi bi-person-badge-fill"></i>
+        </div>
+        <div>
+            <div class="mini-stat-label">Active Doctors</div>
+            <div class="mini-stat-value">18</div>
+            <div class="mini-stat-change change-up">↑ 2 on call today</div>
+        </div>
+    </div> -->
+</div>
+<div id="page-patient-list" class="page-section active">
+    <div class="filter-bar">
+        <div class="search-input-group">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search by..." [(ngModel)]="searchText"
+                (input)="applyFilters()" autocomplete="off" aria-label="Search patients">
+            @if (searchText.trim()) {
+            <button type="button" class="clear-search" (click)="clearSearch()" aria-label="Clear search">
+                <i class="bi bi-x-circle-fill"></i>
+            </button>
+            }
+        </div>
+        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+            <option value="">Select Status </option>
+            @for (st of statusOptions; track st) {
+            <option [value]="st">{{ st }}</option>
+            }
+        </select>
+        <!-- <button class="btn btn-outline-default btn-sm">
+            <i class="bi bi-funnel"></i>
+            More Filters
+        </button> -->
+        <button class="btn btn-outline-default btn-sm" (click)="resetList()">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        <button class="btn btn-outline-default btn-sm" (click)="uploadData()">
+            <i class="bi bi-cloud-upload-fill"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" (click)="addPackages();">
+            <i class="bi bi-plus"></i>
+            Create Package
+        </button>
+    </div>
+    <div class="quick-tabs">
+        <button class="q-tab active">All Patients (3,482)</button>
+        <button class="q-tab">In-Clinic Queue (14)</button>
+        <button class="q-tab">Appt Scheduled (32)</button>
+        <button class="q-tab">Critical Flags (4)</button>
+    </div>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <th>Package Code</th>
+                        <th>Package Name</th>
+                        <th>Include Services</th>
+                        <th>Individual Sum</th>
+                        <th>Package Price</th>
+                        <th>Discount</th>
+                        <th>Status</th>
+                        <th style="width: 150px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(filteredservicePackageList.length > 0) {
+                    @for (pack of filteredservicePackageList; track pack._id) {
+                    <tr>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                #{{pack.packageCode ? pack.packageCode :'N/A'}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);font-weight: 600;">
+                                {{pack.packageName ? pack.packageName : 'N/A'}}
+                            </div>
+                        </td>
+                        <td style="white-space: pre-line;">
+                            <div style="font-size:14px; color:var(--text-muted); font-weight: 600;">
+                                {{ getServiceNames(pack?.includedServices || []) }}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                {{pack.totalIndividualCost ? pack.totalIndividualCost : 'N/A'}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                {{pack.packagePrice ? pack.packagePrice : 'N/A'}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px; color: #16a34a; font-weight: 600;">
+                                {{ getDiscountInfo(pack?.totalIndividualCost, pack?.packagePrice) }}
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <span [style.display]="'inline-block'" [style.padding]="'2px 10px'"
+                                    [style.borderRadius]="'12px'" [style.fontSize]="'12px'" [style.fontWeight]="'600'"
+                                    [style.textTransform]="'uppercase'"
+                                    [style.backgroundColor]="(pack.status === 'Active' || pack.status === 'Inactive') ? '#dcfce7' : '#fee2e2'"
+                                    [style.color]="(pack.status === 'Active' || pack.status === 'Inactive') ? '#166534' : '#991b1b'">
+                                    {{ pack.status ? pack.status : 'N/A' }}
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <button type="button" class="action-btn" (click)="openDetailsPage(pack)">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </button>
+                            <!-- <button class="action-btn">
+                                <i class="bi bi-pencil"></i>
+                            </button> -->
+                            <button class="action-btn danger" (click)="deleteServicePackage(pack)">
+                                <i class="bi bi-trash3"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<app-right-sidebar #medicalSidebar></app-right-sidebar>

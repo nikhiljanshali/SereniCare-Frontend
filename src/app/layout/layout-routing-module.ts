@@ -41,6 +41,13 @@ const routes: Routes = [
         data: { roles: [Roles.SystemAdmin, Roles.Doctor] }
       },
       {
+        path: 'nurse',
+        loadChildren: () =>
+          import('../features/nurse/nurse-module').then(m => m.NurseModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Nurse] }
+      },
+      {
         path: 'supplier',
         loadChildren: () =>
           import('../features/supplier/supplier-module').then(m => m.SupplierModule),
@@ -60,6 +67,27 @@ const routes: Routes = [
           import('../features/prescription/prescription-module').then(m => m.PrescriptionModule),
         canActivate: [roleGuard],
         data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor, Roles.Patient] }
+      },
+      {
+        path: 'medical-services',
+        loadChildren: () =>
+          import('../features/medical-services/medical-services-module').then(m => m.MedicalServicesModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor] }
+      },
+      {
+        path: 'insurance-tpa',
+        loadChildren: () =>
+          import('../features/insurance-tpa/insurance-tpa-module').then(m => m.InsuranceTPAModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor] }
+      },
+      {
+        path: 'facility',
+        loadChildren: () =>
+          import('../features/facility/facility-module').then(m => m.FacilityModule),
+        canActivate: [roleGuard],
+        data: { roles: [Roles.SystemAdmin, Roles.Admin, Roles.Doctor] }
       },
       // 🔄 Default route
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }

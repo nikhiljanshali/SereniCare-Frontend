@@ -1,0 +1,505 @@
+<form [formGroup]="tpaForm" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h5 class="modal-title">Register TPA / Insurance</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup();">
+        </button>
+    </div>
+    <div class="modal-body rounded-5 p-3">
+        <div class="step-bar" id="step-bar">
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 1">1</div>
+                <div class="step-line" [class.active]="currentStep > 1"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 2">2</div>
+                <div class="step-line" [class.active]="currentStep > 2"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 3">3</div>
+                <div class="step-line" [class.active]="currentStep > 3"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 4">4</div>
+                <div class="step-line" [class.active]="currentStep > 4"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 5">5</div>
+                <div class="step-line" [class.active]="currentStep > 5"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 6">6</div>
+                <div class="step-line" [class.active]="currentStep > 6"></div>
+            </div>
+            <div class="step-item" style="flex:0;">
+                <div class="step-circle" [class.active]="currentStep === 7">7</div>
+            </div>
+        </div>
+        <div class="vh-scroll-container">
+            @if(currentStep === 1){
+            <div id="reg-step1">
+                <!-- 1. IDENTIFICATION & BASIC INFO -->
+                <div class="form-section">
+                    <div class="card-section-label" style="margin-top:0;">
+                        Basic Info
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">TPA Code <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-card-heading input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g., TPA-STAR-001"
+                                    formControlName="tpaCode" />
+                            </div>
+                            @if (tpaForm.get('tpaCode')?.touched && tpaForm.get('tpaCode')?.invalid) {
+                            <small class="error">Valid TPA Code is required.</small>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Provider Name <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-building input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g., Star Health Insurance"
+                                    formControlName="name" />
+                            </div>
+                            @if (tpaForm.get('name')?.touched && tpaForm.get('name')?.invalid) {
+                            <small class="error">Provider Name is required.</small>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Provider Type <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-diagram-3 input-icon"></i>
+                                <select class="form-select" formControlName="type">
+                                    <option value="">Select Type</option>
+                                    @for (t of tpaTypes; track t) {
+                                    <option [value]="t">{{ t }}</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">IRDAI / Tax ID</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-shield-check input-icon"></i>
+                                <input type="text" class="form-input" placeholder="Registration Number"
+                                    formControlName="taxIdOrIRDAI" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(currentStep === 2){
+            <div id="reg-step1">
+                <!-- 2. CONTACT DETAILS -->
+                <div class="form-section" formGroupName="contactDetails">
+                    <div class="card-section-label" style="margin-top:0;">
+                        Contact Details
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Primary Email <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-envelope input-icon"></i>
+                                <input type="email" class="form-input" placeholder="e.g. contact@tpa.com"
+                                    formControlName="email" />
+                            </div>
+                            @if (tpaForm.get('contactDetails.email')?.touched &&
+                            tpaForm.get('contactDetails.email')?.invalid) {
+                            <small class="error">Valid email is required.</small>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Phone <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-telephone input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g. +91 9876543210"
+                                    formControlName="phone" />
+                            </div>
+                            @if (tpaForm.get('contactDetails.phone')?.touched &&
+                            tpaForm.get('contactDetails.phone')?.invalid) {
+                            <small class="error">Valid phone number is required.</small>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Toll Free Number</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-headset input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g. 1800-123-4567"
+                                    formControlName="tollFreeNumber" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Website</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-globe input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g. www.tpa.com"
+                                    formControlName="website" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Claim Submission Email</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-file-earmark-medical input-icon"></i>
+                                <input type="email" class="form-input" placeholder="e.g. claims@tpa.com"
+                                    formControlName="claimSubmissionEmail" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Pre-Auth Email</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-file-earmark-check input-icon"></i>
+                                <input type="email" class="form-input" placeholder="e.g. preauth@tpa.com"
+                                    formControlName="preAuthEmail" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(currentStep === 3){
+            <div id="reg-step1">
+                <!-- 3. OFFICE ADDRESS -->
+                <div class="form-section" formGroupName="address">
+                    <div class="card-section-label" style="margin-top:0;">
+                        Office Address
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group full-width">
+                            <label class="form-label">Street Address <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-geo-alt input-icon"></i>
+                                <input type="text" class="form-input" placeholder="Street name, suite, floor"
+                                    formControlName="street" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-building input-icon"></i>
+                                <input type="text" class="form-input" placeholder="City" formControlName="city" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">State <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-map input-icon"></i>
+                                <input type="text" class="form-input" placeholder="State" formControlName="state" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Zip Code <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-pin-angle input-icon"></i>
+                                <input type="text" class="form-input" placeholder="Zip Code"
+                                    formControlName="zipCode" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-globe-americas input-icon"></i>
+                                <input type="text" class="form-input" formControlName="country" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if(currentStep === 4){
+            <div id="reg-step1">
+                <!-- 4. OPERATIONAL & POLICY RULES -->
+                <div class="form-section" formGroupName="policyRules">
+                    <!-- <h5 class="section-title">Policy Rules & Terms</h5> -->
+                    <div class="card-section-label" style="margin-top:0;">
+                        Policy Rules & Terms
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Default Co-Pay (%)</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-percent input-icon"></i>
+                                <input type="number" class="form-input" placeholder="0"
+                                    formControlName="defaultCoPayPercentage" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Claim Submission Window (Days)</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-calendar-range input-icon"></i>
+                                <input type="number" class="form-input" placeholder="30"
+                                    formControlName="claimSubmissionWindowDays" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Payment Turnaround (Days)</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-hourglass-split input-icon"></i>
+                                <input type="number" class="form-input" placeholder="45"
+                                    formControlName="paymentTurnaroundDays" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Discount (%)</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-tag input-icon"></i>
+                                <input type="number" class="form-input" placeholder="0"
+                                    formControlName="discountPercentage" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row align-items-center">
+                        <div class="form-group checkbox-group">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" formControlName="preAuthRequired" />
+                                Pre-Authorization Required
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if(currentStep === 5){
+            <div id="reg-step1">
+                <!-- 5. CONTRACT DETAILS -->
+                <div class="form-section" formGroupName="contractDetails">
+                    <!-- <h5 class="section-title">Contract Details</h5> -->
+                    <div class="card-section-label" style="margin-top:0;">
+                        Contract Details
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Start Date <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-calendar-event input-icon"></i>
+                                <input type="date" class="form-input" formControlName="contractStartDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">End Date <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-calendar-check input-icon"></i>
+                                <input type="date" class="form-input" formControlName="contractEndDate" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Credit Limit (₹)</label>
+                            <div class="input-wrap">
+                                <i class="bi bi-cash-stack input-icon"></i>
+                                <input type="number" class="form-input" placeholder="0" formControlName="creditLimit" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Contract Status <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-info-circle input-icon"></i>
+                                <select class="form-select" formControlName="status">
+                                    @for (s of contractStatuses; track s) {
+                                    <option [value]="s">{{ s }}</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            }
+
+            @if(currentStep === 6){
+            <div id="reg-step1">
+                <!-- 6. KEY NODAL OFFICERS -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <!-- <h5 class="section-title">Nodal Contact Persons</h5> -->
+                        <div class="card-section-label" style="margin-top:0;">
+                            Nodal Contact Persons
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" (click)="addNodalOfficer()">
+                            <i class="bi bi-plus-lg"></i> Add Officer
+                        </button>
+                    </div>
+
+                    <div formArrayName="nodalOfficers">
+                        @for (officer of nodalOfficers.controls; track officer; let i = $index) {
+                        <div [formGroupName]="i" class="array-card">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Name <span class="req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-person input-icon"></i>
+                                        <input type="text" class="form-input" placeholder="Officer Name"
+                                            formControlName="name" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Designation</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-briefcase input-icon"></i>
+                                        <input type="text" class="form-input" placeholder="Designation"
+                                            formControlName="designation" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Phone <span class="req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-telephone input-icon"></i>
+                                        <input type="text" class="form-input" placeholder="Phone"
+                                            formControlName="phone" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Email</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-envelope input-icon"></i>
+                                        <input type="email" class="form-input" placeholder="Email"
+                                            formControlName="email" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row action-row">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" formControlName="isPrimary" />
+                                    Primary Nodal Contact
+                                </label>
+                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                    (click)="removeNodalOfficer(i)">
+                                    <i class="bi bi-trash"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+
+            @if(currentStep === 7){
+            <div id="reg-step1">
+                <!-- 7. CONTRACTED TARIFF -->
+                <div class="form-section">
+                    <div class="section-header">
+                        <!-- <h5 class="section-title">Contracted Room Tariff Rules</h5> -->
+                        <div class="card-section-label" style="margin-top:0;">
+                            Contracted Room Tariff Rules
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline-primary" (click)="addContractedTariff()">
+                            <i class="bi bi-plus-lg"></i> Add Tariff Rule
+                        </button>
+                    </div>
+
+                    <div formArrayName="contractedTariff">
+                        @for (tariff of contractedTariff.controls; track tariff; let i = $index) {
+                        <div [formGroupName]="i" class="array-card">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Room Type <span class="req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-door-open input-icon"></i>
+                                        <select class="form-select" formControlName="roomType">
+                                            @for (r of roomTypes; track r) {
+                                            <option [value]="r">{{ r }}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Max Capped Amount / Day (₹)</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-currency-rupee input-icon"></i>
+                                        <input type="number" class="form-input" placeholder="Amount"
+                                            formControlName="maxCappedAmountPerDay" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group checkbox-group align-self-center">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" formControlName="isCovered" />
+                                        Covered under policy
+                                    </label>
+                                </div>
+
+                                <div class="form-group align-self-end">
+                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                        (click)="removeContractedTariff(i)">
+                                        <i class="bi bi-trash"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        <!-- SUBMIT ACTIONS -->
+        <!-- <div class="form-actions">
+            <button type="submit" class="btn btn-primary" [disabled]="tpaForm.invalid">
+                <i class="bi bi-save me-1"></i> Save Insurance / TPA
+            </button>
+        </div> -->
+    </div>
+    <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup();"> Close </button>
+        <button type="button" class="btn btn-primary btn-sm">
+            <i class="bi bi-save me-1"></i> Save Insurance / TPA
+        </button>
+    </div> -->
+    <div class="modal-footer d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary" (click)="generateDummyData();">
+            <i class="bi bi-magic me-1"></i> Auto Fill
+        </button>
+        <div class="d-flex gap-2">
+            <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()">
+                Close
+            </button>
+            <!-- Previous -->
+            @if (currentStep > 1) {
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="previousStep()">
+                <i class="bi bi-arrow-left me-1"></i>
+                Previous
+            </button>
+            }
+            <!-- Next -->
+            @if (currentStep < totalSteps) { <button type="button" class="btn btn-primary btn-sm" (click)="nextStep()">
+                Next <i class="bi bi-arrow-right ms-1"></i></button>
+                }
+                <!-- Save -->
+                @if (currentStep === totalSteps) {
+                <button type="submit" class="btn btn-success btn-sm"><i class="bi bi-save me-1"></i> Save Insurance /
+                    TPA</button>
+                }
+        </div>
+    </div>
+</form>

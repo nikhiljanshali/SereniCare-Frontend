@@ -1,0 +1,176 @@
+<div id="page-facility-type-list" class="page-section">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="breadcrumb-wrapper">
+                <button class="btn btn-sm btn-icon-wrapper" (click)="backToList()">
+                    <i class="bi bi-chevron-left"></i> Dashboard
+                </button>
+            </div>
+            <div class="ph-title">Facility Type Master</div>
+            <div class="ph-sub">
+                Manage facility categories, facilities, and associated sub-facilities
+            </div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <!-- Refresh -->
+            <button class="btn btn-outline-primary btn-sm" (click)="refresh()">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <!-- Filter -->
+            <button class="btn btn-outline-primary btn-sm" (click)="toggleFilter()">
+                <i class="bi bi-funnel"></i>
+                Filter
+            </button>
+            <!-- Add Facility -->
+            <button class="btn btn-primary btn-sm" (click)="AddFacilityType()">
+                <i class="bi bi-plus"></i>
+                Add Facility
+            </button>
+        </div>
+    </div>
+    @if(isShowFilter){
+    <div id="page-patient-list" class="page-section active">
+        <div class="filter-bar">
+            <div class="search-input-group">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search by..." [(ngModel)]="searchText"
+                    (input)="applyFilters()" autocomplete="off" aria-label="Search patients">
+                @if (searchText.trim()) {
+                <button type="button" class="clear-search" (click)="clearSearch()" aria-label="Clear search">
+                    <i class="bi bi-x-circle-fill"></i>
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+    }
+    <!-- Facility Type List -->
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category</th>
+                        <th>Facility</th>
+                        <th>Sub Facilities</th>
+                        <!-- <th>Created At</th> -->
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for ( facilityType of paginatedFacilityTypeList; track facilityType._id; let i = $index ) {
+                    <tr>
+                        <!-- Serial Number -->
+                        <td>
+                            <div class="patient-name">
+                                {{ (currentPage - 1) * pageSize + i + 1 }}
+                            </div>
+                        </td>
+                        <!-- Category -->
+                        <td>
+                            <div class="patient-cell">
+                                <div class="patient-avatar" style="background:linear-gradient(135deg,#0D9488,#38BDF8);">
+                                    <i class="bi bi-diagram-3"></i>
+                                </div>
+                                <div>
+                                    <div class="patient-name">
+                                        {{ facilityType.category }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Facility -->
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">
+                                        {{ facilityType.facility.name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Sub Facilities -->
+                        <td>
+                            <div class="d-flex flex-wrap gap-1">
+                                @for (subFacility of facilityType.facility.subFacilities;track subFacility._id ||
+                                $index) {
+                                <span class="type-badge rounded-pill bg-light text-dark border">
+                                    <i class="bi bi-diagram-2 me-1"></i>
+                                    {{ subFacility.name }}
+                                </span>
+                                }
+                                @if (!facilityType.facility.subFacilities ||facilityType.facility.subFacilities.length
+                                === 0) {
+                                <span class="text-muted">
+                                    No sub-facilities
+                                </span>
+                                }
+                            </div>
+                        </td>
+                        <!-- Created At -->
+                        <!-- <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <i class="bi bi-calendar-event me-1"></i>
+                                {{ facilityType.createdAt | date : 'dd/MM/yyyy' }}
+                            </div>
+                        </td> -->
+                        <!-- Actions -->
+                        <td>
+                            <!-- Info -->
+                            <!-- <button type="button" class="action-btn" [popover]="'Info'" placement="top"
+                                triggers="mouseenter:mouseleave">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </button> -->
+                            <!-- Edit -->
+                            <button type="button" class="action-btn" [popover]="'Edit'" placement="top"
+                                triggers="mouseenter:mouseleave" (click)="editFacilityType(facilityType)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <!-- Delete -->
+                            <button type="button" class="action-btn text-danger" [popover]="'Delete'" placement="top"
+                                triggers="mouseenter:mouseleave" (click)="deleteFacilityType(facilityType)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                    @if (!paginatedFacilityTypeList ||paginatedFacilityTypeList.length === 0) {
+                    <tr>
+                        <td colspan="6" class="text-center py-4">
+                            <div class="text-muted">
+                                <i class="bi bi-building-x" style="font-size:32px;"></i>
+                                <div class="mt-2">
+                                    No facility types found.
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="appt-table-wrapper">
+                <span class="text-muted-small">
+                    Showing {{ (currentPage - 1) * pageSize + 1 }} -{{ Math.min(currentPage * pageSize,
+                    facilityTypeList.length) }} of {{ facilityTypeList.length }} Master Filter Types
+                </span>
+                <div class="pagination-group">
+                    <button class="action-btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    @for(page of pages; track page) {
+                    <button class="action-btn" [class.btn-pagination-active]="page === currentPage"
+                        [class.btn-pagination]="page !== currentPage" (click)="goToPage(page)">
+                        {{ page }}
+                    </button>
+                    }
+                    <button class="action-btn btn-pagination" (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

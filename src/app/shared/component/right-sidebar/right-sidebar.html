@@ -13,6 +13,9 @@
     <app-patient-medical-history-details
       [patientDetails]="sidebarService.details()"></app-patient-medical-history-details>
     }
+    @else if(sidebarService.content() == 'patient-edit'){
+    <app-patient-edit [patientDetails]="sidebarService.details()"></app-patient-edit>
+    }
     @else if(sidebarService.content() == 'doctor'){
     <app-edit-doctor-details [doctorDetails]="sidebarService.details()" (saveSuccess)="onsaveSuccess($event)">
     </app-edit-doctor-details>
@@ -32,6 +35,21 @@
     }
     @else if(sidebarService.content() == 'patient-hpi-details'){
     <app-patient-hip-details [patientDetails]="sidebarService.details()"></app-patient-hip-details>
+    }
+    @else if(sidebarService.content() == 'service-details'){
+    <app-view-service-detail [patientDetails]="sidebarService.details()"></app-view-service-detail>
+    }
+    @else if(sidebarService.content() == 'insurance-tariffs-details'){
+    <app-view-insurance-tariffs [patientDetails]="sidebarService.details()"></app-view-insurance-tariffs>
+    }
+    @else if(sidebarService.content() == 'service-package-detail'){
+    <app-view-service-package-detail [patientDetails]="sidebarService.details()"></app-view-service-package-detail>
+    }
+    @else if(sidebarService.content() == 'insurance-details'){
+    <app-view-insurance-detail [patientDetails]="sidebarService.details()"></app-view-insurance-detail>
+    }
+    @else if(sidebarService.content() == 'appointment-details'){
+    <app-view-appointment-details [patientDetails]="sidebarService.details()"></app-view-appointment-details>
     }
   </div>
   <div class="rs-footer">

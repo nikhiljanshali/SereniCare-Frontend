@@ -1,0 +1,215 @@
+<div class="flex-container">
+    <div class="form-card box">
+        <div class="form-card-icon"><i class="bi bi-braces-asterisk"></i></div>
+        <div class="form-card-title">Department</div>
+        <div class="form-card-sub">Enter department details.</div>
+        <form [formGroup]="departmentForm" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <label class="form-label">Type <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter type" formControlName="type">
+                </div>
+                <small class="text-danger"
+                    *ngIf="departmentForm.controls['type'].touched && departmentForm.controls['type'].invalid">
+                    Name is required
+                </small>
+            </div>
+            <!-- Name -->
+            <div class="form-group">
+                <label class="form-label">Name <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter name" formControlName="name">
+                </div>
+                <small class="text-danger"
+                    *ngIf="departmentForm.controls['name'].touched && departmentForm.controls['name'].invalid">
+                    Name is required
+                </small>
+            </div>
+
+            <!-- Code -->
+            <div class="form-group">
+                <label class="form-label">Code <span class="req">*</span></label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter code" formControlName="code">
+                </div>
+                <small class="text-danger"
+                    *ngIf="departmentForm.controls['code'].touched && departmentForm.controls['code'].invalid">
+                    Code is required
+                </small>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <div class="input-wrap">
+                    <i class="bi bi-asterisk input-icon"></i>
+                    <input type="text" class="form-input" placeholder="Enter description" formControlName="description">
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit" [disabled]="departmentForm.invalid">
+                    <i class="bi bi-floppy2-fill"></i>
+                    @if (isEdit) {
+                    <span>Update</span>
+                    }@else {
+                    <span>Save</span>
+                    }
+                </button>
+
+                <div class="form-link-row mt-8">
+                    Back to Registration
+                    <a class="form-link" (click)="gobackToClickRegistration()">
+                        <i class="bi bi-arrow-left"></i> Back
+                    </a>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="services-card box">
+        <div class="card-header">
+            <div class="card-title">
+                <i class="bi bi-shield-plus me-2"></i>
+                Department
+                <span class="badge-count">{{ departmentCount }}</span>
+            </div>
+        </div>
+        <div class="vh-scroll-container">
+            <div class="allergy-tree">
+                @if (departmentCount === 0) {
+                <div class="empty-state text-muted py-3">No departments available.</div>
+                } @else {
+                @for (group of DepartmetnList; track group.type) {
+                <div class="tree-group">
+
+                    <!-- Group Header -->
+                    <div class="tree-group-header" [class.expanded]="group.expanded"
+                        (click)="group.expanded = !group.expanded">
+
+                        <div class="tree-group-title">
+
+                            <!-- Expand / Collapse -->
+                            <i class="bi" [class.bi-chevron-right]="!group.expanded"
+                                [class.bi-chevron-down]="group.expanded">
+                            </i>
+
+                            <!-- Folder -->
+                            <i class="bi" [class.bi-folder]="!group.expanded" [class.bi-folder2-open]="group.expanded">
+                            </i>
+
+                            <!-- Department Type -->
+                            <span>{{ group.type }}</span>
+
+                            <!-- Count -->
+                            <span class="tree-count">
+                                {{ group.items.length }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Group Items -->
+                    @if (group.expanded) {
+
+                    <div class="tree-children">
+
+                        @for (
+                        department of group.items;
+                        track department._id;
+                        let last = $last
+                        ) {
+
+                        <div class="tree-item">
+
+                            <!-- Tree Branch -->
+                            <div class="tree-line">
+
+                                <span class="tree-branch">
+                                    {{ last ? '└─' : '├─' }}
+                                </span>
+
+                            </div>
+
+
+                            <!-- Department Information -->
+                            <div class="tree-item-content">
+
+                                <div class="tree-item-icon">
+                                    <i class="bi bi-hospital"></i>
+                                </div>
+
+                                <div class="tree-item-info">
+
+                                    <!-- Name -->
+                                    <div class="tree-item-name">
+                                        {{ department.name }}
+                                    </div>
+
+                                    <!-- Code + Description -->
+                                    <div class="tree-item-description">
+
+                                        <span class="department-code">
+                                            {{ department.code }}
+                                        </span>
+
+                                        @if (department.description) {
+                                        <span class="department-description">
+                                            {{ department.description }}
+                                        </span>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- Actions -->
+                            <div class="tree-item-actions" (click)="$event.stopPropagation()">
+
+                                <!-- Edit -->
+                                <button type="button" class="tree-action edit" title="Edit Department"
+                                    (click)="patchDataToForm(department)">
+
+                                    <i class="bi bi-pencil-square"></i>
+
+                                </button>
+
+
+                                <!-- Delete -->
+                                <button type="button" class="tree-action delete" title="Delete Department"
+                                    (click)="deleteRecord(department)">
+
+                                    <i class="bi bi-trash"></i>
+
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                        }
+
+                    </div>
+
+                    }
+
+                </div>
+
+                }
+                }
+
+            </div>
+        </div>
+        <!-- <div class="view-all"><span>View all departments</span><i class="bi bi-arrow-right"></i></div> -->
+    </div>
+</div>

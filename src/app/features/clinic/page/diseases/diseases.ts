@@ -155,7 +155,7 @@ export class Diseases {
   }
 
   gobackToClickRegistration(): void {
-    this.router.navigate(['clinic/registration']);
+    this.router.navigate(['auth/signin']);
   }
 
 }

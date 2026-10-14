@@ -81,7 +81,6 @@ export class DoctorAppointment {
                 console.error('Failed to update appointment status:', error);
               }
             });
-
         }
       },
       {
@@ -124,25 +123,27 @@ export class DoctorAppointment {
       {
         text: 'Mark as No Show',
         onClick: (args) => {
-          console.log('Confirmed:', args.source.data.id);
           const event = args.source;
-          this._appointmentBookService.updateAppointmentStatus(event.data.id, 'No-Show', false)
-            .subscribe({
-              next: (res: any) => {
-                this.getBookedAppointment();
-              },
-              error: (error: any) => {
-                console.error('Failed to update appointment status:', error);
-              }
-            });
+          this._appointmentBookService.updateAppointmentStatus(event.data.id, 'No-Show', false).subscribe({
+            next: (res: any) => {
+              this.getBookedAppointment();
+            },
+            error: (error: any) => {
+              console.error('Failed to update appointment status:', error);
+            }
+          });
         }
       },
       {
         text: 'Write a Prescription',
         onClick: (args) => {
-          console.log('Write a Prescription:', args.source.data.id);
+          debugger;
           const event = args.source;
-          this.router.navigate(['/layout/prescription/master/create', event.data.patientId, event.data.id, event.data.clinicId])
+          if (this.userRole != 'Patient') {
+            this.router.navigate(['/layout/prescription/master/create', event.data.patientId, event.data.id, event.data.clinicId])
+          } else {
+            this._notificationServices.info(`You are not allow to write prescription`, 'Info');
+          }
         }
       },
     ]
@@ -157,7 +158,31 @@ export class DoctorAppointment {
     timeRangeSelectedHandling: 'Enabled',
     eventMoveHandling: 'Update',
     eventResizeHandling: 'Update',
+    showToolTip: true,
     contextMenu: this.eventMenu,
+
+    onBeforeEventRender: (args: any) => {
+      const data = args.data;
+      const tags = data.tags ?? {};
+
+      const status = tags.appointmentStatus ?? 'N/A';
+      const appointmentDetails = [
+        `Appointment: ${tags.appointmentNumber ?? 'N/A'}`,
+        `Type: ${tags.appointmentType ?? 'Consultation'}`,
+        `Status: ${status}`,
+        `Patient: ${tags.patientName ?? 'N/A'}`,
+        `Doctor: ${tags.doctorName ?? 'N/A'}`,
+        `Consultation: ${tags.consultationMode ?? 'N/A'}`,
+        `Source: ${tags.bookingSource ?? 'N/A'}`,
+        `Fee: ${tags.consultationFee != null ? `₹${tags.consultationFee}` : 'N/A'}`,
+        `Payment: ${tags.paymentStatus ?? 'N/A'}`,
+        tags.symptoms ? `Symptoms: ${tags.symptoms}` : '',
+        tags.notes ? `Notes: ${tags.notes}` : '',
+        tags.cancelledReason ? `Cancellation reason: ${tags.cancelledReason}` : '',
+      ].filter(Boolean);
+
+      args.data.toolTip = appointmentDetails.join('\n');
+    },
     onTimeRangeSelected: async (args) => {
       console.log(args)
       // const modal = await DayPilot.Modal.prompt('Patient Name', 'New Patient');
@@ -197,7 +222,6 @@ export class DoctorAppointment {
         startTime: args.newStart.toString("HH:mm"),
         endTime: args.newEnd.toString("HH:mm")
       };
-      console.log(payload);
       this._appointmentBookService.updateAppointmentBooking(args.e.data.id, payload).subscribe(res => {
         if (res.success) {
           this.getBookedAppointment();
@@ -235,6 +259,7 @@ export class DoctorAppointment {
     eventResizeHandling: 'Update',
     timeRangeSelectedHandling: 'Enabled',
     contextMenu: this.eventMenu,
+
     onTimeRangeSelected: (args) => {
       console.log('Selected:', args.start.toString());
     },
@@ -258,24 +283,40 @@ export class DoctorAppointment {
     },
 
     onBeforeEventRender: (args) => {
-      const status = args.data.tags?.appointmentStatus?.toLowerCase();
+      // const status = args.data.tags?.appointmentStatus?.toLowerCase();
+      const data = args.data;
+      const tags = data.tags ?? {};
 
+      const status = tags.appointmentStatus ?? 'N/A';
+      const appointmentDetails = [
+        `Appointment: ${tags.appointmentNumber ?? 'N/A'}`,
+        `Type: ${tags.appointmentType ?? 'Consultation'}`,
+        `Status: ${status}`,
+        `Patient: ${tags.patientName ?? 'N/A'}`,
+        `Doctor: ${tags.doctorName ?? 'N/A'}`,
+        `Consultation: ${tags.consultationMode ?? 'N/A'}`,
+        `Source: ${tags.bookingSource ?? 'N/A'}`,
+        `Fee: ${tags.consultationFee != null ? `₹${tags.consultationFee}` : 'N/A'}`,
+        `Payment: ${tags.paymentStatus ?? 'N/A'}`,
+        tags.symptoms ? `Symptoms: ${tags.symptoms}` : '',
+        tags.notes ? `Notes: ${tags.notes}` : '',
+        tags.cancelledReason ? `Cancellation reason: ${tags.cancelledReason}` : '',
+      ].filter(Boolean);
+
+      args.data.toolTip = appointmentDetails.join('\n');
       // switch (status) {
       //   case 'pending':
       //     args.data.backColor = '#ffc107';
       //     args.data.fontColor = '#000';
       //     break;
-
       //   case 'completed':
       //     args.data.backColor = '#007bff';
       //     args.data.fontColor = '#fff';
       //     break;
-
       //   case 'cancelled':
       //     args.data.backColor = '#dc3545';
       //     args.data.fontColor = '#fff';
       //     break;
-
       //   case 'confirmed':
       //     args.data.backColor = '#28a745';
       //     args.data.fontColor = '#fff';
@@ -285,22 +326,18 @@ export class DoctorAppointment {
   };
   //   monthConfig: DayPilot.MonthConfig = {
   //     startDate: DayPilot.Date.today(),
-
   //     // General Settings
   //     locale: 'en-us',
   //     weekStarts: 1, // Monday
   //     eventHeight: 24,
   //     cellHeight: 100,
-
   //     // Enable interactions
   //     eventMoveHandling: 'Update',
   //     eventResizeHandling: 'Update',
   //     timeRangeSelectedHandling: 'Enabled',
-
   //     // Display settings
   //     showWeekend: true,
   //     cellHeaderHeight: 25,
-
   //     // Highlight today
   //     onBeforeCellRender: (args) => {
   //       if (args.cell.start.toString() === DayPilot.Date.today().toString()) {
@@ -308,29 +345,23 @@ export class DoctorAppointment {
   //         args.cell.borderColor = '#ffc107';
   //       }
   //     },
-
   //     // Event styling
   //     onBeforeEventRender: (args) => {
   //       args.data.borderRadius = '6px';
   //       args.data.fontColor = '#ffffff';
   //     },
-
   //     // Event click
   //     onEventClick: async (args) => {
   //       console.log('Appointment:', args.e.data);
-
   //       // Example:
   //       // this.openAppointmentDetails(args.e.data);
   //     },
-
   //     // Empty day click
   //     onTimeRangeSelected: async (args) => {
   //       console.log('Selected Date:', args.start.toString());
-
   //       // Example:
   //       // this.createAppointment(args.start);
   //     },
-
   //     // Event move
   //     onEventMoved: (args) => {
   //       console.log(
@@ -417,6 +448,7 @@ export class DoctorAppointment {
     const storedUser = this._storageOperation.get<any>('user');
     const storedUserDetails = this._storageOperation.get<any>('userDetails');
     this.userRole = storedUser?.role || '';
+    console.log(this.userRole);
     if (storedUser) {
       const userId = storedUserDetails.id || '';
       switch (this.userRole) {
@@ -542,7 +574,7 @@ export class DoctorAppointment {
   }
 
   private getPatients(): void {
-    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin || this._storageOperation.get<any>('user').role == Roles.Admin  || this._storageOperation.get<any>('user').role == Roles.Doctor) {
+    if (this._storageOperation.get<any>('user').role == Roles.SystemAdmin || this._storageOperation.get<any>('user').role == Roles.Admin || this._storageOperation.get<any>('user').role == Roles.Doctor) {
       this._patientService.getPatients().subscribe((res: any) => {
         this.patientList = res.data;
       });
@@ -604,7 +636,6 @@ export class DoctorAppointment {
         }
       });
     } else if (this.userRole == 'System Admin' && this.systemId) {
-      debugger;
       if (this.doctorId != null && this.patientId != null) {
         this._appointmentBookService.getAppointmentBookingByDoctorIdPatientId(this.doctorId!, this.patientId!).subscribe((res: IAppointment) => {
           if (res.success && res.data.length > 0) {
@@ -621,8 +652,8 @@ export class DoctorAppointment {
   }
 
   loadAppointments(appointments: any[]): void {
-    // console.log(appointments);
-    const events = appointments.map((appointment) => {
+    console.log(appointments);
+    const events = appointments.map((appointment: any) => {
 
       let backColor = '#6c757d';
       let borderColor = '#6c757d';
@@ -631,59 +662,79 @@ export class DoctorAppointment {
       switch (appointment.appointmentStatus?.toLowerCase()) {
 
         case 'pending':
-          backColor = '#ffc107';     // Yellow
+          backColor = '#ffc107';
           borderColor = '#e0a800';
           fontColor = '#000000';
           break;
 
         case 'checked-in':
-          backColor = '#28a745';     // Green
+          backColor = '#28a745';
           borderColor = '#1e7e34';
           break;
 
         case 'completed':
-          backColor = '#007bff';     // Blue
+          backColor = '#007bff';
           borderColor = '#0056b3';
           break;
 
         case 'cancelled':
-          backColor = '#dc3545';     // Red
+          backColor = '#dc3545';
           borderColor = '#bd2130';
           break;
 
         case 'confirmed':
-          backColor = '#17a2b8';     // Cyan
+          backColor = '#17a2b8';
           borderColor = '#117a8b';
           break;
 
         case 'no-show':
-          backColor = '#343a40';     // Dark Gray
+          backColor = '#343a40';
           borderColor = '#1d2124';
           break;
       }
+
       return {
         id: appointment._id,
-        doctorId: appointment?.doctorId?._id ? appointment?.doctorId?._id : '',
-        patientId: appointment?.patientId?._id ? appointment?.patientId?._id : '',
-        clinicId: appointment?.clinicId?._id ? appointment?.clinicId?._id : '',
+
+        doctorId: appointment?.doctorId?._id ?? '',
+        patientId: appointment?.patientId?._id ?? '',
+        clinicId: appointment?.clinicId?._id ?? '',
+
         text: `${appointment.appointmentNumber} - ${appointment.consultationMode} / (${appointment.appointmentStatus})`,
+
         start: `${appointment.appointmentDate.split('T')[0]}T${appointment.startTime}:00`,
         end: `${appointment.appointmentDate.split('T')[0]}T${appointment.endTime}:00`,
+
         backColor,
         borderColor,
         fontColor,
+
         tags: {
           appointmentNumber: appointment.appointmentNumber,
           appointmentType: appointment.appointmentType,
           consultationMode: appointment.consultationMode,
           appointmentStatus: appointment.appointmentStatus,
           bookingSource: appointment.bookingSource,
+
+          patientName:
+            `${appointment?.patientId?.firstName ?? ''} ${appointment?.patientId?.lastName ?? ''}`.trim(),
+
+          doctorName:
+            appointment?.doctorId?.firstName
+              ? `Dr. ${appointment.doctorId.firstName} ${appointment.doctorId.lastName ?? ''}`
+              : 'N/A',
+
           symptoms: appointment.symptoms,
           notes: appointment.notes,
           consultationFee: appointment.consultationFee,
           paymentStatus: appointment.paymentStatus,
           cancelledReason: appointment.cancelledReason
         }
+        // toolTip:
+        //   `Patient: ${appointment.patientId.firstName}-${appointment.patientId.lastName}\n` +
+        //   `Doctor: ${appointment.doctorId.firstName}-${appointment.doctorId.lastName}\n` +
+        //   `Symptoms: ${appointment.symptoms ?? 'N/A'}\n` +
+        //   `Notes: ${appointment.notes ?? 'N/A'}\n`
       };
     });
     this.events = events;

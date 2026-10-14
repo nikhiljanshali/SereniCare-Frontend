@@ -34,6 +34,12 @@ export const environment = {
     familyHistoryLineage: '/familyHistoryLineage',
     physicalExamination: '/physicalExamination',
     historyofPresentIllness: '/historyofPresentIllness',
+    medicalservices: '/medicalservices',
+    insurancetpa: '/insurancetpa',
+    department: '/department',
+    nurse: '/nurse',
+    facility: '/facility',
+    facilityType: '/facilityType'
   },
   features: {
     enableNotifications: true,

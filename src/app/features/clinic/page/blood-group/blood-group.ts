@@ -145,7 +145,7 @@ export class BloodGroup {
   }
 
   gobackToClickRegistration(): void {
-    this.router.navigate(['clinic/registration']);
+    this.router.navigate(['auth/signin']);
   }
 
 }

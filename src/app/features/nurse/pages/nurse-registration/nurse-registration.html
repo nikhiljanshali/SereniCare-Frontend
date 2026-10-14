@@ -1,0 +1,418 @@
+<div id="page-nurse-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Nurse Registration</div>
+            <div class="ph-sub">Multi-step nurse registration form</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-soc-neutral" style="justify-content:flex-start;gap:10px;">
+                <i class="bi bi-twitter-x"></i>
+                <span> Generate Dummy Nurse </span>
+            </button>
+        </div>
+    </div>
+    <div class="wizard-wrap">
+        <!-- Steps -->
+        <div class="wizard-steps">
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 1}">
+                <div class="wizard-step-num">1</div>
+                <div>
+                    <div class="wizard-step-label">Nurse Details</div>
+                    <div class="step-desc">Personal & Professional Info</div>
+                </div>
+            </div>
+
+            <div class="wizard-step" [ngClass]="{active: currentStep >= 2}">
+                <div class="wizard-step-num">2</div>
+                <div>
+                    <div class="wizard-step-label">Qualifications & Certs</div>
+                    <div class="step-desc">Education & Licenses</div>
+                </div>
+            </div>
+
+            <div class="wizard-step" [ngClass]="{active: currentStep === 3}">
+                <div class="wizard-step-num">3</div>
+                <div>
+                    <div class="wizard-step-label">Review</div>
+                    <div class="step-desc">Confirm & submit</div>
+                </div>
+            </div>
+        </div>
+
+        <form [formGroup]="nurseForm" class="wizard-form">
+            <!-- BODY -->
+            <div class="wizard-body">
+                <!-- STEP 1 -->
+                @if (currentStep === 1) {
+                <div class="wizard-panel">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                Personal & Professional Details
+                            </div>
+                            <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                Enter the nurse's personal, contact, and employment information
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Basic Info -->
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">First Name <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="First Name" formControlName="firstName">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Last Name <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Last Name" formControlName="lastName">
+                        </div>
+                    </div>
+
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Date Of Birth <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="date" formControlName="dateOfBirth">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Date Of Joining <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="date" formControlName="dateOfJoin">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Gender <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="gender">
+                                <option value="">Select gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Age <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="number" placeholder="Age" formControlName="age">
+                        </div>
+                    </div>
+
+                    <!-- Contact Info -->
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Phone / Mobile <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="tel" placeholder="Phone" formControlName="phone">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Email Address <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="email" placeholder="Email" formControlName="email">
+                        </div>
+                    </div>
+
+                    <div class="wz-form-group">
+                        <label class="wz-label">Address <span class="wz-req">*</span></label>
+                        <input class="wz-input" type="text" placeholder="Address" formControlName="address">
+                    </div>
+
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Country <span class="wz-req">*</span></label>
+                            <select class="wz-select" id="country" formControlName="country">
+                                <option [ngValue]="null">— Select country —</option>
+                                <!-- <option *ngFor="let c of countries$ | async" [ngValue]="c.id">{{ c.name }}</option> -->
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">State <span class="wz-req">*</span></label>
+                            <select class="wz-select" id="state" formControlName="state">
+                                <!-- [attr.disabled]="(states$ | async)?.length ? null : true" -->
+                                <option [ngValue]="null">— Select state —</option>
+                                <!-- <option *ngFor="let s of states$ | async" [ngValue]="s.id">{{ s.name }}</option> -->
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">City <span class="wz-req">*</span></label>
+                            <select class="wz-select" id="city" formControlName="city">
+                                <!-- [attr.disabled]="(cities$ | async)?.length ? null : true" -->
+                                <option [ngValue]="null">— Select city —</option>
+                                <!-- <option *ngFor="let c of cities$ | async" [ngValue]="c.id">{{ c.name }}</option> -->
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Pincode <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Pincode" formControlName="pincode">
+                        </div>
+                    </div>
+
+                    <!-- Identification & Employment Info -->
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Aadhaar Number</label>
+                            <input class="wz-input" type="text" placeholder="Aadhaar Number"
+                                formControlName="aadhaarNumber">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">License Number <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="License Number"
+                                formControlName="licenseNumber">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">License Expiry Date</label>
+                            <input class="wz-input" type="date" formControlName="licenseExpiryDate">
+                        </div>
+                    </div>
+
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Department ID <span class="wz-req">*</span></label>
+                            <input class="wz-input" type="text" placeholder="Department ID"
+                                formControlName="departmentId">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Assigned Ward</label>
+                            <input class="wz-input" type="text" placeholder="Assigned Ward"
+                                formControlName="assignedWard">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Employment Type <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="employmentType">
+                                <option value="Full-Time">Full-Time</option>
+                                <option value="Part-Time">Part-Time</option>
+                                <option value="Contract">Contract</option>
+                            </select>
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Shift Type <span class="wz-req">*</span></label>
+                            <select class="wz-select" formControlName="shiftType">
+                                <option value="Day">Day</option>
+                                <option value="Night">Night</option>
+                                <option value="Rotating">Rotating</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Emergency Contact -->
+                    <div class="wz-form-row">
+                        <div class="wz-form-group">
+                            <label class="wz-label">Emergency Contact Name</label>
+                            <input class="wz-input" type="text" placeholder="Contact Name"
+                                formControlName="emergencyContactName">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Relation</label>
+                            <input class="wz-input" type="text" placeholder="Relation"
+                                formControlName="emergencyContactRelation">
+                        </div>
+                        <div class="wz-form-group">
+                            <label class="wz-label">Emergency Phone</label>
+                            <input class="wz-input" type="tel" placeholder="Phone"
+                                formControlName="emergencyContactPhone">
+                        </div>
+                    </div>
+                </div>
+                }
+
+                <!-- STEP 2 -->
+                @if (currentStep === 2) {
+                <div class="wizard-panel">
+                    <!-- Qualifications Section -->
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);">Qualifications</div>
+                            <div style="font-size:12.5px;color:var(--text-muted);">Add education details</div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="addQualification()">
+                            <i class="bi bi-plus-lg"></i> Add Qualification
+                        </button>
+                    </div>
+
+                    <div formArrayName="qualifications" class="mb-3 border p-3 rounded">
+                        @for (qual of qualificationsArray.controls; track $index; let i = $index) {
+                        <div [formGroupName]="i" class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Degree <span class="wz-req">*</span></label>
+                                <input class="wz-input" type="text" placeholder="Degree / Diploma"
+                                    formControlName="degree">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Institution <span class="wz-req">*</span></label>
+                                <input class="wz-input" type="text" placeholder="Institution"
+                                    formControlName="institution">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Year Obtained</label>
+                                <input class="wz-input" type="number" placeholder="YYYY" formControlName="yearObtained">
+                            </div>
+                            <div class="wz-form-group d-flex align-items-end">
+                                <button type="button" class="btn btn-danger btn-sm" (click)="removeQualification(i)"
+                                    [disabled]="qualificationsArray.length <= 1">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <hr class="my-4" />
+
+                    <!-- Certifications Section -->
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <div>
+                            <div style="font-size:16px;font-weight:700;color:var(--text-head);">Certifications</div>
+                            <div style="font-size:12.5px;color:var(--text-muted);">Add professional certifications</div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-sm" (click)="addCertification()">
+                            <i class="bi bi-plus-lg"></i> Add Certification
+                        </button>
+                    </div>
+
+                    <div formArrayName="certifications" class="mb-3 border p-3 rounded">
+                        @for (cert of certificationsArray.controls; track $index; let i = $index) {
+                        <div [formGroupName]="i" class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label">Certification Name <span class="wz-req">*</span></label>
+                                <input class="wz-input" type="text" placeholder="Name" formControlName="name">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Issued Date</label>
+                                <input class="wz-input" type="date" formControlName="issuedDate">
+                            </div>
+                            <div class="wz-form-group">
+                                <label class="wz-label">Expiry Date</label>
+                                <input class="wz-input" type="date" formControlName="expiryDate">
+                            </div>
+                            <div class="wz-form-group d-flex align-items-end">
+                                <button type="button" class="btn btn-danger btn-sm" (click)="removeCertification(i)"
+                                    [disabled]="certificationsArray.length <= 1">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+
+                <!-- STEP 3 -->
+                @if (currentStep === 3) {
+                <div class="wizard-panel">
+                    <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                        Review & Confirm
+                    </div>
+                    <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                        Please review all details before registering the nurse
+                    </div>
+
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+                        <!-- Nurse Summary -->
+                        <div
+                            style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                            <div
+                                style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                                Nurse Info
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Name</span>
+                                <span class="wz-review-val">{{ nurseForm.value.firstName }} {{ nurseForm.value.lastName
+                                    }}</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">DOB / Age</span>
+                                <span class="wz-review-val">{{ nurseForm.value.dateOfBirth | date:'dd MMM yyyy' }} ({{
+                                    nurseForm.value.age }} yrs)</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Gender</span>
+                                <span class="wz-review-val">{{ nurseForm.value.gender }}</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Phone</span>
+                                <span class="wz-review-val">{{ nurseForm.value.phone }}</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Email</span>
+                                <span class="wz-review-val">{{ nurseForm.value.email || '-' }}</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Aadhaar No.</span>
+                                <span class="wz-review-val">{{ nurseForm.value.aadhaarNumber || '-' }}</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">License No.</span>
+                                <span class="wz-review-val">{{ nurseForm.value.licenseNumber || '-' }}</span>
+                            </div>
+                            <div class="wz-review-row">
+                                <span class="wz-review-label">Employment / Shift</span>
+                                <span class="wz-review-val">{{ nurseForm.value.employmentType }} / {{
+                                    nurseForm.value.shiftType }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Qualifications & Certifications Summary -->
+                        <div
+                            style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;border:1px solid var(--border);">
+                            <div
+                                style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);margin-bottom:10px;">
+                                Qualifications & Certifications
+                            </div>
+
+                            <div class="mb-2">
+                                <strong>Qualifications:</strong>
+                                <div *ngFor="let item of nurseForm.value.qualifications" class="wz-review-row">
+                                    <span class="wz-review-label">{{ item.degree || '-' }}</span>
+                                    <span class="wz-review-val">{{ item.institution }} ({{ item.yearObtained || 'N/A'
+                                        }})</span>
+                                </div>
+                            </div>
+
+                            <div>
+                                <strong>Certifications:</strong>
+                                <div *ngFor="let item of nurseForm.value.certifications" class="wz-review-row">
+                                    <span class="wz-review-label">{{ item.name || '-' }}</span>
+                                    <span class="wz-review-val">{{ item.issuedDate | date:'yyyy' }} - {{ item.expiryDate
+                                        | date:'yyyy' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms & Consent -->
+                    <!-- <div
+                        style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-body);margin-top:16px;">
+                        <input type="checkbox" id="consent-chk" formControlName="term">
+                        <label for="consent-chk">I confirm that all details provided above are accurate and
+                            verified.</label>
+                    </div> -->
+                    <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-body);">
+                        <input type="checkbox" id="consent-chk" formControlName="term"
+                            style="accent-color:var(--teal);width:15px;height:15px;">
+                        <label for="consent-chk">I confirm that all details provided above are accurate and
+                            verified.</label>
+                    </div>
+                </div>
+                }
+            </div>
+            <!-- FOOTER -->
+            <div class="wizard-footer">
+                <div style="font-size:12px;color:var(--text-muted);" id="wz-step-info">Step {{ currentStep }} of 3</div>
+                <div style="display:flex;gap:8px;">
+                    <!-- Previous -->
+                    @if(currentStep > 1){
+                    <button class="btn btn-outline-default" (click)="prevStep()">
+                        <i class="bi bi-arrow-left"></i> Previous
+                    </button>
+                    }
+
+                    <!-- Next -->
+                    @if(!isLastStep){
+                    <button class="btn btn-primary" (click)="nextStep()">
+                        Next <i class="bi bi-arrow-right"></i>
+                    </button>
+                    }
+
+                    <!-- Submit -->
+                    @if(isLastStep){
+                    <button class="btn btn-success" type="submit" (click)="onSubmit()">
+                        <i class="bi bi-check-circle"></i> Register Patient
+                    </button>
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

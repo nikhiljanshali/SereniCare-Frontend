@@ -33,62 +33,55 @@
                     @for (supplier of paginatedSupplierList; track supplier._id) {
                     <tr>
                         <td>
-                            <div class="patient-cell">
-                                <div>
-                                    <div class="patient-name">{{supplier.firstName}} {{supplier.lastName}}</div>
-                                    <div class="patient-id">#{{supplier.supplierCode}}</div>
-                                </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <div class="patient-name">{{supplier.firstName}} {{supplier.lastName}}</div>
+                                <div class="patient-id">#{{supplier.supplierCode}}</div>
                             </div>
                         </td>
                         <td>
-                            <div class="patient-cell">
-                                <div>
-                                    <div class="patient-name">{{supplier.supplierType}}</div>
-                                    <div class="patient-id">#{{supplier.registrationNumber}}</div>
-                                </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <div class="patient-name">{{supplier.supplierType}}</div>
+                                <div class="patient-id">#{{supplier.registrationNumber}}</div>
                             </div>
                         </td>
                         <td>
-                            <div class="patient-cell">
-                                <div>
-                                    <div class="patient-name">{{supplier.gstNumber}}</div>
-                                    <div class="patient-id">#{{supplier.panNumber}}</div>
-                                </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <div class="patient-name">{{supplier.gstNumber}}</div>
+                                <div class="patient-id">#{{supplier.panNumber}}</div>
                             </div>
                         </td>
                         <td>
-                            <div class="patient-cell">
-                                <div>
-                                    <div class="patient-name">{{supplier.drugLicenseNumber}}</div>
-                                    <!-- <div class="patient-id">#{{supplier.panNumber}}</div> -->
-                                </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <div class="patient-name">{{supplier.drugLicenseNumber}}</div>
+                                <!-- <div class="patient-id">#{{supplier.panNumber}}</div> -->
                             </div>
                         </td>
                         <td>
-                            <div class="patient-cell">
-                                <div>
-                                    <div class="patient-name"><i class="bi bi-envelope-fill"></i>{{supplier.email}}
-                                    </div>
-                                    <div class="patient-id"><i class="bi bi-globe"></i>{{supplier.website}}</div>
-                                    <div class="patient-id"><i class="bi bi-telephone-fill"></i>{{supplier.phoneNumber}}
-                                    </div>
-                                    <div class="patient-id"><i
-                                            class="bi bi-telephone-fill"></i>{{supplier.alternatePhoneNumber}}</div>
-                                </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <i class="bi bi-envelope-fill"></i>{{supplier.email}}
+                            </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <i class="bi bi-globe"></i>{{supplier.website}}
+                            </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <i class="bi bi-telephone-fill"></i>{{supplier.phoneNumber}}
+                            </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <i class="bi bi-telephone-fill"></i>{{supplier.alternatePhoneNumber}}
                             </div>
                         </td>
                         <td>
-                            <div style="font-size:11px;color:var(--text-muted);">
+                            <div style="font-size:14px;color:var(--text-muted);">
                                 <i class="bi bi-building-down"></i>
                                 {{supplier?.billingAddress?.addressLine1}}
                                 {{supplier?.billingAddress?.addressLine2}}
-                                <div style="font-size:11px;color:var(--text-muted);">{{supplier?.billingAddress?.city}}
-                                </div>
-                                <div style="font-size:11px;color:var(--text-muted);">{{supplier?.billingAddress?.state}}
-                                </div>
-                                <div style="font-size:11px;color:var(--text-muted);">
-                                    {{supplier?.billingAddress?.postalCode}}</div>
                             </div>
+                            <div style="font-size:14px;color:var(--text-muted);">{{supplier?.billingAddress?.city}}
+                            </div>
+                            <div style="font-size:14px;color:var(--text-muted);">{{supplier?.billingAddress?.state}}
+                            </div>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                {{supplier?.billingAddress?.postalCode}}</div>
                         </td>
                         <td><span class="status-badge confirmed">{{supplier.status}}</span></td>
                     </tr>
@@ -97,15 +90,9 @@
             </table>
             <div class="appt-table-wrapper">
                 <span class="text-muted-small">
-                    Showing
-                    {{ (currentPage - 1) * pageSize + 1 }}
-                    -
-                    {{
-                    Math.min(currentPage * pageSize, supplierList.length)
-                    }}
-                    of
-                    {{ supplierList.length }}
-                    supplier
+                    Showing {{ (currentPage - 1) * pageSize + 1 }} - {{ Math.min(currentPage * pageSize,
+                    supplierList.length)}}
+                    of {{ supplierList.length }}supplier
                 </span>
                 <div class="pagination-group">
                     <button class="action-btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">

@@ -1,0 +1,229 @@
+<div id="page-facility-list" class="page-section">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="breadcrumb-wrapper">
+                <button class="btn btn-sm btn-icon-wrapper" (click)="backToDashboard()">
+                    <i class="bi bi-chevron-left"></i> Dashboard
+                </button>
+            </div>
+            <div class="ph-title">Facility List</div>
+            <div class="ph-sub">List of Hospital Facilities</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <!-- Refresh -->
+            <button class="btn btn-outline-primary btn-sm" [popover]="'Refresh'" placement="bottom"
+                triggers="mouseenter:mouseleave" (click)="refresh()">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <!-- Filter -->
+            <button class="btn btn-outline-primary btn-sm" [popover]="'Filter'" placement="bottom"
+                triggers="mouseenter:mouseleave" (click)="toggleFilter()">
+                <i class="bi bi-funnel"></i>
+                Filter
+            </button>
+            <!-- Add Facility -->
+            <button class="btn btn-primary btn-sm" (click)="AddFacility()">
+                <i class="bi bi-plus"></i>
+                Add Facility
+            </button>
+        </div>
+    </div>
+    @if(isShowFilter){
+    <div id="page-patient-list" class="page-section active">
+        <div class="filter-bar">
+            <div class="search-input-group">
+                <i class="bi bi-search search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search by..." [(ngModel)]="searchText"
+                    (input)="applyFilters()" autocomplete="off" aria-label="Search patients">
+                @if (searchText.trim()) {
+                <button type="button" class="clear-search" (click)="clearSearch()" aria-label="Clear search">
+                    <i class="bi bi-x-circle-fill"></i>
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+    }
+    <!-- Facility Table -->
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <th>Facility Code</th>
+                        <th>Facility Name</th>
+                        <th>Type</th>
+                        <th>Sub Type</th>
+                        <th>Location</th>
+                        <th>Department Head</th>
+                        <th>Staff</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (facility of paginatedFacilityList; track facility._id) {
+                    <tr>
+                        <!-- Facility Code -->
+                        <td>
+                            <div class="patient-name">
+                                {{ facility.facilityCode }}
+                            </div>
+                        </td>
+                        <!-- Facility Name -->
+                        <td>
+                            <div class="patient-cell">
+                                <div>
+                                    <div class="patient-name">
+                                        {{ facility.name }}
+                                    </div>
+                                    <div class="patient-id">
+                                        #{{ facility._id }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Type -->
+                        <td>
+                            <span class="type-badge rounded-pill bg-light text-dark border">
+                                {{ facility.type }}
+                            </span>
+                        </td>
+                        <!-- Sub Type -->
+                        <td>
+                            <div class="type-badge rounded-pill bg-light text-dark border">
+                                {{ facility.subType }}
+                            </div>
+                        </td>
+                        <!-- Location -->
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                <div>
+                                    <i class="bi bi-building"></i>
+                                    {{ facility.location.building }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-layers"></i>
+                                    Floor {{ facility.location.floor }}
+                                    <span class="px-1">|</span>
+                                    {{ facility.location.wing }}
+                                </div>
+                                <div>
+                                    <i class="bi bi-door-open"></i>
+                                    {{ facility.location.roomNumber }}
+                                </div>
+                            </div>
+                        </td>
+                        <!-- Department Head -->
+                        <td>
+                            <div class="patient-cell">
+
+                                <div>
+                                    <div class="patient-name">
+                                        {{ facility.departmentHeadId.firstName }}
+                                        {{ facility.departmentHeadId.lastName }}
+                                    </div>
+
+                                    <div class="patient-id">
+                                        <i class="bi bi-telephone"></i>
+                                        {{ facility.departmentHeadId.phone }}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </td>
+                        <!-- Assigned Staff -->
+                        <td>
+                            <div class="d-flex align-items-center gap-1">
+                                @for (staff of facility.assignedStaff; track staff._id) {
+                                <span class="badge bg-light text-dark"
+                                    [popover]="staff.firstName + ' ' + staff.lastName" placement="top"
+                                    triggers="mouseenter:mouseleave">
+                                    {{ staff.firstName.charAt(0) }}
+                                    {{ staff.lastName.charAt(0) }}
+                                </span>
+                                }
+                            </div>
+                        </td>
+                        <!-- Status -->
+                        <td>
+                            @if (facility.status === 'active') {
+                            <span class="badge bg-success-subtle text-success">
+                                <i class="bi bi-check-circle-fill"></i>
+                                Active
+                            </span>
+                            } @else {
+                            <span class="badge bg-danger-subtle text-danger">
+                                <i class="bi bi-x-circle-fill"></i>
+                                Inactive
+                            </span>
+                            }
+                        </td>
+                        <!-- Created At -->
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                {{ facility.createdAt | date:'dd/MM/yyyy' }}
+                            </div>
+                        </td>
+                        <!-- Actions -->
+                        <td>
+                            <!-- Info -->
+                            <button class="action-btn" [popover]="'Info'" placement="top"
+                                triggers="mouseenter:mouseleave">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </button>
+                            <!-- Edit -->
+                            <button class="action-btn" [popover]="'Edit'" placement="top"
+                                triggers="mouseenter:mouseleave" (click)="editFacility(facility)">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <!-- Delete -->
+                            <button class="action-btn" [popover]="'Delete'" placement="top"
+                                triggers="mouseenter:mouseleave" (click)="deleteFacility(facility)">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+            <!-- Pagination -->
+            <div class="appt-table-wrapper">
+                <span class="text-muted-small">
+                    Showing
+                    {{ (currentPage - 1) * pageSize + 1 }}
+                    -
+                    {{
+                    Math.min(
+                    currentPage * pageSize,
+                    facilityList.length
+                    )
+                    }}
+                    of
+                    {{ facilityList.length }}
+                    facilities
+                </span>
+                <div class="pagination-group">
+                    <!-- Previous -->
+                    <button class="action-btn btn-pagination" (click)="previousPage()" [disabled]="currentPage === 1">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <!-- Pages -->
+                    @for (page of pages; track page) {
+                    <button class="action-btn" [class.btn-pagination-active]="page === currentPage"
+                        [class.btn-pagination]="page !== currentPage" (click)="goToPage(page)">
+                        {{ page }}
+                    </button>
+                    }
+                    <!-- Next -->
+                    <button class="action-btn btn-pagination" (click)="nextPage()"
+                        [disabled]="currentPage === totalPages">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

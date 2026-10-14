@@ -37,7 +37,7 @@ export class ClinicLayout {
     { id: 6, label: 'Diseases', action: 'diseases' },
     { id: 7, label: 'Allergies', action: 'allergies' },
     { id: 8, label: 'Surgery', action: 'surgery' },
-    // { id: 8, label: 'Risk', action: 'risk' },
+    { id: 9, label: 'Department', action: 'department' },
   ];
   activeAction = ''; // default active
 
@@ -78,7 +78,8 @@ export class ClinicLayout {
       allergies: '/clinic/allergies',
       diseases: '/clinic/diseases',
       surgery: '/clinic/surgeries',
-      risk: '/clinic/riskes'
+      risk: '/clinic/riskes',
+      department: '/clinic/department'
     };
 
     const route = routeMap[action];

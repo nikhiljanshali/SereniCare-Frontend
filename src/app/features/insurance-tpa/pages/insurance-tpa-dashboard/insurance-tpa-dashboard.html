@@ -1,0 +1,253 @@
+<div id="page-doctor-profile-detail" class="page-section">
+    <!-- Breadcrumb header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Insurance & TPA Management</div>
+            <div class="ph-sub">
+                Manage empaneled insurance providers, TPA contracts, and SLAs.
+            </div>
+        </div>
+        <div class="header-actions">
+            <!-- <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i> Edit Profile
+            </button>
+            <button class="btn btn-primary btn-sm">
+                <i class="bi bi-calendar2-plus"></i> Book Appointment
+            </button> -->
+            <!-- More Dropdown -->
+            <!-- <div class="header-dropdown">
+                <button class="btn btn-sm btn-more-actions" type="button">
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <div class="header-dropdown-menu">
+                    <button class="header-dropdown-item default">
+                        <i class="bi bi-prescription"></i>
+                        Write Prescription
+                    </button>
+                    <div class="header-dropdown-divider"></div>
+                    <button class="header-dropdown-item danger">
+                        <i class="bi bi-trash"></i>
+                        Delete Doctor
+                    </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="dpd-layout">
+        <div class="dpd-right">
+            <div class="dpd-tabs">
+                @for (tab of tabs; track tab.id) {
+                <!-- (click)="selectTab(tab.id)" -->
+                <button type="button" class="dpd-tab d-flex align-items-center justify-content-evenly"
+                    [class.active]="activeTab === tab.id">
+                    <!-- <i class="bi" [ngClass]="tab.icon"></i> -->
+                    {{ tab.label }}
+                </button>
+                }
+            </div>
+            <div id="dpd-servicesmaster" class="dpd-tab-panel" [class.active]="activeTab === 'insurancemaster'">
+                <div class="mini-stats">
+                    <div class="mini-stat">
+                        <div class="mini-stat-icon" style="background:#CCFBF1;color:#0D9488;">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <div>
+                            <div class="mini-stat-label">Total Empaneled TPAs</div>
+                            <div class="mini-stat-value">3,482</div>
+                            <div class="mini-stat-change change-up">↑ 8.2% this month</div>
+                        </div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-icon" style="background:#DBEAFE;color:#1D4ED8;"><i
+                                class="bi bi-calendar2-check-fill"></i>
+                        </div>
+                        <div>
+                            <div class="mini-stat-label">Active Contracts</div>
+                            <div class="mini-stat-value">47</div>
+                            <div class="mini-stat-change change-up">↑ 5 more than avg</div>
+                        </div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-icon" style="background:#FEF9C3;color:#B45309;"><i
+                                class="bi bi-hospital-fill"></i></div>
+                        <div>
+                            <div class="mini-stat-label">Contracts Expiring Soon</div>
+                            <div class="mini-stat-value">28/40</div>
+                            <div class="mini-stat-change change-down">↓ 70% occupancy</div>
+                        </div>
+                    </div>
+                    <div class="mini-stat">
+                        <div class="mini-stat-icon" style="background:#F5F3FF;color:#6D28D9;"><i
+                                class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <div>
+                            <div class="mini-stat-label">Avg. Claim Settlement SLA</div>
+                            <div class="mini-stat-value">18</div>
+                            <div class="mini-stat-change change-up">↑ 2 on call today</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="page-patient-list" class="page-section active">
+                    <div class="filter-bar">
+                        <div class="search-input-group">
+                            <i class="bi bi-search search-icon"></i>
+                            <input type="text" class="search-input"
+                                placeholder="Search by Name, UHID, Phone Number or Primary Diagnosis..."
+                                [(ngModel)]="searchText" (input)="applyFilters()" autocomplete="off"
+                                aria-label="Search patients">
+                            @if (searchText.trim()) {
+                            <button type="button" class="clear-search" (click)="clearSearch()"
+                                aria-label="Clear search">
+                                <i class="bi bi-x-circle-fill"></i>
+                            </button>
+                            }
+                        </div>
+                        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+                            <option value="">Select Status </option>
+                            @for (st of statusOptions; track st) {
+                            <option [value]="st">{{ st }}</option>
+                            }
+                        </select>
+                        <button class="btn btn-outline-default btn-sm">
+                            <i class="bi bi-funnel"></i>
+                            More Filters
+                        </button>
+                        <button class="btn btn-outline-default btn-sm" (click)="resetList()">
+                            <i class="bi bi-arrow-clockwise"></i>
+                        </button>
+                        <button class="btn btn-primary btn-sm" (click)="AddNewInsuranceTpa()"><i
+                                class="bi bi-person-plus"></i> Add New Provider
+                            /TPA</button>
+                    </div>
+                    <div class="quick-tabs">
+                        <button class="q-tab active">All Patients (3,482)</button>
+                        <button class="q-tab">In-Clinic Queue (14)</button>
+                        <button class="q-tab">Appt Scheduled (32)</button>
+                        <button class="q-tab">Critical Flags (4)</button>
+                    </div>
+                    <div class="appt-row">
+                        <div class="appt-card">
+                            <table class="appt-table">
+                                <thead>
+                                    <tr>
+                                        <th>Code</th>
+                                        <th>Provider / TPA Name</th>
+                                        <th>Type</th>
+                                        <th>Pre-Auth Req.</th>
+                                        <th>Contract Vaild From</th>
+                                        <th>Contract Vaild To</th>
+                                        <th>Status</th>
+                                        <th style="width: 150px;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(filteredInsuranceTpaList.length > 0) {
+                                    @for (insurance of filteredInsuranceTpaList; track insurance._id) {
+                                    <tr>
+                                        <td>
+                                            <div style="font-size:14px;color:var(--text-muted);">
+                                                #{{insurance.tpaCode}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size:14px;color:var(--text-muted);">
+                                                {{insurance.name ? insurance.name : 'N/A'}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size:14px;color:var(--text-muted);">
+                                                {{insurance.type ? insurance.type : 'N/A'}}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @if (insurance?.policyRules?.preAuthRequired === true) {
+                                            <span
+                                                class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill fw-medium">
+                                                <i class="bi bi-check-circle-fill me-1"></i> Yes
+                                            </span>
+                                            } @else if (insurance?.policyRules?.preAuthRequired === false) {
+                                            <span
+                                                class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded-pill fw-medium">
+                                                <i class="bi bi-x-circle-fill me-1"></i> No
+                                            </span>
+                                            } @else {
+                                            <span
+                                                class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill fw-medium">
+                                                N/A
+                                            </span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div style="font-size:14px;color:var(--text-muted);">
+                                                {{ (insurance.contractDetails.contractStartDate | date:'dd/MM/yyyy') ||
+                                                'N/A' }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div style="font-size:14px;color:var(--text-muted);">
+                                                {{ (insurance.contractDetails.contractEndDate | date:'dd/MM/yyyy') ||
+                                                'N/A' }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            @switch (insurance?.contractDetails?.status) {
+                                            @case ('Active') {
+                                            <span
+                                                class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1 rounded-pill fw-medium">
+                                                <i class="bi bi-check-circle-fill me-1"></i> Active
+                                            </span>
+                                            }
+                                            @case ('Suspended') {
+                                            <span
+                                                class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle px-2 py-1 rounded-pill fw-medium">
+                                                <i class="bi bi-pause-circle-fill me-1"></i> Suspended
+                                            </span>
+                                            }
+                                            @case ('Expired') {
+                                            <span
+                                                class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 rounded-pill fw-medium">
+                                                <i class="bi bi-x-circle-fill me-1"></i> Expired
+                                            </span>
+                                            }
+                                            @case ('Under Negotiation') {
+                                            <span
+                                                class="badge bg-info-subtle text-info-emphasis border border-info-subtle px-2 py-1 rounded-pill fw-medium">
+                                                <i class="bi bi-hourglass-split me-1"></i> Under Negotiation
+                                            </span>
+                                            }
+                                            @default {
+                                            <span
+                                                class="badge bg-secondary-subtle text-secondary border border-secondary-subtle px-2 py-1 rounded-pill fw-medium">
+                                                {{ insurance?.contractDetails?.status || 'N/A' }}
+                                            </span>
+                                            }
+                                            }
+                                        </td>
+                                        <td>
+                                            <button class="action-btn" (click)="openDetailsPage(insurance)"> <i
+                                                    class="bi bi-info-circle-fill"></i> </button>
+                                            <button class="action-btn" (click)="editInsuranceTap(insurance)"> <i class="bi bi-pencil"></i> </button>
+                                            <button class="action-btn danger" (click)="deleteInsuranceTpa(insurance)"><i class="bi bi-trash3"></i></button>
+                                        </td>
+                                    </tr>
+                                    }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="dpd-insurancetariffs" class="dpd-tab-panel" [class.active]="activeTab === 'insurancetariffs'">
+
+            </div>
+            <div id="dpd-servicespackages" class="dpd-tab-panel" [class.active]="activeTab === 'servicespackages'">
+
+            </div>
+        </div>
+    </div>
+</div>
+<app-right-sidebar #medicalSidebar></app-right-sidebar>

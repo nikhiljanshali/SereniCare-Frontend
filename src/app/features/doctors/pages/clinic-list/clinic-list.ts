@@ -24,7 +24,7 @@ export class ClinicList {
   public paginatedClinicList: IClinicList[] = [];
 
   public currentPage = 1;
-  public pageSize = 5;
+  public pageSize = 15;
   public totalPages = 0;
   public pages: number[] = [];
   public Math = Math;
@@ -46,24 +46,27 @@ export class ClinicList {
   }
 
   private getClinics(): void {
-    if (this.userDetails?.role == Roles.Admin || this.userDetails?.role == Roles.SystemAdmin) {
-      this._clinicsService.getAllClinics().subscribe((res: IClinics) => {
-        // this.clinicList = this.clinicCopyList = res.data;
-        this.clinicList = this.clinicCopyList = res.data.sort((a: any, b: any) => {
-          const numA = Number(a.clinicName.replace('PAT-', ''));
-          const numB = Number(b.clinicName.replace('PAT-', ''));
-          return numA - numB; // Ascending
+    const role = this.userDetails?.role;
+    const isAdmin = role === Roles.Admin || role === Roles.SystemAdmin;
+    const isDoctor = role === Roles.Doctor;
+    if (isAdmin || isDoctor) {
+      const doctorId = this._storageOperation.get<any>('userDetails')?.id;
+      const fetchClinics$ = isAdmin
+        ? this._clinicsService.getAllClinics()
+        : this._clinicsService.getClinicByDoctorId(doctorId);
+
+      fetchClinics$.subscribe((res: IClinics) => {
+        // Sort array safely with strict typing and natural/numeric matching
+        const sortedClinics = (res.data || []).sort((a, b) => {
+          const numA = parseInt(a.clinicName.replace(/\D/g, ''), 10) || 0;
+          const numB = parseInt(b.clinicName.replace(/\D/g, ''), 10) || 0;
+          return numA - numB;
         });
-        this.setupPagination();
-      });
-    } else if (this.userDetails?.role == Roles.Doctor) {
-      this._clinicsService.getClinicByDoctorId(this._storageOperation.get<any>('userDetails').id).subscribe((res: IClinics) => {
-        // this.clinicList = this.clinicCopyList = res.data;
-        this.clinicList = this.clinicCopyList = res.data.sort((a: any, b: any) => {
-          const numA = Number(a.clinicName.replace('PAT-', ''));
-          const numB = Number(b.clinicName.replace('PAT-', ''));
-          return numA - numB; // Ascending
-        });
+
+        // Create a shallow copy for copyList to avoid shared reference mutations
+        this.clinicList = sortedClinics;
+        this.clinicCopyList = [...sortedClinics];
+
         this.setupPagination();
       });
     }

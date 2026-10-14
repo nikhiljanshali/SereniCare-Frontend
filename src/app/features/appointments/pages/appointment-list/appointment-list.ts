@@ -29,7 +29,7 @@ export class AppointmentList {
   public paginatedAppointmentList: any[] = [];
 
   public currentPage = 1;
-  public pageSize = 6;
+  public pageSize = 15;
   public totalPages = 0;
   public pages: number[] = [];
   public Math = Math;
@@ -112,6 +112,7 @@ export class AppointmentList {
   }
 
   public refresh(): void {
+    this.getAppointments();
     this.appointmentList = this.paginatedAppointmentList = this.appointmentCopyList;
     this.setupPagination();
   }
@@ -148,6 +149,14 @@ export class AppointmentList {
       this.currentPage--;
       this.updatePaginatedData();
     }
+  }
+
+  openAppointmentDetails(appointment: IAppointmentLsit): void {
+    console.log(appointment);
+    let patientDetails = {
+      appointmentDtails: appointment
+    }
+    this.sidebar()?.openRightSidebar('Appointment Detail', 'appointment-details', patientDetails);
   }
 
 }

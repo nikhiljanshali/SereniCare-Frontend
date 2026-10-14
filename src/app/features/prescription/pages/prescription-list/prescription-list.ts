@@ -23,7 +23,7 @@ export class PrescriptionList {
   public paginatedPrescriptionList: IPrescriptionsDetails[] = [];
 
   public currentPage = 1;
-  public pageSize = 5;
+  public pageSize = 15;
   public totalPages = 0;
   public pages: number[] = [];
   public Math = Math;

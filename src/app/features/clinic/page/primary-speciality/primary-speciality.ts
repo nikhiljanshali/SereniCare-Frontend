@@ -168,7 +168,7 @@ export class PrimarySpeciality {
   }
 
   gobackToClickRegistration(): void {
-    this.router.navigate(['clinic/registration']);
+    this.router.navigate(['auth/signin']);
   }
 
 }

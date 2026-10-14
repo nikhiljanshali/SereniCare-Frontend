@@ -16,7 +16,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const user: { id: string; name: string; email: string } | null = storageOperation.get('user', 'local');
   // ❌ If no user → redirect
   if (!user || !user.id) {
-    router.navigate(['/signin']);
+    router.navigate(['/auth/signin']);
     return false;
   }
   const userId = user.id;
@@ -31,7 +31,7 @@ export const roleGuard: CanActivateFn = (route, state) => {
     }
   }), catchError((err) => {
     // console.error('Role guard error:', err);
-    router.navigate(['/signin']);
+    router.navigate(['/auth/signin']);
     return of(false);
   }));
 };

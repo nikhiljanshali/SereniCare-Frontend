@@ -1,0 +1,43 @@
+.services-list-container {
+    width: 100%;
+
+    .table-header,
+    .service-item-row {
+        display        : flex;
+        align-items    : center;
+        justify-content: space-between;
+        gap            : 10px;
+        width: 100%;
+        /* display              : grid;
+        grid-template-columns: 2fr 1fr 1fr 40px; // Adjust column proportions as needed
+        gap                  : 12px;
+        align-items          : start; */
+    }
+
+    .table-header {
+        padding-bottom: 8px;
+        border-bottom : 1px solid #e0e0e0;
+        margin-bottom : 12px;
+
+        .form-label {
+            font-weight: 600;
+            font-size  : 0.875rem;
+            color      : #333;
+        }
+    }
+
+    .service-item-row {
+        margin-bottom: 12px;
+    }
+
+    .req {
+        color: #dc3545;
+    }
+
+    .error {
+        color     : #dc3545;
+        font-size : 0.75rem;
+        display   : block;
+        margin-top: 4px;
+    }
+}

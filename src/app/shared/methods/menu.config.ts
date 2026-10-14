@@ -60,6 +60,17 @@ export const MENU_CONFIG: MenuItem[] = [
     ]
   },
   {
+    id: 'nurse',
+    label: 'Nurse',
+    icon: 'bi-person-hearts',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin, Roles.Nurse],
+    children: [
+      { id: 'list', label: 'Nurse List', icon: 'bi-person-lines-fill', route: 'nurse/master/list', roles: [Roles.SystemAdmin, Roles.Nurse] },
+      { id: 'register', label: 'Register Nurse', icon: 'bi-person-plus', route: 'nurse/master/registration', roles: [Roles.SystemAdmin, Roles.Nurse] }
+    ]
+  },
+  {
     id: 'appointments-admin',
     label: 'Appointments',
     icon: 'bi-calendar2-check',
@@ -109,6 +120,191 @@ export const MENU_CONFIG: MenuItem[] = [
       { id: 'medicine-add', label: 'Add Medicine', icon: 'bi-bag-plus-fill', route: 'medicine/master/add', roles: [Roles.SystemAdmin] },
       { id: 'medicine-list', label: 'Medicine List', icon: 'bi-bag-plus-fill', route: 'medicine/master/list', roles: [Roles.SystemAdmin] },
       { id: 'medicine-import', label: 'Import Medicine', icon: 'bi-bag-plus-fill', route: 'medicine/master/import', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'services',
+    label: 'Services',
+    icon: 'bi-list-task',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      // NOTE: originally all three of these shared the id 'addmedicine' — gave each a unique id
+      { id: 'ser-dashboard', label: 'Dashboard', icon: 'bi-speedometer2', route: 'medical-services/master/dashboard', roles: [Roles.SystemAdmin] },
+    ]
+  },
+  {
+    id: 'facility',
+    label: 'Facility',
+    icon: 'bi-box2-heart-fill',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      // NOTE: originally all three of these shared the id 'addmedicine' — gave each a unique id
+      { id: 'ser-dashboard', label: 'Dashboard', icon: 'bi-speedometer2', route: 'facility/master/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'ser-wingsNbeds', label: 'Wings & Beds', icon: 'bi bi-building', route: 'facility/master/wingbeds', roles: [Roles.SystemAdmin] },
+      // { id: 'ser-master-facilities', label: 'Create', icon: 'bi-bag-plus-fill', route: 'facility/master/create', roles: [Roles.SystemAdmin] },
+      // { id: 'ser-master-facilities-list', label: 'List', icon: 'bi-bag-plus-fill', route: 'facility/master/list', roles: [Roles.SystemAdmin] },
+      // { id: 'ser-typecreate', label: 'Create Master FT', icon: 'bi-bag-plus-fill', route: 'facility/master/create-facility-type', roles: [Roles.SystemAdmin] },
+      // { id: 'ser-typelist', label: 'Master FT List', icon: 'bi-bag-plus-fill', route: 'facility/master/facility-type-list', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'outpatient',
+    label: 'OPD / Outpatient',
+    icon: 'bi-person-walking',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'opd-dashboard', label: 'OPD Dashboard', icon: 'bi-speedometer2', route: 'opd/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'opd-registration', label: 'OPD Registration', icon: 'bi-person-plus-fill', route: 'opd/registration', roles: [Roles.SystemAdmin] },
+      { id: 'opd-appointment-queue', label: 'Appointment / Queue', icon: 'bi-calendar-check-fill', route: 'opd/appointment-queue', roles: [Roles.SystemAdmin] },
+      { id: 'opd-consultation', label: 'Consultation', icon: 'bi-chat-left-text-fill', route: 'opd/consultation', roles: [Roles.SystemAdmin] },
+      { id: 'opd-vital-signs', label: 'Vital Signs', icon: 'bi-activity', route: 'opd/vital-signs', roles: [Roles.SystemAdmin] },
+      { id: 'opd-medical-history', label: 'Medical History', icon: 'bi-file-earmark-medical-fill', route: 'opd/medical-history', roles: [Roles.SystemAdmin] },
+      { id: 'opd-physical-examination', label: 'Physical Examination', icon: 'bi-body-text', route: 'opd/physical-examination', roles: [Roles.SystemAdmin] },
+      { id: 'opd-diagnosis', label: 'Diagnosis', icon: 'bi-clipboard2-pulse-fill', route: 'opd/diagnosis', roles: [Roles.SystemAdmin] },
+      { id: 'opd-prescription', label: 'Prescription', icon: 'bi-capsule', route: 'opd/prescription', roles: [Roles.SystemAdmin] },
+      { id: 'opd-lab-orders', label: 'Lab Orders', icon: 'bi-journal-medical', route: 'opd/lab-orders', roles: [Roles.SystemAdmin] },
+      { id: 'opd-radiology-orders', label: 'Radiology Orders', icon: 'bi-border-style', route: 'opd/radiology-orders', roles: [Roles.SystemAdmin] },
+      { id: 'opd-procedures', label: 'Procedures', icon: 'bi-bandaid-fill', route: 'opd/procedures', roles: [Roles.SystemAdmin] },
+      { id: 'opd-follow-up', label: 'Follow-Up', icon: 'bi-arrow-repeat', route: 'opd/follow-up', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'inpatient',
+    label: 'IPD / Inpatient',
+    icon: 'bi-hospital',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'ipd-admission', label: 'Admission', icon: 'bi-person-plus-fill', route: 'ipd/admission', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-bed-management', label: 'Bed Management', icon: 'bi-door-closed-fill', route: 'ipd/bed-management', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-ward-management', label: 'Ward Management', icon: 'bi-building-gear', route: 'ipd/ward-management', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-inpatient-dashboard', label: 'Inpatient Dashboard', icon: 'bi-speedometer2', route: 'ipd/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-doctor-visits', label: 'Doctor Visits', icon: 'bi-person-badge-fill', route: 'ipd/doctor-visits', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-nursing-care', label: 'Nursing Care', icon: 'bi-heart-pulse-fill', route: 'ipd/nursing-care', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-vital-signs', label: 'Vital Signs', icon: 'bi-activity', route: 'ipd/vital-signs', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-nursing-assessment', label: 'Nursing Assessment', icon: 'bi-clipboard-check-fill', route: 'ipd/nursing-assessment', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-medication-administration', label: 'Medication Administration', icon: 'bi-capsule', route: 'ipd/medication-administration', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-doctor-orders', label: 'Doctor Orders', icon: 'bi-file-earmark-medical-fill', route: 'ipd/doctor-orders', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-lab-orders', label: 'Lab Orders', icon: 'bi-journal-medical', route: 'ipd/lab-orders', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-radiology', label: 'Radiology', icon: 'bi-border-style', route: 'ipd/radiology', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-procedures', label: 'Procedures', icon: 'bi-bandaid-fill', route: 'ipd/procedures', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-progress-notes', label: 'Progress Notes', icon: 'bi-journal-text', route: 'ipd/progress-notes', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-care-plan', label: 'Care Plan', icon: 'bi-card-checklist', route: 'ipd/care-plan', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-patient-transfer', label: 'Patient Transfer', icon: 'bi-arrow-left-right', route: 'ipd/patient-transfer', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-discharge', label: 'Discharge', icon: 'bi-box-arrow-right', route: 'ipd/discharge', roles: [Roles.SystemAdmin] },
+      { id: 'ipd-discharge-summary', label: 'Discharge Summary', icon: 'bi-file-earmark-text-fill', route: 'ipd/discharge-summary', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'emergency',
+    label: 'Emergency',
+    icon: 'bi-hospital-fill',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'er-dashboard', label: 'Emergency Dashboard', icon: 'bi-speedometer2', route: 'emergency/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'er-triage', label: 'Triage', icon: 'bi-exclamation-triangle-fill', route: 'emergency/triage', roles: [Roles.SystemAdmin] },
+      { id: 'er-registration', label: 'ER Registration', icon: 'bi-person-plus-fill', route: 'emergency/registration', roles: [Roles.SystemAdmin] },
+      { id: 'er-active-cases', label: 'Active Cases', icon: 'bi-activity', route: 'emergency/active-cases', roles: [Roles.SystemAdmin] },
+      { id: 'er-discharge-transfer', label: 'Discharge / Transfer', icon: 'bi-box-arrow-right', route: 'emergency/discharge-transfer', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'pharmacy',
+    label: 'Pharmacy',
+    icon: 'bi-capsule-pill',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'pharma-dashboard', label: 'Pharmacy Dashboard', icon: 'bi-speedometer2', route: 'pharmacy/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'pharma-dispensing', label: 'Medication Dispensing', icon: 'bi-box-seam-fill', route: 'pharmacy/dispensing', roles: [Roles.SystemAdmin] },
+      { id: 'pharma-inventory', label: 'Inventory Management', icon: 'bi-boxes', route: 'pharmacy/inventory', roles: [Roles.SystemAdmin] },
+      { id: 'pharma-prescriptions', label: 'Prescriptions', icon: 'bi-file-earmark-medical-fill', route: 'pharmacy/prescriptions', roles: [Roles.SystemAdmin] },
+      { id: 'pharma-purchase-orders', label: 'Purchase Orders', icon: 'bi-cart-check-fill', route: 'pharmacy/purchase-orders', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'laboratory',
+    label: 'Laboratory',
+    icon: 'bi-journal-medical',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'lab-dashboard', label: 'Lab Dashboard', icon: 'bi-speedometer2', route: 'laboratory/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'lab-sample-collection', label: 'Sample Collection', icon: 'bi-droplet-fill', route: 'laboratory/sample-collection', roles: [Roles.SystemAdmin] },
+      { id: 'lab-test-requests', label: 'Test Requests', icon: 'bi-clipboard-pulse', route: 'laboratory/test-requests', roles: [Roles.SystemAdmin] },
+      { id: 'lab-results-entry', label: 'Results Entry', icon: 'bi-pencil-square', route: 'laboratory/results-entry', roles: [Roles.SystemAdmin] },
+      { id: 'lab-reports', label: 'Lab Reports', icon: 'bi-file-earmark-spreadsheet-fill', route: 'laboratory/reports', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'radiology',
+    label: 'Radiology',
+    icon: 'bi-border-style',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'rad-dashboard', label: 'Radiology Dashboard', icon: 'bi-speedometer2', route: 'radiology/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'rad-order-list', label: 'Order List', icon: 'bi-card-checklist', route: 'radiology/order-list', roles: [Roles.SystemAdmin] },
+      { id: 'rad-scheduling', label: 'Imaging Scheduling', icon: 'bi-calendar-event-fill', route: 'radiology/scheduling', roles: [Roles.SystemAdmin] },
+      { id: 'rad-results-entry', label: 'Report Entry', icon: 'bi-file-earmark-richtext-fill', route: 'radiology/report-entry', roles: [Roles.SystemAdmin] },
+      { id: 'rad-pacs-viewer', label: 'PACS Viewer Integration', icon: 'bi-display-fill', route: 'radiology/pacs-viewer', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'billing',
+    label: 'Billing',
+    icon: 'bi-receipt-cutoff',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'bill-dashboard', label: 'Billing Dashboard', icon: 'bi-speedometer2', route: 'billing/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'bill-invoices', label: 'Invoices', icon: 'bi-receipt', route: 'billing/invoices', roles: [Roles.SystemAdmin] },
+      { id: 'bill-payments', label: 'Payments & Receipts', icon: 'bi-credit-card-fill', route: 'billing/payments', roles: [Roles.SystemAdmin] },
+      { id: 'bill-service-tariffs', label: 'Service Tariffs', icon: 'bi-tags-fill', route: 'billing/service-tariffs', roles: [Roles.SystemAdmin] },
+      { id: 'bill-refunds', label: 'Refunds & Adjustments', icon: 'bi-arrow-counterclockwise', route: 'billing/refunds', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'insurance',
+    label: 'Insurance',
+    icon: 'bi-shield-check',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'ser-dashboard', label: 'Insurance Dashboard', icon: 'bi-speedometer2', route: 'insurance-tpa/master/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'ins-claims', label: 'Claims Management', icon: 'bi-file-earmark-check-fill', route: 'insurance/claims', roles: [Roles.SystemAdmin] },
+      { id: 'ins-pre-authorization', label: 'Pre-Authorization', icon: 'bi-key-fill', route: 'insurance/pre-authorization', roles: [Roles.SystemAdmin] },
+      { id: 'ins-providers', label: 'Insurance Providers / TPAs', icon: 'bi-building', route: 'insurance/providers', roles: [Roles.SystemAdmin] },
+      { id: 'ins-settlements', label: 'Settlements', icon: 'bi-cash-stack', route: 'insurance/settlements', roles: [Roles.SystemAdmin] }
+    ]
+  },
+  {
+    id: 'reports',
+    label: 'Reports',
+    icon: 'bi-bar-chart-line-fill',
+    badgeKey: 'serviceCount',
+    badgeColor: 'var(--teal)',
+    roles: [Roles.SystemAdmin],
+    children: [
+      { id: 'rep-dashboard', label: 'Reports Dashboard', icon: 'bi-speedometer2', route: 'reports/dashboard', roles: [Roles.SystemAdmin] },
+      { id: 'rep-clinical', label: 'Clinical Reports', icon: 'bi-file-earmark-medical', route: 'reports/clinical', roles: [Roles.SystemAdmin] },
+      { id: 'rep-financial', label: 'Financial Reports', icon: 'bi-graph-up-arrow', route: 'reports/financial', roles: [Roles.SystemAdmin] },
+      { id: 'rep-operational', label: 'Operational Reports', icon: 'bi-gear-wide-connected', route: 'reports/operational', roles: [Roles.SystemAdmin] },
+      { id: 'rep-audit-logs', label: 'Audit Logs', icon: 'bi-journal-text', route: 'reports/audit-logs', roles: [Roles.SystemAdmin] }
     ]
   },
 

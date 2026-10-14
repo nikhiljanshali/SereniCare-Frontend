@@ -1,0 +1,174 @@
+<div class="mini-stats">
+    <div class="mini-stat">
+        <div class="mini-stat-icon" style="background:#CCFBF1;color:#0D9488;">
+            <i class="bi bi-people-fill"></i>
+        </div>
+        <div>
+            <div class="mini-stat-label">Active Overrides</div>
+            <div class="mini-stat-value">{{insuranceTariffstatisticsData.activeServices}}</div>
+            <div class="mini-stat-change change-up">↑ 8.2% this month</div>
+        </div>
+    </div>
+    <div class="mini-stat">
+        <div class="mini-stat-icon" style="background:#DBEAFE;color:#1D4ED8;"><i class="bi bi-calendar2-check-fill"></i>
+        </div>
+        <div>
+            <div class="mini-stat-label">Pre-Auth Required</div>
+            <div class="mini-stat-value">{{insuranceTariffstatisticsData.preauthServices}}</div>
+            <div class="mini-stat-change change-up">↑ 5 more than avg</div>
+        </div>
+    </div>
+</div>
+<div id="page-patient-list" class="page-section active">
+    <div class="filter-bar">
+        <div class="search-input-group">
+            <i class="bi bi-search search-icon"></i>
+            <input type="text" class="search-input" placeholder="Search by..." [(ngModel)]="searchText"
+                (input)="applyFilters()" autocomplete="off" aria-label="Search patients">
+            @if (searchText.trim()) {
+            <button type="button" class="clear-search" (click)="clearSearch()" aria-label="Clear search">
+                <i class="bi bi-x-circle-fill"></i>
+            </button>
+            }
+        </div>
+        <select class="filter-select" [(ngModel)]="selectedStatus" (change)="applyFilters()">
+            <option value="">Select Status </option>
+            @for (st of statusOptions; track st) {
+            <option [value]="st">{{ st }}</option>
+            }
+        </select>
+        <!-- <button class="btn btn-outline-default btn-sm">
+            <i class="bi bi-funnel"></i> More Filters
+        </button> -->
+        <button class="btn btn-outline-default btn-sm" (click)="resetList()">
+            <i class="bi bi-arrow-clockwise"></i>
+        </button>
+        <button class="btn btn-outline-default btn-sm" (click)="uploadData()">
+            <i class="bi bi-cloud-upload-fill"></i>
+        </button>
+        <button class="btn btn-primary btn-sm" (click)="addTpaInsuranceOverrideRate()">
+            <i class="bi bi-plus"></i>
+            Add TPA / Insurance Override
+        </button>
+    </div>
+    <div class="quick-tabs">
+        <button class="q-tab active">All Patients (3,482)</button>
+        <button class="q-tab">In-Clinic Queue (14)</button>
+        <button class="q-tab">Appt Scheduled (32)</button>
+        <button class="q-tab">Critical Flags (4)</button>
+    </div>
+    <div class="appt-row">
+        <div class="appt-card">
+            <table class="appt-table">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Insurance Provider / Panel</th>
+                        <th>Agreed Rates (OPD / IPD / ER)</th>
+                        <th>Pre-Auth?</th>
+                        <th>Effective Date</th>
+                        <th>Status</th>
+                        <th style="width: 150px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if(filteredinsuranceTpaList.length > 0) {
+                    @for (tpa of filteredinsuranceTpaList; track tpa._id) {
+                    <tr>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                #{{tpa.service.serviceCode}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);font-weight: 600;">
+                                {{tpa.service.name ? tpa.service.name : 'N/A'}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);font-weight: 600;">
+                                {{tpa.insuranceProvider.name ? tpa.insuranceProvider.name : 'N/A'}}
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 8px; font-size: 13px;">
+                                <span>
+                                    <strong style="font-size: 11px; color: var(--text-muted);">OPD:</strong>
+                                    {{ tpa.agreedRates.opdRate ? ('₹' + tpa.agreedRates.opdRate) : 'N/A' }}
+                                </span>
+                                <span style="color: #cbd5e1;">|</span>
+                                <span>
+                                    <strong style="font-size: 11px; color: var(--text-muted);">IPD:</strong>
+                                    {{ tpa.agreedRates.ipdRate ? ('₹' + tpa.agreedRates.ipdRate) : 'N/A' }}
+                                </span>
+                                <span style="color: #cbd5e1;">|</span>
+                                <span>
+                                    <strong style="font-size: 11px; color: var(--text-muted);">EMG:</strong>
+                                    {{ tpa.agreedRates.emergencyRate ? ('₹' + tpa.agreedRates.emergencyRate) : 'N/A' }}
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style="display: flex; align-items: center;">
+                                @if (tpa.preAuthRequired === true) {
+                                <span
+                                    style="display: inline-flex; align-items: center; gap: 4px; color: #b45309; font-size: 13px; font-weight: 600;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M12 9v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Required
+                                </span>
+                                } @else if (tpa.preAuthRequired === false ) {
+                                <span
+                                    style="display: inline-flex; align-items: center; gap: 4px; color: #64748b; font-size: 13px; font-weight: 500;">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                        stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                                        <polyline points="22 4 12 14.01 9 11.01" />
+                                    </svg>
+                                    Not Required
+                                </span>
+                                } @else {
+                                <!-- Fallback for null/undefined -->
+                                <span style="font-size: 14px; color: var(--text-muted);">
+                                    N/A
+                                </span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <div style="font-size:14px;color:var(--text-muted);">
+                                {{ (tpa.effectiveTo | date:'dd/MM/yyyy') || 'N/A' }}
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <span [style.display]="'inline-block'" [style.padding]="'2px 10px'"
+                                    [style.borderRadius]="'12px'" [style.fontSize]="'12px'" [style.fontWeight]="'600'"
+                                    [style.textTransform]="'uppercase'"
+                                    [style.backgroundColor]="(tpa.status === 'Active' || tpa.status === 'Inactive') ? '#dcfce7' : '#fee2e2'"
+                                    [style.color]="(tpa.status === 'Active' || tpa.status === 'Inactive') ? '#166534' : '#991b1b'">
+                                    {{ tpa.status ? tpa.status : 'N/A' }}
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <button class="action-btn" (click)="openDetailsPage(tpa)">
+                                <i class="bi bi-info-circle-fill"></i>
+                            </button>
+                            <button class="action-btn" (click)="editInsuranceTpaDetail(tpa)"> <i
+                                    class="bi bi-pencil"></i> </button>
+                            <button class="action-btn danger" (click)="deleteInsuranceTpaDetail(tpa)"><i
+                                    class="bi bi-trash3"></i></button>
+                        </td>
+                    </tr>
+                    }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<app-right-sidebar #medicalSidebar></app-right-sidebar>

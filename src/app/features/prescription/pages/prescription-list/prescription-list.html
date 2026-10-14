@@ -45,20 +45,20 @@
                         </div>
                     </td>
                     <td>
-                        <div style="font-size:11px;color:var(--text-muted);">{{presc.prescribedDate |
+                        <div style="font-size:14px;color:var(--text-muted);">{{presc.prescribedDate |
                             date:'dd/MM/yyyy'}}
                         </div>
                     </td>
                     <td>
-                        <div style="font-size:11px;color:var(--text-muted);">{{presc.followUpDate | date:'dd/MM/yyyy'}}
+                        <div style="font-size:14px;color:var(--text-muted);">{{presc.followUpDate | date:'dd/MM/yyyy'}}
                         </div>
                     </td>
                     <td>
-                        <div style="font-size:11px;color:var(--text-muted);" class="appt-notes" [popover]="presc.advice"
+                        <div style="font-size:14px;color:var(--text-muted);" class="appt-notes" [popover]="presc.advice"
                             placement="top" triggers="mouseenter:mouseleave">{{presc.advice}}</div>
                     </td>
                     <td>
-                        <div style="font-size:11px;color:var(--text-muted);" class="appt-notes" class="appt-notes"
+                        <div style="font-size:14px;color:var(--text-muted);" class="appt-notes" class="appt-notes"
                             [popover]="presc.notes" placement="top" triggers="mouseenter:mouseleave">{{presc.notes}}
                         </div>
                     </td>

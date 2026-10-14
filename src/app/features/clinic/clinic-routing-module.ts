@@ -10,6 +10,8 @@ import { PrimarySpeciality } from './page/primary-speciality/primary-speciality'
 import { Registration } from './page/registration/registration';
 import { Role } from './page/role/role';
 import { Surgery } from './page/surgery/surgery';
+import { Department } from './page/department/department';
+// import { Facility } from './page/facility/facility';
 
 const routes: Routes = [
   {
@@ -26,6 +28,8 @@ const routes: Routes = [
       { path: 'allergies', component: Allergies },
       { path: 'diseases', component: Diseases },
       { path: 'surgeries', component: Surgery },
+      { path: 'department', component: Department },
+      // { path: 'facility', component: Facility },
       { path: '**', redirectTo: 'registration' }
     ]
   },

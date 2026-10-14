@@ -4,12 +4,58 @@
     <div class="form-card-title">Create Your Account</div>
     <div class="form-card-sub">Start your free 30-day trial. No credit card required.</div>
 
+    <div class="form-group">
+      <label class="form-label">Register As <span class="req">*</span></label>
+      <div class="role-selector">
+        <!-- Doctor -->
+        @for (role of rolesList ; track role) {
+        <label class="role-card" [class.active]="signupForm.get('role')?.value === role.name">
+          <input type="radio" [value]="role.name" formControlName="role" hidden>
+          <div class="role-content">
+            <i class="bi bi-person-badge role-icon"></i>
+            <div>
+              <div class="role-title">{{ role.name }}</div>
+              <div class="role-sub">{{ role.description }}</div>
+            </div>
+          </div>
+        </label>
+        }
+        <!-- Patient -->
+        <!-- <label class="role-card" [class.active]="signupForm.value.role === 'Patient'">
+          <input type="radio" value="Patient" formControlName="role" hidden>
+          <div class="role-content">
+            <i class="bi bi-person role-icon"></i>
+            <div>
+              <div class="role-title">Patient</div>
+              <div class="role-sub">Book appointments & records</div>
+            </div>
+          </div>
+        </label> -->
+
+        <!-- Admin-->
+        <!-- <label class="role-card" [class.active]="signupForm.value.role === 'System Admin'">
+          <input type="radio" value="Patient" formControlName="role" hidden>
+          <div class="role-content">
+            <i class="bi bi-person role-icon"></i>
+            <div>
+              <div class="role-title">Admin</div>
+              <div class="role-sub">System Manager</div>
+            </div>
+          </div>
+        </label> -->
+      </div>
+
+      @if (submitted && f['role'].invalid) {
+      <div class="text-danger mt-1">Please select a role</div>
+      }
+    </div>
+
     <div class="form-row">
       <div class="form-group">
         <label class="form-label">First Name <span class="req">*</span></label>
         <div class="input-wrap">
           <i class="bi bi-person input-icon"></i>
-          <input type="text" class="form-input" placeholder="Dr. Riya" formControlName="firstName">
+          <input type="text" class="form-input" placeholder="Riya" formControlName="firstName">
         </div>
       </div>
       <div class="form-group">
@@ -81,53 +127,7 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label class="form-label">Register As <span class="req">*</span></label>
 
-      <div class="role-selector">
-
-        <!-- Doctor -->
-        @for (role of rolesList ; track role) {
-        <label class="role-card" [class.active]="signupForm.get('role')?.value === role.name">
-          <input type="radio" [value]="role.name" formControlName="role" hidden>
-          <div class="role-content">
-            <i class="bi bi-person-badge role-icon"></i>
-            <div>
-              <div class="role-title">{{ role.name }}</div>
-              <div class="role-sub">{{ role.description }}</div>
-            </div>
-          </div>
-        </label>
-        }
-        <!-- Patient -->
-        <!-- <label class="role-card" [class.active]="signupForm.value.role === 'Patient'">
-          <input type="radio" value="Patient" formControlName="role" hidden>
-          <div class="role-content">
-            <i class="bi bi-person role-icon"></i>
-            <div>
-              <div class="role-title">Patient</div>
-              <div class="role-sub">Book appointments & records</div>
-            </div>
-          </div>
-        </label> -->
-
-        <!-- Admin-->
-        <!-- <label class="role-card" [class.active]="signupForm.value.role === 'System Admin'">
-          <input type="radio" value="Patient" formControlName="role" hidden>
-          <div class="role-content">
-            <i class="bi bi-person role-icon"></i>
-            <div>
-              <div class="role-title">Admin</div>
-              <div class="role-sub">System Manager</div>
-            </div>
-          </div>
-        </label> -->
-      </div>
-
-      @if (submitted && f['role'].invalid) {
-      <div class="text-danger mt-1">Please select a role</div>
-      }
-    </div>
 
     <div class="form-group">
       <label class="check-wrap">

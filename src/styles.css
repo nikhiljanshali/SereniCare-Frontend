@@ -1,6 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@ng-select/ng-select/themes/default.theme.css';
 
+/* DayPilot renders event tooltips outside the component host. */
+.appointment-tooltip-popup {
+  position      : fixed;
+  z-index       : 2000;
+  display       : none;
+  width         : min(360px, calc(100vw - 16px));
+  max-height    : min(420px, calc(100vh - 16px));
+  overflow      : auto;
+  padding       : 14px 16px;
+  border        : 1px solid #d8e5e2;
+  border-radius : 10px;
+  background    : #ffffff;
+  color         : #1f2937;
+  box-shadow    : 0 12px 35px rgba(0, 0, 0, 0.18);
+  font          : 12px/1.55 Arial, sans-serif;
+  white-space   : pre-line;
+  pointer-events: none;
+}
+
+.appointment-event-with-tooltip {
+  cursor: help;
+}
+
 /* ═══════════════════════════════════════════
    TOKENS
 ═══════════════════════════════════════════ */
@@ -2404,15 +2427,16 @@ body {
 }
 
 .wizard-step {
-  flex        : 1;
-  display     : flex;
-  align-items : center;
-  gap         : 8px;
-  padding     : 14px 16px;
-  cursor      : pointer;
-  transition  : all var(--transition);
-  position    : relative;
-  border-right: 1px solid var(--border);
+  flex            : 1;
+  display         : flex;
+  align-items     : center;
+  gap             : 8px;
+  padding         : 14px 16px;
+  cursor          : pointer;
+  transition      : all var(--transition);
+  position        : relative;
+  border-right    : 1px solid var(--border);
+  background-color: var(--white);
 }
 
 .wizard-step:last-child {
@@ -2487,7 +2511,7 @@ body {
   align-items    : center;
   padding        : 16px 24px;
   border-top     : 1px solid var(--border);
-  background     : var(--bg);
+  background     : var(--white);
 }
 
 /* Wizard form elements */
@@ -3896,7 +3920,7 @@ body {
 }
 
 .card-subtitle {
-  font-size     : 24px;
+  font-size     : 12px;
   font-weight   : 800;
   color         : var(--text-head);
   letter-spacing: -0.5px;
@@ -10015,4 +10039,351 @@ body {
   border-top : 1px dashed var(--border, #E2E8F0);
   margin-top : 4px;
   padding-top: 12px;
+}
+
+
+/* ═══════════════ PATIENT LIST DESIGN ═══════════════ */
+.filter-bar {
+  background   : var(--bg-card);
+  border       : 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding      : 14px;
+  box-shadow   : var(--shadow-sm);
+  margin-bottom: 16px;
+  display      : flex;
+  gap          : 12px;
+  align-items  : center;
+  flex-wrap    : wrap;
+}
+
+.search-input-group {
+  position : relative;
+  flex     : 1;
+  min-width: 200px;
+}
+
+.search-input-group i {
+  position : absolute;
+  left     : 12px;
+  top      : 50%;
+  transform: translateY(-50%);
+  color    : var(--text-muted);
+}
+
+.search-input-group input {
+  width        : 100%;
+  background   : var(--bg);
+  border       : 1px solid var(--border);
+  border-radius: 8px;
+  padding      : 8px 12px 8px 34px;
+  font-family  : inherit;
+  font-size    : 13px;
+  outline      : none;
+}
+
+.filter-select {
+  background   : var(--bg);
+  border       : 1px solid var(--border);
+  border-radius: 8px;
+  padding      : 8px 12px;
+  font-family  : inherit;
+  font-size    : 13px;
+  color        : var(--text-body);
+  outline      : none;
+  cursor       : pointer;
+}
+
+.quick-tabs {
+  display      : flex;
+  gap          : 6px;
+  margin-bottom: 16px;
+}
+
+.q-tab {
+  padding      : 6px 14px;
+  font-size    : 12.5px;
+  font-weight  : 600;
+  background   : var(--bg-card);
+  border       : 1px solid var(--border);
+  border-radius: 20px;
+  color        : var(--text-muted);
+  cursor       : pointer;
+  transition   : all var(--transition);
+}
+
+.q-tab.active {
+  background  : var(--teal-light);
+  color       : var(--teal-dark);
+  border-color: var(--teal);
+}
+
+
+/* ═══════════════ KPI STAT CARDS ═══════════════ */
+.kpi-grid {
+  display              : grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap                  : 16px;
+  margin-bottom        : 20px;
+}
+
+.kpi-card {
+  background    : var(--bg-card);
+  border        : 1px solid var(--border);
+  border-radius : var(--radius-lg);
+  padding       : 18px 20px;
+  display       : flex;
+  flex-direction: column;
+  gap           : 10px;
+  position      : relative;
+  overflow      : hidden;
+  box-shadow    : var(--shadow-sm);
+  transition    : box-shadow var(--transition);
+}
+
+.kpi-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.kpi-card-accent {
+  position     : absolute;
+  top          : 0;
+  left         : 0;
+  right        : 0;
+  height       : 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.kpi-top {
+  display        : flex;
+  align-items    : flex-start;
+  justify-content: space-between;
+}
+
+.kpi-icon {
+  width          : 40px;
+  height         : 40px;
+  border-radius  : 10px;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 18px;
+  flex-shrink    : 0;
+}
+
+.kpi-icon.teal {
+  background: var(--teal-light);
+  color     : var(--teal);
+}
+
+.kpi-icon.rose {
+  background: var(--rose-light);
+  color     : var(--rose);
+}
+
+.kpi-icon.amber {
+  background: var(--amber-light);
+  color     : var(--amber);
+}
+
+.kpi-icon.indigo {
+  background: var(--indigo-light);
+  color     : var(--indigo);
+}
+
+.kpi-icon.violet {
+  background: var(--violet-light);
+  color     : var(--violet);
+}
+
+.kpi-icon.sky {
+  background: var(--sky-light);
+  color     : #0369a1;
+}
+
+.kpi-value {
+  font-family: 'DM Serif Display', serif;
+  font-size  : 28px;
+  color      : var(--text-head);
+  line-height: 1;
+}
+
+.kpi-label {
+  font-size  : 12px;
+  font-weight: 600;
+  color      : var(--text-muted);
+}
+
+.kpi-delta {
+  display      : inline-flex;
+  align-items  : center;
+  gap          : 4px;
+  font-size    : 11.5px;
+  font-weight  : 700;
+  padding      : 2px 7px;
+  border-radius: 8px;
+}
+
+.kpi-delta.up {
+  background: var(--teal-light);
+  color     : var(--teal-dark);
+}
+
+.kpi-delta.down {
+  background: var(--rose-light);
+  color     : var(--rose);
+}
+
+.kpi-delta.neutral {
+  background: var(--amber-light);
+  color     : var(--amber);
+}
+
+/* ═══ OCCUPANCY METER ═══ */
+.occ-bar-wrap {
+  background   : var(--bg);
+  border-radius: 20px;
+  height       : 8px;
+  width        : 100%;
+  overflow     : hidden;
+  margin       : 6px 0 4px;
+}
+
+.occ-bar {
+  height       : 8px;
+  border-radius: 20px;
+  transition   : width .6s ease;
+}
+
+.occ-labels {
+  display        : flex;
+  justify-content: space-between;
+  font-size      : 11px;
+  color          : var(--text-muted);
+}
+
+/* ═══ ALERT FEED ═══ */
+.alert-item {
+  display      : flex;
+  align-items  : flex-start;
+  gap          : 12px;
+  padding      : 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.alert-item:last-child {
+  border-bottom: none;
+}
+
+.alert-dot {
+  width          : 32px;
+  height         : 32px;
+  border-radius  : 50%;
+  display        : flex;
+  align-items    : center;
+  justify-content: center;
+  font-size      : 14px;
+  flex-shrink    : 0;
+  margin-top     : 1px;
+}
+
+.alert-dot.critical {
+  background: var(--rose-light);
+  color     : var(--rose);
+}
+
+.alert-dot.warning {
+  background: var(--amber-light);
+  color     : var(--amber);
+}
+
+.alert-dot.info {
+  background: var(--teal-light);
+  color     : var(--teal);
+}
+
+.alert-dot.maintenance {
+  background: var(--violet-light);
+  color     : var(--violet);
+}
+
+.alert-title {
+  font-weight: 700;
+  font-size  : 13px;
+  color      : var(--text-head);
+}
+
+.alert-desc {
+  font-size : 12px;
+  color     : var(--text-muted);
+  margin-top: 2px;
+}
+
+.alert-time {
+  font-size  : 11px;
+  color      : var(--text-muted);
+  white-space: nowrap;
+  margin-left: auto;
+  padding-top: 2px;
+}
+
+/* ═══ WING GRID ═══ */
+.wing-grid {
+  display              : grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap                  : 16px;
+  margin-bottom        : 20px;
+}
+
+.wing-card {
+  background   : var(--bg-card);
+  border       : 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow   : var(--shadow-sm);
+  overflow     : hidden;
+}
+
+.wing-card-head {
+  padding        : 14px 18px;
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  border-bottom  : 1px solid var(--border);
+}
+
+.wing-name {
+  font-weight: 700;
+  font-size  : 13.5px;
+  color      : var(--text-head);
+}
+
+.wing-meta {
+  font-size: 11.5px;
+  color    : var(--text-muted);
+}
+
+.wing-body {
+  padding: 14px 18px;
+}
+
+.bed-row {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  padding        : 7px 0;
+  border-bottom  : 1px dashed var(--border);
+}
+
+.bed-row:last-child {
+  border-bottom: none;
+}
+
+.bed-id {
+  font-weight: 600;
+  font-size  : 13px;
+  color      : var(--text-head);
+}
+
+.bed-patient {
+  font-size: 12px;
+  color    : var(--text-muted);
 }

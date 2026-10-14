@@ -1,0 +1,397 @@
+<div class="modal-header">
+    <h5 class="modal-title">Add New Service</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup();">
+    </button>
+</div>
+<div class="modal-body rounded-5 p-0">
+    <div class="p-3">
+        <div class="step-bar" id="step-bar">
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 1">1</div>
+                <div class="step-line" [class.active]="currentStep > 1"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 2">2</div>
+                <div class="step-line" [class.active]="currentStep > 2"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 3">3</div>
+                <div class="step-line" [class.active]="currentStep > 3"></div>
+            </div>
+            <div class="step-item">
+                <div class="step-circle" [class.active]="currentStep >= 4">4</div>
+                <div class="step-line" [class.active]="currentStep > 4"></div>
+            </div>
+            <div class="step-item" style="flex:0;">
+                <div class="step-circle" [class.active]="currentStep === 5">5</div>
+            </div>
+        </div>
+        <!-- <div style="display:flex;justify-content:space-between;margin-bottom:22px;margin-top:4px;">
+            <span
+                style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--teal);">
+                Info
+            </span>
+            <span
+                style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);">
+                Pricing / Rates
+            </span>
+            <span
+                style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);">
+                Tax Configuration
+            </span>
+            <span
+                style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);">
+                Practitioner Revenue Share
+            </span>
+            <span
+                style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);">
+                Medical Coding
+            </span>
+        </div> -->
+        <form [formGroup]="MedicalServicesForm">
+            @if(currentStep === 1){
+            <div id="reg-step1">
+                <div class="card-section-label" style="margin-top:0;">
+                    Service Basic Info
+                </div>
+                <div class="vh-scroll-container">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Service Code <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-braces-asterisk input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g. SRV-LAB-001"
+                                    formControlName="serviceCode" readonly>
+                                <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Service Name <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-journal-medical input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g. Complete Blood Count (CBC)"
+                                    formControlName="name">
+                                <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Description</label>
+                        <div class="input-wrap">
+                            <i class="bi bi-card-text input-icon"></i>
+                            <input type="text" class="form-input" placeholder="e.g. Complete Blood Count (CBC)"
+                                formControlName="description">
+                            <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Category <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-tags-fill input-icon"></i>
+                                <select id="srv_category" class="form-select" formControlName="category" required>
+                                    <option value="">Select Category</option>
+                                    @for (category of categoryList; track category) {
+                                    <option [value]="category">
+                                        {{ category }}
+                                    </option>
+                                    }
+                                </select>
+                                <!-- <input type="text" class="form-input" placeholder="e.g. Complete Blood Count (CBC)"> -->
+                                <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sub Category </label>
+                            <div class="input-wrap">
+                                <i class="bi bi-tags-fill input-icon"></i>
+                                <input type="text" class="form-input" placeholder="e.g. Hematology"
+                                    formControlName="subCategory">
+                                <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Department <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-diagram-2-fill input-icon"></i>
+                                <select id="srv_department" class="form-select" placeholder="e.g. Hematology" required
+                                    formControlName="department">
+                                    <option value="">Select Department</option>
+                                    @for (department of departmentList; track department) {
+                                    <option [value]="department">
+                                        {{ department }}
+                                    </option>
+                                    }
+                                </select>
+                                <!-- <input type="text" class="form-input" placeholder="e.g. Complete Blood Count (CBC)"> -->
+                                <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Status <span class="req">*</span></label>
+                            <div class="input-wrap">
+                                <i class="bi bi-hand-thumbs-up-fill input-icon"></i>
+                                <select class="form-select" formControlName="status">
+                                    <option value="">Select Status </option>
+                                    @for (item of statusList; track item.value) {
+                                    <option [ngValue]="item.value">
+                                        {{ item.value }}
+                                    </option>
+                                    }
+                                </select>
+                                <!-- <input type="text" class="form-input" placeholder="e.g. Complete Blood Count (CBC)"> -->
+                                <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preparation Instructions </label>
+                        <div class="input-wrap w-100">
+                            <i class="bi bi-braces-asterisk input-icon"></i>
+                            <textarea class="form-input" placeholder="e.g. SRV-LAB-001"
+                                formControlName="preparationInstructions" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="check-wrap">
+                            <input type="checkbox" class="check-input" formControlName="requiresConsentForm">
+                            <span class="check-box"></span>
+                            <span class="check-label">
+                                Requires Consent Form
+                            </span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="check-wrap">
+                            <input type="checkbox" class="check-input" formControlName="requiresDoctorOrder">
+                            <span class="check-box"></span>
+                            <span class="check-label">
+                                Requires Doctor Order
+                            </span>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="check-wrap">
+                            <input type="checkbox" class="check-input" formControlName="isPackageComponent">
+                            <span class="check-box"></span>
+                            <span class="check-label">
+                                Allow in Packages
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(currentStep === 2){
+            <div id="reg-step1">
+                <div class="card-section-label" style="margin-top:0;">
+                    Base Pricing Configuration
+                </div>
+                <div class="vh-scroll-container">
+                    <div formGroupName="basePricing">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">ODD Rate<span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-braces-asterisk input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. 0"
+                                        formControlName="opdRate">
+                                    <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">IPD Rate <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-journal-medical input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. 0"
+                                        formControlName="ipdRate">
+                                    <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Emergency Rate <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-journal-medical input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. 0"
+                                        formControlName="emergencyRate">
+                                    <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">DayCare Rate <span class="req">*</span></label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-journal-medical input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. 0"
+                                        formControlName="dayCareRate">
+                                    <!-- [ngClass]="{'is-invalid': submitted && f['clinicName'].invalid}" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(currentStep === 3){
+            <div id="reg-step1">
+                <div class="card-section-label" style="margin-top:0;">
+                    Tax Configuration
+                </div>
+                <div class="vh-scroll-container">
+                    <div formGroupName="taxConfig">
+                        <!-- Tax Toggle -->
+                        <div class="d-flex align-items-center justify-content-between gap-0 mb-3">
+                            <div>
+                                <label for="isTaxable" class="tax-header-label">
+                                    Apply Sales/Service Tax
+                                </label>
+                                <p>
+                                    Enable tax calculations for this billing item or procedure.
+                                </p>
+                            </div>
+                            <div class="status-switch d-flex align-items-center justify-content-start gap-2">
+                                <label class="switch">
+                                    <input type="checkbox" id="isTaxable" formControlName="isTaxable" />
+                                    <span class="slider"></span>
+                                </label>
+                                <span class="status-label">{{MedicalServicesForm.get('taxConfig.isTaxable')?.value?
+                                    'Taxable': 'Non-Taxable'}}</span>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Tax Percentage
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-percent input-icon"></i>
+                                    <input type="number" class="form-input" placeholder="e.g. 18"
+                                        formControlName="taxPercentage" min="0" max="100" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Tax Code
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-upc-scan input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. GST18"
+                                        formControlName="taxCode" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(currentStep === 4){
+            <div id="reg-step1">
+                <div class="card-section-label" style="margin-top:0;">
+                    Practitioner Revenue Share
+                </div>
+                <div class="vh-scroll-container">
+                    <div formGroupName="doctorShare">
+                        <!-- Tax Toggle -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Calculation Type <span class="req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-percent input-icon"></i>
+                                    <select id="srv_category" class="form-select" formControlName="calculationType"
+                                        required>
+                                        <option value="">Select Calculation Type</option>
+                                        @for (calType of calculationTypeList; track calType) {
+                                        <option [value]="calType.value">
+                                            {{ calType.key }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Share Value <span class="req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-cash input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. 0"
+                                        formControlName="value" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+            @if(currentStep === 5){
+            <div id="reg-step1">
+                <div class="card-section-label" style="margin-top:0;">
+                    Medical Coding
+                </div>
+                <div class="vh-scroll-container">
+                    <div formGroupName="standardMedicalCodes">
+                        <!-- Tax Toggle -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Code Type <span class="req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-percent input-icon"></i>
+                                    <select id="srv_category" class="form-select" formControlName="codeType" required>
+                                        <option value="">Select Code Standard...</option>
+                                        @for (codingStd of codingStandardList; track codingStd) {
+                                        <option [value]="codingStd.value">
+                                            {{ codingStd.label }}
+                                        </option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">
+                                    Medical Code <span class="req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-cash input-icon"></i>
+                                    <input type="text" class="form-input" placeholder="e.g. 99241 OR E11.9"
+                                        formControlName="code" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            }
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex align-items-center justify-content-between gap-1 w-100">
+            <div>
+                <button type="button" class="btn btn-outline-secondary" (click)="generateDummyMedicalService()">
+                    <i class="bi bi-magic me-1"></i> Auto Fill
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+                @if (currentStep > 1) {
+                <button type="button" class="btn btn-outline-secondary btn-sm" (click)="previousStep()">
+                    <i class="bi bi-arrow-left me-1"></i>
+                    Previous
+                </button>
+                }
+                @if (currentStep < totalSteps) { <button type="button" class="btn btn-primary btn-sm"
+                    (click)="nextStep()">
+                    Next <i class="bi bi-arrow-right ms-1"></i>
+                    </button>
+                    }
+                    @if (currentStep === totalSteps) {
+                    <button type="button" class="btn btn-success btn-sm" (click)="saveMedicalService()">
+                        <i class="bi bi-check2-circle me-1"></i>Save Service
+                    </button>
+                    }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,530 @@
+@if(!isModel){
+<div id="page-clinic-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Create Facility</div>
+            <div class="ph-sub">Manage facility structures, locations, and operational parameters.</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>Filter
+            </button>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>
+                Reset
+            </button>
+            <button class="btn btn-primary btn-sm" (click)="submit();">
+                <i class="bi bi-floppy2"></i>
+                Create Type
+            </button>
+        </div>
+    </div>
+</div>
+}
+@if(isModel){
+<div class="modal-header">
+    <h5 class="modal-title">Add Facility Type & Subtype</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+    </button>
+</div>
+}
+<div class="modal-body rounded-5 p-0">
+    <div class="wizard-wrap border-0">
+        <form [formGroup]="facilityForm" (ngSubmit)="submit()" class="wizard-form">
+            <div class="wizard-body" [ngClass]="{ 'p-2': isModel }">
+                <div [ngClass]="{ 'vh-scroll-container': isModel }">
+
+                    <!-- PANEL 1: CORE INFORMATION -->
+                    <div class="wizard-panel mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Core Facility Details
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);">
+                                    Identify the facility code, name, categorization, and current operational status.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 1: Code & Name -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Facility Code <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-qr-code input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="facilityCode"
+                                            placeholder="e.g. FAC-OPD-001"
+                                            [class.is-invalid]="facilityForm.get('facilityCode')?.invalid && facilityForm.get('facilityCode')?.touched" />
+                                    </div>
+                                    @if (facilityForm.get('facilityCode')?.invalid &&
+                                    facilityForm.get('facilityCode')?.touched) {
+                                    <small class="text-danger">Facility Code is required.</small>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Facility Name <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-building input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="name"
+                                            placeholder="e.g. Central OPD Wing"
+                                            [class.is-invalid]="facilityForm.get('name')?.invalid && facilityForm.get('name')?.touched" />
+                                    </div>
+                                    @if (facilityForm.get('name')?.invalid && facilityForm.get('name')?.touched) {
+                                    <small class="text-danger">Facility Name is required.</small>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Type, SubType & Status -->
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Type <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-diagram-3 input-icon"></i>
+                                        <select class="form-input" formControlName="type" (change)="getFacility()"
+                                            [class.is-invalid]="facilityForm.get('type')?.invalid && facilityForm.get('type')?.touched">
+                                            <option value="">Select Category</option>
+                                            @for (t of facilityTypes; track t) {
+                                            <option [value]="t">{{ t }}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @if (facilityForm.get('type')?.invalid && facilityForm.get('type')?.touched) {
+                                    <small class="text-danger">Type selection is required.</small>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Sub-Type <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-diagram-2 input-icon"></i>
+                                        <select class="form-input" formControlName="subType"
+                                            [class.is-invalid]="facilityForm.get('subType')?.invalid && facilityForm.get('subType')?.touched">
+                                            <option value="">Select Sub-Type</option>
+                                            @for (st of facilitySubTypes; track st) {
+                                            <option [value]="st.name">{{ st.name }}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    @if (facilityForm.get('subType')?.invalid && facilityForm.get('subType')?.touched) {
+                                    <small class="text-danger">Sub-type selection is required.</small>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Status <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-activity input-icon"></i>
+                                        <select class="form-input" formControlName="status">
+                                            @for (st of facilityStatuses; track st) {
+                                            <option [value]="st">{{ st | uppercase }}</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Internal Extension & Dept Head -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Contact Extension</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-telephone input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="contactExtension"
+                                            placeholder="e.g. EXT-4401" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Department Head (ObjectId)</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-person-badge input-icon"></i>
+                                        <select class="form-input" formControlName="departmentHeadId">
+                                            @for (st of userList; track st) {
+                                            <option [value]="st._id">{{ st.firstName | uppercase }} {{st.lastName |
+                                                uppercase}}</option>
+                                            }
+                                        </select>
+                                        <!-- <input type="text" class="form-input" formControlName="departmentHeadId"
+                                            placeholder="User ObjectId" /> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL 2: LOCATION -->
+                    <div class="wizard-panel mb-4" formGroupName="location">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Physical Location
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);">
+                                    Specify building, floor, room, and wing details.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Building <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-geo-alt input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="building"
+                                            placeholder="e.g. Block A"
+                                            [class.is-invalid]="facilityForm.get('location.building')?.invalid && facilityForm.get('location.building')?.touched" />
+                                    </div>
+                                    @if (facilityForm.get('location.building')?.invalid &&
+                                    facilityForm.get('location.building')?.touched) {
+                                    <small class="text-danger">Building is required.</small>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Floor <span class="wz-req">*</span></label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-layers input-icon"></i>
+                                        <input type="number" class="form-input" formControlName="floor"
+                                            placeholder="e.g. 3"
+                                            [class.is-invalid]="facilityForm.get('location.floor')?.invalid && facilityForm.get('location.floor')?.touched" />
+                                    </div>
+                                    @if (facilityForm.get('location.floor')?.invalid &&
+                                    facilityForm.get('location.floor')?.touched) {
+                                    <small class="text-danger">Floor is required.</small>
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Room Number</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-door-closed input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="roomNumber"
+                                            placeholder="e.g. 302-B" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="wz-form-group mb-3">
+                                    <label class="wz-label">Wing</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-compass input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="wing"
+                                            placeholder="e.g. North Wing" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PANEL 3: OPERATIONAL HOURS -->
+                    <div class="wizard-panel mb-4" formGroupName="operationalHours">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Operational Hours
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);">
+                                    Set working schedule or mark continuous 24x7 coverage.
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="is24x7Switch"
+                                        formControlName="is24x7">
+                                    <label class="form-check-label fw-bold" for="is24x7Switch">24x7 Facility</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (!facilityForm.get('operationalHours.is24x7')?.value) {
+                        <div class="wz-form-group">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <label class="wz-label mb-0">Custom Day Schedules</label>
+                                <button type="button" class="btn btn-primary btn-sm" (click)="addScheduleItem()">
+                                    <i class="bi bi-plus-lg me-1"></i> Add Day Schedule
+                                </button>
+                            </div>
+
+                            <div formArrayName="schedule">
+                                @for (item of scheduleArray.controls; track $index; let i = $index) {
+                                <div [formGroupName]="i" class="row align-items-center mb-2">
+                                    <div class="col-md-4">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-calendar2-day-fill input-icon"></i>
+                                            <select class="form-input form-control" formControlName="dayOfWeek">
+                                                @for (d of daysOfWeek; track d) {
+                                                <option [value]="d">{{ d }}</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-clock-fill input-icon"></i>
+                                            <input type="time" class="form-input form-control"
+                                                formControlName="openTime" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-clock-fill input-icon"></i>
+                                            <input type="time" class="form-input form-control"
+                                                formControlName="closeTime" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                                            (click)="removeScheduleItem(i)">
+                                            <i class="bi bi-trash me-1"></i> Remove
+                                        </button>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- PANEL 4: CONFIGURATION & EQUIPMENT -->
+                    <div class="wizard-panel mb-4" formGroupName="configuration">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Configuration & Capabilities
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);">
+                                    Configure bed capacity, licencing, equipment inventory, and surgeries supported.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Capacity Group -->
+                        <div formGroupName="capacity" class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="wz-form-group">
+                                    <label class="wz-label">Total Beds</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-hospital input-icon"></i>
+                                        <input type="number" class="form-input" formControlName="totalBeds" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="wz-form-group">
+                                    <label class="wz-label">Occupied Beds</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-person-bed input-icon"></i>
+                                        <input type="number" class="form-input" formControlName="occupiedBeds" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="wz-form-group">
+                                    <label class="wz-label">ICU Beds</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-heart-pulse input-icon"></i>
+                                        <input type="number" class="form-input" formControlName="icuBeds" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row align-items-center mb-3">
+                            <div class="col-md-8">
+                                <div class="wz-form-group">
+                                    <label class="wz-label">Pharmacy License Number</label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-card-heading input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="pharmacyLicenseNo"
+                                            placeholder="e.g. PH-2026-9908" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 pt-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="coldStorageSwitch"
+                                        formControlName="hasColdStorage">
+                                    <label class="form-check-label fw-bold" for="coldStorageSwitch">Cold Storage
+                                        Available</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Equipment Array -->
+                        <div class="wz-form-group mb-3">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <label class="wz-label mb-0">Equipment Inventory</label>
+                                <button type="button" class="btn btn-primary btn-sm" (click)="addEquipmentItem()">
+                                    <i class="bi bi-plus-lg me-1"></i> Add Equipment
+                                </button>
+                            </div>
+
+                            <div formArrayName="equipmentList">
+                                @for (eq of equipmentArray.controls; track $index; let i = $index) {
+                                <div [formGroupName]="i" class="row align-items-center mb-2">
+                                    <div class="col-md-3">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-tools input-icon"></i>
+                                            <input type="text" class="form-input form-control" formControlName="name"
+                                                placeholder="Name" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-tools input-icon"></i>
+                                            <input type="text" class="form-input form-control" formControlName="model"
+                                                placeholder="Model" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-nut-fill input-icon"></i>
+                                            <input type="date" class="form-input form-control"
+                                                formControlName="lastCalibrated" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-check-circle-fill input-icon"></i>
+                                            <select class="form-input form-control" formControlName="status">
+                                                @for (st of equipmentStatuses; track st) {
+                                                <option [value]="st">{{ st }}</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1 text-end">
+                                        <button type="button" class="btn btn-outline-danger btn-sm"
+                                            (click)="removeEquipmentItem(i)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <!-- Surgeries Array -->
+                        <div class="wz-form-group mb-2">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <label class="wz-label mb-0">Supported Surgeries</label>
+                                <button type="button" class="btn btn-primary btn-sm" (click)="addSurgery()">
+                                    <i class="bi bi-plus-lg me-1"></i> Add Surgery
+                                </button>
+                            </div>
+
+                            <div formArrayName="supportedSurgeries">
+                                @for (surgControl of surgeriesArray.controls; track $index; let i = $index) {
+                                <div class="row align-items-center mb-2">
+                                    <div class="col-md-10">
+                                        <div class="input-wrap">
+                                            <i class="bi bi-journal-medical input-icon"></i>
+                                            <select class="form-input form-control" [formControl]="surgControl"
+                                                placeholder="e.g. Appendectomy">
+                                                @for (st of surgeryList; track st) {
+                                                <option [value]="st">{{ st.name }}</option>
+                                                }
+                                            </select>
+                                            <!-- <input type="text" class="form-input form-control"
+                                                [formControl]="surgControl" placeholder="e.g. Appendectomy" /> -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 text-end">
+                                        <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                                            (click)="removeSurgery(i)">
+                                            <i class="bi bi-trash me-1"></i> Remove
+                                        </button>
+                                    </div>
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- PANEL 5: STAFF ASSIGNMENT -->
+                    <div class="wizard-panel mb-4">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Assigned Personnel
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);">
+                                    Link staff user IDs to this facility.
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-primary btn-sm" (click)="addStaffId()">
+                                <i class="bi bi-plus-lg me-1"></i> Assign Staff
+                            </button>
+                        </div>
+
+                        <div formArrayName="assignedStaff">
+                            @for (staffControl of assignedStaffArray.controls; track $index; let i = $index) {
+                            <div class="row align-items-center mb-2">
+                                <div class="col-md-10">
+                                    <div class="input-wrap">
+                                        <i class="bi bi-person input-icon"></i>
+                                        <select class="form-input" [formControl]="staffControl">
+                                            @for (st of userList; track st) {
+                                            <option [value]="st._id">{{ st.firstName | uppercase }} {{st.lastName |
+                                                uppercase}}</option>
+                                            }
+                                        </select>
+                                        <!-- <input type="text" class="form-input" [formControl]="staffControl"
+                                            placeholder="User ObjectId (e.g. 642a8b9f...)" /> -->
+                                    </div>
+                                </div>
+                                <div class="col-md-2 text-end">
+                                    <button type="button" class="btn btn-outline-danger btn-sm w-100"
+                                        (click)="removeStaffId(i)">
+                                        <i class="bi bi-trash me-1"></i> Remove
+                                    </button>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@if(isModel){
+<div class="modal-footer">
+    <div class="d-flex align-items-center justify-content-between gap-1 w-100">
+        <div>
+            <button type="button" class="btn btn-outline-secondary" (click)="generateDummyFacilityData()">
+                <i class="bi bi-magic me-1"></i> Auto Fill
+            </button>
+        </div>
+        <div class="d-flex align-items-center justify-content-between gap-2">
+            <button type="button" class="btn btn-secondary" (click)="closeModePopup()"> Close </button>
+            <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
+            <button type="button" class="btn btn-primary" (click)="submit()"> Submit </button>
+        </div>
+    </div>
+</div>
+}

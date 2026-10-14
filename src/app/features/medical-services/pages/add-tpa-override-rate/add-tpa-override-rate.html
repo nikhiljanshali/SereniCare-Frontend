@@ -1,0 +1,171 @@
+<form [formGroup]="serviceTariffForm" (ngSubmit)="onSubmit()" class="tariff-form">
+    <div class="modal-header">
+        <h5 class="modal-title">Add TPA / Insurance Override Rate</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+        </button>
+    </div>
+    <div class="modal-body rounded-5 p-3">
+        <div class="vh-scroll-container">
+            <!-- 1. RELATIONSHIPS (Service & Insurance Provider) -->
+            <div class="form-section">
+                <!-- <h5 class="section-title">Service & Provider Mapping</h5> -->
+                <div class="card-section-label" style="margin-top:0;">
+                    Service & Provider Mapping
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Service <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-activity input-icon"></i>
+                            <select class="form-select" formControlName="service">
+                                <option value="">Select Service</option>
+                                @for (srv of medicalServicesDetailsList; track srv._id) {
+                                <option [value]="srv._id">{{ srv.name }}</option>
+                                }
+                            </select>
+                        </div>
+                        @if (serviceTariffForm.get('service')?.touched && serviceTariffForm.get('service')?.invalid) {
+                        <small class="error">Service selection is required.</small>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Insurance Provider <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-shield-check input-icon"></i>
+                            <select class="form-select" formControlName="insuranceProvider">
+                                <option value="">Select Provider</option>
+                                @for (provider of insuranceTpaList; track provider._id) {
+                                <option [value]="provider._id">{{ provider.name }}</option>
+                                }
+                            </select>
+                        </div>
+                        @if (serviceTariffForm.get('insuranceProvider')?.touched &&
+                        serviceTariffForm.get('insuranceProvider')?.invalid) {
+                        <small class="error">Insurance Provider is required.</small>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 2. AGREED TARIFF RATES (Nested Sub-Group) -->
+            <div class="form-section" formGroupName="agreedRates">
+                <!-- <h5 class="section-title">Agreed Tariff Rates (₹)</h5> -->
+                <div class="card-section-label" style="margin-top:0;">
+                    Agreed Tariff Rates (₹)
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label class="form-label">OPD Rate <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-currency-rupee input-icon"></i>
+                            <input type="number" class="form-input" placeholder="0" formControlName="opdRate" />
+                        </div>
+                        @if (serviceTariffForm.get('agreedRates.opdRate')?.touched &&
+                        serviceTariffForm.get('agreedRates.opdRate')?.invalid) {
+                        <small class="error">Valid OPD rate is required (min: 0).</small>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">IPD Rate <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-hospital input-icon"></i>
+                            <input type="number" class="form-input" placeholder="0" formControlName="ipdRate" />
+                        </div>
+                        @if (serviceTariffForm.get('agreedRates.ipdRate')?.touched &&
+                        serviceTariffForm.get('agreedRates.ipdRate')?.invalid) {
+                        <small class="error">Valid IPD rate is required (min: 0).</small>
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Emergency Rate <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-lightning-charge input-icon"></i>
+                            <input type="number" class="form-input" placeholder="0" formControlName="emergencyRate" />
+                        </div>
+                        @if (serviceTariffForm.get('agreedRates.emergencyRate')?.touched &&
+                        serviceTariffForm.get('agreedRates.emergencyRate')?.invalid) {
+                        <small class="error">Valid Emergency rate is required (min: 0).</small>
+                        }
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- 3. EFFECTIVE DATES & STATUS -->
+            <div class="form-section">
+                <!-- <h5 class="section-title">Validity & Rules</h5> -->
+                <div class="card-section-label" style="margin-top:0;">
+                    Validity & Rules
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Effective From <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-calendar-event input-icon"></i>
+                            <input type="date" class="form-input" formControlName="effectiveFrom" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Effective To <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-calendar-check input-icon"></i>
+                            <input type="date" class="form-input" formControlName="effectiveTo" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Status <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-info-circle input-icon"></i>
+                            <select class="form-select" formControlName="status">
+                                @for (st of statusOptions; track st) {
+                                <option [value]="st">{{ st }}</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="check-wrap">
+                        <input type="checkbox" class="check-input" formControlName="preAuthRequired">
+                        <span class="check-box"></span>
+                        <span class="check-label">
+                            Pre-Authorization Required
+                        </span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label class="check-wrap">
+                        <input type="checkbox" class="check-input" formControlName="isActive">
+                        <span class="check-box"></span>
+                        <span class="check-label">
+                            Is Active
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex align-items-center justify-content-between gap-1 w-100">
+            <div>
+                <button type="button" class="btn btn-outline-secondary" (click)="generateDummyData()">
+                    <i class="bi bi-magic me-1"></i> Auto Fill
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+                <button type="submit" class="btn btn-primary btn-sm" [disabled]="serviceTariffForm.invalid">
+                    <i class="bi bi-save me-1"></i> Save Tariff Override
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

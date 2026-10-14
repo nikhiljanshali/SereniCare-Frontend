@@ -1,12 +1,14 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
-import { IPatientsData, IMedicineDetails, IMedicine, SymptomCategory } from '../../../../core/interface/basic.interface';
+import { IPatientsData, IMedicineDetails, IMedicine, SymptomCategory, MedicalServicesDetails } from '../../../../core/interface/basic.interface';
 import { MedicineService } from '../../../../core/services/medicine-services';
 import { PatientService } from '../../../../core/services/patients';
 import { PrescriptionService } from '../../../../core/services/prescription-services';
 import { StorageOperation } from '../../../../core/services/storage-operation';
 import { CommonMethod } from '../../../../core/services/common-method';
+import { MedicalServices } from '../../../../core/services/medical-services';
+import { catchError, of, forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-create-prescription',
@@ -66,6 +68,8 @@ export class CreatePrescription {
     }
   ];
 
+  public medicalServicesDetailsList: MedicalServicesDetails[] = [];
+
 
   constructor(
     private fb: FormBuilder,
@@ -75,7 +79,8 @@ export class CreatePrescription {
     private _prescriptionService: PrescriptionService,
     public _storageOperation: StorageOperation,
     private router: Router,
-    private _commonMethod: CommonMethod
+    private _commonMethod: CommonMethod,
+    private _medicalServices: MedicalServices
   ) {
     this.route.paramMap.subscribe(params => {
       const patientId = params.get('patientId');
@@ -98,8 +103,7 @@ export class CreatePrescription {
 
   ngOnInit(): void {
     this.setUserDetails();
-    this.getPatientDetails();
-    this.getMedicines();
+    this.loadInitialData();
     this.initializePrescriptionForm();
     // this.addInvestigation();
     this.addSymptom();
@@ -133,7 +137,6 @@ export class CreatePrescription {
 
   private getExistingPrescriptionDetails(): void {
     this._prescriptionService.getPrescriptionById(this.prescriptionId).subscribe((res: any) => {
-      console.log(res.data);
       this.patchPrescriptionData(res.data);
     })
   }
@@ -208,8 +211,6 @@ export class CreatePrescription {
       });
 
     });
-
-    console.log('Investigations:', this.investigations.value);
   }
 
   private initializePrescriptionForm(): void {
@@ -326,19 +327,56 @@ export class CreatePrescription {
     this.symptoms.removeAt(index);
   }
 
-  private getMedicines(): void {
-    this._medicineService.getActiveMedicines().subscribe((res: IMedicine) => {
-      this.medicineList = res.data;
-    })
-  }
+  public loadInitialData(): void {
+    // 1. Prepare observables
+    const medicines$ = this._medicineService.getActiveMedicines().pipe(
+      catchError((error) => {
+        console.error('Failed to load medicines', error);
+        return of(null);
+      })
+    );
 
-  private getPatientDetails(): void {
-    if (!this.patientId) {
-      return;
-    }
-    this._patientService.getPatientById(this.patientId).subscribe((res: any) => {
-      if (res.status) {
-        this.patientsDetails = res.data[0];
+    const patient$ = this.patientId
+      ? this._patientService.getPatientById(this.patientId).pipe(
+        catchError((error) => {
+          console.error('Failed to load patient details', error);
+          return of(null);
+        })
+      )
+      : of(null);
+
+    const services$ = this._medicalServices.getAllServices().pipe(
+      catchError((error) => {
+        console.error('Failed to load medical services', error);
+        return of(null);
+      })
+    );
+
+    // 2. Execute parallel requests with forkJoin
+    forkJoin({
+      medicines: medicines$,
+      patient: patient$,
+      services: services$
+    }).subscribe({
+      next: ({ medicines, patient, services }) => {
+        // Handle Medicines
+        if (medicines?.data) {
+          this.medicineList = medicines.data;
+        }
+
+        // Handle Patient Details
+        if (patient?.status && patient.data?.[0]) {
+          this.patientsDetails = patient.data[0];
+        }
+
+        // Handle Medical Services
+        if (services?.data) {
+          this.medicalServicesDetailsList = services.data;
+          console.log(this.medicalServicesDetailsList);
+        }
+      },
+      error: (error: any) => {
+        console.error('Unexpected error during data loading', error);
       }
     });
   }
@@ -504,6 +542,21 @@ export class CreatePrescription {
     return date.toISOString().split('T')[0];
   }
 
+  public resetForm(): void {
+    this.initializePrescriptionForm();
+    this.symptoms.clear();
+    this.medicines.clear();
+    this.investigations.clear();
+    this.addSymptom();
+    this.prescriptionForm.patchValue({
+      clinicId: this.clinicId,
+      appointmentId: this.appointmentId,
+      patientId: this.patientId,
+      doctorId: this._storageOperation.get<any>('userDetails', 'local')?.id ?? this.doctorId,
+      status: 'Completed',
+      prescribedDate: new Date()
+    });
+  }
 
   submitPrescription(): void {
     if (this.prescriptionForm.invalid) {
@@ -521,18 +574,47 @@ export class CreatePrescription {
     const payload = this.prescriptionForm.getRawValue();
     // TODO: Replace with actual prescription service call
     if (this.isEdit) {
-      this._prescriptionService.updatePrescription(this.prescriptionId, payload).subscribe((res) => {
-        if (res.status) {
-          this.prescriptionForm.reset();
-          this.router.navigate(['/layout/prescription/master/list']);
+      this._prescriptionService.updatePrescription(this.prescriptionId, payload).subscribe({
+        next: (res: any) => {
+          if (res?.status) {
+            // Show success notification if available (e.g., this.toastr.success(res.message))
+            this.prescriptionForm.reset();
+            this.router.navigate(['/layout/prescription/master/list']);
+          } else {
+            console.warn('Update completed with non-success status:', res);
+          }
+        },
+        error: (err: any) => {
+          console.error('Failed to update prescription:', err);
+          // Add UI feedback here if applicable (e.g., this.toastr.error('Failed to update prescription'))
+        },
+        complete: () => {
+          this.resetForm();
+          // Executes when the Observable completes successfully
+          // Ideal place to reset loading state (e.g., this.isSubmitting = false)
         }
-      })
+      });
     } else {
-      this._prescriptionService.createPrescription(payload).subscribe((res) => {
-        if (res.status) {
-          this.prescriptionForm.reset();
+      this._prescriptionService.createPrescription(payload).subscribe({
+        next: (res: any) => {
+          if (res?.status) {
+            // Show success notification if applicable
+            this.prescriptionForm.reset();
+            this.router.navigate(['/layout/prescription/master/list']);
+          } else {
+            console.warn('Creation completed with non-success status:', res);
+          }
+        },
+        error: (err: any) => {
+          console.error('Failed to create prescription:', err);
+          // Handle error UI response (e.g., displaying error message to user)
+        },
+        complete: () => {
+          this.resetForm();
+          // Executes when the Observable completes successfully
+          // Ideal place to reset loading state (e.g., this.isSubmitting = false)
         }
-      })
+      });
     }
   }
 

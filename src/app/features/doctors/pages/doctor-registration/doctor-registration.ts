@@ -11,7 +11,6 @@ import { PrimarySpecialityService } from '../../../../core/services/primary-spec
 
 @Component({
   selector: 'app-doctor-registration',
-  // imports: [],
   standalone: false,
   templateUrl: './doctor-registration.html',
   styleUrl: './doctor-registration.css',

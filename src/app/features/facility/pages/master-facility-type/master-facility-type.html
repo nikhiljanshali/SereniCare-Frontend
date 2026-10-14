@@ -1,0 +1,156 @@
+@if(!isModel){
+<div id="page-clinic-list" class="page-section">
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Create Facility Type Master</div>
+            <div class="ph-sub">Configure facility categories, facilities, and sub-facilities</div>
+        </div>
+        <div class="page-header-right d-flex gap-2">
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>Filter
+            </button>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-funnel"></i>
+                Reset
+            </button>
+            <button class="btn btn-primary btn-sm" (click)="submit();">
+                <i class="bi bi-floppy2"></i>
+                Create Type
+            </button>
+        </div>
+    </div>
+</div>
+}
+@if(isModel){
+<div class="modal-header">
+    <h5 class="modal-title">Add Facility Type & Subtype</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+    </button>
+</div>
+}
+<div class="modal-body rounded-5 p-0">
+    <div class="wizard-wrap border-0">
+        <form [formGroup]="facilityForm" (ngSubmit)="submit()" class="wizard-form">
+            <div class="wizard-body" [ngClass]="{ 'p-2': isModel }">
+                <div [ngClass]="{ 'vh-scroll-container': isModel }">
+                    <div class="wizard-panel">
+                        <!-- Header -->
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div>
+                                <div style="font-size:16px;font-weight:700;color:var(--text-head);margin-bottom:4px;">
+                                    Facility Type Information
+                                </div>
+                                <div style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">
+                                    Configure the facility category, facility name,
+                                    and its associated sub-facilities.
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Row 1: Category -->
+                        <div class="wz-form-row">
+                            <div class="wz-form-group">
+                                <label class="wz-label"> Category
+                                    <span class="wz-req">*</span>
+                                </label>
+                                <div class="input-wrap">
+                                    <i class="bi bi-diagram-3 input-icon"></i>
+                                    <input type="text" class="form-input" formControlName="category"
+                                        placeholder="e.g. Clinical Facilities"
+                                        [class.is-invalid]="facilityForm.get('category')?.invalid &&facilityForm.get('category')?.touched" />
+                                </div>
+                                @if (facilityForm.get('category')?.invalid &&facilityForm.get('category')?.touched) {
+                                <small class="text-danger">
+                                    Category is required.
+                                </small>
+                                }
+                            </div>
+                        </div>
+                        <!-- Facility Group -->
+                        <div formGroupName="facility">
+                            <!-- Row 2: Facility Name -->
+                            <div class="wz-form-row">
+                                <div class="wz-form-group">
+                                    <label class="wz-label">
+                                        Facility Name
+                                        <span class="wz-req">*</span>
+                                    </label>
+                                    <div class="input-wrap">
+                                        <i class="bi bi-building input-icon"></i>
+                                        <input type="text" class="form-input" formControlName="name"
+                                            placeholder="e.g. Outpatient (OPD)" [class.is-invalid]="
+                                                facilityForm.get('facility.name')?.invalid &&
+                                                facilityForm.get('facility.name')?.touched
+                                            " />
+                                    </div>
+                                    @if (facilityForm.get('facility.name')?.invalid
+                                    &&facilityForm.get('facility.name')?.touched) {
+                                    <small class="text-danger">
+                                        Facility name is required.
+                                    </small>
+                                    }
+                                </div>
+                            </div>
+                            <!-- Row 3: Sub Facilities -->
+                            <div class="wz-form-row">
+                                <div class="wz-form-group">
+                                    <!-- Sub Facility Header -->
+                                    <div class="d-flex align-items-center justify-content-between mb-2">
+                                        <label class="wz-label mb-0">
+                                            Sub Facilities
+                                            <span class="wz-req">*</span>
+                                        </label>
+                                        <button type="button" class="btn btn-primary btn-sm" (click)="addSubFacility()">
+                                            <i class="bi bi-plus-lg me-1"></i>
+                                            Add Sub Facility
+                                        </button>
+                                    </div>
+                                    <!-- Form Array -->
+                                    <div formArrayName="subFacilities">
+                                        @for (
+                                        subFacility of subFacilities.controls;
+                                        track $index;
+                                        let i = $index
+                                        ) {
+                                        <div [formGroupName]="i" class="row align-items-start mb-2">
+                                            <!-- Sub Facility Name -->
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <!-- Input -->
+                                                    <input type="text" class="form-input form-control"
+                                                        formControlName="name" placeholder="e.g. General OPD"
+                                                        [class.is-invalid]="subFacility.get('name')?.invalid &&subFacility.get('name')?.touched" />
+                                                    <button type="button" class="btn btn-outline-danger btn-sm"
+                                                        (click)="removeSubFacility(i)"
+                                                        [disabled]="subFacilities.length === 1">
+                                                        <i class="bi bi-trash me-1"></i>
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                                @if (
+                                                subFacility.get('name')?.invalid &&
+                                                subFacility.get('name')?.touched
+                                                ) {
+                                                <small class="text-danger">
+                                                    Sub-facility name is required.
+                                                </small>
+                                                }
+                                            </div>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@if(isModel){
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeModePopup()"> Close </button>
+    <!-- <button type="button" class="btn btn-secondary"> Fill Dummy Data </button> -->
+    <button type="button" class="btn btn-primary" (click)="submit()"> Submit </button>
+</div>
+}

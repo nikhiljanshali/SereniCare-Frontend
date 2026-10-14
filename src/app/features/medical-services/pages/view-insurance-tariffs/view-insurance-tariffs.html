@@ -1,0 +1,332 @@
+<div id="reg-step1">
+    <div class="card-section-label" style="margin-top:0;">
+        <i class="bi bi-heart-pulse-fill"></i> Service & Insurance Details
+    </div>
+    @if (selectedInsuranceTariffs) {
+    <!-- Service Summary -->
+    <div class="service-summary-card">
+        <div class="service-summary-top">
+            <div class="service-icon">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <div class="service-title-wrapper">
+                <h3>
+                    {{ selectedInsuranceTariffs.service?.name || 'N/A' }}
+                </h3>
+                <span class="service-code">
+                    Code: {{ selectedInsuranceTariffs.service?.serviceCode || 'N/A' }}
+                </span>
+            </div>
+        </div>
+        <div class="service-tags">
+            @if (selectedInsuranceTariffs.service?.category) {
+            <span class="service-tag category-tag">
+                {{ selectedInsuranceTariffs.service?.category }}
+            </span>
+            }
+            @if (selectedInsuranceTariffs.service?.subCategory) {
+            <span class="service-tag">
+                {{ selectedInsuranceTariffs.service?.subCategory }}
+            </span>
+            }
+        </div>
+        <!-- Department -->
+        <div class="summary-info-row">
+            <span>Department</span>
+            <strong>
+                {{ selectedInsuranceTariffs.service?.department || 'N/A' }}
+            </strong>
+        </div>
+    </div>
+
+    <!-- Insurance Provider Information -->
+    @if (selectedInsuranceTariffs.insuranceProvider) {
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-shield-check"></i>
+            <span>Insurance Provider</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Provider Name</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.insuranceProvider?.name || 'N/A' }} ({{
+                    selectedInsuranceTariffs.insuranceProvider?.tpaCode }})
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Type & IRDAI/Tax ID</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.insuranceProvider?.type }} - {{
+                    selectedInsuranceTariffs.insuranceProvider?.taxIdOrIRDAI }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Pre-Auth Required</span>
+                <span class="info-value">
+                    @if (selectedInsuranceTariffs.preAuthRequired) {
+                    <strong class="yes-text">Required</strong>
+                    } @else {
+                    <strong class="no-text">Not Required</strong>
+                    }
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Validity Period</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.effectiveFrom | date:'dd MMM yyyy' }} - {{
+                    selectedInsuranceTariffs.effectiveTo | date:'dd MMM yyyy' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- Description -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-file-text"></i>
+            <span>Service Information</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Description</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.service?.description || 'N/A' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Preparation Instructions</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.service?.preparationInstructions || 'N/A' }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Agreed Pricing (Contracted) -->
+    @if (selectedInsuranceTariffs.agreedRates) {
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-journal-check"></i>
+            <span>Agreed Contracted Rates</span>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card highlighted">
+                <span>Agreed OPD</span>
+                <strong>₹{{ selectedInsuranceTariffs.agreedRates?.opdRate || 0 }}</strong>
+            </div>
+            <div class="price-card highlighted">
+                <span>Agreed IPD</span>
+                <strong>₹{{ selectedInsuranceTariffs.agreedRates?.ipdRate || 0 }}</strong>
+            </div>
+            <div class="price-card highlighted">
+                <span>Agreed Emergency</span>
+                <strong>₹{{ selectedInsuranceTariffs.agreedRates?.emergencyRate || 0 }}</strong>
+            </div>
+        </div>
+    </div>
+    }
+
+    <!-- Base Pricing -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-currency-rupee"></i>
+            <span>Base Service Pricing</span>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <span>OPD Rate</span>
+                <strong>₹{{ selectedInsuranceTariffs.service?.basePricing?.opdRate || 0 }}</strong>
+            </div>
+            <div class="price-card">
+                <span>IPD Rate</span>
+                <strong>₹{{ selectedInsuranceTariffs.service?.basePricing?.ipdRate || 0 }}</strong>
+            </div>
+            <div class="price-card">
+                <span>Emergency</span>
+                <strong>₹{{ selectedInsuranceTariffs.service?.basePricing?.emergencyRate || 0 }}</strong>
+            </div>
+            <div class="price-card">
+                <span>Day Care</span>
+                <strong>₹{{ selectedInsuranceTariffs.service?.basePricing?.dayCareRate || 0 }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctor Share -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-person-badge"></i>
+            <span>Doctor Share</span>
+        </div>
+        <div class="doctor-share-card">
+            <div>
+                <span class="info-label">Calculation Type</span>
+                <strong>
+                    {{ selectedInsuranceTariffs.service?.doctorShare?.calculationType || 'N/A' }}
+                </strong>
+            </div>
+            <div class="share-value">
+                @if (selectedInsuranceTariffs.service?.doctorShare?.calculationType === 'Percentage') {
+                <strong>
+                    {{ selectedInsuranceTariffs.service?.doctorShare?.value }}%
+                </strong>
+                } @else {
+                <strong>
+                    ₹{{ selectedInsuranceTariffs.service?.doctorShare?.value || 0 }}
+                </strong>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Tax Configuration -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-receipt"></i>
+            <span>Tax Configuration</span>
+        </div>
+        <div class="config-card">
+            <div class="config-row">
+                <span>Taxable</span>
+                @if (selectedInsuranceTariffs.service?.taxConfig?.isTaxable) {
+                <span class="status-badge success">Yes</span>
+                } @else {
+                <span class="status-badge neutral">No</span>
+                }
+            </div>
+            <div class="config-row">
+                <span>Tax Percentage</span>
+                <strong>
+                    {{ selectedInsuranceTariffs.service?.taxConfig?.taxPercentage || 0 }}%
+                </strong>
+            </div>
+            <div class="config-row">
+                <span>Tax Code</span>
+                <strong>
+                    {{ selectedInsuranceTariffs.service?.taxConfig?.taxCode || 'N/A' }}
+                </strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Requirements -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-clipboard-check"></i>
+            <span>Service Requirements</span>
+        </div>
+        <div class="requirement-grid">
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <i class="bi bi-file-earmark-medical"></i>
+                </div>
+                <div>
+                    <span>Consent Form</span>
+                    @if (selectedInsuranceTariffs.service?.requiresConsentForm) {
+                    <strong class="yes-text">Required</strong>
+                    } @else {
+                    <strong class="no-text">Not Required</strong>
+                    }
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <i class="bi bi-person-check"></i>
+                </div>
+                <div>
+                    <span>Doctor Order</span>
+                    @if (selectedInsuranceTariffs.service?.requiresDoctorOrder) {
+                    <strong class="yes-text">Required</strong>
+                    } @else {
+                    <strong class="no-text">Not Required</strong>
+                    }
+                </div>
+            </div>
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <i class="bi bi-box-seam"></i>
+                </div>
+                <div>
+                    <span>Package Component</span>
+                    @if (selectedInsuranceTariffs.service?.isPackageComponent) {
+                    <strong class="yes-text">Yes</strong>
+                    } @else {
+                    <strong class="no-text">No</strong>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Standard Medical Codes -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-upc-scan"></i>
+            <span>Standard Medical Codes</span>
+        </div>
+        <div class="medical-code-list">
+            @if (selectedInsuranceTariffs.service?.standardMedicalCodes?.length > 0) {
+            @for (medicalCode of selectedInsuranceTariffs.service?.standardMedicalCodes; track $index) {
+            <div class="medical-code-item">
+                <span class="code-type">
+                    {{ medicalCode.codeType }}
+                </span>
+                <strong>
+                    {{ medicalCode.code }}
+                </strong>
+            </div>
+            }
+            } @else {
+            <div class="no-data">
+                No medical codes available
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Mapping Status -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-toggle-on"></i>
+            <span>Mapping Status</span>
+        </div>
+        <div class="status-container">
+            @if (selectedInsuranceTariffs.status === 'Active') {
+            <span class="large-status-badge active">
+                <span class="status-dot"></span>
+                Active
+            </span>
+            } @else {
+            <span class="large-status-badge inactive">
+                <span class="status-dot"></span>
+                {{ selectedInsuranceTariffs.status || 'Inactive' }}
+            </span>
+            }
+        </div>
+    </div>
+
+    <!-- Audit Information -->
+    <div class="service-section audit-section">
+        <div class="section-title">
+            <i class="bi bi-clock-history"></i>
+            <span>Audit Information</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Created</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Last Updated</span>
+                <span class="info-value">
+                    {{ selectedInsuranceTariffs.updatedAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    }
+</div>

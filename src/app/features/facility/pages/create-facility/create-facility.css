@@ -1,0 +1,6 @@
+.wizard-form input.ng-invalid.ng-touched,
+.wizard-form select.ng-invalid.ng-touched,
+.wizard-form textarea.ng-invalid.ng-touched {
+	border-color: var(--rose);
+	box-shadow: 0 0 0 3px rgba(244, 63, 94, 0.1);
+}

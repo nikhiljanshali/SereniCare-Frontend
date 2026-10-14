@@ -1,0 +1,250 @@
+.patient-edit-page {
+  min-width: 0;
+}
+
+.patient-edit-header {
+  display: block;
+  margin-bottom: 16px;
+}
+
+.patient-edit-intro {
+  display    : flex;
+  align-items: center;
+  gap        : 11px;
+  margin-top : 14px;
+}
+
+.patient-edit-intro-icon,
+.edit-section-icon {
+  display        : inline-flex;
+  align-items    : center;
+  justify-content: center;
+  flex-shrink    : 0;
+  color          : var(--teal);
+  background     : rgba(13, 148, 136, 0.1);
+}
+
+.patient-edit-intro-icon {
+  width        : 40px;
+  height       : 40px;
+  border-radius: 12px;
+  font-size    : 19px;
+}
+
+.patient-edit-intro h4 {
+  margin     : 0;
+  color      : var(--text-head);
+  font-size  : 16px;
+  font-weight: 700;
+}
+
+.patient-edit-intro p {
+  margin   : 3px 0 0;
+  color    : var(--text-muted);
+  font-size: 12px;
+}
+
+.patient-edit-form {
+  display       : flex;
+  flex-direction: column;
+  gap           : 12px;
+}
+
+.patient-edit-form .edit-section {
+  overflow     : hidden;
+  background   : var(--white);
+  border       : 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow   : var(--shadow-sm);
+  margin       : 0 !important;
+  transition   : border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.patient-edit-form .edit-section:focus-within {
+  border-color: rgba(13, 148, 136, 0.45);
+  box-shadow  : 0 4px 16px rgba(13, 148, 136, 0.08);
+}
+
+.patient-edit-form .card-header {
+  display      : flex;
+  align-items  : center;
+  gap          : 10px;
+  padding      : 13px 15px;
+  background   : var(--white);
+  border-bottom: 1px solid var(--border);
+}
+
+.patient-edit-form .edit-section-icon {
+  width        : 34px;
+  height       : 34px;
+  border-radius: 10px;
+  font-size    : 16px;
+}
+
+.patient-edit-form .edit-section-title {
+  min-width: 0;
+}
+
+.patient-edit-form .card-header h5 {
+  margin     : 0;
+  color      : var(--text-head);
+  font-size  : 13px;
+  font-weight: 700;
+}
+
+.patient-edit-form .card-header p {
+  margin   : 2px 0 0;
+  color    : var(--text-muted);
+  font-size: 11px;
+}
+
+.patient-edit-form .card-body {
+  padding: 15px;
+}
+
+.patient-edit-form .row {
+  display              : grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap           : 12px;
+  margin               : 0;
+}
+
+.patient-edit-form .row > [class*='col-'] {
+  width    : auto;
+  max-width: none;
+  padding  : 0;
+}
+
+.patient-edit-form .row > .col-md-8,
+.patient-edit-form .row > .col-md-12 {
+  grid-column: 1 / -1;
+}
+
+.patient-edit-form label:not(.form-check-label) {
+  display      : block;
+  margin-bottom: 6px;
+  color        : var(--text-body);
+  font-size    : 11.5px;
+  font-weight  : 600;
+}
+
+.patient-edit-form .form-control,
+.patient-edit-form .form-select {
+  min-height   : 38px;
+  padding      : 8px 10px;
+  border       : 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background   : var(--bg);
+  color        : var(--text-head);
+  font-family  : inherit;
+  font-size    : 12.5px;
+  box-shadow   : none;
+}
+
+.patient-edit-form textarea.form-control {
+  min-height: auto;
+  resize    : vertical;
+}
+
+.patient-edit-form .form-control:focus,
+.patient-edit-form .form-select:focus {
+  border-color: var(--teal);
+  background  : var(--white);
+  box-shadow  : 0 0 0 3px rgba(13, 148, 136, 0.08);
+}
+
+.patient-edit-form .form-control:disabled,
+.patient-edit-form .form-control[readonly] {
+  background: var(--bg);
+}
+
+.patient-edit-form .form-check-input:checked {
+  background-color: var(--teal);
+  border-color    : var(--teal);
+}
+
+.patient-edit-form h6 {
+  margin     : 0;
+  color      : var(--text-head);
+  font-size  : 13px;
+  font-weight: 700;
+}
+
+.patient-edit-form .border.rounded {
+  border-color : var(--border) !important;
+  border-radius: 10px !important;
+  background   : var(--bg);
+}
+
+.patient-edit-form .form-check {
+  min-height: 24px;
+}
+
+.patient-edit-form .form-check-label {
+  margin-bottom: 0;
+  font-size    : 12px;
+  font-weight  : 500;
+}
+
+.patient-edit-form .input-group .form-control {
+  min-width: 0;
+}
+
+.patient-edit-form > .edit-actions {
+  position       : sticky;
+  bottom         : 0;
+  z-index        : 2;
+  margin         : 0 -20px;
+  padding        : 12px 20px;
+  border-top     : 1px solid var(--border);
+  background     : rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+}
+
+.patient-edit-form .edit-actions .btn-primary {
+  border-color: var(--teal);
+  background  : var(--teal);
+  font-size   : 12px;
+  font-weight : 600;
+}
+
+.patient-edit-form .edit-actions .btn-primary:hover {
+  border-color: #0f766e;
+  background  : #0f766e;
+}
+
+.patient-edit-form .edit-actions .btn-secondary {
+  border-color: var(--border);
+  background  : var(--white);
+  color       : var(--text-body);
+  font-size   : 12px;
+}
+
+@media (max-width: 680px) {
+  .patient-edit-header {
+    margin-bottom: 12px;
+  }
+
+  .patient-edit-form .row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .patient-edit-form .row > .col-md-8,
+  .patient-edit-form .row > .col-md-12 {
+    grid-column: auto;
+  }
+
+  .patient-edit-form .card-header {
+    padding: 12px;
+  }
+
+  .patient-edit-form .card-body {
+    padding: 12px;
+  }
+
+  .patient-edit-form > .edit-actions {
+    bottom : 0;
+    margin : 0 -12px;
+    padding: 11px 12px;
+  }
+}

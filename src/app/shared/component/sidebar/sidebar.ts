@@ -5,8 +5,8 @@ import { UserDetails } from '../../../core/interface/authentication.interface';
 import { DataCommunication } from '../../../core/services/data-communication';
 import { MeshTable } from '../../../core/services/mesh-table';
 import { StorageOperation } from '../../../core/services/storage-operation';
-import { filterMenuByRole, MENU_CONFIG, MenuGroupItem, MenuItem } from '../../methods/menu.config';
-import { CountData, CountMaster } from '../../../core/interface/basic.interface';
+import { filterMenuByRole, MENU_CONFIG, MenuItem } from '../../methods/menu.config';
+import { CountData } from '../../../core/interface/basic.interface';
 
 
 @Component({

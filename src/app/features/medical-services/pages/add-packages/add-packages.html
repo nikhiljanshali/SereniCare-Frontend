@@ -1,0 +1,192 @@
+<form [formGroup]="packageForm" (ngSubmit)="onSubmit()">
+    <div class="modal-header">
+        <h5 class="modal-title">Build Service Package</h5>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeModePopup()">
+        </button>
+    </div>
+    <div class="modal-body rounded-5 p-3">
+        <div class="vh-scroll-container">
+            <div class="form-section">
+                <div class="card-section-label" style="margin-top:0;">
+                    Package Details
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Package Code <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-box2-fill input-icon"></i>
+                            <input type="text" class="form-input" placeholder="e.g. PKG-EXEC-MALE"
+                                formControlName="packageCode" />
+                        </div>
+                        @if (packageForm.get('packageCode')?.touched && packageForm.get('packageCode')?.invalid) {
+                        <small class="error">Package code is required.</small>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Package Name <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-box2 input-icon"></i>
+                            <input type="text" class="form-input" placeholder="e.g. Executive Health Checkup"
+                                formControlName="packageName" />
+                        </div>
+                        @if (packageForm.get('packageName')?.touched && packageForm.get('packageName')?.invalid) {
+                        <small class="error">Package name is required.</small>
+                        }
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <div class="input-wrap">
+                        <i class="bi bi-info-circle-fill input-icon"></i>
+                        <input type="text" class="form-input" placeholder="e.g. Write something about package "
+                            formControlName="description" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <div class="card-section-label" style="margin-top:0;">
+                    <div class="d-flex align-items-center justify-content-between gap-2 w-100">
+                        <span>Included Services</span>
+                        <button type="button" class="btn btn-secondary btn-sm" (click)="addServiceItem()">
+                            + Add Service
+                        </button>
+                    </div>
+                </div>
+                <div formArrayName="includedServices" class="services-list-container">
+                    <!-- Dynamic Services Table/List -->
+                    <div class="services-table">
+
+                        <!-- Permanent Header Labels (Shown once on top) -->
+                        <div class="table-header">
+                            <div class="service-col w-100">
+                                <label class="form-label">Service <span class="req">*</span></label>
+                            </div>
+                            <div class="qty-col w-25">
+                                <label class="form-label">Quantity <span class="req">*</span></label>
+                            </div>
+                            <div class="price-col w-25">
+                                <label class="form-label">Base Price</label>
+                            </div>
+                            <div class="action-col w-25"></div>
+                        </div>
+
+                        <!-- Repeating Rows (No repeated labels) -->
+                        @for (item of includedServices.controls; track $index; let i = $index) {
+                        <div [formGroupName]="i" class="service-item-row">
+                            <!-- Service Selection -->
+                            <div class="service-col w-100">
+                                <div class="input-wrap">
+                                    <i class="bi bi-activity input-icon"></i>
+                                    <select class="form-select" formControlName="service" (change)="onServiceChange(i)">
+                                        <option value="">Select Service</option>
+                                        @for (srv of medicalServicesDetailsList; track srv._id) {
+                                        <option [value]="srv._id">{{ srv.name }}</option>
+                                        }
+                                    </select>
+                                </div>
+                                @if (item.get('service')?.touched && item.get('service')?.invalid) {
+                                <small class="error">Service is required.</small>
+                                }
+                            </div>
+                            <!-- Quantity -->
+                            <div class="qty-col w-25">
+                                <div class="input-wrap">
+                                    <i class="bi bi-hash input-icon"></i>
+                                    <input type="number" class="form-input" placeholder="1" min="1"
+                                        formControlName="quantity" (input)="onServiceChange(i)" />
+                                </div>
+                                @if (item.get('quantity')?.touched && item.get('quantity')?.invalid) {
+                                <small class="error">Min quantity is 1.</small>
+                                }
+                            </div>
+                            <!-- Base Price (Calculated / Readonly) -->
+                            <div class="price-col w-25">
+                                <div class="input-wrap">
+                                    <i class="bi bi-currency-rupee input-icon"></i>
+                                    <input type="number" class="form-input" placeholder="0"
+                                        formControlName="basePrice" />
+                                </div>
+                            </div>
+                            <!-- Delete Action -->
+                            <div class="action-col w-25">
+                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                    (click)="removeServiceItem(i)" title="Remove Service">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        } @empty {
+                        <div class="empty-state">
+                            <p>No services added yet. Click "+ Add Service" to start.</p>
+                        </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-section">
+                <div class="card-section-label" style="margin-top:0;">
+                    Other Package Details
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Total Standard Cost (Calculated) <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-cash input-icon"></i>
+                            <input type="text" class="form-input" placeholder="e.g. 350/-"
+                                formControlName="totalIndividualCost" />
+                        </div>
+                        @if (packageForm.get('totalIndividualCost')?.touched &&
+                        packageForm.get('totalIndividualCost')?.invalid) {
+                        <small class="error">Package code is required.</small>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Bundled Package Price <span class="req">*</span></label>
+                        <div class="input-wrap">
+                            <i class="bi bi-cash input-icon"></i>
+                            <input type="text" class="form-input" placeholder="e.g. 350/-"
+                                formControlName="packagePrice" />
+                        </div>
+                        @if (packageForm.get('packagePrice')?.touched && packageForm.get('packagePrice')?.invalid) {
+                        <small class="error">Package code is required.</small>
+                        }
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender Restriction </label>
+                        <div class="input-wrap">
+                            <i class="bi bi-gender-neuter input-icon"></i>
+                            <select class="form-select" id="genderRestriction" formControlName="genderRestriction">
+                                <option *ngFor="let g of genderOptions" [value]="g">{{ g }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Stauts </label>
+                        <div class="input-wrap">
+                            <i class="bi bi-check2-circle input-icon"></i>                            
+                            <select class="form-select" id="statusOptions" formControlName="status">
+                                <option *ngFor="let g of statusOptions" [value]="g">{{ g }}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="d-flex align-items-center justify-content-between gap-1 w-100">
+            <div>
+                <button type="button" class="btn btn-outline-secondary" (click)="generateDummyData();">
+                    <i class="bi bi-magic me-1"></i> Auto Fill
+                </button>
+            </div>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <button type="button" class="btn btn-secondary btn-sm" (click)="closeModePopup()"> Close </button>
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <i class="bi bi-save me-1"></i> Save Package
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,163 @@
+<div id="reg-step1">
+    <div class="card-section-label" style="margin-top:0;">
+        <i class="bi bi-box-seam-fill"></i> Health Package Details
+    </div>
+    @if (selectedServicePackageDtl) {
+    <!-- Package Summary Header -->
+    <div class="service-summary-card">
+        <div class="service-summary-top">
+            <div class="service-icon">
+                <i class="bi bi-heart-pulse"></i>
+            </div>
+            <div class="service-title-wrapper">
+                <h3>
+                    {{ selectedServicePackageDtl.packageName || 'N/A' }}
+                </h3>
+                <span class="service-code">
+                    Code: {{ selectedServicePackageDtl.packageCode || 'N/A' }}
+                </span>
+            </div>
+        </div>
+        <div class="service-tags">
+            <span class="service-tag category-tag">
+                Gender: {{ selectedServicePackageDtl.genderRestriction || 'All' }}
+            </span>
+        </div>
+    </div>
+
+    <!-- Package Description -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-file-text"></i>
+            <span>Package Overview</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Description</span>
+                <span class="info-value">
+                    {{ selectedServicePackageDtl.description || 'N/A' }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Package Pricing -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-currency-rupee"></i>
+            <span>Pricing Details</span>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card highlighted">
+                <span>Package Price</span>
+                <strong>₹{{ selectedServicePackageDtl.packagePrice || 0 }}</strong>
+            </div>
+            <div class="price-card">
+                <span>Total Individual Cost</span>
+                <strong>₹{{ selectedServicePackageDtl.totalIndividualCost || 0 }}</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Included Services -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-list-check"></i>
+            <span>Included Services ({{ selectedServicePackageDtl.includedServices?.length || 0 }})</span>
+        </div>
+        @if (selectedServicePackageDtl.includedServices?.length > 0) {
+        <div class="info-list">
+            @for (item of selectedServicePackageDtl.includedServices; track $index) {
+            <div class="service-summary-card" style="margin-bottom: 1rem; background: var(--bs-light, #f8f9fa);">
+                <div class="service-summary-top">
+                    <div class="service-title-wrapper">
+                        <h4 style="margin: 0; font-size: 1.05rem;">
+                            {{ item.service?.name || 'N/A' }}
+                        </h4>
+                        <span class="service-code">
+                            Code: {{ item.service?.serviceCode || 'N/A' }}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="service-tags" style="margin-top: 8px;">
+                    @if (item.service?.category) {
+                    <span class="service-tag category-tag">{{ item.service?.category }}</span>
+                    }
+                    @if (item.service?.subCategory) {
+                    <span class="service-tag">{{ item.service?.subCategory }}</span>
+                    }
+                </div>
+
+                <div class="info-list" style="margin-top: 10px;">
+                    <div class="info-item">
+                        <span class="info-label">Department</span>
+                        <span class="info-value">{{ item.service?.department || 'N/A' }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Quantity</span>
+                        <span class="info-value"><strong>{{ item.quantity }}</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Base Price</span>
+                        <span class="info-value">₹{{ item.basePrice }}</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Preparation Instructions</span>
+                        <span class="info-value">{{ item.service?.preparationInstructions || 'N/A' }}</span>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+        } @else {
+        <div class="no-data">
+            No included services found.
+        </div>
+        }
+    </div>
+
+    <!-- Package Status -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-toggle-on"></i>
+            <span>Package Status</span>
+        </div>
+        <div class="status-container">
+            @if (selectedServicePackageDtl.status === 'Active') {
+            <span class="large-status-badge active">
+                <span class="status-dot"></span>
+                Active
+            </span>
+            } @else {
+            <span class="large-status-badge inactive">
+                <span class="status-dot"></span>
+                {{ selectedServicePackageDtl.status || 'Inactive' }}
+            </span>
+            }
+        </div>
+    </div>
+
+    <!-- Audit Information -->
+    <div class="service-section audit-section">
+        <div class="section-title">
+            <i class="bi bi-clock-history"></i>
+            <span>Audit Information</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Created</span>
+                <span class="info-value">
+                    {{ selectedServicePackageDtl.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Last Updated</span>
+                <span class="info-value">
+                    {{ selectedServicePackageDtl.updatedAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    }
+</div>

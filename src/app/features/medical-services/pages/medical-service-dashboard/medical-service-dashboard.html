@@ -1,0 +1,61 @@
+<div id="page-doctor-profile-detail" class="page-section">
+    <!-- Breadcrumb header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Service Dashboard</div>
+            <div class="ph-sub">
+                Configure base services, TPA/Insurance tariffs, and composite packages
+            </div>
+        </div>
+        <div class="header-actions">
+            <!-- <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-arrow-clockwise"></i>
+            </button>
+            <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i> Edit Profile
+            </button>
+            <button class="btn btn-primary btn-sm">
+                <i class="bi bi-calendar2-plus"></i> Book Appointment
+            </button> -->
+            <!-- More Dropdown -->
+            <!-- <div class="header-dropdown">
+                <button class="btn btn-sm btn-more-actions" type="button">
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                <div class="header-dropdown-menu">
+                    <button class="header-dropdown-item default">
+                        <i class="bi bi-prescription"></i>
+                        Write Prescription
+                    </button>
+                    <div class="header-dropdown-divider"></div>
+                    <button class="header-dropdown-item danger">
+                        <i class="bi bi-trash"></i>
+                        Delete Doctor
+                    </button>
+                </div>
+            </div> -->
+        </div>
+    </div>
+    <div class="dpd-layout">
+        <div class="dpd-right">
+            <div class="dpd-tabs">
+                @for (tab of tabs; track tab.id) {
+                <button type="button" class="dpd-tab d-flex align-items-center justify-content-evenly"
+                    [class.active]="activeTab === tab.id" (click)="selectTab(tab.id)">
+                    <!-- <i class="bi" [ngClass]="tab.icon"></i> -->
+                    {{ tab.label }}
+                </button>
+                }
+            </div>
+            <div id="dpd-servicesmaster" class="dpd-tab-panel" [class.active]="activeTab === 'servicesmaster'">
+                <app-medical-service-master></app-medical-service-master>
+            </div>
+            <div id="dpd-insurancetariffs" class="dpd-tab-panel" [class.active]="activeTab === 'insurancetariffs'">
+                <app-insurance-tariffs-master></app-insurance-tariffs-master>
+            </div>
+            <div id="dpd-servicespackages" class="dpd-tab-panel" [class.active]="activeTab === 'servicespackages'">
+                <app-services-package-master></app-services-package-master>
+            </div>
+        </div>
+    </div>
+</div>

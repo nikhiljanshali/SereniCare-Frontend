@@ -163,6 +163,6 @@ export class Role {
   }
 
   gobackToClickRegistration(): void {
-    this.router.navigate(['clinic/registration']);
+    this.router.navigate(['auth/signin']);
   }
 }

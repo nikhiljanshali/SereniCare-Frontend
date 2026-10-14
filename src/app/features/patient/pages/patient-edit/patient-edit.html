@@ -1,0 +1,646 @@
+<div class="page-header patient-edit-header">
+    <div class="page-header-left w-100">
+        <app-side-bar-patient-header [patientDetails]="patientDetails"></app-side-bar-patient-header>
+    </div>
+    <div class="patient-edit-intro">
+        <span class="patient-edit-intro-icon"><i class="bi bi-person-vcard"></i></span>
+        <div>
+            <h4>Edit patient details</h4>
+            <p>Update contact, medical, and insurance information.</p>
+        </div>
+    </div>
+</div>
+<div class="patient-edit-page">
+    <form class="patient-edit-form" [formGroup]="patientForm" (ngSubmit)="updatePatient()">
+        <!-- ========================================= -->
+        <!-- PERSONAL INFORMATION -->
+        <!-- ========================================= -->
+        <div class="card mb-3 edit-section">
+
+            <div class="card-header">
+                <span class="edit-section-icon"><i class="bi bi-person"></i></span>
+                <div class="edit-section-title">
+                    <h5>Personal information</h5>
+                    <p>Name and contact details</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label>First Name</label>
+
+                        <input type="text" class="form-control" formControlName="firstName" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Middle Name</label>
+
+                        <input type="text" class="form-control" formControlName="middleName" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Last Name</label>
+
+                        <input type="text" class="form-control" formControlName="lastName" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Date of Birth</label>
+
+                        <input type="date" class="form-control" formControlName="dateOfBirth" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Gender</label>
+
+                        <select class="form-select" formControlName="gender">
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Age</label>
+
+                        <input type="number" class="form-control" formControlName="age" readonly />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Phone</label>
+
+                        <input type="text" class="form-control" formControlName="phone" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Email</label>
+
+                        <input type="email" class="form-control" formControlName="email" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Aadhaar Number</label>
+
+                        <input type="text" class="form-control" formControlName="aadhaarNumber" />
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- ADDRESS -->
+        <!-- ========================================= -->
+
+        <div class="card mb-3 edit-section">
+
+            <div class="card-header">
+                <span class="edit-section-icon"><i class="bi bi-geo-alt"></i></span>
+                <div class="edit-section-title">
+                    <h5>Address</h5>
+                    <p>Where the patient can be reached</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-12 mb-3">
+                        <label>Address</label>
+
+                        <textarea class="form-control" rows="2" formControlName="address"></textarea>
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label>Country</label>
+
+                        <input type="text" class="form-control" formControlName="country" />
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label>State</label>
+
+                        <input type="text" class="form-control" formControlName="state" />
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label>City</label>
+
+                        <input type="text" class="form-control" formControlName="city" />
+                    </div>
+
+                    <div class="col-md-3 mb-3">
+                        <label>Pincode</label>
+
+                        <input type="text" class="form-control" formControlName="pincode" />
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- EMERGENCY CONTACT -->
+        <!-- ========================================= -->
+
+        <div class="card mb-3 edit-section" formGroupName="emergencyContact">
+
+            <div class="card-header">
+                <span class="edit-section-icon"><i class="bi bi-telephone"></i></span>
+                <div class="edit-section-title">
+                    <h5>Emergency contact</h5>
+                    <p>Person to contact in an emergency</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label>Name</label>
+
+                        <input type="text" class="form-control" formControlName="name" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Relation</label>
+
+                        <input type="text" class="form-control" formControlName="relation" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Phone</label>
+
+                        <input type="text" class="form-control" formControlName="phone" />
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- MEDICAL HISTORY -->
+        <!-- ========================================= -->
+
+        <div class="card mb-3 edit-section" formGroupName="medicalHistory">
+
+            <div class="card-header">
+                <span class="edit-section-icon"><i class="bi bi-heart-pulse"></i></span>
+                <div class="edit-section-title">
+                    <h5>Medical history</h5>
+                    <p>Conditions, medications, and lifestyle</p>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+                        <label>Medical Condition</label>
+
+                        <input type="text" class="form-control" formControlName="condition" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Blood Group</label>
+
+                        <select class="form-select" formControlName="bloodGroup">
+                            <option value="">Select Blood Group</option>
+                            <option value="A Positive (A+)">
+                                A Positive (A+)
+                            </option>
+                            <option value="A Negative (A-)">
+                                A Negative (A-)
+                            </option>
+                            <option value="B Positive (B+)">
+                                B Positive (B+)
+                            </option>
+                            <option value="B Negative (B-)">
+                                B Negative (B-)
+                            </option>
+                            <option value="AB Positive (AB+)">
+                                AB Positive (AB+)
+                            </option>
+                            <option value="AB Negative (AB-)">
+                                AB Negative (AB-)
+                            </option>
+                            <option value="O Positive (O+)">
+                                O Positive (O+)
+                            </option>
+                            <option value="O Negative (O-)">
+                                O Negative (O-)
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Family History</label>
+
+                        <input type="text" class="form-control" formControlName="familyHistory" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Allergies</label>
+
+                        <input type="text" class="form-control" formControlName="allergies"
+                            placeholder="Comma separated" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Medications</label>
+
+                        <input type="text" class="form-control" formControlName="medications"
+                            placeholder="Comma separated" />
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label>Surgeries</label>
+
+                        <input type="text" class="form-control" formControlName="surgeries"
+                            placeholder="Comma separated" />
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label>Notes</label>
+
+                        <textarea rows="3" class="form-control" formControlName="notes"></textarea>
+                    </div>
+
+                </div>
+
+
+                <!-- ===================================== -->
+                <!-- LIFESTYLE -->
+                <!-- ===================================== -->
+
+                <div class="mt-3" formGroupName="lifestyle">
+
+                    <h6 class="mb-3">
+                        Lifestyle Information
+                    </h6>
+
+                    <div class="row">
+
+                        <!-- Smoking -->
+
+                        <div class="col-md-4 mb-3" formGroupName="smoking">
+
+                            <label class="d-block">
+                                Smoking
+                            </label>
+
+                            <div class="form-check">
+
+                                <input type="checkbox" class="form-check-input" formControlName="status" id="smoking" />
+
+                                <label class="form-check-label" for="smoking">
+                                    Smoker
+                                </label>
+
+                            </div>
+
+                            <input type="text" class="form-control mt-2" formControlName="frequency"
+                                placeholder="Frequency" />
+
+                            <input type="number" class="form-control mt-2" formControlName="durationYears"
+                                placeholder="Duration in years" />
+
+                        </div>
+
+
+                        <!-- Alcohol -->
+
+                        <div class="col-md-4 mb-3" formGroupName="alcohol">
+
+                            <label class="d-block">
+                                Alcohol
+                            </label>
+
+                            <div class="form-check">
+
+                                <input type="checkbox" class="form-check-input" formControlName="status" id="alcohol" />
+
+                                <label class="form-check-label" for="alcohol">
+                                    Consumes Alcohol
+                                </label>
+
+                            </div>
+
+                            <input type="text" class="form-control mt-2" formControlName="frequency"
+                                placeholder="Frequency" />
+
+                        </div>
+
+
+                        <!-- Substance -->
+
+                        <div class="col-md-4 mb-3" formGroupName="substanceUse">
+
+                            <label class="d-block">
+                                Substance Use
+                            </label>
+
+                            <div class="form-check">
+
+                                <input type="checkbox" class="form-check-input" formControlName="tobacco"
+                                    id="tobacco" />
+
+                                <label class="form-check-label" for="tobacco">
+                                    Tobacco
+                                </label>
+
+                            </div>
+
+                            <div class="form-check">
+
+                                <input type="checkbox" class="form-check-input" formControlName="drugs" id="drugs" />
+
+                                <label class="form-check-label" for="drugs">
+                                    Drugs
+                                </label>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label>Activity Level</label>
+
+                            <select class="form-select" formControlName="activityLevel">
+                                <option value="">Select</option>
+                                <option value="Low">Low</option>
+                                <option value="Moderate">Moderate</option>
+                                <option value="High">High</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label>Diet Type</label>
+
+                            <select class="form-select" formControlName="dietType">
+                                <option value="">Select</option>
+                                <option value="Veg">Veg</option>
+                                <option value="Non-Veg">Non-Veg</option>
+                                <option value="Vegan">Vegan</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label>Exercise Frequency</label>
+
+                            <select class="form-select" formControlName="exerciseFrequency">
+                                <option value="">Select</option>
+                                <option value="Never">Never</option>
+                                <option value="Rare">Rare</option>
+                                <option value="Occasional">Occasional</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Daily">Daily</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-3 mb-3">
+
+                            <label>Sleep Hours</label>
+
+                            <input type="number" class="form-control" formControlName="sleepHours" />
+
+                        </div>
+
+
+                        <div class="col-md-3 mb-3">
+
+                            <label>Stress Level</label>
+
+                            <select class="form-select" formControlName="stressLevel">
+                                <option value="">Select</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-3 mb-3">
+
+                            <label>Caffeine Intake</label>
+
+                            <select class="form-select" formControlName="caffeineIntake">
+                                <option value="">Select</option>
+                                <option value="Low">Low</option>
+                                <option value="Medium">Medium</option>
+                                <option value="High">High</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-md-3 mb-3">
+
+                            <label>Water Intake (Glasses)</label>
+
+                            <input type="number" class="form-control" formControlName="waterIntake" />
+
+                        </div>
+
+
+                        <div class="col-md-4 mb-3">
+
+                            <label>Occupation Type</label>
+
+                            <input type="text" class="form-control" formControlName="occupationType" />
+
+                        </div>
+
+
+                        <!-- Hobbies -->
+
+                        <div class="col-md-8 mb-3">
+
+                            <label>Hobbies</label>
+
+                            <div class="input-group mb-2" *ngFor="
+                let hobby of hobbies.controls;
+                let i = index
+              ">
+
+                                <input type="text" class="form-control" [formControl]="hobby" />
+
+                                <button type="button" class="btn btn-danger" (click)="removeHobby(i)">
+                                    Remove
+                                </button>
+
+                            </div>
+
+                            <button type="button" class="btn btn-secondary" (click)="addHobby()">
+                                + Add Hobby
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- INSURANCE -->
+        <!-- ========================================= -->
+
+        <div class="card mb-3 edit-section">
+
+            <div class="card-header d-flex justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="edit-section-icon"><i class="bi bi-shield-check"></i></span>
+                    <div class="edit-section-title">
+                        <h5>Insurance</h5>
+                        <p>Coverage and policy details</p>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-outline-primary btn-sm" (click)="addInsurance()">
+                    <i class="bi bi-plus-lg me-1"></i>Add
+                </button>
+
+            </div>
+
+            <div class="card-body">
+
+                <div formArrayName="insuranceDetails">
+
+                    <div class="border rounded p-3 mb-3" *ngFor="
+            let insurance of insuranceDetails.controls;
+            let i = index
+          " [formGroupName]="i">
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <h6>
+                                Insurance #{{ i + 1 }}
+                            </h6>
+
+                            <button type="button" class="btn btn-danger btn-sm" (click)="removeInsurance(i)">
+                                Remove
+                            </button>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Provider Name</label>
+
+                                <input type="text" class="form-control" formControlName="providerName" />
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Policy Number</label>
+
+                                <input type="text" class="form-control" formControlName="policyNumber" />
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Policy Holder Name</label>
+
+                                <input type="text" class="form-control" formControlName="policyHolderName" />
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Coverage Amount</label>
+
+                                <input type="number" class="form-control" formControlName="coverageAmount" />
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Valid From</label>
+
+                                <input type="date" class="form-control" formControlName="validFrom" />
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Valid To</label>
+
+                                <input type="date" class="form-control" formControlName="validTo" />
+
+                            </div>
+
+                            <div class="col-md-8 mb-3">
+
+                                <label>Coverage Details</label>
+
+                                <input type="text" class="form-control" formControlName="coverageDetails" />
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+
+                                <label>Status</label>
+
+                                <select class="form-select" formControlName="status">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
+                                </select>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- ========================================= -->
+        <!-- ACTIONS -->
+        <!-- ========================================= -->
+
+        <div class="edit-actions d-flex justify-content-end gap-2">
+            <button type="button" class="btn btn-secondary" (click)="patientForm.reset()">
+                Cancel
+            </button>
+            <button type="submit" class="btn btn-primary" [disabled]="patientForm.invalid">
+                Update Patient
+            </button>
+        </div>
+    </form>
+</div>

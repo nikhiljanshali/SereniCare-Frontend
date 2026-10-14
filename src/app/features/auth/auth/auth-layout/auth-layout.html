@@ -3,13 +3,72 @@
   <span class="quote">{{ currentQuote }}</span>
 </nav> -->
 <nav class="demo-nav">
-  <span class="demo-nav-label">SereniCare Auth:</span>
-  <span class="quote">{{ currentQuote }}</span>
+  <div>
+    <span class="demo-nav-label">SereniCare Auth:</span>
+    <span class="quote">{{ currentQuote }}</span>
+  </div>
+  <div class="action-menubox">
+    <div class="auth-nav-menu">
+      <button class="auth-nav-trigger" type="button" aria-haspopup="true" [attr.aria-expanded]="isMenuOpen"
+        (click)="toggleMenu()">
+        <i class="bi bi-person-circle" aria-hidden="true"></i>
+        <span>Account</span>
+        <i class="bi bi-chevron-down" [class.rotated]="isMenuOpen" aria-hidden="true"></i>
+      </button>
+
+      @if (isMenuOpen) {
+      <div class="auth-nav-dropdown" role="menu">
+        <div class="auth-nav-dropdown-title">Account access</div>
+        <button type="button" role="menuitem" (click)="navigateTo('signin')">
+          <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+          <span>Sign in</span>
+        </button>
+        <button type="button" role="menuitem" (click)="navigateTo('signup')">
+          <i class="bi bi-person-plus" aria-hidden="true"></i>
+          <span>Create account</span>
+        </button>
+        <div class="auth-nav-divider"></div>
+        <button type="button" role="menuitem" (click)="navigateTo('forget-password')">
+          <i class="bi bi-key" aria-hidden="true"></i>
+          <span>Forgot password?</span>
+        </button>
+      </div>
+      }
+    </div>
+    <div class="auth-nav-menu">
+      <button class="auth-nav-trigger" type="button" aria-haspopup="true" [attr.aria-expanded]="isClinicItem"
+        (click)="toggleMasterMenu()">
+        <i class="bi bi-person-circle" aria-hidden="true"></i>
+        <span>Account Master</span>
+        <i class="bi bi-chevron-down" [class.rotated]="isClinicItem" aria-hidden="true"></i>
+      </button>
+
+      @if (isClinicItem) {
+      <div class="auth-nav-dropdown" role="menu">
+        <div class="auth-nav-dropdown-title">Master Account access</div>
+        <!-- <button type="button" role="menuitem" (click)="navigateTo('signin')">
+          <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>
+          <span>Sign in</span>
+        </button> -->
+        @for (item of preRequiredDetails; track item) {
+        <button type="button" role="menuitem" (click)="onAction(item.action)">
+          <i class="bi bi-gear-wide-connected" aria-hidden="true"></i>
+          <span>{{item.label}}</span>
+        </button>
+        }
+        <!-- <div class="auth-nav-divider"></div>
+        <button type="button" role="menuitem" (click)="navigateTo('forget-password')">
+          <i class="bi bi-key" aria-hidden="true"></i>
+          <span>Forgot password?</span>
+        </button> -->
+      </div>
+      }
+    </div>
+  </div>
 </nav>
 
 <div id="screen-signin" class="screen active">
   <div class="auth-shell">
-
     <!-- Left panel -->
     <div class="auth-left">
       <div class="panel-glow-1"></div>

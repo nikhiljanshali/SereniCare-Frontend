@@ -7,6 +7,7 @@ import { ClinicTypeService } from '../../../../core/services/clinic-type';
 import { Clinics } from '../../../../core/services/clinics';
 import { PrimarySpecialityService } from '../../../../core/services/primary-speciality';
 import { RoleService } from '../../../../core/services/role-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -30,6 +31,7 @@ export class Registration {
   public isMasterKeyValid = false;
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private _clinics: Clinics,
     private _clinicType: ClinicTypeService,
@@ -418,5 +420,9 @@ export class Registration {
       password,
       confirmPassword: password
     };
+  }
+
+  public redirectToMain(): void {
+    this.router.navigate(['auth/signin']);
   }
 }

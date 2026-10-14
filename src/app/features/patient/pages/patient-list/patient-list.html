@@ -115,6 +115,10 @@
                 (click)="openVitalHistoryPopup(patient)">
                 <i class="bi bi-heart-pulse-fill"></i>
               </button>
+              <button class="action-btn" [popover]="'Assign Service'" placement="top" triggers="mouseenter:mouseleave"
+                (click)="assignService(patient)">
+                <i class="bi bi-check2-circle"></i>
+              </button>
               <button class="action-btn" [popover]="'Edit'" placement="top" triggers="mouseenter:mouseleave"
                 (click)="editPatient(patient)">
                 <i class="bi bi-pencil"></i>
@@ -127,7 +131,7 @@
           @if (expandedAppointment === patient._id) {
           <tr class="sub-row">
             <td colspan="12">
-              @if (patient.appointments.length) {
+              @if (patient.appointmentBookings.length) {
               <div class="appointment-wrapper">
                 <div class="vertical-sub-title">
                   Appointment List
@@ -150,7 +154,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @for (appointment of patient.appointments; track appointment._id) {
+                        @for (appointment of patient.appointmentBookings; track appointment._id) {
                         <tr>
                           <td>
                             <div style="font-size:13px;color:var(--text-muted);">
@@ -397,7 +401,6 @@
         </div>
       </div>
     </div>
-
   </div>
-  <app-right-sidebar #medicalSidebar></app-right-sidebar>
 </div>
+<app-right-sidebar #medicalSidebar></app-right-sidebar>

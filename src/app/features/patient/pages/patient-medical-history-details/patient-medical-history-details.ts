@@ -1,7 +1,6 @@
-import { Component, Input, input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SideBarPatientHeader } from '../../../../shared/component/side-bar-patient-header/side-bar-patient-header';
-import { IPatientsData } from '../../../../core/interface/basic.interface';
 
 @Component({
   selector: 'app-patient-medical-history-details',
@@ -18,6 +17,5 @@ export class PatientMedicalHistoryDetails {
   }
 
   ngOnInit(): void {
-    console.log(this.patientDetails.patient);
   }
 }

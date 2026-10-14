@@ -1,5 +1,44 @@
 import { Roles } from "../enum/common.enum";
 
+// Core user entity matching authUserSchema (password excluded)
+export interface IUser {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  workEmail: string;
+  phone: number;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Query parameters for fetching users
+export interface IUserQueryParams {
+  page?: number;
+  limit?: number;
+  search?: string;
+  role?: string;
+  sortBy?: 'firstName' | 'lastName' | 'workEmail' | 'createdAt' | 'role';
+  sortOrder?: 'asc' | 'desc';
+}
+
+// Pagination metadata returned by backend
+export interface IPagination {
+  totalUsers: number;
+  totalPages: number;
+  currentPage: number;
+  limit: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+}
+
+// API Response wrapper structure
+export interface IUserListResponse {
+  success: boolean;
+  message: string;
+  data: IUser[];
+  pagination: IPagination;
+}
 export interface CurrentUser {
   id: string;
   firstName: string;
@@ -736,6 +775,7 @@ export interface IPatients {
 export interface IPatientsData {
   emergencyContact: EmergencyContact
   _id: string
+  authUserId: string
   firstName: string
   middleName: string
   lastName: string
@@ -753,15 +793,40 @@ export interface IPatientsData {
   aadhaarNumber: string
   status: string
   primaryDoctorId: string
-  doctorDetails: any
   medicalHistories: MedicalHistory[]
   insuranceDetails: InsuranceDetail[]
-  appointments: Appointment[]
   isDeleted: boolean
   createdAt: string
   updatedAt: string
   __v: number
   UHIDSequenceNo: string
+  appointmentBookings: AppointmentBooking[]
+  id: string
+  doctorDetails: any
+}
+
+export interface AppointmentBooking {
+  _id: string
+  appointmentNumber: string
+  doctorId: DoctorId
+  patientId: string
+  clinicId: ClinicId
+  appointmentDate: string
+  dayOfWeek: string
+  startTime: string
+  endTime: string
+  appointmentType: string
+  consultationMode: string
+  appointmentStatus: string
+  bookingSource?: string
+  symptoms: string
+  notes: string
+  consultationFee: number
+  paymentStatus: string
+  cancelledReason: string
+  createdAt: string
+  updatedAt: string
+  __v: number
 }
 
 export interface Appointment {
@@ -2125,4 +2190,618 @@ export interface IClinicStampResponse {
   message: string;
   status: boolean;
   data?: IClinicStamp | IClinicStamp[];
+}
+
+
+
+
+export interface MedicalServices {
+  success: boolean
+  message: string
+  data: MedicalServicesDetails[]
+}
+
+export interface MedicalServicesDetails {
+  _id: string
+  serviceCode: string
+  name: string
+  description: string
+  category: string
+  subCategory: string
+  department: string
+  preparationInstructions: string
+  requiresConsentForm: boolean
+  requiresDoctorOrder: boolean
+  isPackageComponent: boolean
+  basePricing: BasePricing
+  taxConfig: TaxConfig
+  doctorShare: DoctorShare
+  standardMedicalCodes: StandardMedicalCode[]
+  status: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface BasePricing {
+  opdRate: number
+  ipdRate: number
+  emergencyRate: number
+  dayCareRate: number
+}
+
+export interface TaxConfig {
+  isTaxable: boolean
+  taxPercentage: number
+  taxCode: string
+}
+
+export interface DoctorShare {
+  calculationType: string
+  value: number
+}
+
+export interface StandardMedicalCode {
+  codeType: string
+  code: string
+}
+
+
+export interface InsuranceTAP {
+  success: boolean
+  message: string
+  data: InsuranceTAPDetails[]
+}
+
+export interface InsuranceTAPDetails {
+  contactDetails: ContactDetails
+  address: Address
+  policyRules: PolicyRules
+  contractDetails: ContractDetails
+  _id: string
+  tpaCode: string
+  name: string
+  type: string
+  taxIdOrIRDAI: string
+  nodalOfficers: NodalOfficer[]
+  contractedTariff: ContractedTariff[]
+  documents: Document[]
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface ContactDetails {
+  email: string
+  phone: string
+  tollFreeNumber: string
+  website: string
+  claimSubmissionEmail: string
+  preAuthEmail: string
+}
+
+export interface Address {
+  street: string
+  city: string
+  state: string
+  zipCode: string
+  country: string
+}
+
+export interface PolicyRules {
+  defaultCoPayPercentage: number
+  preAuthRequired: boolean
+  claimSubmissionWindowDays: number
+  paymentTurnaroundDays: number
+  discountPercentage: number
+}
+
+export interface ContractDetails {
+  contractStartDate: string
+  contractEndDate: string
+  creditLimit: number
+  status: string
+}
+
+export interface NodalOfficer {
+  name: string
+  designation: string
+  email: string
+  phone: string
+  isPrimary: boolean
+  _id: string
+}
+
+export interface ContractedTariff {
+  roomType: string
+  maxCappedAmountPerDay: number
+  isCovered: boolean
+  _id: string
+}
+
+export interface Document {
+  title: string
+  fileUrl: string
+  uploadedAt: string
+  _id: string
+}
+
+
+export interface ITariffRates {
+  opdRate: number;
+  ipdRate: number;
+  emergencyRate: number;
+}
+
+export interface IServiceTariff {
+  _id?: string;
+  service: string;
+  insuranceProvider: string;
+  agreedRates: ITariffRates;
+  preAuthRequired?: boolean;
+  effectiveFrom?: Date | string;
+  effectiveTo?: Date | string;
+  status?: 'Active' | 'Expired';
+  isActive?: boolean;
+}
+
+
+
+
+export interface IInsuranceTpa {
+  success: boolean
+  message: string
+  data: IInsuranceTpaDetails[]
+  totalCount: number
+}
+
+export interface IInsuranceTpaDetails {
+  _id: string
+  service: Service
+  insuranceProvider: InsuranceProvider
+  agreedRates: AgreedRates
+  preAuthRequired: boolean
+  effectiveFrom: string
+  effectiveTo: string
+  status: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface Service {
+  _id: string
+  serviceCode: string
+  name: string
+  description: string
+  category: string
+  subCategory: string
+  department: string
+  preparationInstructions: string
+  requiresConsentForm: boolean
+  requiresDoctorOrder: boolean
+  isPackageComponent: boolean
+  basePricing: BasePricing
+  taxConfig: TaxConfig
+  doctorShare: DoctorShare
+  standardMedicalCodes: StandardMedicalCode[]
+  status: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface BasePricing {
+  opdRate: number
+  ipdRate: number
+  emergencyRate: number
+  dayCareRate: number
+}
+
+export interface TaxConfig {
+  isTaxable: boolean
+  taxPercentage: number
+  taxCode: string
+}
+
+export interface DoctorShare {
+  calculationType: string
+  value: number
+}
+
+export interface StandardMedicalCode {
+  codeType: string
+  code: string
+}
+
+export interface InsuranceProvider {
+  contactDetails: ContactDetails
+  address: Address
+  policyRules: PolicyRules
+  contractDetails: ContractDetails
+  _id: string
+  tpaCode: string
+  name: string
+  type: string
+  taxIdOrIRDAI: string
+  nodalOfficers: NodalOfficer[]
+  contractedTariff: ContractedTariff[]
+  documents: Document[]
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface ContactDetails {
+  email: string
+  phone: string
+  tollFreeNumber: string
+  website: string
+  claimSubmissionEmail: string
+  preAuthEmail: string
+}
+
+export interface Address {
+  street: string
+  city: string
+  state: string
+  zipCode: string
+  country: string
+}
+
+export interface PolicyRules {
+  defaultCoPayPercentage: number
+  preAuthRequired: boolean
+  claimSubmissionWindowDays: number
+  paymentTurnaroundDays: number
+  discountPercentage: number
+}
+
+export interface ContractDetails {
+  contractStartDate: string
+  contractEndDate: string
+  creditLimit: number
+  status: string
+}
+
+export interface NodalOfficer {
+  name: string
+  designation: string
+  email: string
+  phone: string
+  isPrimary: boolean
+  _id: string
+}
+
+export interface ContractedTariff {
+  roomType: string
+  maxCappedAmountPerDay: number
+  isCovered: boolean
+  _id: string
+}
+
+export interface Document {
+  title: string
+  fileUrl: string
+  uploadedAt: string
+  _id: string
+}
+
+export interface AgreedRates {
+  opdRate: number
+  ipdRate: number
+  emergencyRate: number
+}
+
+export interface IPackageItem {
+  service: string | any;
+  quantity: number;
+}
+
+export interface IServicePackage {
+  _id?: string;
+  packageCode: string;
+  packageName: string;
+  description?: string;
+  includedServices: IPackageItem[];
+  totalIndividualCost: number;
+  packagePrice: number;
+  genderRestriction?: 'All' | 'Male' | 'Female';
+  status?: 'Active' | 'Inactive';
+  isActive?: boolean;
+}
+
+
+
+export interface IServicePackage {
+  success: boolean
+  message: string
+  data: IServicePackageDetails[]
+  totalCount: number
+}
+
+export interface IServicePackageDetails {
+  _id: string
+  packageCode: string
+  packageName: string
+  description: string
+  includedServices: IncludedService[]
+  totalIndividualCost: number
+  packagePrice: number
+  genderRestriction: string
+  status: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface IncludedService {
+  service: Service
+  quantity: number
+  basePrice: number
+}
+
+export interface Service {
+  _id: string
+  serviceCode: string
+  name: string
+  description: string
+  category: string
+  subCategory: string
+  department: string
+  preparationInstructions: string
+  requiresConsentForm: boolean
+  requiresDoctorOrder: boolean
+  isPackageComponent: boolean
+  basePricing: BasePricing
+  taxConfig: TaxConfig
+  doctorShare: DoctorShare
+  standardMedicalCodes: StandardMedicalCode[]
+  status: string
+  isActive: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
+export interface BasePricing {
+  opdRate: number
+  ipdRate: number
+  emergencyRate: number
+  dayCareRate: number
+}
+
+export interface TaxConfig {
+  isTaxable: boolean
+  taxPercentage: number
+  taxCode: string
+}
+
+export interface DoctorShare {
+  calculationType: string
+  value: number
+}
+
+export interface StandardMedicalCode {
+  codeType: string
+  code: string
+}
+
+
+export interface ServiceMasterStatistics {
+  success: boolean
+  message: string
+  data: ServiceMasterStatisticsData
+}
+
+export interface ServiceMasterStatisticsData {
+  totalServices: number
+  activeServices: number
+  activeStatusServices: number
+  inactiveServices: number
+  discontinuedServices: number
+  laboratoryServices: number
+  radiologyServices: number
+}
+
+export interface InsuranceTariffstatistics {
+  success: boolean
+  message: string
+  data: InsuranceTariffstatisticsData
+}
+
+export interface InsuranceTariffstatisticsData {
+  activeServices: number
+  preauthServices: number
+}
+
+
+export interface ServicePackageStatistics {
+  success: boolean
+  message: string
+  data: ServicePackageStatisticsData
+}
+
+export interface ServicePackageStatisticsData {
+  totalpackagesSrvices: number
+}
+
+
+export interface DepartmentType {
+  message: string
+  status: boolean
+  data: DepartmentTypeDetails[]
+}
+
+export interface DepartmentTypeDetails {
+  _id: string;
+  type: string;
+  name: string;
+  code: string;
+  description: string;
+  __v?: number;
+
+}
+
+export interface DepartmentTypeGroup {
+  type: string;
+  items: DepartmentTypeDetails[];
+  expanded: boolean;
+}
+
+export interface IFacilityFilterParams {
+  search?: string;
+  type?: string;
+  subType?: string;
+  status?: string;
+  building?: string;
+  floor?: number;
+  is24x7?: boolean;
+  page?: number;
+  limit?: number;
+}
+
+// export interface SubFacility {
+//   _id?: string;
+//   name: string;
+// }
+
+export interface Facility {
+  name: string;
+  subFacilities: SubFacility[];
+}
+
+export interface FacilityType {
+  _id?: string;
+  category: string;
+  facility: Facility;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+
+export interface IFacility {
+  facility: Facility
+  _id: string
+  category: string
+}
+
+export interface Facility {
+  name: string
+  subFacilities: SubFacility[]
+}
+
+export interface SubFacility {
+  _id: string
+  name: string
+}
+
+export interface FacilityTypeMaster {
+  message: string
+  status: boolean
+  data: string[]
+}
+
+
+export interface SubFacilityMaster {
+  _id: string
+  name: string
+}
+
+
+
+
+
+export interface IFacility {
+  success: boolean
+  message: string
+  data: IFacilityData[]
+  meta: Meta
+}
+
+export interface IFacilityData {
+  configuration: Configuration
+  _id: string
+  facilityCode: string
+  name: string
+  type: string
+  subType: string
+  location: Location
+  operationalHours: OperationalHours
+  contactExtension: string
+  departmentHeadId: DepartmentHeadId
+  assignedStaff: AssignedStaff[]
+  status: string
+  isDeleted: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+  id: string
+}
+
+export interface Configuration {
+  capacity: Capacity
+  equipmentList: EquipmentList[]
+  pharmacyLicenseNo: string
+  hasColdStorage: boolean
+  supportedSurgeries: string[]
+}
+
+export interface Capacity {
+  totalBeds: number
+  occupiedBeds: number
+  icuBeds: number
+}
+
+export interface EquipmentList {
+  name: string
+  model: string
+  lastCalibrated: string
+  status: string
+  _id: string
+  id: string
+}
+
+export interface Location {
+  building: string
+  floor: number
+  roomNumber: string
+  wing: string
+}
+
+export interface OperationalHours {
+  is24x7: boolean
+  schedule: Schedule[]
+}
+
+export interface Schedule {
+  dayOfWeek: string
+  openTime: string
+  closeTime: string
+}
+
+export interface DepartmentHeadId {
+  _id: string
+  firstName: string
+  lastName: string
+  phone: number
+}
+
+export interface AssignedStaff {
+  _id: string
+  firstName: string
+  lastName: string
+}
+
+export interface Meta {
+  total: number
+  page: number
+  limit: number
+  totalPages: number
 }

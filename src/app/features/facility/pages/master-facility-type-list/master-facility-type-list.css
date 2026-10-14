@@ -1,0 +1,213 @@
+.search-input-group {
+    position: relative;
+    width   : 100%;
+}
+
+.search-input {
+    height       : 42px;
+    padding      : 0 40px 0 38px;
+    border       : 1px solid #e2e8f0;
+    border-radius: 8px;
+    background   : #ffffff;
+    color        : #1e293b;
+    font-size    : 13px;
+    outline      : none;
+    transition   : all 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: #94a3b8;
+}
+
+.search-input:focus {
+    border-color: #0d9488;
+    box-shadow  : 0 0 0 3px rgba(13, 148, 136, 0.08);
+}
+
+.search-icon {
+    position      : absolute;
+    left          : 13px;
+    top           : 50%;
+    transform     : translateY(-50%);
+    color         : #94a3b8;
+    font-size     : 15px;
+    pointer-events: none;
+    z-index       : 1;
+}
+
+.clear-search {
+    position : absolute;
+    right    : 8px;
+    top      : 50%;
+    transform: translateY(-50%);
+
+    width : 27px;
+    height: 27px;
+
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
+
+    padding      : 0;
+    border       : 0;
+    border-radius: 5px;
+
+    background: transparent;
+    color     : #94a3b8;
+
+    cursor    : pointer;
+    transition: all 0.2s ease;
+}
+
+.clear-search:hover {
+    background: #f1f5f9;
+    color     : #475569;
+}
+
+.clear-search i {
+    font-size: 16px;
+}
+
+.sub-row td {
+    background: #f9fafb;
+    padding   : 16px;
+}
+
+.sub-content {
+    border-left : 3px solid var(--teal);
+    padding-left: 16px;
+}
+
+.sub-title {
+    font-weight  : 600;
+    margin-bottom: 10px;
+    color        : var(--text-head);
+}
+
+.clinic-grid {
+    display              : grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap                  : 12px;
+}
+
+.clinic-card {
+    background   : #fff;
+    border       : 1px solid var(--border);
+    border-radius: 8px;
+    padding      : 10px;
+    font-size    : 12px;
+}
+
+.clinic-name {
+    font-weight  : 600;
+    margin-bottom: 4px;
+}
+
+.clinic-card {
+    transition:
+        box-shadow 0.3s ease,
+        transform 0.2s ease;
+}
+
+.clinic-card:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transform : translateY(-3px);
+    /* optional lift effect */
+}
+
+
+
+
+/* ─────────────────────────────────────────────────────────────────
+   APPOINTMENT TABLE STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.appt-table-wrapper {
+    padding        : 14px 20px;
+    border-top     : 1px solid var(--border);
+    display        : flex;
+    align-items    : center;
+    justify-content: space-between;
+}
+
+.appt-time-value {
+    font-weight: 600;
+    color      : var(--text-head);
+}
+
+.appt-time-duration {
+    font-size: 11px;
+    color    : var(--text-muted);
+}
+
+.appt-notes {
+    font-size: 11.5px;
+    color    : var(--text-muted);
+    max-width: 140px;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   BUTTON STYLES
+   ───────────────────────────────────────────────────────────────── */
+
+.btn-icon-wrapper {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+    padding   : 4px 10px;
+}
+
+.btn-download-cv {
+    background     : var(--bg);
+    border         : 1px solid var(--border);
+    color          : var(--text-body);
+    justify-content: center;
+}
+
+.btn-more-actions {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+}
+
+.btn-recent-activity {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+    font-size : 11.5px;
+}
+
+.btn-filter-group {
+    display: flex;
+    gap    : 6px;
+}
+
+.btn-pagination-wrapper {
+    display: flex;
+    gap    : 4px;
+}
+
+.btn-pagination-active {
+    background  : var(--teal);
+    color       : #fff;
+    border-color: var(--teal);
+}
+
+.btn-filter-light {
+    background: var(--bg);
+    border    : 1px solid var(--border);
+    color     : var(--text-muted);
+}
+
+.btn-slot-config {
+    display       : flex;
+    flex-direction: column;
+    gap           : 12px;
+}
+
+.status-badge {
+    padding      : 3px 9px;
+    border-radius: 12px;
+    font-size    : 11px;
+    font-weight  : 600;
+}

@@ -5,6 +5,7 @@ import { SignupResponse, SigninResponse } from '../interface/authentication.inte
 import { CoreApiService } from './core-api-service';
 import { NotificationServices } from './notification-services';
 import { StorageOperation } from './storage-operation';
+import { IUserQueryParams, IUserListResponse } from '../interface/basic.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,9 +22,6 @@ export class Authentication {
     this.baseUrl = environment.apiUrl + environment.middleware + environment.endpoints.authentication + '/';
   }
 
-  // =======================
-  // 🔹 SIGNUP
-  // =======================
   public signup(value: object): Observable<SignupResponse> {
     return this._coreApiService.post<SignupResponse>(this.baseUrl + 'signup', value, true).pipe(
       map(res => res.data),
@@ -36,9 +34,6 @@ export class Authentication {
     );
   }
 
-  // =======================
-  // 🔹 SIGNIN
-  // =======================
   public signin(value: object, showNotification: boolean = false): Observable<SigninResponse> {
     return this._coreApiService.post<SigninResponse>(this.baseUrl + 'signin', value, true).pipe(map(res => res.data),
       tap((data) => {
@@ -62,9 +57,6 @@ export class Authentication {
     );
   }
 
-  // =======================
-  // 🔹 sendOTP
-  // =======================
   public sendOTP(
     value: object,
     showNotification: boolean = false
@@ -88,9 +80,6 @@ export class Authentication {
       );
   }
 
-  // =======================
-  // 🔹 verifyOtp
-  // =======================
   public verifyOtp(
     value: object,
     showNotification: boolean = false
@@ -130,5 +119,52 @@ export class Authentication {
           }
         })
       );
+  }
+
+  public getUsers(params?: IUserQueryParams, showNotification: boolean = false): Observable<IUserListResponse> {
+    const queryParams: string[] = [];
+    if (params?.page !== undefined) {
+      queryParams.push(`page=${params.page}`);
+    }
+    if (params?.limit !== undefined) {
+      queryParams.push(`limit=${params.limit}`);
+    }
+    if (params?.search) {
+      queryParams.push(`search=${encodeURIComponent(params.search.trim())}`);
+    }
+    if (params?.role) {
+      queryParams.push(`role=${encodeURIComponent(params.role.trim())}`);
+    }
+    if (params?.sortBy) {
+      queryParams.push(`sortBy=${params.sortBy}`);
+    }
+    if (params?.sortOrder) {
+      queryParams.push(`sortOrder=${params.sortOrder}`);
+    }
+    const queryString = queryParams.length ? `?${queryParams.join('&')}` : '';
+    console.log('Test');
+    debugger;
+    return this._coreApiService.get<IUserListResponse>(`${this.baseUrl}getAll${queryString}`).pipe(
+      map(res => res.data), // Extract 'data' from ApiResponse wrapper
+      tap(() => {
+        if (showNotification) {
+          this._notificationServices.success(
+            'Success',
+            'Users retrieved successfully'
+          );
+        }
+      })
+    );
+  }
+
+  public getAllUsers(showNotification: boolean = false): Observable<any> {
+    return this._coreApiService.get<any>(`${this.baseUrl}getAllUsers`).pipe(map(res => res.data), tap(() => {
+      if (showNotification) {
+        this._notificationServices.success(
+          'Success',
+          'Users fetched successfully'
+        );
+      }
+    }));
   }
 }

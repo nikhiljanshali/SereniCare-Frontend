@@ -1,0 +1,277 @@
+<div id="page-doctor-profile-detail" class="page-section">
+    <!-- Breadcrumb header -->
+    <div class="page-header">
+        <div class="page-header-left">
+            <div class="ph-title">Wings & Beds</div>
+            <div class="ph-sub">
+                Real-time bed allocation and room condition across all clinical wings.
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-primary btn-sm">
+                <i class="bi bi-plus"></i>
+                Add Bed
+            </button>
+            <!-- More Dropdown -->
+            <!-- <div class="header-dropdown">
+                <button class="btn btn-sm btn-outline-primary" type="button" (click)="toggleMainMenu()">
+                    Facility Menu
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                @if (isMainMenuOpen) {
+                <div class="header-dropdown-menu">
+                    <button type="button" class="header-dropdown-item default" (click)="AddFacility()">
+                        <i class="bi bi-node-plus-fill"></i>
+                        Add Facility
+                    </button>
+                    <button type="button" class="header-dropdown-item default" (click)="ViewFacilityList()">
+                        <i class="bi bi-card-list"></i>
+                        View list
+                    </button>
+                    <div class="header-dropdown-divider"></div>
+                    <button type="button" class="header-dropdown-item danger">
+                        <i class="bi bi-trash"></i>
+                        Delete Doctor
+                    </button>
+                </div>
+                }
+            </div> -->
+            <!-- More Dropdown -->
+            <!-- <div class="header-dropdown">
+                <button class="btn btn-sm btn-outline-primary" type="button" (click)="toggleMasterMenu()">
+                    Facility Master Menu
+                    <i class="bi bi-three-dots-vertical"></i>
+                </button>
+                @if (isMasterMenuOpen) {
+                <div class="header-dropdown-menu">
+                    <button type="button" class="header-dropdown-item default" (click)="AddFacilityType()">
+                        <i class="bi bi-node-plus-fill"></i>
+                        Add Facility Type
+                    </button>
+                    <button type="button" class="header-dropdown-item default" (click)="ViewFacilityMasterList()">
+                        <i class="bi bi-card-list"></i>
+                        View list
+                    </button>
+                    <div class="header-dropdown-divider"></div>
+                    <button type="button" class="header-dropdown-item danger">
+                        <i class="bi bi-trash"></i>
+                        Delete Doctor
+                    </button>
+                </div>
+                }
+            </div> -->
+        </div>
+    </div>
+    <div class="dpd-layout">
+        <div class="dpd-right">
+            <div id="dpd-servicesmaster" class="dpd-tab-panel active">
+                <div class="wing-grid">
+                    <!-- Wing A -->
+                    <div class="wing-card">
+                        <div class="wing-card-head">
+                            <div>
+                                <div class="wing-name">Wing A — General Medicine</div>
+                                <div class="wing-meta">30 beds · Floor 2</div>
+                            </div>
+                            <span class="status-pill pill-teal">80% Full</span>
+                        </div>
+                        <div class="wing-body">
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed A-101</div>
+                                    <div class="bed-patient">John Doe · Hypertension</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed A-102</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-teal">Available</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed A-103</div>
+                                    <div class="bed-patient">Meena Patel · Diabetes</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed A-104</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-amber">Cleaning</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wing B -->
+                    <div class="wing-card">
+                        <div class="wing-card-head" style="background:var(--rose-light);">
+                            <div>
+                                <div class="wing-name">Wing B — ICU</div>
+                                <div class="wing-meta">15 beds · Floor 3</div>
+                            </div>
+                            <span class="status-pill pill-rose">Near Full</span>
+                        </div>
+                        <div class="wing-body">
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">ICU-01</div>
+                                    <div class="bed-patient">Sarah Jenkins · Cardiac arrest</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">ICU-02</div>
+                                    <div class="bed-patient">Michael Chang · Head injury</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">ICU-03</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-teal">Available</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">ICU-04</div>
+                                    <div class="bed-patient">Ramya Shah · Respiratory</div>
+                                </div><span class="status-pill pill-rose">Critical</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wing C -->
+                    <div class="wing-card">
+                        <div class="wing-card-head">
+                            <div>
+                                <div class="wing-name">Wing C — Paediatrics</div>
+                                <div class="wing-meta">20 beds · Floor 1</div>
+                            </div>
+                            <span class="status-pill pill-indigo">60% Full</span>
+                        </div>
+                        <div class="wing-body">
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed C-01</div>
+                                    <div class="bed-patient">Arjun V. (7y) · Fever</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed C-02</div>
+                                    <div class="bed-patient">Sia M. (4y) · Pneumonia</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed C-03</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-teal">Available</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed C-04</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-teal">Available</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wing D -->
+                    <div class="wing-card">
+                        <div class="wing-card-head">
+                            <div>
+                                <div class="wing-name">Wing D — Orthopaedics</div>
+                                <div class="wing-meta">18 beds · Floor 2</div>
+                            </div>
+                            <span class="status-pill pill-sky">56% Full</span>
+                        </div>
+                        <div class="wing-body">
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed D-01</div>
+                                    <div class="bed-patient">Vikram Rao · Hip replacement</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed D-02</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-teal">Available</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed D-03</div>
+                                    <div class="bed-patient">Lakshmi N. · Knee surgery</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Wing E -->
+                    <div class="wing-card">
+                        <div class="wing-card-head">
+                            <div>
+                                <div class="wing-name">Wing E — Cardiology</div>
+                                <div class="wing-meta">22 beds · Floor 4</div>
+                            </div>
+                            <span class="status-pill pill-violet">82% Full</span>
+                        </div>
+                        <div class="wing-body">
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed E-01</div>
+                                    <div class="bed-patient">Rajiv Menon · Angina</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed E-02</div>
+                                    <div class="bed-patient">Deepa S. · Post-stent</div>
+                                </div><span class="status-pill pill-indigo">Occupied</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">Bed E-03</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-amber">Cleaning</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- OT / Surgical -->
+                    <div class="wing-card">
+                        <div class="wing-card-head" style="background:var(--violet-light);">
+                            <div>
+                                <div class="wing-name">Operating Theatres</div>
+                                <div class="wing-meta">4 OTs · Floor 3</div>
+                            </div>
+                            <span class="status-pill pill-violet">2 Active</span>
+                        </div>
+                        <div class="wing-body">
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">OT-1</div>
+                                    <div class="bed-patient">Appendectomy — Dr. Iyer</div>
+                                </div><span class="status-pill pill-rose">In Use</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">OT-2</div>
+                                    <div class="bed-patient">Hip arthroplasty — Dr. Mehta</div>
+                                </div><span class="status-pill pill-rose">In Use</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">OT-3</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-teal">Available</span>
+                            </div>
+                            <div class="bed-row">
+                                <div>
+                                    <div class="bed-id">OT-4</div>
+                                    <div class="bed-patient">—</div>
+                                </div><span class="status-pill pill-amber">Sanitising</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

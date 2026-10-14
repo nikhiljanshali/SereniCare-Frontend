@@ -1,0 +1,747 @@
+<div id="reg-step1">
+    <div class="card-section-label" style="margin-top:0;">
+        <i class="bi bi-shield-check"></i> Appointment Details
+    </div>
+    <div id="appointment-details">
+        @if (selectedAppointmentDetails) {
+        <div class="service-summary-card">
+
+            <div class="service-summary-top">
+
+                <div class="service-icon">
+                    <i class="bi bi-calendar-check"></i>
+                </div>
+
+                <div class="service-title-wrapper">
+
+                    <h3>
+                        {{ selectedAppointmentDetails.appointmentNumber || 'N/A' }}
+                    </h3>
+
+                    <span class="service-code">
+                        {{ selectedAppointmentDetails.dayOfWeek || 'N/A' }}
+                        •
+                        {{ selectedAppointmentDetails.startTime || 'N/A' }}
+                        - {{ selectedAppointmentDetails.endTime || 'N/A' }}
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Appointment Tags -->
+            <div class="service-tags">
+
+                @if (selectedAppointmentDetails.appointmentType) {
+                <span class="service-tag category-tag">
+                    <i class="bi bi-hospital"></i>
+                    {{ selectedAppointmentDetails.appointmentType }}
+                </span>
+                }
+
+                @if (selectedAppointmentDetails.consultationMode) {
+                <span class="service-tag">
+                    <i class="bi bi-person-video3"></i>
+                    {{ selectedAppointmentDetails.consultationMode }}
+                </span>
+                }
+
+                @if (selectedAppointmentDetails.appointmentStatus) {
+                <span class="service-tag">
+                    {{ selectedAppointmentDetails.appointmentStatus }}
+                </span>
+                }
+
+            </div>
+
+
+            <!-- Appointment Date -->
+            <div class="summary-info-row">
+
+                <span>
+                    <i class="bi bi-calendar3"></i>
+                    Appointment Date
+                </span>
+
+                <strong>
+                    {{ selectedAppointmentDetails.appointmentDate | date:'dd MMM yyyy' }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Patient Information
+    ============================================= -->
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-person-heart"></i>
+                <span>Patient Information</span>
+            </div>
+
+            <div class="info-list">
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Patient Name
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.patientId?.firstName || ''
+                        }}
+                        {{
+                        selectedAppointmentDetails.patientId?.middleName || ''
+                        }}
+                        {{
+                        selectedAppointmentDetails.patientId?.lastName || ''
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Patient Code
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.patientId?.patientCode || 'N/A'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        UHID
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.patientId?.UHIDSequenceNo || 'N/A'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Gender / Age
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.patientId?.gender || 'N/A'
+                        }}
+
+                        /
+
+                        {{
+                        selectedAppointmentDetails.patientId?.age || 'N/A'
+                        }}
+                        Years
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Phone
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.patientId?.phone || 'N/A'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Email
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.patientId?.email || 'N/A'
+                        }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Doctor Information
+    ============================================= -->
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-person-badge"></i>
+                <span>Doctor Information</span>
+            </div>
+
+
+            <div class="doctor-share-card">
+
+                <div>
+
+                    <span class="info-label">
+                        {{ selectedAppointmentDetails.doctorId?.doctorCode || 'N/A' }}
+                    </span>
+
+                    <strong>
+
+                        Dr.
+                        {{ selectedAppointmentDetails.doctorId?.firstName || '' }}
+                        {{ selectedAppointmentDetails.doctorId?.lastName || '' }}
+
+                    </strong>
+
+                    @if (selectedAppointmentDetails.doctorId?.specializations?.length) {
+
+                    <small style="display:block; font-size:12px; color:#666; margin-top:4px;">
+
+                        @for (
+                        specialization of selectedAppointmentDetails.doctorId.specializations;
+                        track specialization._id
+                        ) {
+
+                        {{ specialization.name }}
+
+                        @if (!$last) {
+                        <span> • </span>
+                        }
+
+                        }
+
+                    </small>
+
+                    }
+
+                </div>
+
+
+                <div class="share-value">
+
+                    <span>
+                        {{ selectedAppointmentDetails.doctorId?.phone || 'N/A' }}
+                    </span>
+
+                    <small style="display:block; font-size:12px; color:#666;">
+
+                        {{ selectedAppointmentDetails.doctorId?.email || 'N/A' }}
+
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- Doctor Additional Information -->
+            <div class="info-list">
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Experience
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.doctorId?.experience || 0
+                        }}
+                        Years
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Office Status
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.doctorId?.officeStatus || 'N/A'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        License Number
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.doctorId?.licenseNumber || 'N/A'
+                        }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Appointment Information
+    ============================================= -->
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-calendar-event"></i>
+                <span>Appointment Information</span>
+            </div>
+
+
+            <div class="pricing-grid">
+
+                <div class="price-card highlighted">
+
+                    <span>
+                        Appointment Type
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.appointmentType || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+
+                <div class="price-card highlighted">
+
+                    <span>
+                        Consultation
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.consultationMode || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+
+                <div class="price-card">
+
+                    <span>
+                        Start Time
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.startTime || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+
+                <div class="price-card">
+
+                    <span>
+                        End Time
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.endTime || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Appointment Status
+    ============================================= -->
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-activity"></i>
+                <span>Appointment Status</span>
+            </div>
+
+
+            <div class="status-container">
+
+                @switch (selectedAppointmentDetails.appointmentStatus?.toLowerCase()) {
+
+                @case ('pending') {
+
+                <span class="large-status-badge inactive">
+                    <span class="status-dot"></span>
+                    Pending
+                </span>
+
+                }
+
+                @case ('confirmed') {
+
+                <span class="large-status-badge active">
+                    <span class="status-dot"></span>
+                    Confirmed
+                </span>
+
+                }
+
+                @case ('checked-in') {
+
+                <span class="large-status-badge active">
+                    <span class="status-dot"></span>
+                    Checked-In
+                </span>
+
+                }
+
+                @case ('completed') {
+
+                <span class="large-status-badge active">
+                    <span class="status-dot"></span>
+                    Completed
+                </span>
+
+                }
+
+                @case ('cancelled') {
+
+                <span class="large-status-badge inactive">
+                    <span class="status-dot"></span>
+                    Cancelled
+                </span>
+
+                }
+
+                @case ('no-show') {
+
+                <span class="large-status-badge inactive">
+                    <span class="status-dot"></span>
+                    No Show
+                </span>
+
+                }
+
+                @default {
+
+                <span class="large-status-badge inactive">
+                    <span class="status-dot"></span>
+
+                    {{
+                    selectedAppointmentDetails.appointmentStatus || 'N/A'
+                    }}
+
+                </span>
+
+                }
+
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Symptoms & Notes
+    ============================================= -->
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-heart-pulse"></i>
+                <span>Clinical Information</span>
+            </div>
+
+
+            <div class="info-list">
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Symptoms
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.symptoms || 'No symptoms recorded'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Notes
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.notes || 'No notes available'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                @if (selectedAppointmentDetails.cancelledReason) {
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Cancellation Reason
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.cancelledReason
+                        }}
+
+                    </span>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Payment Details
+    ============================================= -->
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-credit-card"></i>
+                <span>Payment Details</span>
+            </div>
+
+
+            <div class="pricing-grid">
+
+                <div class="price-card highlighted">
+
+                    <span>
+                        Consultation Fee
+                    </span>
+
+                    <strong>
+                        ₹{{ selectedAppointmentDetails.consultationFee | number }}
+                    </strong>
+
+                </div>
+
+
+                <div class="price-card">
+
+                    <span>
+                        Payment Status
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.paymentStatus || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+
+                <div class="price-card">
+
+                    <span>
+                        Booking Source
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.bookingSource || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================================
+         Emergency Contact
+    ============================================= -->
+        @if (selectedAppointmentDetails.patientId?.emergencyContact) {
+
+        <div class="service-section">
+
+            <div class="section-title">
+                <i class="bi bi-telephone-plus"></i>
+                <span>Emergency Contact</span>
+            </div>
+
+
+            <div class="doctor-share-card">
+
+                <div>
+
+                    <span class="info-label">
+                        {{
+                        selectedAppointmentDetails.patientId.emergencyContact.relation
+                        || 'Contact'
+                        }}
+                    </span>
+
+                    <strong>
+                        {{
+                        selectedAppointmentDetails.patientId.emergencyContact.name
+                        || 'N/A'
+                        }}
+                    </strong>
+
+                </div>
+
+
+                <div class="share-value">
+
+                    <span>
+                        {{
+                        selectedAppointmentDetails.patientId.emergencyContact.phone
+                        || 'N/A'
+                        }}
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        }
+
+
+        <!-- ============================================
+         Audit Information
+    ============================================= -->
+        <div class="service-section audit-section">
+
+            <div class="section-title">
+                <i class="bi bi-clock-history"></i>
+                <span>Audit Information</span>
+            </div>
+
+
+            <div class="info-list">
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Created
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.createdAt
+                        | date:'dd MMM yyyy, hh:mm a'
+                        }}
+
+                    </span>
+
+                </div>
+
+
+                <div class="info-item">
+
+                    <span class="info-label">
+                        Last Updated
+                    </span>
+
+                    <span class="info-value">
+
+                        {{
+                        selectedAppointmentDetails.updatedAt
+                        | date:'dd MMM yyyy, hh:mm a'
+                        }}
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        }
+
+        @else {
+
+        <div class="no-data">
+            No appointment details available
+        </div>
+
+        }
+
+    </div>
+</div>

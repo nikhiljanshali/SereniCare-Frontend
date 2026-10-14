@@ -1,0 +1,12 @@
+.dpd-layout {
+    grid-template-columns: 200fr;
+}
+
+/* ═══ STATUS PILLS ═══ */
+.status-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:12px;}
+.pill-teal{background:var(--teal-light);color:var(--teal-dark);}
+.pill-rose{background:var(--rose-light);color:var(--rose);}
+.pill-amber{background:var(--amber-light);color:var(--amber);}
+.pill-indigo{background:var(--indigo-light);color:var(--indigo);}
+.pill-violet{background:var(--violet-light);color:var(--violet);}
+.pill-sky{background:var(--sky-light);color:#0369a1;}   

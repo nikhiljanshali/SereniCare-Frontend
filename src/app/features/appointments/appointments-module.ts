@@ -5,6 +5,8 @@ import { FocusTrapDirective } from 'ngx-bootstrap/focus-trap';
 import { AppointmentLayout } from './appointment-layout/appointment-layout';
 import { AppointmentsRoutingModule } from './appointments-routing-module';
 import { AppointmentList } from './pages/appointment-list/appointment-list';
+import { RightSidebar } from '../../shared/component/right-sidebar/right-sidebar';
+import { PopoverModule } from 'ngx-bootstrap/popover';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { AppointmentList } from './pages/appointment-list/appointment-list';
     ReactiveFormsModule,
     FocusTrapDirective,
     AppointmentsRoutingModule,
+    RightSidebar,
+    PopoverModule
   ]
 })
 export class AppointmentsModule { }

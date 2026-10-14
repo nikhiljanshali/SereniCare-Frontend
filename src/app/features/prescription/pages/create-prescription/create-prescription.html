@@ -543,8 +543,14 @@
                                         <label class="wz-label">Test Name
                                             <span class="wz-req">*</span>
                                         </label>
-                                        <input class="wz-input" type="text" placeholder="Test Name"
-                                            formControlName="testName">
+                                        <select class="wz-input" formControlName="testName">
+                                            <option value="" disabled selected>Select Test Name</option>
+                                            @for (test of medicalServicesDetailsList; track test._id || test) {
+                                            <option [value]="test.name">
+                                                {{ test.name }}
+                                            </option>
+                                            }
+                                        </select>
                                     </div>
                                     <div class="wz-form-group w-75 m-0">
                                         <label class="wz-label">Remark

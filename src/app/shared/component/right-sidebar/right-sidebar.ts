@@ -8,12 +8,23 @@ import { EditAppointmentBooking } from '../../../features/doctors/pages/edit-app
 import { ChiefComplaint } from '../../../features/doctors/pages/chief-complaint/chief-complaint';
 import { VitalDetails } from '../../../features/doctors/pages/vital-details/vital-details';
 import { PatientHipDetails } from '../../../features/doctors/pages/patient-hip-details/patient-hip-details';
+import { ViewServiceDetail } from '../../../features/medical-services/pages/view-service-detail/view-service-detail';
+import { ViewInsuranceTariffs } from '../../../features/medical-services/pages/view-insurance-tariffs/view-insurance-tariffs';
+import { ViewServicePackageDetail } from '../../../features/medical-services/pages/view-service-package-detail/view-service-package-detail';
+import { ViewInsuranceDetail } from '../../../features/insurance-tpa/pages/view-insurance-detail/view-insurance-detail';
+import { ViewAppointmentDetails } from '../../../features/appointments/pages/view-appointment-details/view-appointment-details';
+import { PatientEdit } from '../../../features/patient/pages/patient-edit/patient-edit';
 
 
 @Component({
   selector: 'app-right-sidebar',
   standalone: true,
-  imports: [CommonModule, PatientMedicalHistoryDetails, MedicineDetails, EditDoctorDetails, EditAppointmentBooking, ChiefComplaint, VitalDetails, PatientHipDetails],
+  imports: [
+    CommonModule,
+    PatientMedicalHistoryDetails, MedicineDetails, EditDoctorDetails, EditAppointmentBooking,
+    ChiefComplaint, VitalDetails, PatientHipDetails, PatientEdit,
+    ViewServiceDetail, ViewInsuranceTariffs, ViewServicePackageDetail, ViewInsuranceDetail, ViewAppointmentDetails
+  ],
   templateUrl: './right-sidebar.html',
   styleUrl: './right-sidebar.css',
 })

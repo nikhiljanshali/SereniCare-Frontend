@@ -1,0 +1,274 @@
+<div id="reg-step1">
+    <div class="card-section-label" style="margin-top:0;">
+        <i class="bi bi-shield-check"></i> TPA / Insurance Details
+    </div>
+
+    @if (selectedInsuranceDetail) {
+    <!-- TPA Header Summary Card -->
+    <div class="service-summary-card">
+        <div class="service-summary-top">
+            <div class="service-icon">
+                <i class="bi bi-building"></i>
+            </div>
+            <div class="service-title-wrapper">
+                <h3>
+                    {{ selectedInsuranceDetail.name || 'N/A' }}
+                </h3>
+                <span class="service-code">
+                    TPA Code: {{ selectedInsuranceDetail.tpaCode || 'N/A' }}
+                </span>
+            </div>
+        </div>
+        <div class="service-tags">
+            @if (selectedInsuranceDetail.type) {
+            <span class="service-tag category-tag">
+                {{ selectedInsuranceDetail.type }}
+            </span>
+            }
+            @if (selectedInsuranceDetail.isActive) {
+            <span class="service-tag">Active Entity</span>
+            }
+        </div>
+        <div class="summary-info-row">
+            <span>IRDAI / Tax ID</span>
+            <strong>
+                {{ selectedInsuranceDetail.taxIdOrIRDAI || 'N/A' }}
+            </strong>
+        </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-telephone"></i>
+            <span>Contact Details</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Email</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.contactDetails?.email || 'N/A' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Phone & Toll Free</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.contactDetails?.phone || 'N/A' }} / {{ selectedInsuranceDetail.contactDetails?.tollFreeNumber ||
+                    'N/A' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Claims Email</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.contactDetails?.claimSubmissionEmail || 'N/A' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Pre-Auth Email</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.contactDetails?.preAuthEmail || 'N/A' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Website</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.contactDetails?.website || 'N/A' }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Address Details -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-geo-alt"></i>
+            <span>Address Details</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Street Address</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.address?.street || 'N/A' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">City, State & Zip</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.address?.city }}, {{ selectedInsuranceDetail.address?.state }} - {{ selectedInsuranceDetail.address?.zipCode
+                    }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Country</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.address?.country || 'N/A' }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contract Details -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-file-earmark-text"></i>
+            <span>Contract Details</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Contract Period</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.contractDetails?.contractStartDate | date:'dd MMM yyyy' }} - {{
+                    selectedInsuranceDetail.contractDetails?.contractEndDate | date:'dd MMM yyyy' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Credit Limit</span>
+                <span class="info-value">
+                    ₹{{ selectedInsuranceDetail.contractDetails?.creditLimit | number }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Contract Status</span>
+                <span class="info-value">
+                    <strong class="yes-text">{{ selectedInsuranceDetail.contractDetails?.status || 'N/A' }}</strong>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Policy Rules -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-gear-wide-connected"></i>
+            <span>Policy Rules</span>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card highlighted">
+                <span>Co-Pay %</span>
+                <strong>{{ selectedInsuranceDetail.policyRules?.defaultCoPayPercentage || 0 }}%</strong>
+            </div>
+            <div class="price-card highlighted">
+                <span>Discount %</span>
+                <strong>{{ selectedInsuranceDetail.policyRules?.discountPercentage || 0 }}%</strong>
+            </div>
+            <div class="price-card">
+                <span>Claim Window</span>
+                <strong>{{ selectedInsuranceDetail.policyRules?.claimSubmissionWindowDays || 0 }} Days</strong>
+            </div>
+            <div class="price-card">
+                <span>TAT Days</span>
+                <strong>{{ selectedInsuranceDetail.policyRules?.paymentTurnaroundDays || 0 }} Days</strong>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nodal Officers -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-person-badge"></i>
+            <span>Nodal Officers</span>
+        </div>
+        @if (selectedInsuranceDetail.nodalOfficers?.length > 0) {
+        @for (officer of selectedInsuranceDetail.nodalOfficers; track officer._id) {
+        <div class="doctor-share-card">
+            <div>
+                <span class="info-label">{{ officer.designation }}</span>
+                <strong>{{ officer.name }} @if(officer.isPrimary){ (Primary) }</strong>
+            </div>
+            <div class="share-value">
+                <span>{{ officer.phone }}</span>
+                <small style="display:block; font-size: 12px; color: #666;">{{ officer.email }}</small>
+            </div>
+        </div>
+        }
+        } @else {
+        <div class="no-data">No nodal officers available</div>
+        }
+    </div>
+
+    <!-- Contracted Tariff Cappings -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-hospital"></i>
+            <span>Contracted Tariff Capping</span>
+        </div>
+        <div class="pricing-grid">
+            @for (tariff of selectedInsuranceDetail.contractedTariff; track tariff._id) {
+            <div class="price-card">
+                <span>{{ tariff.roomType }}</span>
+                <strong>₹{{ tariff.maxCappedAmountPerDay | number }}/day</strong>
+            </div>
+            }
+        </div>
+    </div>
+
+    <!-- Documents -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-folder-check"></i>
+            <span>Attached Documents</span>
+        </div>
+        <div class="medical-code-list">
+            @if (selectedInsuranceDetail.documents?.length > 0) {
+            @for (doc of selectedInsuranceDetail.documents; track doc._id) {
+            <div class="medical-code-item">
+                <span class="code-type">
+                    {{ doc.uploadedAt | date:'dd MMM yyyy' }}
+                </span>
+                <strong>
+                    <a [href]="doc.fileUrl" target="_blank" style="text-decoration: none; color: inherit;">
+                        <i class="bi bi-file-earmark-pdf-fill"></i> {{ doc.title }}
+                    </a>
+                </strong>
+            </div>
+            }
+            } @else {
+            <div class="no-data">No documents available</div>
+            }
+        </div>
+    </div>
+
+    <!-- Mapping Status -->
+    <div class="service-section">
+        <div class="section-title">
+            <i class="bi bi-toggle-on"></i>
+            <span>TPA Active Status</span>
+        </div>
+        <div class="status-container">
+            @if (selectedInsuranceDetail.isActive) {
+            <span class="large-status-badge active">
+                <span class="status-dot"></span>
+                Active
+            </span>
+            } @else {
+            <span class="large-status-badge inactive">
+                <span class="status-dot"></span>
+                Inactive
+            </span>
+            }
+        </div>
+    </div>
+
+    <!-- Audit Information -->
+    <div class="service-section audit-section">
+        <div class="section-title">
+            <i class="bi bi-clock-history"></i>
+            <span>Audit Information</span>
+        </div>
+        <div class="info-list">
+            <div class="info-item">
+                <span class="info-label">Created</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.createdAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Last Updated</span>
+                <span class="info-value">
+                    {{ selectedInsuranceDetail.updatedAt | date:'dd MMM yyyy, hh:mm a' }}
+                </span>
+            </div>
+        </div>
+    </div>
+    }
+</div>
